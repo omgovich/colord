@@ -1,0 +1,22 @@
+# NPM
+npm-debug.log*
+node_modules/
+.npm
+/package-lock.json
+/yarn.lock
+
+# tests
+/coverage
+
+# IDEs
+.vscode/
+*.code-workspace
+.idea/
+
+# bundler
+.cache
+dist/
+
+# OSX
+.DS_Store
+.LSOverride
