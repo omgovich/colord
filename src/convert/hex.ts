@@ -6,5 +6,5 @@ const format = (number: number) => {
 };
 
 export const rgbaToHex = ({ r, g, b }: RgbaColor): string => {
-  return "#" + format(r) + format(g) + format(b);
+  return format(r) + format(g) + format(b);
 };
