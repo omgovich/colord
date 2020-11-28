@@ -1,6 +1,27 @@
 import { HsvaColor, RgbaColor } from "../types";
 import { round } from "../helpers";
 
+export const rgbaToHsva = ({ r, g, b, a }: RgbaColor): HsvaColor => {
+  const max = Math.max(r, g, b);
+  const delta = max - Math.min(r, g, b);
+
+  // prettier-ignore
+  const hh = delta
+    ? max === r
+      ? (g - b) / delta
+      : max === g
+        ? 2 + (b - r) / delta
+        : 4 + (r - g) / delta
+    : 0;
+
+  return {
+    h: round(60 * (hh < 0 ? hh + 6 : hh)),
+    s: round(max ? (delta / max) * 100 : 0),
+    v: round((max / 255) * 100),
+    a,
+  };
+};
+
 export const hsvaToRgba = ({ h, s, v, a }: HsvaColor): RgbaColor => {
   h = (h / 360) * 6;
   s = s / 100;
