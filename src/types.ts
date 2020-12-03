@@ -37,20 +37,3 @@ export interface InputObject {
 }
 
 export type Input = string | InputObject;
-
-export interface Colord {
-  isValid: () => boolean;
-  // Convert
-  toHex: () => string;
-  toHexString: () => string;
-  toRgba: () => RgbaColor;
-  toRgbaString: () => string;
-  toHsla: () => HslaColor;
-  toHslaString: () => string;
-  toHsva: () => HsvaColor;
-  toHsvaString: () => string;
-  // Manipulate
-  saturate: (amount: number) => Colord;
-  desaturate: (amount: number) => Colord;
-  grayscale: () => Colord;
-}
