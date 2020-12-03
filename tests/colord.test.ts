@@ -1,5 +1,4 @@
-import colord, { AnyColor } from "../src/";
-import { HslaColor, RgbaColor } from "../src/types";
+import { colord, AnyColor } from "../src/";
 import { lime } from "./fixtures";
 
 it("Parses and converts a color", () => {
@@ -13,22 +12,7 @@ it("Parses and converts a color", () => {
     expect(instance.toHslaString()).toBe(lime.hslaString);
     expect(instance.toHsva()).toMatchObject(lime.hsva);
     expect(instance.toHsvaString()).toBe(lime.hsvaString);
-    expect(instance.isValid()).toBe(true);
   }
-});
-
-it("Validates a color", () => {
-  expect(colord("#FFF").isValid()).toBe(true);
-  expect(colord({ r: 255, g: 255, b: 255 }).isValid()).toBe(true);
-  expect(colord({ h: 360, s: 100, l: 100 }).isValid()).toBe(true);
-  expect(colord({ h: 360, s: 100, v: 100, a: 1 }).isValid()).toBe(true);
-  expect(colord((undefined as unknown) as AnyColor).isValid()).toBe(false);
-  expect(colord("").isValid()).toBe(false);
-  expect(colord("#0").isValid()).toBe(false);
-  expect(colord("#FF").isValid()).toBe(false);
-  expect(colord({} as RgbaColor).isValid()).toBe(false);
-  expect(colord({ r: 255, g: 255 } as RgbaColor).isValid()).toBe(false);
-  expect(colord({ h: 255, s: 255 } as HslaColor).isValid()).toBe(false);
 });
 
 it("Accepts a colord instance as an input", () => {
