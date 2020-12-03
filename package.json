@@ -40,6 +40,7 @@
     "build": "rm -rf ./dist/* && microbundle build --name colord",
     "prepublishOnly": "npm run build"
   },
+  "dependencies": {},
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.9.0",
     "@types/jest": "^26.0.15",
@@ -76,5 +77,10 @@
   "prettier": {
     "printWidth": 100
   },
-  "dependencies": {}
+  "size-limit": [
+    {
+      "path": "dist/index.module.js",
+      "limit": "3 KB"
+    }
+  ]
 }
