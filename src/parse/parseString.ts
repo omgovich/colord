@@ -4,9 +4,9 @@ import { hsvaToRgba } from "../convert/hsva";
 
 const shorthandHexMatcher = /^#?[0-9A-F]{3}$/i;
 const regularHexMatcher = /^#?[0-9A-F]{6}$/i;
-const rgbaMatcher = /rgba?\((\d+),\s*(\d+),\s*(\d+),?\s*(\d+\.?\d*)?\)/;
-const hslaMatcher = /hsla?\((\d+\.?\d*),\s*(\d+\.?\d*)%?,\s*(\d+\.?\d*)%?,?\s*(\d+\.?\d*)?\)/;
-const hsvaMatcher = /hsva?\((\d+\.?\d*),\s*(\d+\.?\d*)%?,\s*(\d+\.?\d*)%?,?\s*(\d+\.?\d*)?\)/;
+const rgbaMatcher = /rgba?\((\d+),\s*(\d+),\s*(\d+),?\s*(\d+\.?\d*)?\)/i;
+const hslaMatcher = /hsla?\((\d+\.?\d*),\s*(\d+\.?\d*)%?,\s*(\d+\.?\d*)%?,?\s*(\d+\.?\d*)?\)/i;
+const hsvaMatcher = /hsva?\((\d+\.?\d*),\s*(\d+\.?\d*)%?,\s*(\d+\.?\d*)%?,?\s*(\d+\.?\d*)?\)/i;
 
 const parseHex = (hex: string): RgbaColor | null => {
   if (hex[0] === "#") hex = hex.substr(1);
