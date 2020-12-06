@@ -5,13 +5,12 @@ export const rgbaToHsva = ({ r, g, b, a }: RgbaColor): HsvaColor => {
   const max = Math.max(r, g, b);
   const delta = max - Math.min(r, g, b);
 
-  // prettier-ignore
   const hh = delta
     ? max === r
       ? (g - b) / delta
       : max === g
-        ? 2 + (b - r) / delta
-        : 4 + (r - g) / delta
+      ? 2 + (b - r) / delta
+      : 4 + (r - g) / delta
     : 0;
 
   return {
@@ -34,9 +33,9 @@ export const hsvaToRgba = ({ h, s, v, a }: HsvaColor): RgbaColor => {
     module = hh % 6;
 
   return {
-    r: round([v, c, b, b, d, v][module] * 255),
-    g: round([d, v, v, c, b, b][module] * 255),
-    b: round([b, b, d, v, v, c][module] * 255),
-    a: round(a, 2),
+    r: [v, c, b, b, d, v][module] * 255,
+    g: [d, v, v, c, b, b][module] * 255,
+    b: [b, b, d, v, v, c][module] * 255,
+    a: a,
   };
 };

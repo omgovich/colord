@@ -1,7 +1,7 @@
 import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor } from "./types";
 import { parse } from "./parse";
 import { rgbaToHex } from "./convert/hex";
-import { rgbaToHexString } from "./convert/hexString";
+import { roundRgba } from "./convert/rgba";
 import { rgbaToRgbaString } from "./convert/rgbaString";
 import { rgbaToHsla } from "./convert/hsla";
 import { rgbaToHslaString } from "./convert/hslaString";
@@ -13,14 +13,14 @@ export class Colord {
   rgba: RgbaColor;
 
   constructor(input: AnyColor) {
-    // Internal color format is RGBA object
+    // Internal color format is RGBA object.
+    // We do not round interval RGBA value for better conversion accuracy
     this.rgba = parse(input as Input) || { r: 0, g: 0, b: 0, a: 1 };
   }
 
   // Convert
   public toHex = (): string => rgbaToHex(this.rgba);
-  public toHexString = (): string => rgbaToHexString(this.rgba);
-  public toRgba = (): RgbaColor => this.rgba;
+  public toRgba = (): RgbaColor => roundRgba(this.rgba);
   public toRgbaString = (): string => rgbaToRgbaString(this.rgba);
   public toHsla = (): HslaColor => rgbaToHsla(this.rgba);
   public toHslaString = (): string => rgbaToHslaString(this.rgba);
