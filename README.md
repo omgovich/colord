@@ -27,8 +27,9 @@
 
 - [x] Parse and convert Hex, RGB(A), HSL(A), HSV(A)
 - [x] Saturate, desaturate, grayscale
-- [ ] Trim and clamp an input value, resolve edge cases like `rgb(999, -0, 1.)`
-- [ ] `isDark`, `isLight` and
+- [ ] Trim and clamp an input value
+- [ ] Resolve edge cases like `rgb(999, -0, 1.)`
+- [x] `getBrightness`, `isDark`, `isLight`
 - [ ] CSS color names
 - [ ] 8-digit (RGBA) Hex
 - [ ] Change alpha

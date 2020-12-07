@@ -51,3 +51,12 @@ it("Saturates/desaturates a color", () => {
   expect(instance.desaturate(100).toHex()).toBe(saturationLevels[0]);
   expect(instance.grayscale().toHex()).toBe(saturationLevels[0]);
 });
+
+it("Gets color brightness", () => {
+  expect(colord("#000").getBrightness()).toBe(0);
+  expect(colord("#000").isDark()).toBe(true);
+  expect(colord("#665544").isDark()).toBe(true);
+  expect(colord("#FFF").getBrightness()).toBe(255);
+  expect(colord("#FFF").isLight()).toBe(true);
+  expect(colord("#aabbcc").isLight()).toBe(true);
+});
