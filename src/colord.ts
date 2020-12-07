@@ -8,6 +8,7 @@ import { rgbaToHslaString } from "./convert/hslaString";
 import { rgbaToHsva } from "./convert/hsva";
 import { rgbaToHsvaString } from "./convert/hsvaString";
 import { saturate } from "./manipulate/saturate";
+import { getBrightness } from "./get/brightness";
 
 export class Colord {
   rgba: RgbaColor;
@@ -17,6 +18,12 @@ export class Colord {
     // We do not round interval RGBA value for better conversion accuracy
     this.rgba = parse(input as Input) || { r: 0, g: 0, b: 0, a: 1 };
   }
+
+  // Get
+  public isDark = (): boolean => getBrightness(this.rgba) < 128;
+  public isLight = (): boolean => getBrightness(this.rgba) >= 128;
+  /** Color brightness [0, 255] determined by the formula from https://www.w3.org/TR/AERT/#color-contrast */
+  public getBrightness = (): number => getBrightness(this.rgba);
 
   // Convert
   public toHex = (): string => rgbaToHex(this.rgba);
