@@ -56,7 +56,9 @@ it("Gets color brightness", () => {
   expect(colord("#000").getBrightness()).toBe(0);
   expect(colord("#000").isDark()).toBe(true);
   expect(colord("#665544").isDark()).toBe(true);
+  expect(colord("#888").isDark()).toBe(false);
   expect(colord("#FFF").getBrightness()).toBe(255);
   expect(colord("#FFF").isLight()).toBe(true);
   expect(colord("#aabbcc").isLight()).toBe(true);
+  expect(colord("#777").isLight()).toBe(false);
 });
