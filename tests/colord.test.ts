@@ -28,11 +28,11 @@ it("Parses and converts a color", () => {
   }
 });
 
-it("Ignores a case", () => {
+it("Ignores a case and extra whitespace", () => {
   expect(colord("RGB(10, 10, 10)").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("Rgb(10, 10, 10)").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("HsLa(10, 10, 10, 1)").toHsla()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
-  expect(colord("hSvA(10, 10, 10, 1)").toHsva()).toMatchObject({ h: 10, s: 10, v: 10, a: 1 });
+  expect(colord("  Rgb(10, 10, 10)").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
+  expect(colord("HsLa(10, 10, 10, 1)  ").toHsla()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
+  expect(colord(" hSvA(10, 10, 10, 1) ").toHsva()).toMatchObject({ h: 10, s: 10, v: 10, a: 1 });
 });
 
 it("Accepts a colord instance as an input", () => {

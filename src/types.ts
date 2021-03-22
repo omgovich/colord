@@ -37,3 +37,8 @@ export interface InputObject {
 }
 
 export type Input = string | InputObject;
+
+export interface ColorModel<I extends Input, O extends AnyColor> {
+  parse: (input: I) => RgbaColor | null;
+  convert: (rgba: RgbaColor) => O;
+}

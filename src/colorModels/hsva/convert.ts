@@ -1,5 +1,5 @@
-import { HsvaColor, RgbaColor } from "../types";
-import { round } from "../helpers";
+import { HsvaColor, RgbaColor } from "../../types";
+import { round } from "../../helpers";
 
 export const rgbaToHsva = ({ r, g, b, a }: RgbaColor): HsvaColor => {
   const max = Math.max(r, g, b);
