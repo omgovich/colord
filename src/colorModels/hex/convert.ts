@@ -1,5 +1,5 @@
-import { RgbaColor } from "../types";
-import { roundRgba } from "./rgba";
+import { RgbaColor } from "../../types";
+import { roundRgba } from "../rgba/convert";
 
 const format = (number: number) => {
   const hex = number.toString(16);

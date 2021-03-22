@@ -1,5 +1,5 @@
-import { RgbaColor } from "../types";
-import { round } from "../helpers";
+import { RgbaColor } from "../../types";
+import { round } from "../../helpers";
 
 export const roundRgba = (rgba: RgbaColor): RgbaColor => ({
   r: round(rgba.r),

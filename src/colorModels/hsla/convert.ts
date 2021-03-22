@@ -1,6 +1,6 @@
-import { round } from "../helpers";
-import { RgbaColor, HslaColor, HsvaColor } from "../types";
-import { hsvaToRgba, rgbaToHsva } from "./hsva";
+import { RgbaColor, HslaColor, HsvaColor } from "../../types";
+import { round } from "../../helpers";
+import { hsvaToRgba, rgbaToHsva } from "../hsva/convert";
 
 export const hslaToHsva = ({ h, s, l, a }: HslaColor): HsvaColor => {
   s *= (l < 50 ? l : 100 - l) / 100;

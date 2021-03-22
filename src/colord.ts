@@ -1,28 +1,28 @@
 import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor } from "./types";
 import { parse } from "./parse";
-import { rgbaToHex } from "./convert/hex";
-import { roundRgba } from "./convert/rgba";
-import { rgbaToRgbaString } from "./convert/rgbaString";
-import { rgbaToHsla } from "./convert/hsla";
-import { rgbaToHslaString } from "./convert/hslaString";
-import { rgbaToHsva } from "./convert/hsva";
-import { rgbaToHsvaString } from "./convert/hsvaString";
+import { rgbaToHex } from "./colorModels/hex/convert";
+import { roundRgba } from "./colorModels/rgba/convert";
+import { rgbaToRgbaString } from "./colorModels/rgbaString/convert";
+import { rgbaToHsla } from "./colorModels/hsla/convert";
+import { rgbaToHslaString } from "./colorModels/hslaString/convert";
+import { rgbaToHsva } from "./colorModels/hsva/convert";
+import { rgbaToHsvaString } from "./colorModels/hsvaString/convert";
 import { saturate } from "./manipulate/saturate";
 import { getBrightness } from "./get/brightness";
 
 export class Colord {
-  rgba: RgbaColor;
+  private rgba: RgbaColor;
 
   constructor(input: AnyColor) {
     // Internal color format is RGBA object.
-    // We do not round interval RGBA value for better conversion accuracy
+    // We do not round interval RGBA numbers for better conversion accuracy
     this.rgba = parse(input as Input) || { r: 0, g: 0, b: 0, a: 1 };
   }
 
   // Get
   public isDark = (): boolean => getBrightness(this.rgba) < 128;
   public isLight = (): boolean => getBrightness(this.rgba) >= 128;
-  /** Color brightness [0, 255] determined by the formula from https://www.w3.org/TR/AERT/#color-contrast */
+  /** Returns a color brightness [0, 255] determined by the formula from https://www.w3.org/TR/AERT/#color-contrast */
   public getBrightness = (): number => getBrightness(this.rgba);
 
   // Convert
