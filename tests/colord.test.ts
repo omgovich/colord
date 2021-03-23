@@ -53,12 +53,22 @@ it("Saturates/desaturates a color", () => {
 });
 
 it("Gets color brightness", () => {
-  expect(colord("#000").getBrightness()).toBe(0);
+  expect(colord("#000").brightness()).toBe(0);
   expect(colord("#000").isDark()).toBe(true);
   expect(colord("#665544").isDark()).toBe(true);
   expect(colord("#888").isDark()).toBe(false);
-  expect(colord("#FFF").getBrightness()).toBe(255);
+  expect(colord("#FFF").brightness()).toBe(255);
   expect(colord("#FFF").isLight()).toBe(true);
   expect(colord("#aabbcc").isLight()).toBe(true);
   expect(colord("#777").isLight()).toBe(false);
+});
+
+it("Gets an alpha channel value", () => {
+  expect(colord("#000").alpha()).toBe(1);
+  expect(colord("rgba(50, 100, 150, 0.5)").alpha()).toBe(0.5);
+});
+
+it("Changes an alpha channel value", () => {
+  expect(colord("#000").alpha(0.25).alpha()).toBe(0.25);
+  expect(colord("#FFF").alpha(0).toRgba().a).toBe(0);
 });

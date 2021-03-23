@@ -7,6 +7,7 @@ import { rgbaToHsla } from "./colorModels/hsla/convert";
 import { rgbaToHslaString } from "./colorModels/hslaString/convert";
 import { rgbaToHsva } from "./colorModels/hsva/convert";
 import { rgbaToHsvaString } from "./colorModels/hsvaString/convert";
+import { changeAlpha } from "./manipulate/changeAlpha";
 import { saturate } from "./manipulate/saturate";
 import { getBrightness } from "./get/brightness";
 
@@ -20,10 +21,10 @@ export class Colord {
   }
 
   // Get
+  /** Returns a color brightness [0, 255] determined by the formula from https://www.w3.org/TR/AERT/#color-contrast */
+  public brightness = (): number => getBrightness(this.rgba);
   public isDark = (): boolean => getBrightness(this.rgba) < 128;
   public isLight = (): boolean => getBrightness(this.rgba) >= 128;
-  /** Returns a color brightness [0, 255] determined by the formula from https://www.w3.org/TR/AERT/#color-contrast */
-  public getBrightness = (): number => getBrightness(this.rgba);
 
   // Convert
   public toHex = (): string => rgbaToHex(this.rgba);
@@ -38,6 +39,14 @@ export class Colord {
   public saturate = (amount: number): Colord => saturate(this.rgba, amount);
   public desaturate = (amount: number): Colord => saturate(this.rgba, -amount);
   public grayscale = (): Colord => saturate(this.rgba, -100);
+
+  /** Allows to get or change an alpha channel value [0, 1] */
+  public alpha(): number;
+  public alpha(value: number): Colord;
+  public alpha(value?: number): Colord | number {
+    if (typeof value === "number") return changeAlpha(this.rgba, value);
+    return this.rgba.a;
+  }
 }
 
 export const colord = (input: AnyColor | Colord): Colord => {
