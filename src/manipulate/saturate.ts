@@ -1,14 +1,14 @@
-import { HSLA } from "../colorModels/hsla";
+import { rgbaToHsla } from "../colorModels/hsla/convert";
 import { RgbaColor } from "../types";
 import { clamp } from "../helpers";
 import { colord, Colord } from "../colord";
 
-export const saturate = (rgba: RgbaColor, amount: number): Colord => {
-  const { h, s, l, a } = HSLA.convert(rgba);
+export const saturate = (rgba: RgbaColor, ratio: number): Colord => {
+  const { h, s, l, a } = rgbaToHsla(rgba);
 
   return colord({
     h,
-    s: clamp(s + amount, 0, 100),
+    s: clamp(s + ratio * 100, 0, 100),
     l,
     a,
   });

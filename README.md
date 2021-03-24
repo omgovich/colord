@@ -27,13 +27,14 @@
 
 - [x] Parse and convert Hex, RGB(A), HSL(A), HSV(A)
 - [x] Saturate, desaturate, grayscale
-- [ ] Trim and clamp an input value
-- [ ] Resolve edge cases like `rgb(999, -0, 1.)`
-- [x] `getBrightness`, `isDark`, `isLight`
-- [ ] CSS color names
+- [x] Trim an input value
+- [x] Clamp input numbers to resolve edge cases (e.g. `rgb(256, -1, 999, 2)`)
+- [x] `brightness`, `isDark`, `isLight`
+- [x] Set and get `alpha`
+- [ ] Plugin API
+- [ ] CSS color names (via plugin)
 - [ ] 8-digit (RGBA) Hex
-- [ ] Change alpha
 - [ ] `lighten`, `brighten`, `darken`
-- [ ] `invert`/`negate`
-- [ ] Contrast utils
-- [ ] `mix`
+- [ ] `invert`
+- [ ] `isEqual`
+- [ ] `readability`, `isReadable`

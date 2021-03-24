@@ -35,32 +35,39 @@ it("Ignores a case and extra whitespace", () => {
   expect(colord(" hSvA(10, 10, 10, 1) ").toHsva()).toMatchObject({ h: 10, s: 10, v: 10, a: 1 });
 });
 
+it("Clamps input numbers", () => {
+  expect(colord("rgba(256, 999, -200, 2)").toRgba()).toMatchObject({ r: 255, g: 255, b: 0, a: 1 });
+  expect(colord("hsla(-999, 200, 50, 2)").toHsla()).toMatchObject({ h: 0, s: 100, l: 50, a: 1 });
+  expect(colord("hsva(200, 50, 200, -1)").toHsva()).toMatchObject({ h: 200, s: 50, v: 100, a: 0 });
+});
+
 it("Accepts a colord instance as an input", () => {
   const instance = colord(lime.hex as string);
   expect(colord(instance).toRgba()).toMatchObject(lime.rgba);
   expect(colord(colord(instance)).toHsla()).toMatchObject(lime.hsla);
 });
 
-it("Saturates/desaturates a color", () => {
+it("Saturates and desaturates a color", () => {
   const instance = colord(saturationLevels[5]);
-  expect(instance.saturate(20).toHex()).toBe(saturationLevels[7]);
-  expect(instance.desaturate(20).toHex()).toBe(saturationLevels[3]);
-  expect(instance.saturate(50).toHex()).toBe(saturationLevels[10]);
-  expect(instance.desaturate(50).toHex()).toBe(saturationLevels[0]);
-  expect(instance.saturate(100).toHex()).toBe(saturationLevels[10]);
-  expect(instance.desaturate(100).toHex()).toBe(saturationLevels[0]);
+  expect(instance.saturate(0.2).toHex()).toBe(saturationLevels[7]);
+  expect(instance.desaturate(0.2).toHex()).toBe(saturationLevels[3]);
+  expect(instance.saturate(0.5).toHex()).toBe(saturationLevels[10]);
+  expect(instance.desaturate(0.5).toHex()).toBe(saturationLevels[0]);
+  expect(instance.saturate(1).toHex()).toBe(saturationLevels[10]);
+  expect(instance.desaturate(1).toHex()).toBe(saturationLevels[0]);
   expect(instance.grayscale().toHex()).toBe(saturationLevels[0]);
 });
 
 it("Gets color brightness", () => {
   expect(colord("#000").brightness()).toBe(0);
+  expect(colord("#808080").brightness()).toBe(0.5);
+  expect(colord("#FFF").brightness()).toBe(1);
   expect(colord("#000").isDark()).toBe(true);
   expect(colord("#665544").isDark()).toBe(true);
   expect(colord("#888").isDark()).toBe(false);
-  expect(colord("#FFF").brightness()).toBe(255);
-  expect(colord("#FFF").isLight()).toBe(true);
-  expect(colord("#aabbcc").isLight()).toBe(true);
   expect(colord("#777").isLight()).toBe(false);
+  expect(colord("#aabbcc").isLight()).toBe(true);
+  expect(colord("#FFF").isLight()).toBe(true);
 });
 
 it("Gets an alpha channel value", () => {

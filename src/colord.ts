@@ -1,4 +1,5 @@
 import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor } from "./types";
+import { round } from "./helpers";
 import { parse } from "./parse";
 import { rgbaToHex } from "./colorModels/hex/convert";
 import { roundRgba } from "./colorModels/rgba/convert";
@@ -12,7 +13,7 @@ import { saturate } from "./manipulate/saturate";
 import { getBrightness } from "./get/brightness";
 
 export class Colord {
-  private rgba: RgbaColor;
+  private readonly rgba: RgbaColor;
 
   constructor(input: AnyColor) {
     // Internal color format is RGBA object.
@@ -21,10 +22,10 @@ export class Colord {
   }
 
   // Get
-  /** Returns a color brightness [0, 255] determined by the formula from https://www.w3.org/TR/AERT/#color-contrast */
-  public brightness = (): number => getBrightness(this.rgba);
-  public isDark = (): boolean => getBrightness(this.rgba) < 128;
-  public isLight = (): boolean => getBrightness(this.rgba) >= 128;
+  /** Returns a color brightness ratio */
+  public brightness = (): number => round(getBrightness(this.rgba), 2);
+  public isDark = (): boolean => getBrightness(this.rgba) < 0.5;
+  public isLight = (): boolean => getBrightness(this.rgba) >= 0.5;
 
   // Convert
   public toHex = (): string => rgbaToHex(this.rgba);
@@ -36,16 +37,16 @@ export class Colord {
   public toHsvaString = (): string => rgbaToHsvaString(this.rgba);
 
   // Manipulate
-  public saturate = (amount: number): Colord => saturate(this.rgba, amount);
-  public desaturate = (amount: number): Colord => saturate(this.rgba, -amount);
-  public grayscale = (): Colord => saturate(this.rgba, -100);
+  public saturate = (ratio: number): Colord => saturate(this.rgba, ratio);
+  public desaturate = (ratio: number): Colord => saturate(this.rgba, -ratio);
+  public grayscale = (): Colord => saturate(this.rgba, -1);
 
-  /** Allows to get or change an alpha channel value [0, 1] */
+  /** Allows to get or change an alpha channel value */
   public alpha(): number;
   public alpha(value: number): Colord;
   public alpha(value?: number): Colord | number {
     if (typeof value === "number") return changeAlpha(this.rgba, value);
-    return this.rgba.a;
+    return round(this.rgba.a, 2);
   }
 }
 

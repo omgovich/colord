@@ -33,7 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "lint": "eslint src/**/*.{ts,tsx}",
+    "lint": "eslint src/**/*.ts",
     "size": "npm run build && size-limit",
     "check-types": "tsc --noEmit true",
     "test": "jest tests",
