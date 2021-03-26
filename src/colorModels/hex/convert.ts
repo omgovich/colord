@@ -1,4 +1,5 @@
 import { RgbaColor } from "../../types";
+import { round } from "../../helpers";
 import { roundRgba } from "../rgba/convert";
 
 const format = (number: number) => {
@@ -7,6 +8,7 @@ const format = (number: number) => {
 };
 
 export const rgbaToHex = (rgba: RgbaColor): string => {
-  const { r, g, b } = roundRgba(rgba);
-  return "#" + format(r) + format(g) + format(b);
+  const { r, g, b, a } = roundRgba(rgba);
+  const alphaHex = a < 1 ? format(round(a * 255)) : "";
+  return "#" + format(r) + format(g) + format(b) + alphaHex;
 };

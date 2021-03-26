@@ -39,6 +39,8 @@ interface TestColor {
 export const lime: TestColor = {
   shorthandHex: "#0F0",
   hex: "#00ff00",
+  hex4: "#0F0F",
+  hex8: "#00ff00ff",
   rgb: { r: 0, g: 255, b: 0 },
   rgbString: "rgb(0, 255, 0)",
   rgbStringNoSpaces: "rgb(0,255,0)",

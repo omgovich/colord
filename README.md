@@ -11,9 +11,6 @@
   <a href="https://npmjs.org/package/colord">
     <img alt="no dependencies" src="https://badgen.net/bundlephobia/dependency-count/colord?labelColor=da248d&color=6ead0a" />
   </a>
-  <a href="https://bundlephobia.com/result?p=colord">
-    <img alt="tree-shakeable" src="https://badgen.net/bundlephobia/tree-shaking/colord?labelColor=da248d&color=6ead0a" />
-  </a>
   <a href="https://npmjs.org/package/colord">
     <img alt="types included" src="https://badgen.net/npm/types/colord?labelColor=da248d&color=6ead0a" />
   </a>
@@ -22,6 +19,14 @@
 <div align="center">
   <strong>colord</strong> is a tiny color manipulation and conversion tool <strong>(is not production ready yet)</strong>
 </div>
+
+## Benchmarks
+
+| Name       | Bundle size                                                                                                          | Bundle size (gzip)                                                                                                      | Dependencies                                                                                                                      |
+| ---------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **colord** | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      |
+| tinycolor2 | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) |
+| color      | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
 
 ## Roadmap
 
@@ -32,7 +37,7 @@
 - [x] `brightness`, `isDark`, `isLight`
 - [x] Set and get `alpha`
 - [ ] Plugin API
-- [ ] 8-digit (RGBA) Hex
+- [x] 4 and 8 digit Hex
 - [x] `lighten`, `darken`
 - [x] `invert`
 - [ ] CSS color names (via plugin)

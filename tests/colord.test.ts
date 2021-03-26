@@ -28,7 +28,19 @@ it("Parses and converts a color", () => {
   }
 });
 
+it("Supports HEX4 and HEX8 color models", () => {
+  expect(colord("#ffffffff").toRgba()).toMatchObject({ r: 255, g: 255, b: 255, a: 1 });
+  expect(colord("#80808080").toRgba()).toMatchObject({ r: 128, g: 128, b: 128, a: 0.5 });
+  expect(colord("#AAAF").toRgba()).toMatchObject({ r: 170, g: 170, b: 170, a: 1 });
+  expect(colord("#5550").toRgba()).toMatchObject({ r: 85, g: 85, b: 85, a: 0 });
+
+  expect(colord({ r: 255, g: 255, b: 255, a: 1 }).toHex()).toBe("#ffffff");
+  expect(colord({ r: 170, g: 170, b: 170, a: 0.5 }).toHex()).toBe("#aaaaaa80");
+  expect(colord({ r: 128, g: 128, b: 128, a: 0 }).toHex()).toBe("#80808000");
+});
+
 it("Ignores a case and extra whitespace", () => {
+  expect(colord(" #0a0a0a ").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("RGB(10, 10, 10)").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("  Rgb(10, 10, 10)").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("HsLa(10, 10, 10, 1)  ").toHsla()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
