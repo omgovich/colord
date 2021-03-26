@@ -32,9 +32,8 @@
 - [x] `brightness`, `isDark`, `isLight`
 - [x] Set and get `alpha`
 - [ ] Plugin API
-- [ ] CSS color names (via plugin)
 - [ ] 8-digit (RGBA) Hex
-- [ ] `lighten`, `brighten`, `darken`
-- [ ] `invert`
-- [ ] `isEqual`
-- [ ] `readability`, `isReadable`
+- [x] `lighten`, `darken`
+- [x] `invert`
+- [ ] CSS color names (via plugin)
+- [ ] A11y and contrast utils (via plugin)

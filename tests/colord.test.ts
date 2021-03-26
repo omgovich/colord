@@ -58,6 +58,24 @@ it("Saturates and desaturates a color", () => {
   expect(instance.grayscale().toHex()).toBe(saturationLevels[0]);
 });
 
+it("Makes a color lighter and darker", () => {
+  expect(colord("hsl(100, 50%, 50%)").lighten().toHslaString()).toBe("hsla(100, 50%, 60%, 1)");
+  expect(colord("hsl(100, 50%, 50%)").lighten(0.25).toHsla().l).toBe(75);
+  expect(colord("hsl(100, 50%, 50%)").darken().toHslaString()).toBe("hsla(100, 50%, 40%, 1)");
+  expect(colord("hsl(100, 50%, 50%)").darken(0.25).toHsla().l).toBe(25);
+
+  expect(colord("#000").lighten(1).toHex()).toBe("#ffffff");
+  expect(colord("#000").lighten(0.5).toHex()).toBe("#808080");
+  expect(colord("#FFF").darken(1).toHex()).toBe("#000000");
+  expect(colord("#FFF").darken(0.5).toHex()).toBe("#808080");
+});
+
+it("Inverts a color", () => {
+  expect(colord("#000").invert().toHex()).toBe("#ffffff");
+  expect(colord("#FFF").invert().toHex()).toBe("#000000");
+  expect(colord("#123").invert().toHex()).toBe("#eeddcc");
+});
+
 it("Gets color brightness", () => {
   expect(colord("#000").brightness()).toBe(0);
   expect(colord("#808080").brightness()).toBe(0.5);
