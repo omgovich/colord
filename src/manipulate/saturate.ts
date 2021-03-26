@@ -1,4 +1,4 @@
-import { rgbaToHsla } from "../colorModels/hsla/convert";
+import { rgbaToHsla } from "../colorModels/hsla";
 import { RgbaColor } from "../types";
 import { clamp } from "../helpers";
 import { colord, Colord } from "../colord";

@@ -1,16 +1,16 @@
 import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor } from "./types";
 import { round } from "./helpers";
 import { parse } from "./parse";
-import { rgbaToHex } from "./colorModels/hex/convert";
-import { roundRgba } from "./colorModels/rgba/convert";
-import { rgbaToRgbaString } from "./colorModels/rgbaString/convert";
-import { rgbaToHsla } from "./colorModels/hsla/convert";
-import { rgbaToHslaString } from "./colorModels/hslaString/convert";
-import { rgbaToHsva } from "./colorModels/hsva/convert";
-import { rgbaToHsvaString } from "./colorModels/hsvaString/convert";
+import { rgbaToHex } from "./colorModels/hex";
+import { roundRgba } from "./colorModels/rgba";
+import { rgbaToRgbaString } from "./colorModels/rgbaString";
+import { rgbaToHsla } from "./colorModels/hsla";
+import { rgbaToHslaString } from "./colorModels/hslaString";
+import { rgbaToHsva } from "./colorModels/hsva";
+import { rgbaToHsvaString } from "./colorModels/hsvaString";
 import { changeAlpha } from "./manipulate/changeAlpha";
 import { saturate } from "./manipulate/saturate";
-import { getBrightness } from "./get/brightness";
+import { getBrightness } from "./get/getBrightness";
 import { lighten } from "./manipulate/lighten";
 import { invert } from "./manipulate/invert";
 

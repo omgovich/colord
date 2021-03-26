@@ -1,6 +1,5 @@
-import { RgbaColor } from "../../types";
-import { clampHsva } from "../hsva/parse";
-import { hsvaToRgba } from "../hsva/convert";
+import { ColorModel, RgbaColor } from "../types";
+import { clampHsva, rgbaToHsva, hsvaToRgba } from "./hsva";
 
 const hsvaMatcher = /hsva?\((-?\d+\.?\d*),\s*(-?\d+\.?\d*)%?,\s*(-?\d+\.?\d*)%?,?\s*(-?\d+\.?\d*)?\)/i;
 
@@ -17,4 +16,14 @@ export const parseHsvaString = (input: string): RgbaColor | null => {
   });
 
   return hsvaToRgba(hsla);
+};
+
+export const rgbaToHsvaString = (rgba: RgbaColor): string => {
+  const { h, s, v, a } = rgbaToHsva(rgba);
+  return `hsva(${h}, ${s}%, ${v}%, ${a})`;
+};
+
+export const HSVA_STRING: ColorModel<string, string> = {
+  convert: rgbaToHsvaString,
+  parse: parseHsvaString,
 };

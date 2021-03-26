@@ -1,5 +1,25 @@
-import { HsvaColor, RgbaColor } from "../../types";
-import { round } from "../../helpers";
+import { ColorModel, InputObject, RgbaColor, HsvaColor } from "../types";
+import { clamp, isPresent, round } from "../helpers";
+
+export const clampHsva = ({ h, s, v, a }: HsvaColor): HsvaColor => ({
+  h: clamp(h, 0, 360),
+  s: clamp(s, 0, 100),
+  v: clamp(v, 0, 100),
+  a: clamp(a),
+});
+
+export const parseHsva = ({ h, s, v, a = 1 }: InputObject): RgbaColor | null => {
+  if (!isPresent(h) || !isPresent(s) || !isPresent(v)) return null;
+
+  const hsva = clampHsva({
+    h: Number(h),
+    s: Number(s),
+    v: Number(v),
+    a: Number(a),
+  });
+
+  return hsvaToRgba(hsva);
+};
 
 export const rgbaToHsva = ({ r, g, b, a }: RgbaColor): HsvaColor => {
   const max = Math.max(r, g, b);
@@ -38,4 +58,9 @@ export const hsvaToRgba = ({ h, s, v, a }: HsvaColor): RgbaColor => {
     b: [b, b, d, v, v, c][module] * 255,
     a: a,
   };
+};
+
+export const HSVA: ColorModel<InputObject, HsvaColor> = {
+  convert: rgbaToHsva,
+  parse: parseHsva,
 };
