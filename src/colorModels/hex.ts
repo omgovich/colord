@@ -1,4 +1,4 @@
-import { RgbaColor, ColorModel } from "../types";
+import { RgbaColor } from "../types";
 import { round } from "../helpers";
 import { roundRgba } from "./rgba";
 
@@ -38,9 +38,4 @@ export const rgbaToHex = (rgba: RgbaColor): string => {
   const { r, g, b, a } = roundRgba(rgba);
   const alphaHex = a < 1 ? format(round(a * 255)) : "";
   return "#" + format(r) + format(g) + format(b) + alphaHex;
-};
-
-export const HEX: ColorModel<string, string> = {
-  convert: rgbaToHex,
-  parse: parseHex,
 };

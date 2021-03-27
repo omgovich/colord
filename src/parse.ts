@@ -1,9 +1,20 @@
-import { Input, InputObject, RgbaColor, ColorModel, AnyColor } from "./types";
-import { colorModels } from "./colorModels";
+import { Parser, Parsers, Input, InputObject, RgbaColor } from "./types";
+import { parseHex } from "./colorModels/hex";
+import { parseRgba } from "./colorModels/rgba";
+import { parseHsla } from "./colorModels/hsla";
+import { parseHslaString } from "./colorModels/hslaString";
+import { parseHsva } from "./colorModels/hsva";
+import { parseHsvaString } from "./colorModels/hsvaString";
+import { parseRgbaString } from "./colorModels/rgbaString";
 
-const iterateColorParsers = <I extends Input>(input: I, models: ColorModel<I, AnyColor>[]) => {
-  for (let index = 0; index < models.length; index++) {
-    const result = models[index].parse(input as I);
+export const parsers: Parsers = {
+  string: [parseHex, parseRgbaString, parseHslaString, parseHsvaString],
+  object: [parseRgba, parseHsla, parseHsva],
+};
+
+const findValidColor = <I extends Input>(input: I, parsers: Parser<I>[]): RgbaColor | null => {
+  for (let index = 0; index < parsers.length; index++) {
+    const result = parsers[index](input);
     if (result) return result;
   }
 
@@ -12,8 +23,8 @@ const iterateColorParsers = <I extends Input>(input: I, models: ColorModel<I, An
 
 /** Tries to convert an incoming value into RGBA color by going through all color model parsers */
 export const parse = (input: Input): RgbaColor | null => {
-  if (typeof input === "string") return iterateColorParsers<string>(input, colorModels.string);
-  if (typeof input === "object") return iterateColorParsers<InputObject>(input, colorModels.object);
+  if (typeof input === "string") return findValidColor<string>(input, parsers.string);
+  if (typeof input === "object") return findValidColor<InputObject>(input, parsers.object);
 
   return null;
 };

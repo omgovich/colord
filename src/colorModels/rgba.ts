@@ -1,4 +1,4 @@
-import { ColorModel, InputObject, RgbaColor } from "../types";
+import { InputObject, RgbaColor } from "../types";
 import { round, clamp, isPresent } from "../helpers";
 
 export const clampRgba = ({ r, g, b, a }: RgbaColor): RgbaColor => ({
@@ -24,9 +24,4 @@ export const parseRgba = ({ r, g, b, a = 1 }: InputObject): RgbaColor | null => 
     b: Number(b),
     a: Number(a),
   });
-};
-
-export const RGBA: ColorModel<InputObject, RgbaColor> = {
-  convert: roundRgba,
-  parse: parseRgba,
 };

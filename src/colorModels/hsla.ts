@@ -1,4 +1,4 @@
-import { ColorModel, InputObject, RgbaColor, HslaColor, HsvaColor } from "../types";
+import { InputObject, RgbaColor, HslaColor, HsvaColor } from "../types";
 import { round } from "../helpers";
 import { hsvaToRgba, rgbaToHsva } from "./hsva";
 import { clamp, isPresent } from "../helpers";
@@ -51,9 +51,4 @@ export const hslaToRgba = (hsla: HslaColor): RgbaColor => {
 
 export const rgbaToHsla = (rgba: RgbaColor): HslaColor => {
   return hsvaToHsla(rgbaToHsva(rgba));
-};
-
-export const HSLA: ColorModel<InputObject, HslaColor> = {
-  convert: rgbaToHsla,
-  parse: parseHsla,
 };
