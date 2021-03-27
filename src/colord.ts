@@ -39,18 +39,18 @@ export class Colord {
   public toHsvaString = (): string => rgbaToHsvaString(this.rgba);
 
   // Manipulate
-  public invert = (): Colord => invert(this.rgba);
-  public saturate = (ratio = 0.1): Colord => saturate(this.rgba, ratio);
-  public desaturate = (ratio = 0.1): Colord => saturate(this.rgba, -ratio);
-  public grayscale = (): Colord => saturate(this.rgba, -1);
-  public lighten = (ratio = 0.1): Colord => lighten(this.rgba, ratio);
-  public darken = (ratio = 0.1): Colord => lighten(this.rgba, -ratio);
+  public invert = (): Colord => colord(invert(this.rgba));
+  public saturate = (ratio = 0.1): Colord => colord(saturate(this.rgba, ratio));
+  public desaturate = (ratio = 0.1): Colord => colord(saturate(this.rgba, -ratio));
+  public grayscale = (): Colord => colord(saturate(this.rgba, -1));
+  public lighten = (ratio = 0.1): Colord => colord(lighten(this.rgba, ratio));
+  public darken = (ratio = 0.1): Colord => colord(lighten(this.rgba, -ratio));
 
   /** Allows to get or change an alpha channel value */
   public alpha(): number;
   public alpha(value: number): Colord;
   public alpha(value?: number): Colord | number {
-    if (typeof value === "number") return changeAlpha(this.rgba, value);
+    if (typeof value === "number") return colord(changeAlpha(this.rgba, value));
     return round(this.rgba.a, 2);
   }
 }
