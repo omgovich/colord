@@ -31,7 +31,7 @@
     "lint": "eslint src/**/*.ts",
     "size": "npm run build && size-limit",
     "check-types": "tsc --noEmit true",
-    "test": "jest tests",
+    "test": "jest tests --coverage",
     "build": "rm -rf ./dist/* && rollup --config",
     "prepublishOnly": "npm run build"
   },
