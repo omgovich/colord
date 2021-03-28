@@ -32,9 +32,7 @@ export type ObjectColor = RgbColor | HslColor | HsvColor | RgbaColor | HslaColor
 
 export type AnyColor = string | ObjectColor;
 
-export interface InputObject {
-  [key: string]: unknown;
-}
+export type InputObject = Record<string, unknown>;
 
 export type Input = string | InputObject;
 
