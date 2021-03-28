@@ -15,46 +15,44 @@
   "repository": "omgovich/colord",
   "author": "Vlad Shilov <omgovich@ya.ru>",
   "license": "MIT",
-  "source": "src/index.ts",
-  "main": "dist/index.js",
-  "module": "dist/index.module.js",
-  "esmodule": "dist/index.esmodule.js",
-  "umd:main": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": ">=12"
+  },
   "exports": {
-    ".": {
-      "browser": "./dist/index.module.js",
-      "umd": "./dist/index.umd.js",
-      "import": "./dist/index.module.js",
-      "require": "./dist/index.js"
-    }
+    ".": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist/*.{js,ts,map}"
   ],
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "size": "npm run build && size-limit",
     "check-types": "tsc --noEmit true",
     "test": "jest tests",
-    "build": "rm -rf ./dist/* && microbundle build --name colord",
+    "build": "rm -rf ./dist/* && rollup --config",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {},
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^4.9.0",
-    "@types/jest": "^26.0.15",
-    "@typescript-eslint/eslint-plugin": "^4.8.2",
-    "@typescript-eslint/parser": "^4.8.2",
+    "@size-limit/preset-small-lib": "^4.10.1",
+    "@types/jest": "^26.0.22",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.6.3",
-    "microbundle": "^0.12.4",
     "prettier": "^2.2.0",
-    "size-limit": "^4.9.0",
-    "ts-jest": "^26.4.4",
-    "typescript": "^4.1.2"
+    "rollup": "^2.43.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "size-limit": "^4.10.1",
+    "ts-jest": "^26.5.4",
+    "tslib": "^2.1.0",
+    "typescript": "^4.2.3"
   },
   "jest": {
     "verbose": true,
@@ -79,8 +77,8 @@
   },
   "size-limit": [
     {
-      "path": "dist/index.module.js",
-      "limit": "3 KB"
+      "path": "dist/index.js",
+      "limit": "2 KB"
     }
   ]
 }

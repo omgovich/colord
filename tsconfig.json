@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES5",
     "module": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "declaration": true,
-    "strict": true
-  }
+    "strict": true,
+    "outDir": "dist"
+  },
+  "include": ["./src/**/*", "./test/**/*"]
 }
