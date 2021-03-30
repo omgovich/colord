@@ -1,6 +1,5 @@
 import { Parser, RgbaColor } from "../types";
 import { Plugin } from "../extend";
-import { parseHex } from "../colorModels/hex";
 
 declare module "../colord" {
   interface Colord {
@@ -175,13 +174,14 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
     return HEX_NAME_STORE[this.toHex()] || undefined;
   };
 
-  // Add the color names parser
-  const cssNamesParser: Parser<string> = (input: string): RgbaColor | null => {
+  // Add CSS color names parser
+  const parseColorName: Parser<string> = (input: string): RgbaColor | null => {
     const hex = NAME_HEX_STORE[input.trim()];
-    return hex ? parseHex(hex) : null;
+    if (hex) return new ColordClass(hex).toRgba();
+    return null;
   };
 
-  parsers.string.push(cssNamesParser);
+  parsers.string.push(parseColorName);
 };
 
 export default namesPlugin;

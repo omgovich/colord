@@ -82,6 +82,10 @@
     {
       "path": "dist/index.js",
       "limit": "2 KB"
+    },
+    {
+      "path": "dist/plugins/names.js",
+      "limit": "1.5 KB"
     }
   ]
 }
