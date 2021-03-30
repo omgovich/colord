@@ -15,7 +15,7 @@ import { lighten } from "./manipulate/lighten";
 import { invert } from "./manipulate/invert";
 
 export class Colord {
-  private readonly rgba: RgbaColor;
+  readonly rgba: RgbaColor;
 
   constructor(input: AnyColor) {
     // Internal color format is RGBA object.
