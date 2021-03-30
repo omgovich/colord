@@ -36,9 +36,9 @@
 - [x] Clamp input numbers to resolve edge cases (e.g. `rgb(256, -1, 999, 2)`)
 - [x] `brightness`, `isDark`, `isLight`
 - [x] Set and get `alpha`
-- [ ] Plugin API
+- [x] Plugin API
 - [x] 4 and 8 digit Hex
 - [x] `lighten`, `darken`
 - [x] `invert`
-- [ ] CSS color names (via plugin)
+- [x] CSS color names (via plugin)
 - [ ] A11y and contrast utils (via plugin)
