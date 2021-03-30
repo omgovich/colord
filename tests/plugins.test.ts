@@ -13,4 +13,9 @@ describe("names", () => {
   it("Converts a color to CSS name", () => {
     expect(colord("#F00").toName()).toBe("red");
   });
+
+  it("Does not crash when name is not found", () => {
+    expect(colord("#123456").toName()).toBe(undefined);
+    expect(colord("myownpurple").toHex()).toBe("#000000");
+  });
 });

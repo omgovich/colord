@@ -33,7 +33,6 @@ it("Supports HEX4 and HEX8 color models", () => {
   expect(colord("#80808080").toRgba()).toMatchObject({ r: 128, g: 128, b: 128, a: 0.5 });
   expect(colord("#AAAF").toRgba()).toMatchObject({ r: 170, g: 170, b: 170, a: 1 });
   expect(colord("#5550").toRgba()).toMatchObject({ r: 85, g: 85, b: 85, a: 0 });
-
   expect(colord({ r: 255, g: 255, b: 255, a: 1 }).toHex()).toBe("#ffffff");
   expect(colord({ r: 170, g: 170, b: 170, a: 0.5 }).toHex()).toBe("#aaaaaa80");
   expect(colord({ r: 128, g: 128, b: 128, a: 0 }).toHex()).toBe("#80808000");
@@ -57,6 +56,11 @@ it("Accepts a colord instance as an input", () => {
   const instance = colord(lime.hex as string);
   expect(colord(instance).toRgba()).toMatchObject(lime.rgba);
   expect(colord(colord(instance)).toHsla()).toMatchObject(lime.hsla);
+});
+
+it("Does not crash when input has an invalid format", () => {
+  const fallbackRgba = { r: 0, g: 0, b: 0, a: 1 };
+  expect(colord("WUT?").toRgba()).toMatchObject(fallbackRgba);
 });
 
 it("Saturates and desaturates a color", () => {
