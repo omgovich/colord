@@ -29,7 +29,7 @@
 ## Features
 
 - 📦 **Small**: Just **1.5 KB** gzipped ([3+ times lighter](#benchmarks) than **color** and **tinycolor**)
-- 📦 **Fast**: [~50% faster](#benchmarks) than **color** and **tinycolor**
+- 🚀 **Fast**: [~50% faster](#benchmarks) than **color** and **tinycolor**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Written in strict TypeScript and 100% covered by tests

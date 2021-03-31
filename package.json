@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "👑 A tiny color manipulation and conversion tool",
   "keywords": [
     "color",
@@ -21,9 +21,13 @@
     "node": ">=12"
   },
   "main": "./dist/index.js",
+  "browser": {
+    ".": "./dist/index.js",
+    "./plugins/names": "./dist/plugins/names.js"
+  },
   "exports": {
     ".": "./dist/index.js",
-    "./plugins/*": "./dist/plugins/*.js"
+    "./plugins/names": "./dist/plugins/names.js"
   },
   "files": [
     "dist/*.{js,ts,map}",
