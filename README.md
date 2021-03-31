@@ -1,18 +1,24 @@
 <div align="center">
+  <a href="https://github.com/omgovich/colord">
+    <img src="logo.png" width="280" height="210" alt="colord" />
+  </a>
+</div>
+
+<div align="center">
   <a href="https://npmjs.org/package/colord">
-    <img alt="npm" src="https://img.shields.io/npm/v/colord.svg?labelColor=da248d&color=6ead0a" />
+    <img alt="npm" src="https://img.shields.io/npm/v/colord.svg?labelColor=dd3a5e&color=6ead0a" />
   </a>
   <a href="https://github.com/omgovich/colord/actions">
-    <img alt="build" src="https://img.shields.io/github/workflow/status/omgovich/colord/Node.js%20CI/master.svg?labelColor=da248d&color=6ead0a" />
+    <img alt="build" src="https://img.shields.io/github/workflow/status/omgovich/colord/Node.js%20CI/master.svg?labelColor=dd3a5e&color=6ead0a" />
   </a>
   <a href="https://codecov.io/gh/omgovich/colord">
-    <img alt="coverage" src="https://img.shields.io/codecov/c/github/omgovich/colord.svg?labelColor=da248d&color=6ead0a" />
+    <img alt="coverage" src="https://img.shields.io/codecov/c/github/omgovich/colord.svg?labelColor=dd3a5e&color=6ead0a" />
   </a>
   <a href="https://npmjs.org/package/colord">
-    <img alt="no dependencies" src="https://badgen.net/bundlephobia/dependency-count/colord?labelColor=da248d&color=6ead0a" />
+    <img alt="no dependencies" src="https://badgen.net/bundlephobia/dependency-count/colord?labelColor=dd3a5e&color=6ead0a" />
   </a>
   <a href="https://npmjs.org/package/colord">
-    <img alt="types included" src="https://badgen.net/npm/types/colord?labelColor=da248d&color=6ead0a" />
+    <img alt="types included" src="https://badgen.net/npm/types/colord?labelColor=dd3a5e&color=6ead0a" />
   </a>
 </div>
 
