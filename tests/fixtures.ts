@@ -52,10 +52,7 @@ export const lime: TestColor = {
   hsla: { h: 120, s: 100, l: 50, a: 1 },
   hslaString: "hsla(120, 100%, 50%, 1)",
   hsv: { h: 120, s: 100, v: 100 },
-  hsvString: "hsv(120, 100%, 100%)",
-  hsvStringNoSpacesAndPercent: "hsv(120,100,100)",
   hsva: { h: 120, s: 100, v: 100, a: 1 },
-  hsvaString: "hsva(120, 100%, 100%, 1)",
 };
 
 // https://hslpicker.com/#6040bf

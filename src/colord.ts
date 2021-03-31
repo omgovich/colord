@@ -7,7 +7,6 @@ import { rgbaToRgbaString } from "./colorModels/rgbaString";
 import { rgbaToHsla } from "./colorModels/hsla";
 import { rgbaToHslaString } from "./colorModels/hslaString";
 import { rgbaToHsva } from "./colorModels/hsva";
-import { rgbaToHsvaString } from "./colorModels/hsvaString";
 import { changeAlpha } from "./manipulate/changeAlpha";
 import { saturate } from "./manipulate/saturate";
 import { getBrightness } from "./get/getBrightness";
@@ -36,7 +35,6 @@ export class Colord {
   public toHsla = (): HslaColor => rgbaToHsla(this.rgba);
   public toHslaString = (): string => rgbaToHslaString(this.rgba);
   public toHsva = (): HsvaColor => rgbaToHsva(this.rgba);
-  public toHsvaString = (): string => rgbaToHsvaString(this.rgba);
 
   // Manipulate
   public invert = (): Colord => colord(invert(this.rgba));

@@ -4,11 +4,10 @@ import { parseRgba } from "./colorModels/rgba";
 import { parseHsla } from "./colorModels/hsla";
 import { parseHslaString } from "./colorModels/hslaString";
 import { parseHsva } from "./colorModels/hsva";
-import { parseHsvaString } from "./colorModels/hsvaString";
 import { parseRgbaString } from "./colorModels/rgbaString";
 
 export const parsers: Parsers = {
-  string: [parseHex, parseRgbaString, parseHslaString, parseHsvaString],
+  string: [parseHex, parseRgbaString, parseHslaString],
   object: [parseRgba, parseHsla, parseHsva],
 };
 

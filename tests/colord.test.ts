@@ -25,7 +25,6 @@ it("Parses and converts a color", () => {
     expect(instance.toHsla()).toMatchObject(lime.hsla);
     expect(instance.toHslaString()).toBe(lime.hslaString);
     expect(instance.toHsva()).toMatchObject(lime.hsva);
-    expect(instance.toHsvaString()).toBe(lime.hsvaString);
   }
 });
 
