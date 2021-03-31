@@ -34,6 +34,7 @@
     "size": "npm run build && size-limit",
     "check-types": "tsc --noEmit true",
     "test": "jest tests --coverage",
+    "benchmark": "node --experimental-specifier-resolution node --loader ts-node/esm ./tests/benchmark.ts",
     "build": "rm -rf ./dist/* && rollup --config",
     "prepublishOnly": "npm run build"
   },
@@ -43,6 +44,8 @@
     "@types/jest": "^26.0.22",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
+    "benny": "^3.6.15",
+    "color": "^3.1.3",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -53,7 +56,9 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "size-limit": "^4.10.1",
+    "tinycolor2": "^1.4.2",
     "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
     "tslib": "^2.1.0",
     "typescript": "^4.2.3"
   },

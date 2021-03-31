@@ -23,12 +23,13 @@
 </div>
 
 <div align="center">
-  <strong>colord</strong> is a tiny color manipulation and conversion tool <strong>(is not production ready yet)</strong>
+  <strong>Colord</strong> is a tiny color manipulation and conversion tool
 </div>
 
 ## Features
 
-- 📦 **Small**: Less than 1,5 KB gzipped (3+ times lighter than **color** and **tinycolor**)
+- 📦 **Small**: Just **1.5 KB** gzipped ([3+ times lighter](#benchmarks) than **color** and **tinycolor**)
+- 📦 **Fastest**: [~50% faster](#benchmarks) than **color** and **tinycolor**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Well-tested and written in strict TypeScript
@@ -39,11 +40,13 @@
 
 ## Benchmarks
 
-| Name       | Bundle size                                                                                                          | Bundle size (gzip)                                                                                                      | Dependencies                                                                                                                      |
-| ---------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| **colord** | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      |
-| tinycolor2 | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) |
-| color      | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
+| Name       | ops/sec (millions) | Size                                                                                                                 | Size (gzip)                                                                                                             | Dependencies                                                                                                                      |
+| ---------- | ------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **colord** | **1 692 690**      | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      |
+| tinycolor2 | 998 946            | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) |
+| color      | 736 610            | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
+
+Performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7. To perform these tests, execute `npm run benchmark` in the library folder.
 
 ## Roadmap
 
