@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { colord, AnyColor } from "../src/";
 import { basicColors, lime, saturationLevels } from "./fixtures";
 
@@ -60,6 +61,8 @@ it("Accepts a colord instance as an input", () => {
 
 it("Does not crash when input has an invalid format", () => {
   const fallbackRgba = { r: 0, g: 0, b: 0, a: 1 };
+  // @ts-ignore
+  expect(colord({ w: 1, u: 2, t: 3 }).toRgba()).toMatchObject(fallbackRgba);
   expect(colord("WUT?").toRgba()).toMatchObject(fallbackRgba);
 });
 

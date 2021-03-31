@@ -21,14 +21,14 @@
     "node": ">=12"
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./plugins/names": "./dist/plugins/index.js"
   },
   "files": [
     "dist/*.{js,ts,map}",
     "dist/plugins/*.{js,ts,map}"
   ],
   "types": "dist/index.d.ts",
-  "source": "src/index.ts",
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "size": "npm run build && size-limit",
@@ -81,6 +81,7 @@
   "size-limit": [
     {
       "path": "dist/index.js",
+      "import": "{ colord }",
       "limit": "2 KB"
     },
     {
