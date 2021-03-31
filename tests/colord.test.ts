@@ -43,13 +43,11 @@ it("Ignores a case and extra whitespace", () => {
   expect(colord("RGB(10, 10, 10)").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("  Rgb(10, 10, 10)").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("HsLa(10, 10, 10, 1)  ").toHsla()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
-  expect(colord(" hSvA(10, 10, 10, 1) ").toHsva()).toMatchObject({ h: 10, s: 10, v: 10, a: 1 });
 });
 
 it("Clamps input numbers", () => {
   expect(colord("rgba(256, 999, -200, 2)").toRgba()).toMatchObject({ r: 255, g: 255, b: 0, a: 1 });
   expect(colord("hsla(-999, 200, 50, 2)").toHsla()).toMatchObject({ h: 0, s: 100, l: 50, a: 1 });
-  expect(colord("hsva(200, 50, 200, -1)").toHsva()).toMatchObject({ h: 200, s: 50, v: 100, a: 0 });
 });
 
 it("Accepts a colord instance as an input", () => {
