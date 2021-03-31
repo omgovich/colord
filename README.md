@@ -28,14 +28,14 @@
 
 ## Features
 
-- **Small**: Less than 1,5 KB gzipped (3+ times lighter than **color** and **tinycolor**)
-- **Simple**: Chainable API and familiar patterns
-- **Immutable**: No need to worry about data mutations
-- **Bulletproof**: Well-tested and written in strict TypeScript
-- **Typed**: All types are available out of the box
-- **Extendable**: Built-in plugin system to add new functionality
-- **Works everywhere**: Supports all browsers and Node 12+
-- **Zero-dependency**
+- 📦 **Small**: Less than 1,5 KB gzipped (3+ times lighter than **color** and **tinycolor**)
+- 😍 **Simple**: Chainable API and familiar patterns
+- 💪 **Immutable**: No need to worry about data mutations
+- 🛡 **Bulletproof**: Well-tested and written in strict TypeScript
+- 🗂 **Typed**: All types are available out of the box
+- 🏗 **Extendable**: Built-in plugin system to add new functionality
+- 👫 **Works everywhere**: Supports all browsers and Node 12+
+- 💨 **Zero-dependency**
 
 ## Benchmarks
 
