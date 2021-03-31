@@ -29,10 +29,10 @@
 ## Features
 
 - 📦 **Small**: Just **1.5 KB** gzipped ([3+ times lighter](#benchmarks) than **color** and **tinycolor**)
-- 📦 **Fastest**: [~50% faster](#benchmarks) than **color** and **tinycolor**
+- 📦 **Fast**: [~50% faster](#benchmarks) than **color** and **tinycolor**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
-- 🛡 **Bulletproof**: Well-tested and written in strict TypeScript
+- 🛡 **Bulletproof**: Written in strict TypeScript and 100% covered by tests
 - 🗂 **Typed**: All types are available out of the box
 - 🏗 **Extendable**: Built-in plugin system to add new functionality
 - 👫 **Works everywhere**: Supports all browsers and Node 12+
