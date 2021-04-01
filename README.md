@@ -28,8 +28,8 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.5 KB** gzipped ([3+ times lighter](#benchmarks) than **color** and **tinycolor**)
-- 🚀 **Fast**: [~50% faster](#benchmarks) than **color** and **tinycolor**
+- 📦 **Small**: Just **1.5 KB** gzipped ([3+ times lighter](#benchmarks) than **color** and **tinycolor2**)
+- 🚀 **Fast**: [~50% faster](#benchmarks) than **color** and **tinycolor2**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Written in strict TypeScript and 100% covered by tests
@@ -40,13 +40,13 @@
 
 ## Benchmarks
 
-| Library                       | <nobr>Operations/sec</nobr>   | Size                                                                                                                 | Size (gzip)                                                                                                             | Dependencies                                                                                                                      |
-| ----------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| <nobr><b>colord 👑</b></nobr> | <nobr><b>1 692 690</b></nobr> | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      |
-| tinycolor2                    | 998 946                       | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) |
-| color                         | 736 610                       | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
+| Library                       | <nobr>Operations/sec</nobr>   | Size                                                                                                                 | Size (gzip)                                                                                                             | Dependencies                                                                                                                      | Types                                                                                                         |
+| ----------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| <nobr><b>colord 👑</b></nobr> | <nobr><b>1 692 690</b></nobr> | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      |
+| tinycolor2                    | 998 946                       | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/npm/types/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) |
+| color                         | 736 610                       | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/npm/types/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
 
-Performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7. To perform these tests, execute `npm run benchmark` in the library folder.
+The performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7 via running `npm run benchmark` in the library folder.
 
 ## Getting Started
 
@@ -77,6 +77,7 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 
 ```js
 // String input examples
+colord("FFF");
 colord("#ffffff");
 colord("rgb(255, 255, 255)");
 colord("rgba(255, 255, 255, 1)");
@@ -115,7 +116,7 @@ colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 
 ### Color manipulation
 
-| Method                    |
+| Method                    | Note                    |
 | ------------------------- | ----------------------- |
 | `alpha(value)`            |                         |
 | `invert()`                |                         |
