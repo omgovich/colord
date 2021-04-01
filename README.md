@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/omgovich/colord">
-    <img src="logo.png" width="280" height="210" alt="colord" />
+    <img src="assets/logo.png" width="280" height="210" alt="colord" />
   </a>
 </div>
 
@@ -38,6 +38,8 @@
 - 👫 **Works everywhere**: Supports all browsers and Node 12+
 - 💨 **Dependency-free**
 
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
 ## Benchmarks
 
 | Library                       | <nobr>Operations/sec</nobr>   | Size                                                                                                                 | Size (gzip)                                                                                                             | Dependencies                                                                                                                      | Types                                                                                                         |
@@ -47,6 +49,8 @@
 | color                         | 736 610                       | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/npm/types/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
 
 The performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7 via running `npm run benchmark` in the library folder.
+
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## Getting Started
 
@@ -61,6 +65,8 @@ colord("#ff0000").grayscale().alpha(0.25).toRgbaString(); // "rgba(128, 128, 128
 colord("rgb(192, 192, 192)").isLight(); // true
 colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 ```
+
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## API
 
@@ -135,6 +141,8 @@ colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 | `isLight()`    | `false`        | Same as `brightness() >= 0.5`                                             |
 | `isDark()`     | `true`         | Same as `brightness() < 0.5`                                              |
 
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
 ## Plugins
 
 **Colord** has a built-in plugin system that allows new features and functionality to be easily added.
@@ -154,6 +162,8 @@ colord("#00ffff").toName(); // "cyan"
 colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
 ```
 
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
 ## Types
 
 While not only typing its own functions and variables, **Colord** can also help you type yours. Depending on the color space you are using, you can also import and use the type that is associated with it.
@@ -164,6 +174,8 @@ import { RgbColor, RgbaColor, HslColor, HslaColor, HsvColor, HsvaColor } from "c
 const foo: HslColor = { h: 0, s: 0, l: 0 };
 const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 ```
+
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## Roadmap
 
