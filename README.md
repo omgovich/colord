@@ -28,12 +28,12 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.5 KB** gzipped ([3+ times lighter](#benchmarks) than **color** and **tinycolor2**)
+- 📦 **Small**: Just **1.4 KB** gzipped ([3+ times lighter](#benchmarks) than **color** and **tinycolor2**)
 - 🚀 **Fast**: [~50% faster](#benchmarks) than **color** and **tinycolor2**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Written in strict TypeScript and 100% covered by tests
-- 🗂 **Typed**: All types are available out of the box
+- 🗂 **Typed**: All [types are available](#types) out of the box
 - 🏗 **Extendable**: Built-in [plugin system](#plugins) to add new functionality
 - 👫 **Works everywhere**: Supports all browsers and Node 12+
 - 💨 **Dependency-free**
@@ -152,6 +152,17 @@ extend([namesPlugin]);
 colord("tomato").toHex(); // "#ff6347"
 colord("#00ffff").toName(); // "cyan"
 colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
+```
+
+## Types
+
+While not only typing its own functions and variables, **Colord** can also help you type yours. Depending on the color space you are using, you can also import and use the type that is associated with it.
+
+```ts
+import { RgbColor, RgbaColor, HslColor, HslaColor, HsvColor, HsvaColor } from "colord";
+
+const foo: HslColor = { h: 0, s: 0, l: 0 };
+const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 ```
 
 ## Roadmap
