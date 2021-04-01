@@ -68,11 +68,12 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 
 #### Accepted input formats
 
-- Hexadecimal strings
+- Hexadecimal strings (including 3, 4 and 8 digit notations)
 - RGB(A) strings and objects
 - HSL(A) strings and objects
 - HSV(A) objects
-- Color names (via plugin)
+- Color names ([via plugin](#css-color-names))
+- LCH (coming soon)
 
 ```js
 // String input examples
@@ -91,7 +92,7 @@ colord({ h: 360, s: 100, v: 100 });
 colord({ h: 360, s: 100, v: 100, a: 1 });
 ```
 
-#### 🐕 Permissive parser
+#### Permissive parser
 
 The library's parser trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc.
 
@@ -112,26 +113,45 @@ colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 | `toHslaString()` | `hsla(360, 100%, 100%, 1)`         |
 | `toHsva()`       | `{ h: 360, s: 100, v: 100, a: 1 }` |
 
-### Color getters
-
-| Method         | Result example |
-| -------------- | -------------- |
-| `alpha()`      | `0.5`          |
-| `brightness()` | `0.5`          |
-| `isDark()`     | `true`         |
-| `isLight()`    | `false`        |
-
 ### Color manipulation
 
 | Method                    |
-| ------------------------- |
-| `alpha(value)`            |
-| `invert()`                |
-| `saturate(ratio = 0.1)`   |
-| `desaturate(ratio = 0.1)` |
-| `grayscale()`             |
-| `lighten(ratio = 0.1)`    |
-| `darken(ratio = 0.1)`     |
+| ------------------------- | ----------------------- |
+| `alpha(value)`            |                         |
+| `invert()`                |                         |
+| `saturate(ratio = 0.1)`   |                         |
+| `desaturate(ratio = 0.1)` |                         |
+| `grayscale()`             | Same as `desaturate(1)` |
+| `lighten(ratio = 0.1)`    |                         |
+| `darken(ratio = 0.1)`     |                         |
+
+### Color analysis
+
+| Method         | Result example | Note                                                                      |
+| -------------- | -------------- | ------------------------------------------------------------------------- |
+| `alpha()`      | `0.5`          |                                                                           |
+| `brightness()` | `0.5`          | According to [WCAG algorithm](https://www.w3.org/TR/AERT/#color-contrast) |
+| `isLight()`    | `false`        | Same as `brightness() >= 0.5`                                             |
+| `isDark()`     | `true`         | Same as `brightness() < 0.5`                                              |
+
+## Plugins
+
+**Colord** has a built-in plugin system that allows new features and functionality to be easily added.
+
+### CSS color names
+
+Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
+
+```js
+import { colord, extend } from "colord";
+import namesPlugin from "colord/plugins/names";
+
+extend([namesPlugin]);
+
+colord("tomato").toHex(); // "#ff6347"
+colord("#00ffff").toName(); // "cyan"
+colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
+```
 
 ## Roadmap
 
@@ -147,3 +167,5 @@ colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 - [x] `invert`
 - [x] CSS color names (via plugin)
 - [ ] A11y and contrast utils (via plugin)
+- [ ] Mix colors (via plugin)
+- [ ] [LCH](https://www.w3.org/TR/css-color-4/#specifying-lab-lch) color space (via plugin)
