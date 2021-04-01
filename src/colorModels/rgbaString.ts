@@ -1,7 +1,7 @@
 import { RgbaColor } from "../types";
 import { roundRgba, clampRgba } from "./rgba";
 
-const rgbaMatcher = /rgba?\((-?\d+),\s*(-?\d+),\s*(-?\d+),?\s*(-?\d+\.?\d*)?\)/i;
+const rgbaMatcher = /rgba?\(?\s*(-?\d+),?\s*(-?\d+),?\s*(-?\d+),?\s*(-?\d*\.?\d+)?\s*\)?/i;
 
 export const parseRgbaString = (input: string): RgbaColor | null => {
   const match = rgbaMatcher.exec(input);

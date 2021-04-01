@@ -40,11 +40,11 @@
 
 ## Benchmarks
 
-| Library      | ops/sec (millions) | Size                                                                                                                 | Size (gzip)                                                                                                             | Dependencies                                                                                                                      |
-| ------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| **colord👑** | **1 692 690**      | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      |
-| tinycolor2   | 998 946            | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) |
-| color        | 736 610            | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
+| Library                       | <nobr>Operations/sec</nobr>   | Size                                                                                                                 | Size (gzip)                                                                                                             | Dependencies                                                                                                                      |
+| ----------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| <nobr><b>colord 👑</b></nobr> | <nobr><b>1 692 690</b></nobr> | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)      |
+| tinycolor2                    | 998 946                       | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2) |
+| color                         | 736 610                       | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)           | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)           |
 
 Performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7. To perform these tests, execute `npm run benchmark` in the library folder.
 
@@ -64,16 +64,53 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 
 ## API
 
+### Color parsing
+
+#### Accepted input formats:
+
+- Hexadecimal strings
+- RGB(A) strings and objects
+- HSL(A) strings and objects
+- HSV(A) objects
+- Color names (via plugin)
+
+```js
+// String input examples
+colord("#ffffff");
+colord("rgb(255, 255, 255)");
+colord("rgba(255, 255, 255, 1)");
+colord("hsl(0, 100%, 100%)");
+colord("hsla(0, 100%, 100%, 1)");
+
+// Object input examples
+colord({ r: 255, g: 255, b: 255 });
+colord({ r: 255, g: 255, b: 255, a: 1 });
+colord({ h: 360, s: 100, l: 100 });
+colord({ h: 360, s: 100, l: 100, a: 1 });
+colord({ h: 360, s: 100, v: 100 });
+colord({ h: 360, s: 100, v: 100, a: 1 });
+```
+
+#### 🐕 Permissive parser
+
+The library's parser trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc.
+
+```js
+colord(" aBc ").toHex(); // "#aabbcc"
+colord("__rGbA 10 20,  999...").toRgbaString(); // "rgba(10, 20, 255, 1)"
+colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
+```
+
 ### Color conversion
 
-| Method           | Result example                     | Returns                                                                                                                             |
-| ---------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `toHex()`        | `"#ffffff"`                        | Hexadecimal notation according to [CSS Colors Level 4](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb_colors)     |
-| `toRgba()`       | `{ r: 255, g: 255, b: 255, a: 1 }` | [RGBA](https://en.wikipedia.org/wiki/RGBA_color_model) object                                                                       |
-| `toRgbaString()` | `"rgba(255, 255, 255, 1)"`         | RGBA functional notation according to [CSS Colors Level 4](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb_colors) |
-| `toHsla()`       | `{ h: 360, s: 100, l: 100, a: 1 }` | [HSLA](https://en.wikipedia.org/wiki/HSL_and_HSV) object                                                                            |
-| `toHslaString()` | `hsla(360, 100%, 100%, 1)`         | HSLA functional notation according to [CSS Colors Level 4](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl_colors) |
-| `toHsva()`       | `{ h: 360, s: 100, v: 100, a: 1 }` | [HSVA](https://en.wikipedia.org/wiki/HSL_and_HSV) object                                                                            |
+| Method           | Result example                     |
+| ---------------- | ---------------------------------- |
+| `toHex()`        | `"#ffffff"`                        |
+| `toRgba()`       | `{ r: 255, g: 255, b: 255, a: 1 }` |
+| `toRgbaString()` | `"rgba(255, 255, 255, 1)"`         |
+| `toHsla()`       | `{ h: 360, s: 100, l: 100, a: 1 }` |
+| `toHslaString()` | `hsla(360, 100%, 100%, 1)`         |
+| `toHsva()`       | `{ h: 360, s: 100, v: 100, a: 1 }` |
 
 ### Color manipulation
 

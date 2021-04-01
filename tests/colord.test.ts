@@ -45,6 +45,17 @@ it("Ignores a case and extra whitespace", () => {
   expect(colord("HsLa(10, 10, 10, 1)  ").toHsla()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
 });
 
+it("Parses shorthand alpha values", () => {
+  expect(colord("rgba(0, 0, 0, .1)").alpha()).toBe(0.1);
+  expect(colord("hsla(0, 0%, 0%, .25)").alpha()).toBe(0.25);
+});
+
+it("Parses invalid color string", () => {
+  expect(colord(" AbC ").toHex()).toBe("#aabbcc");
+  expect(colord("RGB 10 10 10 ").toRgba()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
+  expect(colord(" hsL(10 20%, 1 .5!").toHsla()).toMatchObject({ h: 10, s: 20, l: 1, a: 0.5 });
+});
+
 it("Clamps input numbers", () => {
   expect(colord("rgba(256, 999, -200, 2)").toRgba()).toMatchObject({ r: 255, g: 255, b: 0, a: 1 });
   expect(colord("hsla(-999, 200, 50, 2)").toHsla()).toMatchObject({ h: 0, s: 100, l: 50, a: 1 });
