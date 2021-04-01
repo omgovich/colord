@@ -66,7 +66,7 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 
 ### Color parsing
 
-#### Accepted input formats:
+#### Accepted input formats
 
 - Hexadecimal strings
 - RGB(A) strings and objects
@@ -112,7 +112,26 @@ colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 | `toHslaString()` | `hsla(360, 100%, 100%, 1)`         |
 | `toHsva()`       | `{ h: 360, s: 100, v: 100, a: 1 }` |
 
+### Color getters
+
+| Method         | Result example |
+| -------------- | -------------- |
+| `alpha()`      | `0.5`          |
+| `brightness()` | `0.5`          |
+| `isDark()`     | `true`         |
+| `isLight()`    | `false`        |
+
 ### Color manipulation
+
+| Method                    |
+| ------------------------- |
+| `alpha(value)`            |
+| `invert()`                |
+| `saturate(ratio = 0.1)`   |
+| `desaturate(ratio = 0.1)` |
+| `grayscale()`             |
+| `lighten(ratio = 0.1)`    |
+| `darken(ratio = 0.1)`     |
 
 ## Roadmap
 
