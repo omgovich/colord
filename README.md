@@ -34,7 +34,7 @@
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Written in strict TypeScript and 100% covered by tests
 - 🗂 **Typed**: All types are available out of the box
-- 🏗 **Extendable**: Built-in plugin system to add new functionality
+- 🏗 **Extendable**: Built-in [plugin system](#plugins) to add new functionality
 - 👫 **Works everywhere**: Supports all browsers and Node 12+
 - 💨 **Dependency-free**
 
