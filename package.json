@@ -5,12 +5,14 @@
   "keywords": [
     "color",
     "parser",
-    "colour",
+    "convert",
     "tiny",
     "hex",
     "rgb",
     "hsl",
-    "hsv"
+    "hsv",
+    "css",
+    "color-names"
   ],
   "repository": "omgovich/colord",
   "author": "Vlad Shilov <omgovich@ya.ru>",
@@ -56,7 +58,9 @@
     "@types/jest": "^26.0.22",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
+    "ac-colors": "^1.4.2",
     "benny": "^3.6.15",
+    "chroma-js": "^2.1.1",
     "color": "^3.1.3",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",

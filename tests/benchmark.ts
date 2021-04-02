@@ -5,12 +5,21 @@ import { colord } from "../src";
 import tinycolor2 from "tinycolor2";
 // @ts-ignore
 import color from "color";
+// @ts-ignore
+import chroma from "chroma-js";
+// @ts-ignore
+import AcColor from "ac-colors";
 
 b.suite(
-  "Parse HEX and convert to HSL object",
+  "Parse HEX and convert to HSLA object/array",
 
   b.add("colord", () => {
     colord("#808080").toHsla();
+  }),
+
+  b.add("color", () => {
+    // @ts-ignore
+    color("#808080").hsl().object();
   }),
 
   b.add("tinycolor2", () => {
@@ -18,9 +27,14 @@ b.suite(
     tinycolor2("#808080").toHsl();
   }),
 
-  b.add("color", () => {
+  b.add("ac-colors", () => {
     // @ts-ignore
-    color("#808080").hsl().object();
+    new AcColor({ color: "#808080", type: "hex" }).hsl;
+  }),
+
+  b.add("chroma-js", () => {
+    // @ts-ignore
+    chroma("#808080").hsl();
   }),
 
   b.cycle(),
