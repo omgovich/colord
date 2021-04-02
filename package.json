@@ -1,7 +1,7 @@
 {
   "name": "colord",
   "version": "0.6.0",
-  "description": "👑 A tiny color manipulation and conversion tool",
+  "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
     "parser",
