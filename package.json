@@ -108,6 +108,10 @@
     {
       "path": "dist/plugins/names.js",
       "limit": "1.5 KB"
+    },
+    {
+      "path": "dist/plugins/xyz.js",
+      "limit": "1 KB"
     }
   ]
 }

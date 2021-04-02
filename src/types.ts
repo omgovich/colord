@@ -28,7 +28,27 @@ export interface HsvaColor extends HsvColor {
   a: number;
 }
 
-export type ObjectColor = RgbColor | HslColor | HsvColor | RgbaColor | HslaColor | HsvaColor;
+/** CIE XYZ color space https://www.sttmedia.com/colormodel-xyz */
+export interface XyzColor {
+  x: number;
+  y: number;
+  z: number;
+}
+
+/** CIE XYZ with and an alpha channel. Naming is the hardest part: https://stackoverflow.com/a/2464027 */
+export interface XyzaColor extends XyzColor {
+  a: number;
+}
+
+export type ObjectColor =
+  | RgbColor
+  | RgbaColor
+  | HslColor
+  | HslaColor
+  | HsvColor
+  | HsvaColor
+  | XyzColor
+  | XyzaColor;
 
 export type AnyColor = string | ObjectColor;
 
