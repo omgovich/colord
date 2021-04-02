@@ -81,6 +81,7 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - HSL(A) strings and objects
 - HSV(A) objects
 - Color names ([via plugin](#css-color-names))
+- XYZ objects ([via plugin](#xyz-color-space))
 - LCH (coming soon)
 
 ```js
@@ -165,6 +166,20 @@ colord("#00ffff").toName(); // "cyan"
 colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
 ```
 
+### XYZ color space
+
+Adds supports of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color space. The color conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+
+```js
+import { colord, extend } from "colord";
+import xyzPlugin from "colord/plugins/xyz";
+
+extend([xyzPlugin]);
+
+colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
+colord({ x: 0, y: 0, z: 0 }).toHex(); // "#000000"
+```
+
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## Types
@@ -193,9 +208,9 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] `lighten`, `darken`
 - [x] `invert`
 - [x] CSS color names (via plugin)
-- [ ] 🚧 Mix colors (via plugin)
+- [ ] Mix colors (via plugin)
 - [ ] A11y and contrast utils (via plugin)
 - [ ] CMYK color space (via plugin)
-- [ ] XYZ color space (via plugin)
+- [ ] 🚧 XYZ color space (via plugin)
 - [ ] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [ ] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
