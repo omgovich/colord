@@ -105,7 +105,7 @@ colord({ h: 360, s: 100, v: 100, a: 1 });
 
 #### Permissive parser
 
-The library's parser trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc.
+The library's parser cares about you and tries to prevent as many mistakes and typos as possible. It trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc. These are some examples:
 
 ```js
 colord(" aBc ").toHex(); // "#aabbcc"
@@ -151,7 +151,8 @@ colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 
 **Colord** has a built-in plugin system that allows new features and functionality to be easily added.
 
-### CSS color names
+<details>
+  <summary><b>CSS color names</b></summary>
 
 Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
 
@@ -166,7 +167,10 @@ colord("#00ffff").toName(); // "cyan"
 colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
 ```
 
-### XYZ color space
+</details>
+
+<details>
+  <summary><b>XYZ color space</b></summary>
 
 Adds support of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -179,6 +183,8 @@ extend([xyzPlugin]);
 colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
 colord({ x: 0, y: 0, z: 0 }).toHex(); // "#000000"
 ```
+
+</details>
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
