@@ -24,25 +24,55 @@ export class Colord {
 
   // Get
   /** Returns a color brightness ratio */
-  public brightness = (): number => round(getBrightness(this.rgba), 2);
-  public isDark = (): boolean => getBrightness(this.rgba) < 0.5;
-  public isLight = (): boolean => getBrightness(this.rgba) >= 0.5;
+  public brightness(): number {
+    return round(getBrightness(this.rgba), 2);
+  }
+  public isDark(): boolean {
+    return getBrightness(this.rgba) < 0.5;
+  }
+  public isLight(): boolean {
+    return getBrightness(this.rgba) >= 0.5;
+  }
 
   // Convert
-  public toHex = (): string => rgbaToHex(this.rgba);
-  public toRgba = (): RgbaColor => roundRgba(this.rgba);
-  public toRgbaString = (): string => rgbaToRgbaString(this.rgba);
-  public toHsla = (): HslaColor => rgbaToHsla(this.rgba);
-  public toHslaString = (): string => rgbaToHslaString(this.rgba);
-  public toHsva = (): HsvaColor => rgbaToHsva(this.rgba);
+  public toHex(): string {
+    return rgbaToHex(this.rgba);
+  }
+  public toRgba(): RgbaColor {
+    return roundRgba(this.rgba);
+  }
+  public toRgbaString(): string {
+    return rgbaToRgbaString(this.rgba);
+  }
+  public toHsla(): HslaColor {
+    return rgbaToHsla(this.rgba);
+  }
+  public toHslaString(): string {
+    return rgbaToHslaString(this.rgba);
+  }
+  public toHsva(): HsvaColor {
+    return rgbaToHsva(this.rgba);
+  }
 
   // Manipulate
-  public invert = (): Colord => colord(invert(this.rgba));
-  public saturate = (ratio = 0.1): Colord => colord(saturate(this.rgba, ratio));
-  public desaturate = (ratio = 0.1): Colord => colord(saturate(this.rgba, -ratio));
-  public grayscale = (): Colord => colord(saturate(this.rgba, -1));
-  public lighten = (ratio = 0.1): Colord => colord(lighten(this.rgba, ratio));
-  public darken = (ratio = 0.1): Colord => colord(lighten(this.rgba, -ratio));
+  public invert(): Colord {
+    return colord(invert(this.rgba));
+  }
+  public saturate(ratio = 0.1): Colord {
+    return colord(saturate(this.rgba, ratio));
+  }
+  public desaturate(ratio = 0.1): Colord {
+    return colord(saturate(this.rgba, -ratio));
+  }
+  public grayscale(): Colord {
+    return colord(saturate(this.rgba, -1));
+  }
+  public lighten(ratio = 0.1): Colord {
+    return colord(lighten(this.rgba, ratio));
+  }
+  public darken(ratio = 0.1): Colord {
+    return colord(lighten(this.rgba, -ratio));
+  }
 
   /** Allows to get or change an alpha channel value */
   public alpha(): number;
