@@ -168,7 +168,7 @@ colord("#aabbcc").toName(); // undefined (the color is not specified in CSS spec
 
 ### XYZ color space
 
-Adds supports of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color space. The color conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+Adds support of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
 ```js
 import { colord, extend } from "colord";
