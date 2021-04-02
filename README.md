@@ -80,8 +80,8 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - RGB(A) strings and objects
 - HSL(A) strings and objects
 - HSV(A) objects
-- Color names ([via plugin](#css-color-names))
-- XYZ objects ([via plugin](#xyz-color-space))
+- Color names ([via plugin](#plugins))
+- XYZ objects ([via plugin](#plugins))
 - LCH (coming soon)
 
 ```js
