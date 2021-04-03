@@ -115,14 +115,108 @@ colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 
 ### Color conversion
 
-| Method           | Result example                     |
-| ---------------- | ---------------------------------- |
-| `toHex()`        | `"#ffffff"`                        |
-| `toRgba()`       | `{ r: 255, g: 255, b: 255, a: 1 }` |
-| `toRgbaString()` | `"rgba(255, 255, 255, 1)"`         |
-| `toHsla()`       | `{ h: 360, s: 100, l: 100, a: 1 }` |
-| `toHslaString()` | `hsla(360, 100%, 100%, 1)`         |
-| `toHsva()`       | `{ h: 360, s: 100, v: 100, a: 1 }` |
+<details>
+  <summary><b><code>toHex()</code></b></summary>
+
+Returns the [hexadecimal representation](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb_colors) of a color. When the alpha channel value of the color is less than 1, it outputs `#rrggbbaa` format instead of `#rrggbb`.
+
+```js
+colord("rgb(0, 255, 0)").toHex(); // "#00ff00"
+colord({ h: 300, s: 100, l: 50 }).toHex(); // "#ff00ff"
+colord({ r: 255, g: 255, b: 255, a: 0 }).toHex(); // "#ffffff00"
+```
+
+</details>
+
+<details>
+  <summary><b><code>toRgba()</code></b></summary>
+
+```js
+colord("#ff0000").toRgba(); // { r: 255, g: 0, b: 0, a: 1 }
+colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgba(); // { r: 0, g: 255, b: 255, a: 0.5 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>toRgbaString()</code></b></summary>
+
+```js
+colord("#ff0000").toRgbaString(); // "rgba(255, 0, 0, 1)"
+colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgbaString(); // "rgba(0, 255, 255, 0.5)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>toHsla()</code></b></summary>
+
+Converts a color to [HSL color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and returns an object.
+
+```js
+colord("#ffff00").toHsla(); // { h: 60, s: 100, l: 50, a: 1 }
+colord("rgba(0, 0, 255, 0.5) ").toHsla(); // { h: 240, s: 100, l: 50, a: 0.5 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>toHslaString()</code></b></summary>
+
+Converts a color to [HSL color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and expresses it through the [functional notation](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl_colors).
+
+```js
+colord("#ffff00").toHsla(); // "hsla(60, 100%, 50%, 1)"
+colord("rgba(0, 0, 255, 0.5)").toHsla(); // "hsla(240, 100%, 50%, 0.5)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>toHsva()</code></b></summary>
+
+Converts a color to [HSV color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and returns an object.
+
+```js
+colord("#ffff00").toHsva(); // { h: 60, s: 100, v: 100, a: 1 }
+colord("rgba(0, 255, 255, 0.5) ").toHsva(); // { h: 180, s: 100, v: 100, a: 1 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>toName()</code></b> (<b>names</b> plugin)</summary>
+
+Converts a color to a [CSS keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords). Returns `undefined` if the color is not specified in the specs.
+
+```js
+import { colord, extend } from "colord";
+import namesPlugin from "colord/plugins/names";
+
+extend([namesPlugin]);
+
+colord("ff6347").toName(); // "tomato"
+colord("#00ffff").toName(); // "cyan"
+colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
+```
+
+</details>
+
+<details>
+  <summary><b><code>toXyz()</code></b> (<b>xyz</b> plugin)</summary>
+
+Converts a color to [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+
+```js
+import { colord, extend } from "colord";
+import xyzPlugin from "colord/plugins/xyz";
+
+extend([xyzPlugin]);
+
+colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
+```
+
+</details>
 
 ### Color manipulation
 
