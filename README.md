@@ -246,7 +246,7 @@ colord("#aabbcc").invert().toHex(); // "#554433"
 <details>
   <summary><b><code>saturate(amount = 0.1)</code></b></summary>
 
-Increases the HSL saturation of a color by the given amount.
+Increases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
 ```js
 colord("#bf4040").saturate(0.25).toHex(); // "#df2020"
@@ -258,7 +258,7 @@ colord("hsla(0, 50%, 50%, 1)").saturate(0.5).toHslaString(); // "hsla(0, 100%, 5
 <details>
   <summary><b><code>desaturate(amount = 0.1)</code></b></summary>
 
-Decreases the HSL saturation of a color by the given amount.
+Decreases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
 ```js
 colord("#df2020").saturate(0.25).toHex(); // "#bf4040"
@@ -282,7 +282,7 @@ colord("hsla(0, 100%, 50%, 1)").grayscale().toHslaString(); // "hsla(0, 0%, 50%,
 <details>
   <summary><b><code>lighten(ratio = 0.1)</code></b></summary>
 
-Increases the HSL lightness of a color by the given amount.
+Increases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
 ```js
 colord("#000000").lighten(0.5).toHex(); // "#808080"
@@ -295,7 +295,7 @@ colord("hsla(0, 50%, 50%, 1)").lighten(0.5).toHslaString(); // "hsla(0, 50%, 100
 <details>
   <summary><b><code>darken(ratio = 0.1)</code></b></summary>
 
-Decreases the HSL lightness of a color by the given amount.
+Decreases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
 ```js
 colord("#ffffff").darken(0.5).toHex(); // "#808080"
@@ -307,12 +307,54 @@ colord("hsla(0, 50%, 100%, 1)").lighten(0.5).toHslaString(); // "hsla(0, 50%, 50
 
 ### Color analysis
 
-| Method         | Result example | Note                                                                      |
-| -------------- | -------------- | ------------------------------------------------------------------------- |
-| `alpha()`      | `0.5`          |                                                                           |
-| `brightness()` | `0.5`          | According to [WCAG algorithm](https://www.w3.org/TR/AERT/#color-contrast) |
-| `isLight()`    | `false`        | Same as `brightness() >= 0.5`                                             |
-| `isDark()`     | `true`         | Same as `brightness() < 0.5`                                              |
+<details>
+  <summary><b><code>alpha()</code></b></summary>
+
+```js
+colord("#ffffff").alpha() // 1
+colord(""rgba(50, 100, 150, 0.5)"").alpha(); // 0.5
+```
+
+</details>
+
+<details>
+  <summary><b><code>brightness()</code></b></summary>
+
+Returns the brightness of a color (from 0 to 1). The calculation logic is modified from [Web Content Accessibility Guidelines](https://www.w3.org/TR/AERT/#color-contrast).
+
+```js
+colord("#000000").brightness(); // 0
+colord("#808080").brightness(); // 0.5
+colord("#ffffff").brightness(); // 1
+```
+
+</details>
+
+<details>
+  <summary><b><code>isLight()</code></b></summary>
+
+Same as calling `brightness() >= 0.5`.
+
+```js
+colord("#111111").isLight(); // false
+colord("#aabbcc").isLight(); // true
+colord("#ffffff").isLight(); // true
+```
+
+</details>
+
+<details>
+  <summary><b><code>isDark()</code></b></summary>
+
+Same as calling `brightness() < 0.5`.
+
+```js
+colord("#111111").isDark(); // true
+colord("#aabbcc").isDark(); // false
+colord("#ffffff").isDark(); // false
+```
+
+</details>
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
