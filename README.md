@@ -311,8 +311,8 @@ colord("hsla(0, 50%, 100%, 1)").lighten(0.5).toHslaString(); // "hsla(0, 50%, 50
   <summary><b><code>alpha()</code></b></summary>
 
 ```js
-colord("#ffffff").alpha() // 1
-colord(""rgba(50, 100, 150, 0.5)"").alpha(); // 0.5
+colord("#ffffff").alpha(); // 1
+colord("rgba(50, 100, 150, 0.5)").alpha(); // 0.5
 ```
 
 </details>
