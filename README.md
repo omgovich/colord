@@ -220,15 +220,90 @@ colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
 
 ### Color manipulation
 
-| Method                    | Note                    |
-| ------------------------- | ----------------------- |
-| `alpha(value)`            |                         |
-| `invert()`                |                         |
-| `saturate(ratio = 0.1)`   |                         |
-| `desaturate(ratio = 0.1)` |                         |
-| `grayscale()`             | Same as `desaturate(1)` |
-| `lighten(ratio = 0.1)`    |                         |
-| `darken(ratio = 0.1)`     |                         |
+<details>
+  <summary><b><code>alpha(value)</code></b></summary>
+
+Changes the alpha channel value and returns a new `Colord` instance.
+
+```js
+colord("rgb(0, 0, 0)").alpha(0.5).toRgbaString(); // rgba(0, 0, 0, 0.5)
+```
+
+</details>
+
+<details>
+  <summary><b><code>invert()</code></b></summary>
+
+Creates a new `Colord` instance containing an inverted (opposite) version of the color.
+
+```js
+colord("#ffffff").invert().toHex(); // "#000000"
+colord("#aabbcc").invert().toHex(); // "#554433"
+```
+
+</details>
+
+<details>
+  <summary><b><code>saturate(amount = 0.1)</code></b></summary>
+
+Increases the HSL saturation of a color by the given amount.
+
+```js
+colord("#bf4040").saturate(0.25).toHex(); // "#df2020"
+colord("hsla(0, 50%, 50%, 1)").saturate(0.5).toHslaString(); // "hsla(0, 100%, 50%, 1)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>desaturate(amount = 0.1)</code></b></summary>
+
+Decreases the HSL saturation of a color by the given amount.
+
+```js
+colord("#df2020").saturate(0.25).toHex(); // "#bf4040"
+colord("hsla(0, 100%, 50%, 1)").saturate(0.5).toHslaString(); // "hsla(0, 50%, 50%, 1)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>grayscale()</code></b></summary>
+
+Makes a gray color with the same lightness as a source color. Same as calling `desaturate(1)`.
+
+```js
+colord("#bf4040").grayscale().toHex(); // "#808080"
+colord("hsla(0, 100%, 50%, 1)").grayscale().toHslaString(); // "hsla(0, 0%, 50%, 1)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>lighten(ratio = 0.1)</code></b></summary>
+
+Increases the HSL lightness of a color by the given amount.
+
+```js
+colord("#000000").lighten(0.5).toHex(); // "#808080"
+colord("#223344").lighten(0.3).toHex(); // "#5580aa"
+colord("hsla(0, 50%, 50%, 1)").lighten(0.5).toHslaString(); // "hsla(0, 50%, 100%, 1)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>darken(ratio = 0.1)</code></b></summary>
+
+Decreases the HSL lightness of a color by the given amount.
+
+```js
+colord("#ffffff").darken(0.5).toHex(); // "#808080"
+colord("#5580aa").darken(0.3).toHex(); // "#223344"
+colord("hsla(0, 50%, 100%, 1)").lighten(0.5).toHslaString(); // "hsla(0, 50%, 50%, 1)"
+```
+
+</details>
 
 ### Color analysis
 
