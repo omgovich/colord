@@ -8,6 +8,10 @@ export const round = (number: number, digits = 0, base = Math.pow(10, digits)): 
   return Math.round(base * number) / base;
 };
 
+export const floor = (number: number, digits = 0, base = Math.pow(10, digits)): number => {
+  return Math.floor(base * number) / base;
+};
+
 /**
  * Clamps a value between an upper and lower bound.
  * We use ternary operators because it makes the minified code
