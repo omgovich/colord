@@ -107,6 +107,10 @@
       "limit": "2 KB"
     },
     {
+      "path": "dist/plugins/a11y.js",
+      "limit": "0.5 KB"
+    },
+    {
       "path": "dist/plugins/names.js",
       "limit": "1.5 KB"
     },

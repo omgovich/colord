@@ -1,9 +1,9 @@
 import { InputObject, RgbaColor, XyzaColor } from "../types";
 import { clamp, isPresent, round } from "../helpers";
-import { clampRgba } from "./rgba";
+import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgba";
 
 /**
- * Limits XYZ axis values
+ * Limits XYZ axis values.
  * https://www.sttmedia.com/colormodel-xyz
  */
 export const clampXyza = ({ x, y, z, a }: XyzaColor): XyzaColor => ({
@@ -31,22 +31,6 @@ export const parseXyza = ({ x, y, z, a = 1 }: InputObject): RgbaColor | null => 
   });
 
   return xyzaToRgba(xyza);
-};
-
-/**
- * Converts an RGB channel [0-255] to its linear light (un-companded) form [0-1].
- */
-const linearizeRgbChannel = (value: number): number => {
-  const ratio = value / 255;
-  return ratio < 0.04045 ? ratio / 12.92 : Math.pow((ratio + 0.055) / 1.055, 2.4);
-};
-
-/**
- * Convert an linear-light sRGB channel [0-1] to its gamma corrected form [0-255].
- */
-const unlinearizeRgbChannel = (ratio: number): number => {
-  const value = ratio > 0.0031308 ? 1.055 * Math.pow(ratio, 1 / 2.4) - 0.055 : 12.92 * ratio;
-  return value * 255;
 };
 
 /**
