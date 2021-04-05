@@ -356,11 +356,89 @@ colord("#ffffff").isDark(); // false
 
 </details>
 
+<details>
+  <summary><b><code>luminance()</code></b> (<b>a11y</b> plugin)</summary>
+
+Returns the relative luminance of a color, normalized to 0 for darkest black and 1 for lightest white as defined by [WCAG 2.0](https://www.w3.org/TR/WCAG20/#relativeluminancedef).
+
+```js
+colord("#000000").luminance(); // 0
+colord("#808080").luminance(); // 0.22
+colord("#ccddee").luminance(); // 0.71
+colord("#ffffff").luminance(); // 1
+```
+
+</details>
+
+<details>
+  <summary><b><code>contrast(color2 = '#ffffff')</code></b> (<b>a11y</b> plugin)</summary>
+
+Calculates a contrast ratio for a color pair. This luminance difference is expressed as a ratio ranging from 1 (e.g. white on white) to 21 (e.g., black on a white). WCAG requires a ratio of at least 4.5 for normal text and 3 for large text.
+
+- [Understanding WCAG 2 Contrast and Color Requirements](https://webaim.org/articles/contrast/)
+- [Contrast Checker](https://webaim.org/resources/contrastchecker/)
+
+```js
+colord("#000000").contrast(); // 21 (black on white)
+colord("#ffffff").contrast("#000000"); // 21 (white on black)
+colord("#777777").contrast(); // 4.47 (gray on white)
+colord("#ff0000").contrast(); // 3.99 (red on white)
+colord("#0000ff").contrast("#ff000"); // 2.14 (blue on red)
+```
+
+</details>
+
+<details>
+  <summary><b><code>isReadable(color2 = '#ffffff', level = 'AA')</code></b> (<b>a11y</b> plugin)</summary>
+
+Checks a contrast between background and text colors. [WCAG 2.0 contrast ratio requirements](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) for a normal text:
+
+- Level AA — at least 4.5
+- Level AAA — at least 7
+
+```js
+colord("#000000").isReadable(); // true (black on white)
+colord("#ffffff").isReadable("#000000"); // true (white on black)
+colord("#777777").isReadable(); // false (gray on white)
+colord("#e60000").isReadable("#ffff47"); // true (red on yellow conforms WCAG AA)
+colord("#e60000").isReadable("#ffff47", "AAA"); // false (red on yellow does not conform WCAG AAA)
+```
+
+</details>
+
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## Plugins
 
 **Colord** has a built-in plugin system that allows new features and functionality to be easily added.
+
+<details>
+  <summary><b>Accessibility (A11y)</b></summary>
+
+Adds accessibility and color contrast utilities working according to [Web Content Accessibility Guidelines 2.0](https://www.w3.org/TR/WCAG20/).
+
+```js
+import { colord, extend } from "colord";
+import a11yPlugin from "colord/plugins/a11y";
+
+extend([a11yPlugin]);
+
+colord("#000000").luminance(); // 0
+colord("#ccddee").luminance(); // 0.71
+colord("#ffffff").luminance(); // 1
+
+colord("#000000").contrast(); // 21 (black on white)
+colord("#ffffff").contrast("#000000"); // 21 (white on black)
+colord("#0000ff").contrast("#ff000"); // 2.14 (blue on red)
+
+colord("#000000").isReadable(); // true (black on white)
+colord("#ffffff").isReadable("#000000"); // true (white on black)
+colord("#777777").isReadable(); // false (gray on white)
+colord("#e60000").isReadable("#ffff47"); // true (red on yellow conforms WCAG AA)
+colord("#e60000").isReadable("#ffff47", "AAA"); // false (red on yellow does not conform WCAG AAA)
+```
+
+</details>
 
 <details>
   <summary><b>CSS color names</b></summary>
