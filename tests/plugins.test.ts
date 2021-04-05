@@ -6,21 +6,42 @@ import xyzPlugin from "../src/plugins/xyz";
 describe("a11y", () => {
   extend([a11yPlugin]);
 
-  it("Returns the relative luminance of a color", () => {
-    // https://webaim.org/articles/contrast/
+  it("Returns the perceived luminance of a color", () => {
+    expect(colord("#000000").luminance()).toBe(0);
+    expect(colord("#e42189").luminance()).toBe(0.19);
+    expect(colord("#ff0000").luminance()).toBe(0.21);
+    expect(colord("#808080").luminance()).toBe(0.22);
+    expect(colord("#aabbcc").luminance()).toBe(0.48);
+    expect(colord("#ccddee").luminance()).toBe(0.71);
+    expect(colord("#ffffff").luminance()).toBe(1);
   });
 
   it("Calculates a contrast ratio for a color pair", () => {
     // https://webaim.org/resources/contrastchecker/
     expect(colord("#000000").contrast()).toBe(21);
     expect(colord("#ffffff").contrast("#000000")).toBe(21);
+    expect(colord("#777777").contrast()).toBe(4.47);
     expect(colord("#ff0000").contrast()).toBe(3.99);
     expect(colord("#00ff00").contrast()).toBe(1.37);
-    expect(colord("#2E2E2E").contrast()).toBe(13.57);
-    expect(colord("#0079AD").contrast()).toBe(4.84);
-    expect(colord("#0079AD").contrast("#2E2E2E")).toBe(2.8);
-    expect(colord("#E42189").contrast("#0D0330")).toBe(4.54);
-    expect(colord("#FFF4CC").contrast("#3A1209")).toBe(15);
+    expect(colord("#2e2e2e").contrast()).toBe(13.57);
+    expect(colord("#0079ad").contrast()).toBe(4.84);
+    expect(colord("#0079ad").contrast("#2e2e2e")).toBe(2.8);
+    expect(colord("#e42189").contrast("#0d0330")).toBe(4.54);
+    expect(colord("#fff4cc").contrast("#3a1209")).toBe(15);
+  });
+
+  it("Check readability", () => {
+    // https://webaim.org/resources/contrastchecker/
+    expect(colord("#000").isReadable()).toBe(true);
+    expect(colord("#777777").isReadable()).toBe(false);
+    expect(colord("#e60000").isReadable("#ffff47")).toBe(true);
+    expect(colord("#af085c").isReadable("#000000")).toBe(false);
+    expect(colord("#d53987").isReadable("#000000")).toBe(true);
+    expect(colord("#d53987").isReadable("#000000", "AAA")).toBe(false);
+    expect(colord("#e9dddd").isReadable("#864b7c", "AA")).toBe(true);
+    expect(colord("#e9dddd").isReadable("#864b7c", "AAA")).toBe(false);
+    expect(colord("#e9dddd").isReadable("#864b7c", "AAA")).toBe(false);
+    expect(colord("#e9dddd").isReadable("#67325e", "AAA")).toBe(true);
   });
 });
 

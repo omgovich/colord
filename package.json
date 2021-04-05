@@ -26,7 +26,9 @@
   "main": "./dist/index.js",
   "browser": {
     ".": "./dist/index.js",
-    "./plugins/names": "./dist/plugins/names.js"
+    "./plugins/a11y": "./dist/plugins/a11y.js",
+    "./plugins/names": "./dist/plugins/names.js",
+    "./plugins/xyz": "./dist/plugins/xyz.js"
   },
   "exports": {
     ".": "./dist/index.js",

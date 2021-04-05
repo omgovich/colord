@@ -4,12 +4,15 @@ import { getContrast } from "../get/getContrast";
 import { getLuminance } from "../get/getLuminance";
 import { round, floor } from "../helpers";
 
+type Level = "AA" | "AAA";
+
 declare module "../colord" {
   interface Colord {
     /**
      * Returns the relative luminance of a color,
      * normalized to 0 for darkest black and 1 for lightest white.
      * https://www.w3.org/TR/WCAG20/#relativeluminancedef
+     * https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_Colors_and_Luminance
      */
     luminance(): number;
     /**
@@ -21,6 +24,12 @@ declare module "../colord" {
      * https://webaim.org/articles/contrast/
      */
     contrast(color2?: AnyColor | Colord): number;
+    /**
+     * Checks a contrast between background and text colors.
+     * Same as calling `contrast() >= 4.5` (4.5 is the minimum value to pass WCAG AA).
+     * https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html
+     */
+    isReadable(color2?: AnyColor | Colord, level?: Level): boolean;
   }
 }
 
@@ -37,6 +46,11 @@ const a11yPlugin: Plugin = (ColordClass): void => {
   ColordClass.prototype.contrast = function (color2 = "#ffffff") {
     const instance2 = color2 instanceof ColordClass ? color2 : new ColordClass(color2);
     return floor(getContrast(this.rgba, instance2.toRgba()), 2);
+  };
+
+  ColordClass.prototype.isReadable = function (color2 = "#ffffff", level = "AA") {
+    const min = level === "AAA" ? 7 : 4.5;
+    return this.contrast(color2) >= min;
   };
 };
 
