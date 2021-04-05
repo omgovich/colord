@@ -371,7 +371,7 @@ colord("#ffffff").luminance(); // 1
 </details>
 
 <details>
-  <summary><b><code>contrast(color2 = '#ffffff')</code></b> (<b>a11y</b> plugin)</summary>
+  <summary><b><code>contrast(color2 = "#FFF")</code></b> (<b>a11y</b> plugin)</summary>
 
 Calculates a contrast ratio for a color pair. This luminance difference is expressed as a ratio ranging from 1 (e.g. white on white) to 21 (e.g., black on a white). WCAG requires a ratio of at least 4.5 for normal text and 3 for large text.
 
@@ -389,7 +389,7 @@ colord("#0000ff").contrast("#ff000"); // 2.14 (blue on red)
 </details>
 
 <details>
-  <summary><b><code>isReadable(color2 = '#ffffff', level = 'AA')</code></b> (<b>a11y</b> plugin)</summary>
+  <summary><b><code>isReadable(color2 = "#FFF", level = "AA")</code></b> (<b>a11y</b> plugin)</summary>
 
 Checks a contrast between background and text colors. [WCAG 2.0 contrast ratio requirements](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) for a normal text:
 
@@ -413,7 +413,7 @@ colord("#e60000").isReadable("#ffff47", "AAA"); // false (red on yellow does not
 **Colord** has a built-in plugin system that allows new features and functionality to be easily added.
 
 <details>
-  <summary><b>Accessibility (A11y)</b></summary>
+  <summary><b>Accessibility (a11y)</b></summary>
 
 Adds accessibility and color contrast utilities working according to [Web Content Accessibility Guidelines 2.0](https://www.w3.org/TR/WCAG20/).
 
