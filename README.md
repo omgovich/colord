@@ -109,7 +109,7 @@ The library's parser cares about you and tries to prevent as many mistakes and t
 
 ```js
 colord(" aBc ").toHex(); // "#aabbcc"
-colord("__rGbA 10 20,  999...").toRgbaString(); // "rgba(10, 20, 255, 1)"
+colord("__rGbA 10 20,  999...").toRgbaString(); // "rgb(10, 20, 255)"
 colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
 ```
 
@@ -142,7 +142,7 @@ colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgba(); // { r: 0, g: 255, b: 255, a
   <summary><b><code>toRgbaString()</code></b></summary>
 
 ```js
-colord("#ff0000").toRgbaString(); // "rgba(255, 0, 0, 1)"
+colord("#ff0000").toRgbaString(); // "rgb(255, 0, 0)"
 colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgbaString(); // "rgba(0, 255, 255, 0.5)"
 ```
 
@@ -166,7 +166,7 @@ colord("rgba(0, 0, 255, 0.5) ").toHsla(); // { h: 240, s: 100, l: 50, a: 0.5 }
 Converts a color to [HSL color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and expresses it through the [functional notation](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl_colors).
 
 ```js
-colord("#ffff00").toHsla(); // "hsla(60, 100%, 50%, 1)"
+colord("#ffff00").toHsla(); // "hsl(60, 100%, 50%)"
 colord("rgba(0, 0, 255, 0.5)").toHsla(); // "hsla(240, 100%, 50%, 0.5)"
 ```
 
@@ -250,7 +250,7 @@ Increases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a c
 
 ```js
 colord("#bf4040").saturate(0.25).toHex(); // "#df2020"
-colord("hsla(0, 50%, 50%, 1)").saturate(0.5).toHslaString(); // "hsla(0, 100%, 50%, 1)"
+colord("hsl(0, 50%, 50%)").saturate(0.5).toHslaString(); // "hsl(0, 100%, 50%)"
 ```
 
 </details>
@@ -262,7 +262,7 @@ Decreases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a c
 
 ```js
 colord("#df2020").saturate(0.25).toHex(); // "#bf4040"
-colord("hsla(0, 100%, 50%, 1)").saturate(0.5).toHslaString(); // "hsla(0, 50%, 50%, 1)"
+colord("hsl(0, 100%, 50%)").saturate(0.5).toHslaString(); // "hsl(0, 50%, 50%)"
 ```
 
 </details>
@@ -274,7 +274,7 @@ Makes a gray color with the same lightness as a source color. Same as calling `d
 
 ```js
 colord("#bf4040").grayscale().toHex(); // "#808080"
-colord("hsla(0, 100%, 50%, 1)").grayscale().toHslaString(); // "hsla(0, 0%, 50%, 1)"
+colord("hsl(0, 100%, 50%)").grayscale().toHslaString(); // "hsl(0, 0%, 50%)"
 ```
 
 </details>
@@ -287,7 +287,7 @@ Increases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a co
 ```js
 colord("#000000").lighten(0.5).toHex(); // "#808080"
 colord("#223344").lighten(0.3).toHex(); // "#5580aa"
-colord("hsla(0, 50%, 50%, 1)").lighten(0.5).toHslaString(); // "hsla(0, 50%, 100%, 1)"
+colord("hsl(0, 50%, 50%)").lighten(0.5).toHslaString(); // "hsl(0, 50%, 100%)"
 ```
 
 </details>
@@ -300,7 +300,7 @@ Decreases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a co
 ```js
 colord("#ffffff").darken(0.5).toHex(); // "#808080"
 colord("#5580aa").darken(0.3).toHex(); // "#223344"
-colord("hsla(0, 50%, 100%, 1)").lighten(0.5).toHslaString(); // "hsla(0, 50%, 50%, 1)"
+colord("hsl(0, 50%, 100%)").lighten(0.5).toHslaString(); // "hsl(0, 50%, 50%)"
 ```
 
 </details>
