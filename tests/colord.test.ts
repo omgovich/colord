@@ -21,11 +21,18 @@ it("Parses and converts a color", () => {
     const instance = colord(lime[format] as AnyColor);
     expect(instance.toHex()).toBe(lime.hex);
     expect(instance.toRgba()).toMatchObject(lime.rgba);
-    expect(instance.toRgbaString()).toBe(lime.rgbaString);
+    expect(instance.toRgbaString()).toBe(lime.rgbString);
     expect(instance.toHsla()).toMatchObject(lime.hsla);
-    expect(instance.toHslaString()).toBe(lime.hslaString);
+    expect(instance.toHslaString()).toBe(lime.hslString);
     expect(instance.toHsva()).toMatchObject(lime.hsva);
   }
+});
+
+it("Adds alpha number to RGB and HSL strings only if the color has an opacity", () => {
+  expect(colord("rgb(0, 0, 0)").toRgbaString()).toBe("rgb(0, 0, 0)");
+  expect(colord("hsl(0, 0%, 0%)").toHslaString()).toBe("hsl(0, 0%, 0%)");
+  expect(colord("rgb(0, 0, 0)").alpha(0.5).toRgbaString()).toBe("rgba(0, 0, 0, 0.5)");
+  expect(colord("hsl(0, 0%, 0%)").alpha(0.5).toHslaString()).toBe("hsla(0, 0%, 0%, 0.5)");
 });
 
 it("Supports HEX4 and HEX8 color models", () => {
@@ -88,9 +95,9 @@ it("Saturates and desaturates a color", () => {
 });
 
 it("Makes a color lighter and darker", () => {
-  expect(colord("hsl(100, 50%, 50%)").lighten().toHslaString()).toBe("hsla(100, 50%, 60%, 1)");
+  expect(colord("hsl(100, 50%, 50%)").lighten().toHslaString()).toBe("hsl(100, 50%, 60%)");
   expect(colord("hsl(100, 50%, 50%)").lighten(0.25).toHsla().l).toBe(75);
-  expect(colord("hsl(100, 50%, 50%)").darken().toHslaString()).toBe("hsla(100, 50%, 40%, 1)");
+  expect(colord("hsl(100, 50%, 50%)").darken().toHslaString()).toBe("hsl(100, 50%, 40%)");
   expect(colord("hsl(100, 50%, 50%)").darken(0.25).toHsla().l).toBe(25);
 
   expect(colord("#000").lighten(1).toHex()).toBe("#ffffff");

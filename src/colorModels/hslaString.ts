@@ -20,5 +20,5 @@ export const parseHslaString = (input: string): RgbaColor | null => {
 
 export const rgbaToHslaString = (rgba: RgbaColor): string => {
   const { h, s, l, a } = rgbaToHsla(rgba);
-  return `hsla(${h}, ${s}%, ${l}%, ${a})`;
+  return a < 1 ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
 };
