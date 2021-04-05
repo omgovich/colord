@@ -43,12 +43,12 @@ const a11yPlugin: Plugin = (ColordClass): void => {
     return round(getLuminance(this.rgba), 2);
   };
 
-  ColordClass.prototype.contrast = function (color2 = "#ffffff") {
+  ColordClass.prototype.contrast = function (color2 = "#FFF") {
     const instance2 = color2 instanceof ColordClass ? color2 : new ColordClass(color2);
     return floor(getContrast(this.rgba, instance2.toRgba()), 2);
   };
 
-  ColordClass.prototype.isReadable = function (color2 = "#ffffff", level = "AA") {
+  ColordClass.prototype.isReadable = function (color2 = "#FFF", level = "AA") {
     const min = level === "AAA" ? 7 : 4.5;
     return this.contrast(color2) >= min;
   };

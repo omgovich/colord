@@ -28,6 +28,7 @@ describe("a11y", () => {
     expect(colord("#0079ad").contrast("#2e2e2e")).toBe(2.8);
     expect(colord("#e42189").contrast("#0d0330")).toBe(4.54);
     expect(colord("#fff4cc").contrast("#3a1209")).toBe(15);
+    expect(colord("#fff4cc").contrast(colord("#3a1209"))).toBe(15);
   });
 
   it("Check readability", () => {
@@ -42,6 +43,7 @@ describe("a11y", () => {
     expect(colord("#e9dddd").isReadable("#864b7c", "AAA")).toBe(false);
     expect(colord("#e9dddd").isReadable("#864b7c", "AAA")).toBe(false);
     expect(colord("#e9dddd").isReadable("#67325e", "AAA")).toBe(true);
+    expect(colord("#e9dddd").isReadable(colord("#67325e"), "AAA")).toBe(true);
   });
 });
 
