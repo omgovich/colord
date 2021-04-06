@@ -4,7 +4,11 @@ import { getContrast } from "../get/getContrast";
 import { getLuminance } from "../get/getLuminance";
 import { round, floor } from "../helpers";
 
-type Level = "AA" | "AAA";
+// https://webaim.org/resources/contrastchecker/
+interface ReadabilityOptions {
+  level?: "AA" | "AAA";
+  size?: "normal" | "large";
+}
 
 declare module "../colord" {
   interface Colord {
@@ -25,11 +29,10 @@ declare module "../colord" {
      */
     contrast(color2?: AnyColor | Colord): number;
     /**
-     * Checks a contrast between background and text colors.
-     * Same as calling `contrast() >= 4.5` (4.5 is the minimum value to pass WCAG AA).
+     * Checks that a background and text color pair conforms to WCAG 2.0 requirements.
      * https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html
      */
-    isReadable(color2?: AnyColor | Colord, level?: Level): boolean;
+    isReadable(color2?: AnyColor | Colord, options?: ReadabilityOptions): boolean;
   }
 }
 
@@ -39,6 +42,16 @@ declare module "../colord" {
  * https://www.w3.org/TR/WCAG20/
  */
 const a11yPlugin: Plugin = (ColordClass): void => {
+  /**
+   * Returns WCAG text color contrast requirement.
+   * Read explanation here https://webaim.org/resources/contrastchecker/
+   */
+  const getMinimalContrast = ({ level = "AA", size = "normal" }: ReadabilityOptions) => {
+    if (level === "AAA" && size === "normal") return 7;
+    if (level === "AA" && size === "large") return 3;
+    return 4.5;
+  };
+
   ColordClass.prototype.luminance = function () {
     return round(getLuminance(this.rgba), 2);
   };
@@ -48,9 +61,8 @@ const a11yPlugin: Plugin = (ColordClass): void => {
     return floor(getContrast(this.rgba, instance2.toRgba()), 2);
   };
 
-  ColordClass.prototype.isReadable = function (color2 = "#FFF", level = "AA") {
-    const min = level === "AAA" ? 7 : 4.5;
-    return this.contrast(color2) >= min;
+  ColordClass.prototype.isReadable = function (color2 = "#FFF", options = {}) {
+    return this.contrast(color2) >= getMinimalContrast(options);
   };
 };
 

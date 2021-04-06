@@ -37,13 +37,15 @@ describe("a11y", () => {
     expect(colord("#777777").isReadable()).toBe(false);
     expect(colord("#e60000").isReadable("#ffff47")).toBe(true);
     expect(colord("#af085c").isReadable("#000000")).toBe(false);
+    expect(colord("#af085c").isReadable("#000000", { size: "large" })).toBe(true);
     expect(colord("#d53987").isReadable("#000000")).toBe(true);
-    expect(colord("#d53987").isReadable("#000000", "AAA")).toBe(false);
-    expect(colord("#e9dddd").isReadable("#864b7c", "AA")).toBe(true);
-    expect(colord("#e9dddd").isReadable("#864b7c", "AAA")).toBe(false);
-    expect(colord("#e9dddd").isReadable("#864b7c", "AAA")).toBe(false);
-    expect(colord("#e9dddd").isReadable("#67325e", "AAA")).toBe(true);
-    expect(colord("#e9dddd").isReadable(colord("#67325e"), "AAA")).toBe(true);
+    expect(colord("#d53987").isReadable("#000000", { level: "AAA" })).toBe(false);
+    expect(colord("#e9dddd").isReadable("#864b7c", { level: "AA" })).toBe(true);
+    expect(colord("#e9dddd").isReadable("#864b7c", { level: "AAA" })).toBe(false);
+    expect(colord("#e9dddd").isReadable("#864b7c", { level: "AAA", size: "large" })).toBe(true);
+    expect(colord("#e9dddd").isReadable("#67325e", { level: "AAA" })).toBe(true);
+
+    expect(colord("#e9dddd").isReadable(colord("#67325e"), { level: "AAA" })).toBe(true);
   });
 });
 

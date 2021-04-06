@@ -373,10 +373,7 @@ colord("#ffffff").luminance(); // 1
 <details>
   <summary><b><code>contrast(color2 = "#FFF")</code></b> (<b>a11y</b> plugin)</summary>
 
-Calculates a contrast ratio for a color pair. This luminance difference is expressed as a ratio ranging from 1 (e.g. white on white) to 21 (e.g., black on a white). WCAG requires a ratio of at least 4.5 for normal text and 3 for large text.
-
-- [Understanding WCAG 2 Contrast and Color Requirements](https://webaim.org/articles/contrast/)
-- [Contrast Checker](https://webaim.org/resources/contrastchecker/)
+Calculates a contrast ratio for a color pair. This luminance difference is expressed as a ratio ranging from 1 (e.g. white on white) to 21 (e.g., black on a white). [WCAG Accessibility Level AA requires](https://webaim.org/articles/contrast/) a ratio of at least 4.5 for normal text and 3 for large text.
 
 ```js
 colord("#000000").contrast(); // 21 (black on white)
@@ -389,19 +386,17 @@ colord("#0000ff").contrast("#ff000"); // 2.14 (blue on red)
 </details>
 
 <details>
-  <summary><b><code>isReadable(color2 = "#FFF", level = "AA")</code></b> (<b>a11y</b> plugin)</summary>
+  <summary><b><code>isReadable(color2 = "#FFF", options?)</code></b> (<b>a11y</b> plugin)</summary>
 
-Checks a contrast between background and text colors. [WCAG 2.0 contrast ratio requirements](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) for a normal text:
-
-- Level AA — at least 4.5
-- Level AAA — at least 7
+Checks that a background and text color pair is readable according to [WCAG 2.0 Contrast and Color Requirements](https://webaim.org/articles/contrast/).
 
 ```js
-colord("#000000").isReadable(); // true (black on white)
-colord("#ffffff").isReadable("#000000"); // true (white on black)
-colord("#777777").isReadable(); // false (gray on white)
-colord("#e60000").isReadable("#ffff47"); // true (red on yellow conforms WCAG AA)
-colord("#e60000").isReadable("#ffff47", "AAA"); // false (red on yellow does not conform WCAG AAA)
+colord("#000000").isReadable(); // true (normal black text on white bg conforms to WCAG AA)
+colord("#777777").isReadable(); // false (normal gray text on white bg conforms to WCAG AA)
+colord("#ffffff").isReadable("#000000"); // true (normal white text on black bg conforms to WCAG AA)
+colord("#e60000").isReadable("#ffff47"); // true (normal red text on yellow bg conforms to WCAG AA)
+colord("#e60000").isReadable("#ffff47", { level: "AAA" }); // false (normal red text on yellow bg does not conform to WCAG AAA)
+colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // true (large red text on yellow bg conforms to WCAG AAA)
 ```
 
 </details>
@@ -413,7 +408,7 @@ colord("#e60000").isReadable("#ffff47", "AAA"); // false (red on yellow does not
 **Colord** has a built-in plugin system that allows new features and functionality to be easily added.
 
 <details>
-  <summary><b>Accessibility (a11y)</b></summary>
+  <summary><b><code>a11y</code> (Accessibility)</b></summary>
 
 Adds accessibility and color contrast utilities working according to [Web Content Accessibility Guidelines 2.0](https://www.w3.org/TR/WCAG20/).
 
@@ -441,7 +436,7 @@ colord("#e60000").isReadable("#ffff47", "AAA"); // false (red on yellow does not
 </details>
 
 <details>
-  <summary><b>CSS color names</b></summary>
+  <summary><b><code>names</code> (CSS color keywords)</b></summary>
 
 Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
 
@@ -459,7 +454,7 @@ colord("#aabbcc").toName(); // undefined (the color is not specified in CSS spec
 </details>
 
 <details>
-  <summary><b>XYZ color space</b></summary>
+  <summary><b><code>xyz</code> (CIE XYZ color space)</b></summary>
 
 Adds support of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
