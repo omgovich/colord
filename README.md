@@ -430,8 +430,9 @@ colord("#0000ff").contrast("#ff000"); // 2.14 (blue on red)
 colord("#000000").isReadable(); // true (black on white)
 colord("#ffffff").isReadable("#000000"); // true (white on black)
 colord("#777777").isReadable(); // false (gray on white)
-colord("#e60000").isReadable("#ffff47"); // true (red on yellow conforms WCAG AA)
-colord("#e60000").isReadable("#ffff47", "AAA"); // false (red on yellow does not conform WCAG AAA)
+colord("#e60000").isReadable("#ffff47"); // true (normal red text on yellow bg conforms to WCAG AA)
+colord("#e60000").isReadable("#ffff47", { level: "AAA" }); // false (normal red text on yellow bg does not conform to WCAG AAA)
+colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // true (large red text on yellow bg conforms to WCAG AAA)
 ```
 
 </details>
