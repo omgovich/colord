@@ -474,6 +474,8 @@ colord({ x: 0, y: 0, z: 0 }).toHex(); // "#000000"
 
 ## Types
 
+**Colord** is written in strict TypeScript and ships with types in the library itself — no need for any other install. We provide everything you need in one tiny package.
+
 While not only typing its own functions and variables, **Colord** can also help you type yours. Depending on the color space you are using, you can also import and use the type that is associated with it.
 
 ```ts
