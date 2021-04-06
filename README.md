@@ -93,6 +93,7 @@ colord("rgb(255, 255, 255)");
 colord("rgba(255, 255, 255, 1)");
 colord("hsl(0, 100%, 100%)");
 colord("hsla(0, 100%, 100%, 1)");
+colord("tomato"); // requires "names" plugin
 
 // Object input examples
 colord({ r: 255, g: 255, b: 255 });
@@ -280,7 +281,7 @@ colord("hsl(0, 100%, 50%)").grayscale().toHslaString(); // "hsl(0, 0%, 50%)"
 </details>
 
 <details>
-  <summary><b><code>lighten(ratio = 0.1)</code></b></summary>
+  <summary><b><code>lighten(amount = 0.1)</code></b></summary>
 
 Increases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
@@ -293,7 +294,7 @@ colord("hsl(0, 50%, 50%)").lighten(0.5).toHslaString(); // "hsl(0, 50%, 100%)"
 </details>
 
 <details>
-  <summary><b><code>darken(ratio = 0.1)</code></b></summary>
+  <summary><b><code>darken(amount = 0.1)</code></b></summary>
 
 Decreases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
@@ -501,8 +502,8 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] `invert`
 - [x] CSS color names (via plugin)
 - [ ] Mix colors (via plugin)
-- [ ] A11y and contrast utils (via plugin)
+- [x] A11y and contrast utils (via plugin)
 - [ ] CMYK color space (via plugin)
-- [ ] 🚧 XYZ color space (via plugin)
+- [x] XYZ color space (via plugin)
 - [ ] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [ ] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
