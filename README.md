@@ -35,7 +35,7 @@
 - 🛡 **Bulletproof**: Written in strict TypeScript and 100% covered by tests
 - 🗂 **Typed**: All [types are available](#types) out of the box
 - 🏗 **Extendable**: Built-in [plugin system](#plugins) to add new functionality
-- 👫 **Works everywhere**: Supports all browsers and Node 12+
+- 👫 **Works everywhere**: Supports all browsers and Node.js
 - 💨 **Dependency-free**
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>

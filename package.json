@@ -20,32 +20,23 @@
   "license": "MIT",
   "sideEffects": false,
   "type": "module",
-  "engines": {
-    "node": ">=12"
-  },
-  "main": "./dist/index.js",
-  "browser": {
-    ".": "./dist/index.js",
-    "./plugins/a11y": "./dist/plugins/a11y.js",
-    "./plugins/names": "./dist/plugins/names.js",
-    "./plugins/xyz": "./dist/plugins/xyz.js"
-  },
+  "main": "./index.cjs",
+  "module": "./index.mjs",
   "exports": {
-    ".": "./dist/index.js",
-    "./plugins/*": "./dist/plugins/*.js"
-  },
-  "files": [
-    "dist/*.{js,ts,map}",
-    "dist/plugins/*.{js,ts,map}"
-  ],
-  "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "plugins/*": [
-        "dist/plugins/*"
-      ]
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    },
+    "./plugins/*": {
+      "import": "./plugins/*.mjs",
+      "require": "./plugins/*.cjs"
     }
   },
+  "files": [
+    "*.{mjs,cjs,ts,map}",
+    "plugins/*.{mjs,cjs,ts,map}"
+  ],
+  "types": "index.d.ts",
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "size": "npm run build && size-limit",
@@ -53,7 +44,8 @@
     "test": "jest tests --coverage",
     "benchmark": "node --experimental-specifier-resolution node --loader ts-node/esm ./tests/benchmark.ts",
     "build": "rm -rf ./dist/* && rollup --config",
-    "prepublishOnly": "npm run build"
+    "release": "npm run build && cp *.json dist && cp *.md dist && npm publish dist",
+    "check-release": "npm run release -- --dry-run"
   },
   "dependencies": {},
   "devDependencies": {
