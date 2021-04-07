@@ -32,8 +32,8 @@
 - 🚀 **Fast**: [2x+ faster](#benchmarks) than **color** and **tinycolor2**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
-- 🛡 **Bulletproof**: Written in strict TypeScript and 100% covered by tests
-- 🗂 **Typed**: All [types are available](#types) out of the box
+- 🛡 **Bulletproof**: Written in strict TypeScript and has 100% test coverage
+- 🗂 **Typed**: Ships with [types included](#types)
 - 🏗 **Extendable**: Built-in [plugin system](#plugins) to add new functionality
 - 👫 **Works everywhere**: Supports all browsers and Node.js
 - 💨 **Dependency-free**
@@ -50,7 +50,7 @@
 | ac-colors                     | 637,469                       | [![](https://badgen.net/bundlephobia/min/ac-colors?color=e6591d&label=)](https://bundlephobia.com/result?p=ac-colors) | [![](https://badgen.net/bundlephobia/minzip/ac-colors?color=e6591d&label=)](https://bundlephobia.com/result?p=ac-colors) | [![](https://badgen.net/bundlephobia/dependency-count/ac-colors?color=6ead0a&label=)](https://bundlephobia.com/result?p=ac-colors)   | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://bundlephobia.com/result?p=ac-colors)      |
 | chroma-js                     | 900,826                       | [![](https://badgen.net/bundlephobia/min/chroma-js?color=red&label=)](https://bundlephobia.com/result?p=chroma-js)    | [![](https://badgen.net/bundlephobia/minzip/chroma-js?color=red&label=)](https://bundlephobia.com/result?p=chroma-js)    | [![](https://badgen.net/bundlephobia/dependency-count/chroma-js?color=red&label=)](https://bundlephobia.com/result?p=chroma-js)      | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://bundlephobia.com/result?p=chroma-js)   |
 
-The performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7 via running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts).
+The performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7 by running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts).
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
@@ -106,7 +106,7 @@ colord({ h: 360, s: 100, v: 100, a: 1 });
 
 #### Permissive parser
 
-The library's parser cares about you and tries to prevent as many mistakes and typos as possible. It trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc. These are some examples:
+The parser of the library is user-friendly: it trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc. Here are some examples:
 
 ```js
 colord(" aBc ").toHex(); // "#aabbcc"
