@@ -20,21 +20,21 @@
   "license": "MIT",
   "sideEffects": false,
   "type": "module",
+  "module": "./index.js",
   "main": "./index.cjs",
-  "module": "./index.mjs",
   "exports": {
     ".": {
-      "import": "./index.mjs",
+      "import": "./index.js",
       "require": "./index.cjs"
     },
     "./plugins/*": {
-      "import": "./plugins/*.mjs",
+      "import": "./plugins/*.js",
       "require": "./plugins/*.cjs"
     }
   },
   "files": [
-    "*.{mjs,cjs,ts,map}",
-    "plugins/*.{mjs,cjs,ts,map}"
+    "*.{js,cjs,ts,map}",
+    "plugins/*.{js,cjs,ts,map}"
   ],
   "types": "index.d.ts",
   "scripts": {
