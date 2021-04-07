@@ -28,7 +28,7 @@ export default [
   {
     input: "src/index.ts",
     output: {
-      file: "dist/index.mjs",
+      file: "dist/index.js",
       format: "es",
     },
     plugins: getRollupPluginsConfig({ declaration: true }),
@@ -46,7 +46,7 @@ export default [
   ...colordPluginPaths.map((input) => ({
     input,
     output: {
-      file: `dist/plugins/${path.parse(input).name}.mjs`,
+      file: `dist/plugins/${path.parse(input).name}.js`,
       format: "es",
     },
     plugins: getRollupPluginsConfig({ declaration: false }),
