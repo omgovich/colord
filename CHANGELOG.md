@@ -1,3 +1,7 @@
+### 0.9
+
+- Add CommonJS exports
+
 ### 0.8
 
 - New plugin: a11y (Accessibility)
@@ -26,7 +30,7 @@
 
 ### 0.4
 
-- Make the library 100% ESM
+- Make the library ESM-first
 - Add code coverage reports
 
 ### 0.3
