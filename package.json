@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
@@ -19,22 +19,23 @@
   "author": "Vlad Shilov <omgovich@ya.ru>",
   "license": "MIT",
   "sideEffects": false,
-  "type": "module",
-  "module": "./index.js",
-  "main": "./index.cjs",
+  "main": "./index.js",
+  "module": "./index.mjs",
   "exports": {
     ".": {
-      "import": "./index.js",
-      "require": "./index.cjs"
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "default": "./index.mjs"
     },
     "./plugins/*": {
-      "import": "./plugins/*.js",
-      "require": "./plugins/*.cjs"
+      "import": "./plugins/*.mjs",
+      "require": "./plugins/*.js",
+      "default": "./plugins/*.mjs"
     }
   },
   "files": [
-    "*.{js,cjs,ts,map}",
-    "plugins/*.{js,cjs,ts,map}"
+    "*.{js,mjs,ts,map}",
+    "plugins/*.{js,mjs,ts,map}"
   ],
   "types": "index.d.ts",
   "scripts": {
@@ -42,7 +43,7 @@
     "size": "npm run build && size-limit",
     "check-types": "tsc --noEmit true",
     "test": "jest tests --coverage",
-    "benchmark": "node --experimental-specifier-resolution node --loader ts-node/esm ./tests/benchmark.ts",
+    "benchmark": "tsc --outDir bench --skipLibCheck --esModuleInterop ./tests/benchmark.ts && node ./bench/tests/benchmark.js && rm -rf ./bench",
     "build": "rm -rf ./dist/* && rollup --config",
     "release": "npm run build && cp *.json dist && cp *.md dist && npm publish dist",
     "check-release": "npm run release -- --dry-run"
@@ -96,20 +97,20 @@
   },
   "size-limit": [
     {
-      "path": "dist/index.js",
+      "path": "dist/index.mjs",
       "import": "{ colord }",
       "limit": "2 KB"
     },
     {
-      "path": "dist/plugins/a11y.js",
+      "path": "dist/plugins/a11y.mjs",
       "limit": "0.5 KB"
     },
     {
-      "path": "dist/plugins/names.js",
+      "path": "dist/plugins/names.mjs",
       "limit": "1.5 KB"
     },
     {
-      "path": "dist/plugins/xyz.js",
+      "path": "dist/plugins/xyz.mjs",
       "limit": "1 KB"
     }
   ]

@@ -28,7 +28,7 @@ export default [
   {
     input: "src/index.ts",
     output: {
-      file: "dist/index.js",
+      file: "dist/index.mjs",
       format: "es",
     },
     plugins: getRollupPluginsConfig({ declaration: true }),
@@ -36,7 +36,7 @@ export default [
   {
     input: "src/index.ts",
     output: {
-      file: "dist/index.cjs",
+      file: "dist/index.js",
       format: "cjs",
     },
     plugins: getRollupPluginsConfig({ declaration: false }),
@@ -46,7 +46,7 @@ export default [
   ...colordPluginPaths.map((input) => ({
     input,
     output: {
-      file: `dist/plugins/${path.parse(input).name}.js`,
+      file: `dist/plugins/${path.parse(input).name}.mjs`,
       format: "es",
     },
     plugins: getRollupPluginsConfig({ declaration: false }),
@@ -56,7 +56,7 @@ export default [
   ...colordPluginPaths.map((input) => ({
     input,
     output: {
-      file: `dist/plugins/${path.parse(input).name}.cjs`,
+      file: `dist/plugins/${path.parse(input).name}.js`,
       format: "cjs",
       exports: "default",
     },
