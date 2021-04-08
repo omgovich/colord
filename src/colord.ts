@@ -22,59 +22,123 @@ export class Colord {
     this.rgba = parse(input as Input) || { r: 0, g: 0, b: 0, a: 1 };
   }
 
-  // Get
-  /** Returns a color brightness ratio */
+  /**
+   * Returns the brightness of a color (from 0 to 1).
+   * The calculation logic is modified from WCAG.
+   * https://www.w3.org/TR/AERT/#color-contrast
+   */
   public brightness(): number {
     return round(getBrightness(this.rgba), 2);
   }
+
+  /**
+   * Same as calling `brightness() < 0.5`.
+   */
   public isDark(): boolean {
     return getBrightness(this.rgba) < 0.5;
   }
+
+  /**
+   * Same as calling `brightness() >= 0.5`.
+   * */
   public isLight(): boolean {
     return getBrightness(this.rgba) >= 0.5;
   }
 
-  // Convert
+  /**
+   * Returns the hexadecimal representation of a color.
+   * When the alpha channel value of the color is less than 1,
+   * it outputs #rrggbbaa format instead of #rrggbb.
+   */
   public toHex(): string {
     return rgbaToHex(this.rgba);
   }
+
+  /**
+   * Converts a color to RGB color space and returns an object.
+   * Always includes an alpha value from 0 to 1.
+   */
   public toRgba(): RgbaColor {
     return roundRgba(this.rgba);
   }
+
+  /**
+   * Converts a color to RGB color space and returns a string representation.
+   * Outputs an alpha value only if it is less than 1.
+   */
   public toRgbaString(): string {
     return rgbaToRgbaString(this.rgba);
   }
+
+  /**
+   * Converts a color to HSL color space and returns an object.
+   * Always includes an alpha value from 0 to 1.
+   */
   public toHsla(): HslaColor {
     return rgbaToHsla(this.rgba);
   }
+
+  /**
+   * Converts a color to HSL color space and returns a string representation.
+   * Always includes an alpha value from 0 to 1.
+   */
   public toHslaString(): string {
     return rgbaToHslaString(this.rgba);
   }
+
+  /**
+   * Converts a color to HSV color space and returns an object.
+   * Always includes an alpha value from 0 to 1.
+   */
   public toHsva(): HsvaColor {
     return rgbaToHsva(this.rgba);
   }
 
-  // Manipulate
+  /**
+   * Creates a new instance containing an inverted (opposite) version of the color.
+   */
   public invert(): Colord {
     return colord(invert(this.rgba));
   }
-  public saturate(ratio = 0.1): Colord {
-    return colord(saturate(this.rgba, ratio));
+
+  /**
+   * Increases the HSL saturation of a color by the given amount.
+   */
+  public saturate(amount = 0.1): Colord {
+    return colord(saturate(this.rgba, amount));
   }
-  public desaturate(ratio = 0.1): Colord {
-    return colord(saturate(this.rgba, -ratio));
+
+  /**
+   * Decreases the HSL saturation of a color by the given amount.
+   */
+  public desaturate(amount = 0.1): Colord {
+    return colord(saturate(this.rgba, -amount));
   }
+
+  /**
+   * Makes a gray color with the same lightness as a source color.
+   */
   public grayscale(): Colord {
     return colord(saturate(this.rgba, -1));
   }
-  public lighten(ratio = 0.1): Colord {
-    return colord(lighten(this.rgba, ratio));
-  }
-  public darken(ratio = 0.1): Colord {
-    return colord(lighten(this.rgba, -ratio));
+
+  /**
+   * Increases the HSL lightness of a color by the given amount.
+   */
+  public lighten(amount = 0.1): Colord {
+    return colord(lighten(this.rgba, amount));
   }
 
-  /** Allows to get or change an alpha channel value */
+  /**
+   * Increases the HSL lightness of a color by the given amount.
+   */
+  public darken(amount = 0.1): Colord {
+    return colord(lighten(this.rgba, -amount));
+  }
+
+  /**
+   * Allows to get or change an alpha channel value.
+   */
   public alpha(): number;
   public alpha(value: number): Colord;
   public alpha(value?: number): Colord | number {
@@ -83,6 +147,10 @@ export class Colord {
   }
 }
 
+/**
+ * Parses the given input color and creates a new `Colord` instance.
+ * See accepted input formats: https://github.com/omgovich/colord#color-parsing
+ */
 export const colord = (input: AnyColor | Colord): Colord => {
   if (input instanceof Colord) return input;
   return new Colord(input);
