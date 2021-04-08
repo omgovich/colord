@@ -504,10 +504,10 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] `lighten`, `darken`
 - [x] `invert`
 - [x] CSS color names (via plugin)
-- [ ] Mix colors (via plugin)
 - [x] A11y and contrast utils (via plugin)
-- [ ] CMYK color space (via plugin)
 - [x] XYZ color space (via plugin)
 - [ ] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
 - [ ] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [ ] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
+- [ ] CMYK color space (via plugin)
+- [ ] Mix colors (via plugin)

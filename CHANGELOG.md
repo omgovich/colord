@@ -1,3 +1,11 @@
+### 0.9.2
+
+- Names plugin: Support "transparent" keyword
+
+### 0.9.1
+
+- Improve package exports
+
 ### 0.9
 
 - Add CommonJS exports
