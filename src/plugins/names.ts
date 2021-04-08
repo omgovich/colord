@@ -11,6 +11,8 @@ declare module "../colord" {
  * Plugin to work with named colors.
  * Adds a parser to read CSS color names and `toName` method.
  * See https://www.w3.org/TR/css-color-4/#named-colors
+ * Supports 'transparent' string as defined in
+ * https://drafts.csswg.org/css-color/#transparent-color
  */
 const namesPlugin: Plugin = (ColordClass, parsers): void => {
   // The default CSS color names dictionary
@@ -171,12 +173,14 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
 
   // Define new color conversion method
   ColordClass.prototype.toName = function () {
+    if (this.rgba.a === 0) return "transparent";
     return HEX_NAME_STORE[this.toHex()] || undefined;
   };
 
-  // Add CSS color names parser
+  // Add CSS color names parser.
   const parseColorName: Parser<string> = (input: string): RgbaColor | null => {
-    const hex = NAME_HEX_STORE[input.trim()];
+    const name = input.trim();
+    const hex = name === "transparent" ? "#0000" : NAME_HEX_STORE[name];
     if (hex) return new ColordClass(hex).toRgba();
     return null;
   };

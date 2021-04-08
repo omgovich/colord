@@ -66,6 +66,12 @@ describe("names", () => {
     expect(colord("#123456").toName()).toBe(undefined);
     expect(colord("myownpurple").toHex()).toBe("#000000");
   });
+
+  it("Processes 'transparent' color properly", () => {
+    expect(colord("transparent").alpha()).toBe(0);
+    expect(colord("transparent").toHex()).toBe("#00000000");
+    expect(colord("rgba(0, 0, 0, 0)").toName()).toBe("transparent");
+  });
 });
 
 describe("xyz", () => {

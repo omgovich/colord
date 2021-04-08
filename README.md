@@ -196,9 +196,10 @@ import namesPlugin from "colord/plugins/names";
 
 extend([namesPlugin]);
 
-colord("ff6347").toName(); // "tomato"
+colord("#ff6347").toName(); // "tomato"
 colord("#00ffff").toName(); // "cyan"
 colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
+colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
 ```
 
 </details>
@@ -451,6 +452,7 @@ extend([namesPlugin]);
 colord("tomato").toHex(); // "#ff6347"
 colord("#00ffff").toName(); // "cyan"
 colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
+colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
 ```
 
 </details>
@@ -506,5 +508,6 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] A11y and contrast utils (via plugin)
 - [ ] CMYK color space (via plugin)
 - [x] XYZ color space (via plugin)
+- [ ] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
 - [ ] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [ ] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
