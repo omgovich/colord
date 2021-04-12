@@ -1,3 +1,8 @@
+### 0.9.3
+
+- New plugin: HWB color model
+- More accurate HSL and HSV conversions
+
 ### 0.9.2
 
 - Names plugin: Support "transparent" keyword
