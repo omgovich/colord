@@ -58,7 +58,7 @@ const a11yPlugin: Plugin = (ColordClass): void => {
 
   ColordClass.prototype.contrast = function (color2 = "#FFF") {
     const instance2 = color2 instanceof ColordClass ? color2 : new ColordClass(color2);
-    return floor(getContrast(this.rgba, instance2.toRgba()), 2);
+    return floor(getContrast(this.rgba, instance2.toRgb()), 2);
   };
 
   ColordClass.prototype.isReadable = function (color2 = "#FFF", options = {}) {

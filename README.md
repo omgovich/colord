@@ -63,7 +63,7 @@ npm i colord
 ```js
 import { colord } from "colord";
 
-colord("#ff0000").grayscale().alpha(0.25).toRgbaString(); // "rgba(128, 128, 128, 0.25)"
+colord("#ff0000").grayscale().alpha(0.25).toRgbString(); // "rgba(128, 128, 128, 0.25)"
 colord("rgb(192, 192, 192)").isLight(); // true
 colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 ```
@@ -111,8 +111,8 @@ The parser of the library is user-friendly: it trims unnecessary whitespaces, cl
 
 ```js
 colord(" aBc ").toHex(); // "#aabbcc"
-colord("__rGbA 10 20,  999...").toRgbaString(); // "rgb(10, 20, 255)"
-colord(" hsL(  10, 200% 30 .5!!!").toHslaString(); // "hsla(10, 100%, 30%, 0.5)"
+colord("__rGbA 10 20,  999...").toRgbString(); // "rgb(10, 20, 255)"
+colord(" hsL(  10, 200% 30 .5!!!").toHslString(); // "hsla(10, 100%, 30%, 0.5)"
 ```
 
 ### Color conversion
@@ -131,57 +131,57 @@ colord({ r: 255, g: 255, b: 255, a: 0 }).toHex(); // "#ffffff00"
 </details>
 
 <details>
-  <summary><b><code>toRgba()</code></b></summary>
+  <summary><b><code>toRgb()</code></b></summary>
 
 ```js
-colord("#ff0000").toRgba(); // { r: 255, g: 0, b: 0, a: 1 }
-colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgba(); // { r: 0, g: 255, b: 255, a: 0.5 }
+colord("#ff0000").toRgb(); // { r: 255, g: 0, b: 0, a: 1 }
+colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgb(); // { r: 0, g: 255, b: 255, a: 0.5 }
 ```
 
 </details>
 
 <details>
-  <summary><b><code>toRgbaString()</code></b></summary>
+  <summary><b><code>toRgbString()</code></b></summary>
 
 ```js
-colord("#ff0000").toRgbaString(); // "rgb(255, 0, 0)"
-colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgbaString(); // "rgba(0, 255, 255, 0.5)"
+colord("#ff0000").toRgbString(); // "rgb(255, 0, 0)"
+colord({ h: 180, s: 100, l: 50, a: 0.5 }).toRgbString(); // "rgba(0, 255, 255, 0.5)"
 ```
 
 </details>
 
 <details>
-  <summary><b><code>toHsla()</code></b></summary>
+  <summary><b><code>toHsl()</code></b></summary>
 
 Converts a color to [HSL color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and returns an object.
 
 ```js
-colord("#ffff00").toHsla(); // { h: 60, s: 100, l: 50, a: 1 }
-colord("rgba(0, 0, 255, 0.5) ").toHsla(); // { h: 240, s: 100, l: 50, a: 0.5 }
+colord("#ffff00").toHsl(); // { h: 60, s: 100, l: 50, a: 1 }
+colord("rgba(0, 0, 255, 0.5) ").toHsl(); // { h: 240, s: 100, l: 50, a: 0.5 }
 ```
 
 </details>
 
 <details>
-  <summary><b><code>toHslaString()</code></b></summary>
+  <summary><b><code>toHslString()</code></b></summary>
 
 Converts a color to [HSL color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and expresses it through the [functional notation](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl_colors).
 
 ```js
-colord("#ffff00").toHsla(); // "hsl(60, 100%, 50%)"
-colord("rgba(0, 0, 255, 0.5)").toHsla(); // "hsla(240, 100%, 50%, 0.5)"
+colord("#ffff00").toHsl(); // "hsl(60, 100%, 50%)"
+colord("rgba(0, 0, 255, 0.5)").toHsl(); // "hsla(240, 100%, 50%, 0.5)"
 ```
 
 </details>
 
 <details>
-  <summary><b><code>toHsva()</code></b></summary>
+  <summary><b><code>toHsv()</code></b></summary>
 
 Converts a color to [HSV color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and returns an object.
 
 ```js
-colord("#ffff00").toHsva(); // { h: 60, s: 100, v: 100, a: 1 }
-colord("rgba(0, 255, 255, 0.5) ").toHsva(); // { h: 180, s: 100, v: 100, a: 1 }
+colord("#ffff00").toHsv(); // { h: 60, s: 100, v: 100, a: 1 }
+colord("rgba(0, 255, 255, 0.5) ").toHsv(); // { h: 180, s: 100, v: 100, a: 1 }
 ```
 
 </details>
@@ -246,7 +246,7 @@ colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
 Changes the alpha channel value and returns a new `Colord` instance.
 
 ```js
-colord("rgb(0, 0, 0)").alpha(0.5).toRgbaString(); // rgba(0, 0, 0, 0.5)
+colord("rgb(0, 0, 0)").alpha(0.5).toRgbString(); // rgba(0, 0, 0, 0.5)
 ```
 
 </details>
@@ -270,7 +270,7 @@ Increases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a c
 
 ```js
 colord("#bf4040").saturate(0.25).toHex(); // "#df2020"
-colord("hsl(0, 50%, 50%)").saturate(0.5).toHslaString(); // "hsl(0, 100%, 50%)"
+colord("hsl(0, 50%, 50%)").saturate(0.5).toHslString(); // "hsl(0, 100%, 50%)"
 ```
 
 </details>
@@ -282,7 +282,7 @@ Decreases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a c
 
 ```js
 colord("#df2020").saturate(0.25).toHex(); // "#bf4040"
-colord("hsl(0, 100%, 50%)").saturate(0.5).toHslaString(); // "hsl(0, 50%, 50%)"
+colord("hsl(0, 100%, 50%)").saturate(0.5).toHslString(); // "hsl(0, 50%, 50%)"
 ```
 
 </details>
@@ -294,7 +294,7 @@ Makes a gray color with the same lightness as a source color. Same as calling `d
 
 ```js
 colord("#bf4040").grayscale().toHex(); // "#808080"
-colord("hsl(0, 100%, 50%)").grayscale().toHslaString(); // "hsl(0, 0%, 50%)"
+colord("hsl(0, 100%, 50%)").grayscale().toHslString(); // "hsl(0, 0%, 50%)"
 ```
 
 </details>
@@ -307,7 +307,7 @@ Increases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a co
 ```js
 colord("#000000").lighten(0.5).toHex(); // "#808080"
 colord("#223344").lighten(0.3).toHex(); // "#5580aa"
-colord("hsl(0, 50%, 50%)").lighten(0.5).toHslaString(); // "hsl(0, 50%, 100%)"
+colord("hsl(0, 50%, 50%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 100%)"
 ```
 
 </details>
@@ -320,7 +320,7 @@ Decreases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a co
 ```js
 colord("#ffffff").darken(0.5).toHex(); // "#808080"
 colord("#5580aa").darken(0.3).toHex(); // "#223344"
-colord("hsl(0, 50%, 100%)").lighten(0.5).toHslaString(); // "hsl(0, 50%, 50%)"
+colord("hsl(0, 50%, 100%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 50%)"
 ```
 
 </details>

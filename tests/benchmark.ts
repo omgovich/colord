@@ -14,7 +14,7 @@ b.suite(
   "Parse HEX and convert to HSLA object/array",
 
   b.add("colord", () => {
-    colord("#808080").toHsla();
+    colord("#808080").toHsl();
   }),
 
   b.add("color", () => {
