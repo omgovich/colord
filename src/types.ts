@@ -1,44 +1,39 @@
-export interface RgbColor {
+export type RgbColor = {
   r: number;
   g: number;
   b: number;
-}
+};
 
-export interface RgbaColor extends RgbColor {
-  a: number;
-}
-
-export interface HslColor {
+export type HslColor = {
   h: number;
   s: number;
   l: number;
-}
+};
 
-export interface HslaColor extends HslColor {
-  a: number;
-}
-
-export interface HsvColor {
+export type HsvColor = {
   h: number;
   s: number;
   v: number;
-}
+};
 
-export interface HsvaColor extends HsvColor {
-  a: number;
-}
+export type HwbColor = {
+  h: number;
+  w: number;
+  b: number;
+};
 
-/** CIE XYZ color space https://www.sttmedia.com/colormodel-xyz */
 export interface XyzColor {
   x: number;
   y: number;
   z: number;
 }
 
-/** CIE XYZ with and an alpha channel. Naming is the hardest part: https://stackoverflow.com/a/2464027 */
-export interface XyzaColor extends XyzColor {
-  a: number;
-}
+type WithAlpha<O> = O & { a: number };
+export type RgbaColor = WithAlpha<RgbColor>;
+export type HslaColor = WithAlpha<HslColor>;
+export type HsvaColor = WithAlpha<HsvColor>;
+export type HwbaColor = WithAlpha<HwbColor>;
+export type XyzaColor = WithAlpha<XyzColor>; // Naming is the hardest part https://stackoverflow.com/a/2464027
 
 export type ObjectColor =
   | RgbColor
@@ -47,6 +42,8 @@ export type ObjectColor =
   | HslaColor
   | HsvColor
   | HsvaColor
+  | HwbColor
+  | HwbaColor
   | XyzColor
   | XyzaColor;
 

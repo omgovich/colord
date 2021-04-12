@@ -4,9 +4,9 @@ import { parse } from "./parse";
 import { rgbaToHex } from "./colorModels/hex";
 import { roundRgba } from "./colorModels/rgba";
 import { rgbaToRgbaString } from "./colorModels/rgbaString";
-import { rgbaToHsla } from "./colorModels/hsla";
+import { rgbaToHsla, roundHsla } from "./colorModels/hsla";
 import { rgbaToHslaString } from "./colorModels/hslaString";
-import { rgbaToHsva } from "./colorModels/hsva";
+import { rgbaToHsva, roundHsva } from "./colorModels/hsva";
 import { changeAlpha } from "./manipulate/changeAlpha";
 import { saturate } from "./manipulate/saturate";
 import { getBrightness } from "./get/getBrightness";
@@ -75,7 +75,7 @@ export class Colord {
    * Always includes an alpha value from 0 to 1.
    */
   public toHsla(): HslaColor {
-    return rgbaToHsla(this.rgba);
+    return roundHsla(rgbaToHsla(this.rgba));
   }
 
   /**
@@ -91,7 +91,7 @@ export class Colord {
    * Always includes an alpha value from 0 to 1.
    */
   public toHsva(): HsvaColor {
-    return rgbaToHsva(this.rgba);
+    return roundHsva(rgbaToHsva(this.rgba));
   }
 
   /**

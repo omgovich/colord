@@ -1,5 +1,6 @@
 import { colord, extend } from "../src/";
 import a11yPlugin from "../src/plugins/a11y";
+import hwbPlugin from "../src/plugins/hwb";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
 
@@ -44,8 +45,28 @@ describe("a11y", () => {
     expect(colord("#e9dddd").isReadable("#864b7c", { level: "AAA" })).toBe(false);
     expect(colord("#e9dddd").isReadable("#864b7c", { level: "AAA", size: "large" })).toBe(true);
     expect(colord("#e9dddd").isReadable("#67325e", { level: "AAA" })).toBe(true);
-
     expect(colord("#e9dddd").isReadable(colord("#67325e"), { level: "AAA" })).toBe(true);
+  });
+});
+
+describe("hwb", () => {
+  extend([hwbPlugin]);
+
+  it("Parses HWB color object", () => {
+    expect(colord({ h: 0, w: 0, b: 100 }).toHex()).toBe("#000000");
+    expect(colord({ h: 210, w: 67, b: 20, a: 1 }).toHex()).toBe("#abbbcc");
+    expect(colord({ h: 236, w: 33, b: 33 }).toHex()).toBe("#545aab");
+    expect(colord({ h: 0, w: 100, b: 0, a: 1 }).toHex()).toBe("#ffffff");
+  });
+
+  it("Converts a color to HWB object", () => {
+    // https://htmlcolors.com/color-converter
+    expect(colord("#000000").toHwb()).toMatchObject({ h: 0, w: 0, b: 100, a: 1 });
+    expect(colord("#ff0000").toHwb()).toMatchObject({ h: 0, w: 0, b: 0, a: 1 });
+    expect(colord("#00ffff").toHwb()).toMatchObject({ h: 180, w: 0, b: 0, a: 1 });
+    expect(colord("#665533").toHwb()).toMatchObject({ h: 40, w: 20, b: 60, a: 1 });
+    expect(colord("#feacfa").toHwb()).toMatchObject({ h: 303, w: 67, b: 0, a: 1 });
+    expect(colord("#ffffff").toHwb()).toMatchObject({ h: 0, w: 100, b: 0, a: 1 });
   });
 });
 
@@ -84,7 +105,7 @@ describe("xyz", () => {
     expect(colord({ x: 95.047, y: 100, z: 108.883, a: 1 }).toHex()).toBe("#ffffff");
   });
 
-  it("Converts a color to CIE XYZ name", () => {
+  it("Converts a color to CIE XYZ object", () => {
     // https://www.easyrgb.com/en/convert.php
     expect(colord("#ffffff").toXyz()).toMatchObject({ x: 95.047, y: 100, z: 108.883, a: 1 });
     expect(colord("#5cbf54").toXyz()).toMatchObject({ x: 24.643, y: 40.175, z: 14.842, a: 1 });
