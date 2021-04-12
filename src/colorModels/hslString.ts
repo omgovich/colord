@@ -1,5 +1,5 @@
 import { RgbaColor } from "../types";
-import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsla";
+import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsl";
 
 const hslaMatcher = /hsla?\(?s*(-?\d+\.?\d*),?\s*(-?\d+\.?\d*)%?,?\s*(-?\d+\.?\d*)%?,?\s*(-?\d*\.?\d+)?s*\)?/i;
 

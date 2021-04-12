@@ -1,6 +1,6 @@
 import { InputObject, RgbaColor, HslaColor, HsvaColor } from "../types";
 import { round } from "../helpers";
-import { hsvaToRgba, rgbaToHsva } from "./hsva";
+import { hsvaToRgba, rgbaToHsva } from "./hsv";
 import { clamp, isPresent } from "../helpers";
 
 export const clampHsla = ({ h, s, l, a }: HslaColor): HslaColor => ({

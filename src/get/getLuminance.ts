@@ -1,4 +1,4 @@
-import { linearizeRgbChannel } from "../colorModels/rgba";
+import { linearizeRgbChannel } from "../colorModels/rgb";
 import { RgbaColor } from "../types";
 
 /**

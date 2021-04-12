@@ -1,5 +1,5 @@
 import { RgbaColor } from "../types";
-import { roundRgba, clampRgba } from "./rgba";
+import { roundRgba, clampRgba } from "./rgb";
 
 const rgbaMatcher = /rgba?\(?\s*(-?\d+),?\s*(-?\d+),?\s*(-?\d+),?\s*(-?\d*\.?\d+)?\s*\)?/i;
 
