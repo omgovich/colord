@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
@@ -11,6 +11,7 @@
     "rgb",
     "hsl",
     "hsv",
+    "hwb",
     "xyz",
     "css",
     "color-names"

@@ -1,3 +1,7 @@
+### 0.10
+
+- Shorten conversion method names (`toRgba` to `toRgb`, etc)
+
 ### 0.9.3
 
 - New plugin: HWB color model
