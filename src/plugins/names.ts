@@ -181,7 +181,7 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
   const parseColorName: Parser<string> = (input: string): RgbaColor | null => {
     const name = input.trim();
     const hex = name === "transparent" ? "#0000" : NAME_HEX_STORE[name];
-    if (hex) return new ColordClass(hex).toRgba();
+    if (hex) return new ColordClass(hex).toRgb();
     return null;
   };
 
