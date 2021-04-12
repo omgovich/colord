@@ -1,35 +1,57 @@
-import { Input } from "../src/types";
+import { HslColor, HsvColor, Input, RgbColor } from "../src/types";
 
-interface BasicColor {
-  name: string;
+interface Fixture {
   hex: string;
-  r: number;
-  g: number;
-  b: number;
-  h: number;
-  s: number;
-  l: number;
-  v: number;
+  rgb: RgbColor;
+  hsl: HslColor;
+  hsv: HsvColor;
 }
 
-// https://en.wikipedia.org/wiki/Web_colors#Basic_colors
-export const basicColors: BasicColor[] = [
-  { name: "white", hex: "#ffffff", r: 255, g: 255, b: 255, h: 0, s: 0, l: 100, v: 100 },
-  { name: "silver", hex: "#c0c0c0", r: 192, g: 192, b: 192, h: 0, s: 0, l: 75, v: 75 },
-  { name: "gray", hex: "#808080", r: 128, g: 128, b: 128, h: 0, s: 0, l: 50, v: 50 },
-  { name: "black", hex: "#000000", r: 0, g: 0, b: 0, h: 0, s: 0, l: 0, v: 0 },
-  { name: "red", hex: "#ff0000", r: 255, g: 0, b: 0, h: 0, s: 100, l: 50, v: 100 },
-  { name: "maroon", hex: "#800000", r: 128, g: 0, b: 0, h: 0, s: 100, l: 25, v: 50 },
-  { name: "yellow", hex: "#ffff00", r: 255, g: 255, b: 0, h: 60, s: 100, l: 50, v: 100 },
-  { name: "olive", hex: "#808000", r: 128, g: 128, b: 0, h: 60, s: 100, l: 25, v: 50 },
-  { name: "lime", hex: "#00ff00", r: 0, g: 255, b: 0, h: 120, s: 100, l: 50, v: 100 },
-  { name: "green", hex: "#008000", r: 0, g: 128, b: 0, h: 120, s: 100, l: 25, v: 50 },
-  { name: "aqua", hex: "#00ffff", r: 0, g: 255, b: 255, h: 180, s: 100, l: 50, v: 100 },
-  { name: "teal", hex: "#008080", r: 0, g: 128, b: 128, h: 180, s: 100, l: 25, v: 50 },
-  { name: "blue", hex: "#0000ff", r: 0, g: 0, b: 255, h: 240, s: 100, l: 50, v: 100 },
-  { name: "navy", hex: "#000080", r: 0, g: 0, b: 128, h: 240, s: 100, l: 25, v: 50 },
-  { name: "fuchsia", hex: "#ff00ff", r: 255, g: 0, b: 255, h: 300, s: 100, l: 50, v: 100 },
-  { name: "purple", hex: "#800080", r: 128, g: 0, b: 128, h: 300, s: 100, l: 25, v: 50 },
+// https://www.w3schools.com/colors/colors_converter.asp
+// https://www.rapidtables.com/convert/color/rgb-to-hsv.html
+export const fixtures: Fixture[] = [
+  {
+    hex: "#000000",
+    rgb: { r: 0, g: 0, b: 0 },
+    hsl: { h: 0, s: 0, l: 0 },
+    hsv: { h: 0, s: 0, v: 0 },
+  },
+  {
+    hex: "#ffffff",
+    rgb: { r: 255, g: 255, b: 255 },
+    hsl: { h: 0, s: 0, l: 100 },
+    hsv: { h: 0, s: 0, v: 100 },
+  },
+  {
+    hex: "#ff0000",
+    rgb: { r: 255, g: 0, b: 0 },
+    hsl: { h: 0, s: 100, l: 50 },
+    hsv: { h: 0, s: 100, v: 100 },
+  },
+  {
+    hex: "#ff00ff",
+    rgb: { r: 255, g: 0, b: 255 },
+    hsl: { h: 300, s: 100, l: 50 },
+    hsv: { h: 300, s: 100, v: 100 },
+  },
+  {
+    hex: "#808080",
+    rgb: { r: 128, g: 128, b: 128 },
+    hsl: { h: 0, s: 0, l: 50 },
+    hsv: { h: 0, s: 0, v: 50 },
+  },
+  {
+    hex: "#76a800",
+    rgb: { r: 118, g: 168, b: 0 },
+    hsl: { h: 78, s: 100, l: 33 },
+    hsv: { h: 78, s: 100, v: 66 },
+  },
+  {
+    hex: "#6699cc",
+    rgb: { r: 102, g: 153, b: 204 },
+    hsl: { h: 210, s: 50, l: 60 },
+    hsv: { h: 210, s: 50, v: 80 },
+  },
 ];
 
 interface TestColor {
@@ -55,16 +77,15 @@ export const lime: TestColor = {
   hsva: { h: 120, s: 100, v: 100, a: 1 },
 };
 
-// https://hslpicker.com/#6040bf
 export const saturationLevels = [
   "#808080",
   "#79738c",
   "#736699",
-  "#6c59a6",
+  "#6d5aa6",
   "#664db3",
   "#6040bf",
   "#5933cc",
-  "#5326d9",
+  "#5327d9",
   "#4d19e6",
   "#460df2",
   "#4000ff",

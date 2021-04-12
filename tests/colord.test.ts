@@ -1,18 +1,24 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { colord, AnyColor } from "../src/";
-import { basicColors, lime, saturationLevels } from "./fixtures";
+import { fixtures, lime, saturationLevels } from "./fixtures";
 
-it("Converts basic web colors", () => {
-  for (const i in basicColors) {
-    const color = basicColors[i];
-    const instance = colord(color.hex);
-    expect(instance.toRgba().r).toBe(color.r);
-    expect(instance.toRgba().g).toBe(color.g);
-    expect(instance.toRgba().b).toBe(color.b);
-    expect(instance.toHsla().h).toBe(color.h);
-    expect(instance.toHsla().s).toBe(color.s);
-    expect(instance.toHsla().l).toBe(color.l);
-    expect(instance.toHsva().v).toBe(color.v);
+it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
+  for (const fixture of fixtures) {
+    expect(colord(fixture.rgb).toHex()).toBe(fixture.hex);
+    expect(colord(fixture.hsl).toHex()).toBe(fixture.hex);
+    expect(colord(fixture.hsv).toHex()).toBe(fixture.hex);
+
+    expect(colord(fixture.hex).toRgba()).toMatchObject({ ...fixture.rgb, a: 1 });
+    expect(colord(fixture.hsl).toRgba()).toMatchObject({ ...fixture.rgb, a: 1 });
+    expect(colord(fixture.hsv).toRgba()).toMatchObject({ ...fixture.rgb, a: 1 });
+
+    expect(colord(fixture.hex).toHsla()).toMatchObject({ ...fixture.hsl, a: 1 });
+    expect(colord(fixture.rgb).toHsla()).toMatchObject({ ...fixture.hsl, a: 1 });
+    expect(colord(fixture.hsv).toHsla()).toMatchObject({ ...fixture.hsl, a: 1 });
+
+    expect(colord(fixture.hex).toHsva()).toMatchObject({ ...fixture.hsv, a: 1 });
+    expect(colord(fixture.rgb).toHsva()).toMatchObject({ ...fixture.hsv, a: 1 });
+    expect(colord(fixture.hsl).toHsva()).toMatchObject({ ...fixture.hsv, a: 1 });
   }
 });
 
