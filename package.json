@@ -106,6 +106,10 @@
       "limit": "0.5 KB"
     },
     {
+      "path": "dist/plugins/hwb.mjs",
+      "limit": "1 KB"
+    },
+    {
       "path": "dist/plugins/names.mjs",
       "limit": "1.5 KB"
     },

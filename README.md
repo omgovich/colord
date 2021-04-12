@@ -77,10 +77,11 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 #### Accepted input formats
 
 - Hexadecimal strings (including 3, 4 and 8 digit notations)
-- RGB(A) strings and objects
-- HSL(A) strings and objects
-- HSV(A) objects
+- RGB strings and objects
+- HSL strings and objects
+- HSV objects
 - Color names ([via plugin](#plugins))
+- HWB objects ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
 - LCH (coming soon)
 
@@ -200,6 +201,23 @@ colord("#ff6347").toName(); // "tomato"
 colord("#00ffff").toName(); // "cyan"
 colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
 colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
+```
+
+</details>
+
+<details>
+  <summary><b><code>toHwb()</code></b> (<b>hwb</b> plugin)</summary>
+
+Converts a color to [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color space.
+
+```js
+import { colord, extend } from "colord";
+import hwbPlugin from "colord/plugins/hwb";
+
+extend([hwbPlugin]);
+
+colord("#ffffff").toHwb(); // { h: 0, w: 100, b: 0, a: 1 }
+colord("#555aaa").toHwb(); // { h: 236, w: 33, b: 33, a: 1 }
 ```
 
 </details>
@@ -439,6 +457,26 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
+  <summary><b><code>hwb</code> (Hue-Whiteness-Blackness color model)</b></summary>
+
+Adds support of [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color model.
+
+```js
+import { colord, extend } from "colord";
+import hwbPlugin from "colord/plugins/hwb";
+
+extend([hwbPlugin]);
+
+colord("#ffffff").toHwb(); // { h: 0, w: 100, b: 0, a: 1 }
+colord("#555aaa").toHwb(); // { h: 236, w: 33, b: 33, a: 1 }
+
+colord({ h: 0, w: 0, b: 100 }).toHex(); // "#000000"
+colord({ h: 0, w: 100, b: 0, a: 1 }).toHex(); // "#ffffff"
+```
+
+</details>
+
+<details>
   <summary><b><code>names</code> (CSS color keywords)</b></summary>
 
 Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
@@ -506,7 +544,7 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] CSS color names (via plugin)
 - [x] A11y and contrast utils (via plugin)
 - [x] XYZ color space (via plugin)
-- [ ] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
+- [x] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
 - [ ] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [ ] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
 - [ ] CMYK color space (via plugin)
