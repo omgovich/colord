@@ -1,5 +1,5 @@
 import { RgbaColor } from "../types";
-import { clampHsla, rgbaToHsla, hslaToRgba } from "./hsla";
+import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsla";
 
 const hslaMatcher = /hsla?\(?s*(-?\d+\.?\d*),?\s*(-?\d+\.?\d*)%?,?\s*(-?\d+\.?\d*)%?,?\s*(-?\d*\.?\d+)?s*\)?/i;
 
@@ -19,6 +19,6 @@ export const parseHslaString = (input: string): RgbaColor | null => {
 };
 
 export const rgbaToHslaString = (rgba: RgbaColor): string => {
-  const { h, s, l, a } = rgbaToHsla(rgba);
+  const { h, s, l, a } = roundHsla(rgbaToHsla(rgba));
   return a < 1 ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
 };
