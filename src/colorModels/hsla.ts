@@ -10,6 +10,13 @@ export const clampHsla = ({ h, s, l, a }: HslaColor): HslaColor => ({
   a: clamp(a),
 });
 
+export const roundHsla = ({ h, s, l, a }: HslaColor): HslaColor => ({
+  h: round(h),
+  s: round(s),
+  l: round(l),
+  a: round(a, 2),
+});
+
 export const parseHsla = ({ h, s, l, a = 1 }: InputObject): RgbaColor | null => {
   if (!isPresent(h) || !isPresent(s) || !isPresent(l)) return null;
 
@@ -38,10 +45,10 @@ export const hsvaToHsla = ({ h, s, v, a }: HsvaColor): HslaColor => {
   const hh = ((200 - s) * v) / 100;
 
   return {
-    h: round(h),
-    s: round(hh > 0 && hh < 200 ? ((s * v) / 100 / (hh <= 100 ? hh : 200 - hh)) * 100 : 0),
-    l: round(hh / 2),
-    a: round(a, 2),
+    h,
+    s: hh > 0 && hh < 200 ? ((s * v) / 100 / (hh <= 100 ? hh : 200 - hh)) * 100 : 0,
+    l: hh / 2,
+    a,
   };
 };
 

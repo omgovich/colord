@@ -8,6 +8,13 @@ export const clampHsva = ({ h, s, v, a }: HsvaColor): HsvaColor => ({
   a: clamp(a),
 });
 
+export const roundHsva = ({ h, s, v, a }: HsvaColor): HsvaColor => ({
+  h: round(h),
+  s: round(s),
+  v: round(v),
+  a: round(a, 2),
+});
+
 export const parseHsva = ({ h, s, v, a = 1 }: InputObject): RgbaColor | null => {
   if (!isPresent(h) || !isPresent(s) || !isPresent(v)) return null;
 
@@ -34,9 +41,9 @@ export const rgbaToHsva = ({ r, g, b, a }: RgbaColor): HsvaColor => {
     : 0;
 
   return {
-    h: round(60 * (hh < 0 ? hh + 6 : hh)),
-    s: round(max ? (delta / max) * 100 : 0),
-    v: round((max / 255) * 100),
+    h: 60 * (hh < 0 ? hh + 6 : hh),
+    s: max ? (delta / max) * 100 : 0,
+    v: (max / 255) * 100,
     a,
   };
 };
