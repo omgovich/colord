@@ -1,6 +1,6 @@
 import { InputObject, RgbaColor, XyzaColor } from "../types";
 import { clamp, isPresent, round } from "../helpers";
-import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgba";
+import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgb";
 
 /**
  * Limits XYZ axis values.

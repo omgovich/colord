@@ -1,10 +1,10 @@
 import { Parser, Parsers, Input, InputObject, RgbaColor } from "./types";
 import { parseHex } from "./colorModels/hex";
-import { parseRgba } from "./colorModels/rgba";
-import { parseHsla } from "./colorModels/hsla";
-import { parseHslaString } from "./colorModels/hslaString";
-import { parseHsva } from "./colorModels/hsva";
-import { parseRgbaString } from "./colorModels/rgbaString";
+import { parseRgba } from "./colorModels/rgb";
+import { parseHsla } from "./colorModels/hsl";
+import { parseHslaString } from "./colorModels/hslString";
+import { parseHsva } from "./colorModels/hsv";
+import { parseRgbaString } from "./colorModels/rgbString";
 
 export const parsers: Parsers = {
   string: [parseHex, parseRgbaString, parseHslaString],
