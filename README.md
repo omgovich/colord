@@ -168,8 +168,8 @@ colord("rgba(0, 0, 255, 0.5) ").toHsl(); // { h: 240, s: 100, l: 50, a: 0.5 }
 Converts a color to [HSL color space](https://en.wikipedia.org/wiki/HSL_and_HSV) and expresses it through the [functional notation](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl_colors).
 
 ```js
-colord("#ffff00").toHsl(); // "hsl(60, 100%, 50%)"
-colord("rgba(0, 0, 255, 0.5)").toHsl(); // "hsla(240, 100%, 50%, 0.5)"
+colord("#ffff00").toHslString(); // "hsl(60, 100%, 50%)"
+colord("rgba(0, 0, 255, 0.5)").toHslString(); // "hsla(240, 100%, 50%, 0.5)"
 ```
 
 </details>
