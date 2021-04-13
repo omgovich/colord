@@ -22,8 +22,15 @@ const findValidColor = <I extends Input>(input: I, parsers: Parser<I>[]): RgbaCo
 
 /** Tries to convert an incoming value into RGBA color by going through all color model parsers */
 export const parse = (input: Input): RgbaColor | null => {
-  if (typeof input === "string") return findValidColor<string>(input, parsers.string);
-  if (typeof input === "object") return findValidColor<InputObject>(input, parsers.object);
+  if (typeof input === "string") {
+    return findValidColor<string>(input, parsers.string);
+  }
+
+  // Don't forget that the type of `null` is "object" in JavaScript
+  // https://bitsofco.de/javascript-typeof/
+  if (typeof input === "object" && input !== null) {
+    return findValidColor<InputObject>(input, parsers.object);
+  }
 
   return null;
 };
