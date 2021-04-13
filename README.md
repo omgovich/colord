@@ -428,7 +428,7 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 **Colord** has a built-in plugin system that allows new features and functionality to be easily added.
 
 <details>
-  <summary><b><code>a11y</code> (Accessibility)</b></summary>
+  <summary><b><code>a11y</code> (Accessibility)</b> <i>0.38 KB</i></summary>
 
 Adds accessibility and color contrast utilities working according to [Web Content Accessibility Guidelines 2.0](https://www.w3.org/TR/WCAG20/).
 
@@ -457,7 +457,7 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
-  <summary><b><code>hwb</code> (Hue-Whiteness-Blackness color model)</b></summary>
+  <summary><b><code>hwb</code> (Hue-Whiteness-Blackness color model)</b> <i>0.5 KB</i></summary>
 
 Adds support of [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color model.
 
@@ -477,7 +477,7 @@ colord({ h: 0, w: 100, b: 0, a: 1 }).toHex(); // "#ffffff"
 </details>
 
 <details>
-  <summary><b><code>names</code> (CSS color keywords)</b></summary>
+  <summary><b><code>names</code> (CSS color keywords)</b> <i>1.48 KB</i></summary>
 
 Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
 
@@ -496,7 +496,7 @@ colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
 </details>
 
 <details>
-  <summary><b><code>xyz</code> (CIE XYZ color space)</b></summary>
+  <summary><b><code>xyz</code> (CIE XYZ color space)</b> <i>0.6 KB</i></summary>
 
 Adds support of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
