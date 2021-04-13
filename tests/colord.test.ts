@@ -80,10 +80,20 @@ it("Accepts a colord instance as an input", () => {
   expect(colord(colord(instance)).toHsl()).toMatchObject(lime.hsla);
 });
 
-it("Does not crash when input has an invalid format", () => {
+it("Does not crash when input has an invalid type", () => {
   const fallbackRgba = { r: 0, g: 0, b: 0, a: 1 };
   // @ts-ignore
   expect(colord().toRgb()).toMatchObject(fallbackRgba);
+  // @ts-ignore
+  expect(colord(null).toRgb()).toMatchObject(fallbackRgba);
+  // @ts-ignore
+  expect(colord(undefined).toRgb()).toMatchObject(fallbackRgba);
+  // @ts-ignore
+  expect(colord([1, 2, 3]).toRgb()).toMatchObject(fallbackRgba);
+});
+
+it("Does not crash when input has an invalid format", () => {
+  const fallbackRgba = { r: 0, g: 0, b: 0, a: 1 };
   // @ts-ignore
   expect(colord({ w: 1, u: 2, t: 3 }).toRgb()).toMatchObject(fallbackRgba);
   expect(colord("WUT?").toRgb()).toMatchObject(fallbackRgba);
