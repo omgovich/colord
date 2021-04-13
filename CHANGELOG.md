@@ -1,3 +1,7 @@
+### 0.10.1
+
+- Ignore `null` input in the parsers
+
 ### 0.10
 
 - Shorten conversion method names (`toRgba` to `toRgb`, etc)
