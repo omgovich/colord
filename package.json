@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "0.10.2",
+  "version": "1.0.0",
   "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
@@ -14,7 +14,8 @@
     "hwb",
     "xyz",
     "css",
-    "color-names"
+    "color-names",
+    "a11y"
   ],
   "repository": "omgovich/colord",
   "author": "Vlad Shilov <omgovich@ya.ru>",

@@ -1,3 +1,7 @@
+### 1.0
+
+- An official production-ready release
+
 ### 0.10.2
 
 - Sort named colors dictionary for better compression ❤️ @subzey
