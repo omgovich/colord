@@ -1,3 +1,7 @@
+### 0.10.2
+
+- Sort named colors dictionary for better compression ❤️ @subzey
+
 ### 0.10.1
 
 - Ignore `null` input in the parsers
@@ -33,7 +37,7 @@
 
 ### 0.6.2
 
-- 20% speed improvement
+- 20% speed improvement ❤️ @jeetiss
 
 ### 0.6.1
 

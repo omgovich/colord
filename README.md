@@ -477,7 +477,7 @@ colord({ h: 0, w: 100, b: 0, a: 1 }).toHex(); // "#ffffff"
 </details>
 
 <details>
-  <summary><b><code>names</code> (CSS color keywords)</b> <i>1.48 KB</i></summary>
+  <summary><b><code>names</code> (CSS color keywords)</b> <i>1.29 KB</i></summary>
 
 Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
 
