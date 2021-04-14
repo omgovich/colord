@@ -99,6 +99,21 @@ it("Does not crash when input has an invalid format", () => {
   expect(colord("WUT?").toRgb()).toMatchObject(fallbackRgba);
 });
 
+it("Validates an input value", () => {
+  expect(colord("#ffffff").isValid()).toBe(true);
+  expect(colord("#0011gg").isValid()).toBe(false);
+  expect(colord("abracadabra").isValid()).toBe(false);
+  expect(colord("rgba(0,0,0,1)").isValid()).toBe(true);
+  expect(colord("hsla(100,50%,50%,1)").isValid()).toBe(true);
+  expect(colord({ r: 255, g: 255, b: 255 }).isValid()).toBe(true);
+  // @ts-ignore
+  expect(colord({ r: 255, g: 255, v: 255 }).isValid()).toBe(false);
+  // @ts-ignore
+  expect(colord({ h: 0, w: 0, l: 0 }).isValid()).toBe(false);
+  // @ts-ignore
+  expect(colord({ w: 1, u: 2, t: 3 }).isValid()).toBe(false);
+});
+
 it("Saturates and desaturates a color", () => {
   const instance = colord(saturationLevels[5]);
   expect(instance.saturate(0.2).toHex()).toBe(saturationLevels[7]);

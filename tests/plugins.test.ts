@@ -93,6 +93,13 @@ describe("names", () => {
     expect(colord("transparent").toHex()).toBe("#00000000");
     expect(colord("rgba(0, 0, 0, 0)").toName()).toBe("transparent");
   });
+
+  it("Works properly in pair with the built-in validation", () => {
+    expect(colord("transparent").isValid()).toBe(true);
+    expect(colord("red").isValid()).toBe(true);
+    expect(colord("yellow").isValid()).toBe(true);
+    expect(colord("sunyellow").isValid()).toBe(false);
+  });
 });
 
 describe("xyz", () => {
