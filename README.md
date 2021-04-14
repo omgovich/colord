@@ -28,7 +28,7 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.4 KB** gzipped ([3x+ lighter](#benchmarks) than **color** and **tinycolor2**)
+- 📦 **Small**: Just **1.5 KB** gzipped ([3x+ lighter](#benchmarks) than **color** and **tinycolor2**)
 - 🚀 **Fast**: [2x+ faster](#benchmarks) than **color** and **tinycolor2**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
@@ -326,6 +326,22 @@ colord("hsl(0, 50%, 100%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 50%)"
 </details>
 
 ### Color analysis
+
+<details>
+  <summary><b><code>isValid()</code></b></summary>
+
+Returns a boolean indicating whether or not an input has been parsed successfully.
+Note: If parsing is unsuccessful, Colord defaults to black (does not throws an error).
+
+```js
+colord("#ffffff").isValid(); // true
+colord("#wwuutt").isValid(); // false
+colord("abracadabra").isValid(); // false
+colord({ r: 0, g: 0, b: 0 }).isValid(); // true
+colord({ r: 0, g: 0, v: 0 }).isValid(); // false
+```
+
+</details>
 
 <details>
   <summary><b><code>alpha()</code></b></summary>

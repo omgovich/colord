@@ -14,12 +14,22 @@ import { lighten } from "./manipulate/lighten";
 import { invert } from "./manipulate/invert";
 
 export class Colord {
+  private readonly parsed: RgbaColor | null;
   readonly rgba: RgbaColor;
 
   constructor(input: AnyColor) {
     // Internal color format is RGBA object.
-    // We do not round interval RGBA numbers for better conversion accuracy
-    this.rgba = parse(input as Input) || { r: 0, g: 0, b: 0, a: 1 };
+    // We do not round the internal RGBA numbers for better conversion accuracy.
+    this.parsed = parse(input as Input);
+    this.rgba = this.parsed || { r: 0, g: 0, b: 0, a: 1 };
+  }
+
+  /**
+   * Returns a boolean indicating whether or not an input has been parsed successfully.
+   * Note: If parsing is unsuccessful, Colord defaults to black (does not throws an error).
+   */
+  public isValid(): boolean {
+    return this.parsed !== null;
   }
 
   /**

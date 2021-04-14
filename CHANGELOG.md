@@ -1,3 +1,7 @@
+### 1.1.0
+
+- Add `isValid` method
+
 ### 1.0
 
 - An official production-ready release
