@@ -3,12 +3,12 @@ import { HslaColor, RgbaColor } from "../types";
 import { clamp } from "../helpers";
 
 export const lighten = (rgba: RgbaColor, amount: number): HslaColor => {
-  const { h, s, l, a } = rgbaToHsla(rgba);
+  const hsla = rgbaToHsla(rgba);
 
   return {
-    h,
-    s,
-    l: clamp(l + amount * 100, 0, 100),
-    a,
+    h: hsla.h,
+    s: hsla.s,
+    l: clamp(hsla.l + amount * 100, 0, 100),
+    a: hsla.a,
   };
 };

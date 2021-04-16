@@ -10,5 +10,7 @@ export {
   HsvaColor,
   XyzColor,
   XyzaColor,
+  HwbColor,
+  HwbaColor,
   AnyColor,
 } from "./types";

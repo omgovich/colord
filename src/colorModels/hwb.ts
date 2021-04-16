@@ -2,11 +2,11 @@ import { RgbaColor, HwbaColor, InputObject } from "../types";
 import { clamp, round, isPresent } from "../helpers";
 import { hsvaToRgba, rgbaToHsva } from "./hsv";
 
-export const clampHwba = ({ h, w, b, a }: HwbaColor): HwbaColor => ({
-  h: clamp(h, 0, 360),
-  w: clamp(w, 0, 100),
-  b: clamp(b, 0, 100),
-  a: clamp(a),
+export const clampHwba = (hwba: HwbaColor): HwbaColor => ({
+  h: clamp(hwba.h, 0, 360),
+  w: clamp(hwba.w, 0, 100),
+  b: clamp(hwba.b, 0, 100),
+  a: clamp(hwba.a),
 });
 
 export const roundHwba = (hwba: HwbaColor): HwbaColor => ({
@@ -23,12 +23,12 @@ export const rgbaToHwba = (rgba: RgbaColor): HwbaColor => {
   return { h, w, b, a: rgba.a };
 };
 
-export const hwbaToRgba = ({ h, w, b, a }: HwbaColor): RgbaColor => {
+export const hwbaToRgba = (hwba: HwbaColor): RgbaColor => {
   return hsvaToRgba({
-    h,
-    s: b === 100 ? 0 : 100 - (w / (100 - b)) * 100,
-    v: 100 - b,
-    a,
+    h: hwba.h,
+    s: hwba.b === 100 ? 0 : 100 - (hwba.w / (100 - hwba.b)) * 100,
+    v: 100 - hwba.b,
+    a: hwba.a,
   });
 };
 

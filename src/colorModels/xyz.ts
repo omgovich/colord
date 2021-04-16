@@ -6,18 +6,18 @@ import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgb";
  * Limits XYZ axis values.
  * https://www.sttmedia.com/colormodel-xyz
  */
-export const clampXyza = ({ x, y, z, a }: XyzaColor): XyzaColor => ({
-  x: clamp(x, 0, 95.047),
-  y: clamp(y, 0, 100),
-  z: clamp(z, 0, 108.883),
-  a: clamp(a),
+export const clampXyza = (xyza: XyzaColor): XyzaColor => ({
+  x: clamp(xyza.x, 0, 95.047),
+  y: clamp(xyza.y, 0, 100),
+  z: clamp(xyza.z, 0, 108.883),
+  a: clamp(xyza.a),
 });
 
-export const roundXyza = ({ x, y, z, a }: XyzaColor): XyzaColor => ({
-  x: round(x, 3),
-  y: round(y, 3),
-  z: round(z, 3),
-  a: round(a, 2),
+export const roundXyza = (xyza: XyzaColor): XyzaColor => ({
+  x: round(xyza.x, 3),
+  y: round(xyza.y, 3),
+  z: round(xyza.z, 3),
+  a: round(xyza.a, 2),
 });
 
 export const parseXyza = ({ x, y, z, a = 1 }: InputObject): RgbaColor | null => {
@@ -54,15 +54,15 @@ export const xyzaToRgba = (xyza: XyzaColor): RgbaColor => {
  * Converts an RGBA color to CIE XYZ
  * https://image-engineering.de/library/technotes/958-how-to-convert-between-srgb-and-ciexyz
  */
-export const rgbaToXyza = ({ r, g, b, a }: RgbaColor): XyzaColor => {
-  const sRed = linearizeRgbChannel(r);
-  const sGreen = linearizeRgbChannel(g);
-  const sBlue = linearizeRgbChannel(b);
+export const rgbaToXyza = (rgba: RgbaColor): XyzaColor => {
+  const sRed = linearizeRgbChannel(rgba.r);
+  const sGreen = linearizeRgbChannel(rgba.g);
+  const sBlue = linearizeRgbChannel(rgba.b);
 
   return clampXyza({
     x: (sRed * 0.4124564 + sGreen * 0.3575761 + sBlue * 0.1804375) * 100,
     y: (sRed * 0.2126729 + sGreen * 0.7151522 + sBlue * 0.072175) * 100,
     z: (sRed * 0.0193339 + sGreen * 0.119192 + sBlue * 0.9503041) * 100,
-    a,
+    a: rgba.a,
   });
 };
