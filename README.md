@@ -82,6 +82,7 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - HSV objects
 - Color names ([via plugin](#plugins))
 - HWB objects ([via plugin](#plugins))
+- LAB objects ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
 - LCH (coming soon)
 
@@ -218,6 +219,23 @@ extend([hwbPlugin]);
 
 colord("#ffffff").toHwb(); // { h: 0, w: 100, b: 0, a: 1 }
 colord("#555aaa").toHwb(); // { h: 236, w: 33, b: 33, a: 1 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>toLab()</code></b> (<b>lab</b> plugin)</summary>
+
+Converts a color to [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+
+```js
+import { colord, extend } from "colord";
+import labPlugin from "colord/plugins/lab";
+
+extend([labPlugin]);
+
+colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
+colord("#33221180").toLab(); // { l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 }
 ```
 
 </details>
@@ -473,9 +491,9 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
-  <summary><b><code>hwb</code> (Hue-Whiteness-Blackness color model)</b> <i>0.5 KB</i></summary>
+  <summary><b><code>hwb</code> (HWB color model)</b> <i>0.5 KB</i></summary>
 
-Adds support of [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color model.
+Adds support of [Hue-Whiteness-Blackness](https://en.wikipedia.org/wiki/HWB_color_model) color model.
 
 ```js
 import { colord, extend } from "colord";
@@ -488,6 +506,23 @@ colord("#555aaa").toHwb(); // { h: 236, w: 33, b: 33, a: 1 }
 
 colord({ h: 0, w: 0, b: 100 }).toHex(); // "#000000"
 colord({ h: 0, w: 100, b: 0, a: 1 }).toHex(); // "#ffffff"
+```
+
+</details>
+
+<details>
+  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>0.78 KB</i></summary>
+
+Adds support of [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+
+```js
+import { colord, extend } from "colord";
+import labPlugin from "colord/plugins/lab";
+
+extend([labPlugin]);
+
+colord({ l: 53.24, a: 80.09, b: 67.2 }).toHex(); // "#ff0000"
+colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 ```
 
 </details>
@@ -561,7 +596,7 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] A11y and contrast utils (via plugin)
 - [x] XYZ color space (via plugin)
 - [x] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
-- [ ] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
+- [x] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [ ] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
 - [ ] CMYK color space (via plugin)
 - [ ] Mix colors (via plugin)

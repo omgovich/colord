@@ -1,6 +1,7 @@
 import { colord, extend } from "../src/";
 import a11yPlugin from "../src/plugins/a11y";
 import hwbPlugin from "../src/plugins/hwb";
+import labPlugin from "../src/plugins/lab";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
 
@@ -67,6 +68,31 @@ describe("hwb", () => {
     expect(colord("#665533").toHwb()).toMatchObject({ h: 40, w: 20, b: 60, a: 1 });
     expect(colord("#feacfa").toHwb()).toMatchObject({ h: 303, w: 67, b: 0, a: 1 });
     expect(colord("#ffffff").toHwb()).toMatchObject({ h: 0, w: 100, b: 0, a: 1 });
+  });
+});
+
+describe("lab", () => {
+  extend([labPlugin]);
+
+  it("Parses CIE LAB color object", () => {
+    // https://www.easyrgb.com/en/convert.php
+    expect(colord({ l: 100, a: 0, b: 0 }).toHex()).toBe("#ffffff");
+    expect(colord({ l: 0, a: 0, b: 0 }).toHex()).toBe("#000000");
+    expect(colord({ l: 53.24, a: 80.09, b: 67.2 }).toHex()).toBe("#ff0000");
+    expect(colord({ l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 }).toHex()).toBe("#33221180");
+    expect(colord({ l: 50.48, a: 65.85, b: -7.51, alpha: 1 }).toHex()).toBe("#d53987");
+  });
+
+  it("Converts a color to CIE LAB object", () => {
+    // https://www.easyrgb.com/en/convert.php
+    expect(colord("#ffffff").toLab()).toMatchObject({ l: 100, a: 0, b: 0, alpha: 1 });
+    expect(colord("#00000000").toLab()).toMatchObject({ l: 0, a: 0, b: 0, alpha: 0 });
+    expect(colord("#ff0000").toLab()).toMatchObject({ l: 53.24, a: 80.09, b: 67.2, alpha: 1 });
+    expect(colord("#00ff00").toLab()).toMatchObject({ l: 87.73, a: -86.18, b: 83.18, alpha: 1 });
+    expect(colord("#ffff00").toLab()).toMatchObject({ l: 97.14, a: -21.55, b: 94.48, alpha: 1 });
+    expect(colord("#aabbcc").toLab()).toMatchObject({ l: 75.1, a: -2.29, b: -10.53, alpha: 1 });
+    expect(colord("#33221180").toLab()).toMatchObject({ l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 });
+    expect(colord("#d53987").toLab()).toMatchObject({ l: 50.48, a: 65.85, b: -7.51, alpha: 1 });
   });
 });
 
