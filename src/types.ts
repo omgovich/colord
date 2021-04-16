@@ -28,12 +28,19 @@ export interface XyzColor {
   z: number;
 }
 
+export interface LabColor {
+  l: number;
+  a: number;
+  b: number;
+}
+
 type WithAlpha<O> = O & { a: number };
 export type RgbaColor = WithAlpha<RgbColor>;
 export type HslaColor = WithAlpha<HslColor>;
 export type HsvaColor = WithAlpha<HsvColor>;
 export type HwbaColor = WithAlpha<HwbColor>;
 export type XyzaColor = WithAlpha<XyzColor>; // Naming is the hardest part https://stackoverflow.com/a/2464027
+export type LabaColor = LabColor & { alpha: number };
 
 export type ObjectColor =
   | RgbColor
@@ -45,7 +52,9 @@ export type ObjectColor =
   | HwbColor
   | HwbaColor
   | XyzColor
-  | XyzaColor;
+  | XyzaColor
+  | LabColor
+  | LabaColor;
 
 export type AnyColor = string | ObjectColor;
 
