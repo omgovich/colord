@@ -1,3 +1,7 @@
+### 1.1.1
+
+- Make bundle 1% lighter
+
 ### 1.1.0
 
 - Add `isValid` method
