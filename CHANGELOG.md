@@ -1,3 +1,7 @@
+### 1.2.0
+
+- New plugin: CIE LAB color space
+
 ### 1.1.1
 
 - Make bundle 1% lighter
