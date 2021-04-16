@@ -4,13 +4,13 @@ import { Parsers } from "./types";
 
 export type Plugin = (ColordClass: typeof Colord, parsers: Parsers) => void;
 
-const activatePlugins: Plugin[] = [];
+const activePlugins: Plugin[] = [];
 
 export const extend = (plugins: Plugin[]): void => {
   plugins.forEach((plugin) => {
-    if (activatePlugins.indexOf(plugin) < 0) {
+    if (activePlugins.indexOf(plugin) < 0) {
       plugin(Colord, parsers);
-      activatePlugins.push(plugin);
+      activePlugins.push(plugin);
     }
   });
 };
