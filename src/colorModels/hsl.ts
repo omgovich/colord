@@ -3,18 +3,18 @@ import { round } from "../helpers";
 import { hsvaToRgba, rgbaToHsva } from "./hsv";
 import { clamp, isPresent } from "../helpers";
 
-export const clampHsla = ({ h, s, l, a }: HslaColor): HslaColor => ({
-  h: clamp(h, 0, 360),
-  s: clamp(s, 0, 100),
-  l: clamp(l, 0, 100),
-  a: clamp(a),
+export const clampHsla = (hsla: HslaColor): HslaColor => ({
+  h: clamp(hsla.h, 0, 360),
+  s: clamp(hsla.s, 0, 100),
+  l: clamp(hsla.l, 0, 100),
+  a: clamp(hsla.a),
 });
 
-export const roundHsla = ({ h, s, l, a }: HslaColor): HslaColor => ({
-  h: round(h),
-  s: round(s),
-  l: round(l),
-  a: round(a, 2),
+export const roundHsla = (hsla: HslaColor): HslaColor => ({
+  h: round(hsla.h),
+  s: round(hsla.s),
+  l: round(hsla.l),
+  a: round(hsla.a, 2),
 });
 
 export const parseHsla = ({ h, s, l, a = 1 }: InputObject): RgbaColor | null => {

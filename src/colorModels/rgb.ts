@@ -1,11 +1,11 @@
 import { InputObject, RgbaColor } from "../types";
 import { round, clamp, isPresent } from "../helpers";
 
-export const clampRgba = ({ r, g, b, a }: RgbaColor): RgbaColor => ({
-  r: clamp(r, 0, 255),
-  g: clamp(g, 0, 255),
-  b: clamp(b, 0, 255),
-  a: clamp(a),
+export const clampRgba = (rgba: RgbaColor): RgbaColor => ({
+  r: clamp(rgba.r, 0, 255),
+  g: clamp(rgba.g, 0, 255),
+  b: clamp(rgba.b, 0, 255),
+  a: clamp(rgba.a),
 });
 
 export const roundRgba = (rgba: RgbaColor): RgbaColor => ({
