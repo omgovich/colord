@@ -1,3 +1,8 @@
+### 1.2.1
+
+- Fix: Do not treat 7-digit hex as a valid color ❤️ @subzey
+- Parser update: Turn NaN input values into valid numbers ❤️ @subzey
+
 ### 1.2.0
 
 - New plugin: CIE LAB color space
