@@ -72,6 +72,22 @@ it("Parses invalid color string", () => {
 it("Clamps input numbers", () => {
   expect(colord("rgba(256, 999, -200, 2)").toRgb()).toMatchObject({ r: 255, g: 255, b: 0, a: 1 });
   expect(colord("hsla(-999, 200, 50, 2)").toHsl()).toMatchObject({ h: 0, s: 100, l: 50, a: 1 });
+  expect(
+    colord({
+      r: NaN,
+      g: -Infinity,
+      b: +Infinity,
+      a: 100500,
+    }).toRgb()
+  ).toMatchObject({ r: 0, g: 0, b: 255, a: 1 });
+  expect(
+    colord({
+      h: NaN,
+      s: -Infinity,
+      l: +Infinity,
+      a: 100500,
+    }).toHsl()
+  ).toMatchObject({ h: 0, s: 0, l: 100, a: 1 });
 });
 
 it("Accepts a colord instance as an input", () => {
