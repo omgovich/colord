@@ -102,6 +102,8 @@ it("Does not crash when input has an invalid format", () => {
 it("Validates an input value", () => {
   expect(colord("#ffffff").isValid()).toBe(true);
   expect(colord("#0011gg").isValid()).toBe(false);
+  expect(colord("#12345").isValid()).toBe(false);
+  expect(colord("#1234567").isValid()).toBe(false);
   expect(colord("abracadabra").isValid()).toBe(false);
   expect(colord("rgba(0,0,0,1)").isValid()).toBe(true);
   expect(colord("hsla(100,50%,50%,1)").isValid()).toBe(true);
