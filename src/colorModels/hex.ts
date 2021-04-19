@@ -2,13 +2,15 @@ import { RgbaColor } from "../types";
 import { round } from "../helpers";
 import { roundRgba } from "./rgb";
 
-const hexMatcher = /^\s*#?([0-9A-F]{3,4}){1,2}\s*$/i;
+const hexMatcher = /^\s*#?([0-9a-f]{3,8})\s*$/i;
 
 /** Parses any valid Hex3, Hex4, Hex6 or Hex8 string and converts it to an RGBA object */
 export const parseHex = (hex: string): RgbaColor | null => {
-  if (!hexMatcher.test(hex)) return null;
+  const hexMatch = hexMatcher.exec(hex);
 
-  hex = hex.replace("#", "").trim();
+  if (!hexMatch) return null;
+
+  hex = hexMatch[1];
 
   if (hex.length <= 4) {
     return {
@@ -19,12 +21,16 @@ export const parseHex = (hex: string): RgbaColor | null => {
     };
   }
 
-  return {
-    r: parseInt(hex.substr(0, 2), 16),
-    g: parseInt(hex.substr(2, 2), 16),
-    b: parseInt(hex.substr(4, 2), 16),
-    a: hex.length === 8 ? parseInt(hex.substr(6, 2), 16) / 255 : 1,
-  };
+  if (hex.length === 6 || hex.length === 8) {
+    return {
+      r: parseInt(hex.substr(0, 2), 16),
+      g: parseInt(hex.substr(2, 2), 16),
+      b: parseInt(hex.substr(4, 2), 16),
+      a: hex.length === 8 ? parseInt(hex.substr(6, 2), 16) / 255 : 1,
+    };
+  }
+
+  return null;
 };
 
 /** Formats any decimal number (e.g. 128) as a hexadecimal string (e.g. "08") */
