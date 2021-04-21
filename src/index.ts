@@ -2,15 +2,19 @@ export { colord, Colord } from "./colord";
 export { extend, Plugin } from "./extend";
 
 export {
-  RgbColor,
-  RgbaColor,
   HslColor,
   HslaColor,
   HsvColor,
   HsvaColor,
-  XyzColor,
-  XyzaColor,
   HwbColor,
   HwbaColor,
+  LabColor,
+  LabaColor,
+  LchColor,
+  LchaColor,
+  RgbColor,
+  RgbaColor,
+  XyzColor,
+  XyzaColor,
   AnyColor,
 } from "./types";

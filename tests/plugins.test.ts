@@ -2,6 +2,7 @@ import { colord, extend } from "../src/";
 import a11yPlugin from "../src/plugins/a11y";
 import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
+import lchPlugin from "../src/plugins/lch";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
 
@@ -93,6 +94,32 @@ describe("lab", () => {
     expect(colord("#aabbcc").toLab()).toMatchObject({ l: 75.1, a: -2.29, b: -10.53, alpha: 1 });
     expect(colord("#33221180").toLab()).toMatchObject({ l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 });
     expect(colord("#d53987").toLab()).toMatchObject({ l: 50.48, a: 65.85, b: -7.51, alpha: 1 });
+  });
+});
+
+describe("lch", () => {
+  extend([lchPlugin]);
+
+  it("Parses CIE LCH color object", () => {
+    // http://colormine.org/convert/rgb-to-lch
+    // https://css.land/lch/
+    // https://drafts.csswg.org/css-color-5/#relative-LCH
+    expect(colord({ l: 0, c: 0, h: 0, a: 0 }).toHex()).toBe("#00000000");
+    expect(colord({ l: 100, c: 0, h: 0 }).toHex()).toBe("#ffffff");
+    expect(colord({ l: 42.37, c: 0, h: 0 }).toHex()).toBe("#646464");
+    expect(colord({ l: 48.25, c: 30.07, h: 196.38 }).toHex()).toBe("#008080");
+    expect(colord({ l: 51.87, c: 58.13, h: 102.85 }).toHex()).toBe("#808000");
+    expect(colord({ l: 21.85, c: 31.95, h: 127.77 }).toHex()).toBe("#213b0b");
+  });
+
+  it("Converts a color to CIE LAB object", () => {
+    // http://colormine.org/convert/rgb-to-lch
+    expect(colord("#00000080").toLch()).toMatchObject({ l: 0, c: 0, h: 0, a: 0.5 });
+    expect(colord("#ffffff").toLch()).toMatchObject({ l: 100, c: 0, h: 0 });
+    expect(colord("#008080").toLch()).toMatchObject({ l: 48.25, c: 30.07, h: 196.38 });
+    expect(colord("#808000").toLch()).toMatchObject({ l: 51.87, c: 58.13, h: 102.85 });
+    expect(colord("#213b0b").toLch()).toMatchObject({ l: 21.85, c: 31.95, h: 127.77 });
+    expect(colord("#646464").toLch()).toMatchObject({ l: 42.37, c: 0, h: 158.2 });
   });
 });
 
