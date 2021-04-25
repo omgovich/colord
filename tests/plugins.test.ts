@@ -112,7 +112,14 @@ describe("lch", () => {
     expect(colord({ l: 21.85, c: 31.95, h: 127.77 }).toHex()).toBe("#213b0b");
   });
 
-  it("Converts a color to CIE LAB object", () => {
+  it("Parses CIE LCH color string", () => {
+    expect(colord("lch(0% 0 0 / 0)").toHex()).toBe("#00000000");
+    expect(colord("lch(100% 0 0)").toHex()).toBe("#ffffff");
+    expect(colord("lch(42.37, 0, 0, 0.5").toHex()).toBe("#64646480");
+    expect(colord("  lch(   48.25   30.07,196.38   /    0.5000").toHex()).toBe("#00808080");
+  });
+
+  it("Converts a color to CIE LCH object", () => {
     // http://colormine.org/convert/rgb-to-lch
     expect(colord("#00000080").toLch()).toMatchObject({ l: 0, c: 0, h: 0, a: 0.5 });
     expect(colord("#ffffff").toLch()).toMatchObject({ l: 100, c: 0, h: 0 });
@@ -120,6 +127,12 @@ describe("lch", () => {
     expect(colord("#808000").toLch()).toMatchObject({ l: 51.87, c: 58.13, h: 102.85 });
     expect(colord("#213b0b").toLch()).toMatchObject({ l: 21.85, c: 31.95, h: 127.77 });
     expect(colord("#646464").toLch()).toMatchObject({ l: 42.37, c: 0, h: 158.2 });
+  });
+
+  it("Converts a color to CIE LCH string (CSS functional notation)", () => {
+    expect(colord("#00000080").toLchString()).toBe("lch(0% 0 0 / 0.5)");
+    expect(colord("#ffffff").toLchString()).toBe("lch(100% 0 0)");
+    expect(colord("#00808000").toLchString()).toBe("lch(48.25% 30.07 196.38 / 0)");
   });
 });
 
