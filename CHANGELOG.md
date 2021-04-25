@@ -1,3 +1,7 @@
+### 1.3.0
+
+- New plugin: CIE LCH color space
+
 ### 1.2.1
 
 - Fix: Do not treat 7-digit hex as a valid color ❤️ @subzey
