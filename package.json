@@ -116,6 +116,10 @@
       "limit": "1 KB"
     },
     {
+      "path": "dist/plugins/lch.mjs",
+      "limit": "1.1 KB"
+    },
+    {
       "path": "dist/plugins/names.mjs",
       "limit": "1.5 KB"
     },

@@ -53,9 +53,9 @@ it("Supports HEX4 and HEX8 color models", () => {
 
 it("Ignores a case and extra whitespace", () => {
   expect(colord(" #0a0a0a ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("RGB(10, 10, 10)").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("  Rgb(10, 10, 10)").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("HsLa(10, 10, 10, 1)  ").toHsl()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
+  expect(colord("RGB( 10, 10, 10 )").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
+  expect(colord("  Rgb(10, 10, 10) ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
+  expect(colord("HsLa( 10, 10, 10, 1)  ").toHsl()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
 });
 
 it("Parses shorthand alpha values", () => {
