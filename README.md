@@ -82,9 +82,9 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - HSV objects
 - Color names ([via plugin](#plugins))
 - HWB objects ([via plugin](#plugins))
+- LCH objects and strings ([via plugin](#plugins))
 - LAB objects ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
-- LCH (coming soon)
 
 ```js
 // String input examples
@@ -237,6 +237,40 @@ extend([labPlugin]);
 
 colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 colord("#33221180").toLab(); // { l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>toLch()</code></b> (<b>lch</b> plugin)</summary>
+
+Converts a color to [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+
+```js
+import { colord, extend } from "colord";
+import lchPlugin from "colord/plugins/lch";
+
+extend([lchPlugin]);
+
+colord("#ffffff").toLch(); // { l: 100, c: 0, h: 0, a: 1 }
+colord("#213b0b").toLch(); // { l: 21.85, c: 31.95, h: 127.77, a: 1 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>toLchString()</code></b> (<b>lch</b> plugin)</summary>
+
+Converts a color to [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space and expresses it through the [functional notation](https://www.w3.org/TR/css-color-4/#specifying-lab-lch).
+
+```js
+import { colord, extend } from "colord";
+import lchPlugin from "colord/plugins/lch";
+
+extend([lchPlugin]);
+
+colord("#ffffff").toLchString(); // "lch(100% 0 0)"
+colord("#213b0b").alpha(0.5).toLchString(); // "lch(21.85% 31.95 127.77 / 0.5)"
 ```
 
 </details>
@@ -529,6 +563,26 @@ colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 </details>
 
 <details>
+  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1 KB</i></summary>
+
+Adds support of [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+
+```js
+import { colord, extend } from "colord";
+import lchPlugin from "colord/plugins/lch";
+
+extend([lchPlugin]);
+
+colord({ l: 100, c: 0, h: 0 }).toHex(); // "#ffffff"
+colord("lch(48.25% 30.07 196.38)").toHex(); // "#008080"
+
+colord("#646464").toLch(); // { l: 42.37, c: 0, h: 0, a: 1 }
+colord("#646464").alpha(0.5).toLchString(); // "lch(42.37% 0 0 / 0.5)"
+```
+
+</details>
+
+<details>
   <summary><b><code>names</code> (CSS color keywords)</b> <i>1.29 KB</i></summary>
 
 Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
@@ -598,6 +652,6 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] XYZ color space (via plugin)
 - [x] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
 - [x] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
-- [ ] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
+- [x] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
 - [ ] CMYK color space (via plugin)
 - [ ] Mix colors (via plugin)
