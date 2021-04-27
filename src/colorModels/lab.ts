@@ -20,8 +20,8 @@ export const clampLaba = (laba: LabaColor): LabaColor => ({
 
 export const roundLaba = (laba: LabaColor): LabaColor => ({
   l: round(laba.l, 2),
-  a: round(laba.a, 2),
-  b: round(laba.b, 2),
+  a: round(laba.a, 2) + 0,
+  b: round(laba.b, 2) + 0,
   alpha: round(laba.alpha, 2),
 });
 
@@ -43,11 +43,11 @@ export const parseLaba = ({ l, a, b, alpha = 1 }: InputObject): RgbaColor | null
  * https://www.w3.org/TR/css-color-4/#color-conversion-code
  */
 export const rgbaToLaba = (rgba: RgbaColor): LabaColor => {
-  // Compute XYZ scaled relative to D65 reference white
+  // Compute XYZ scaled relative to D50 reference white
   const xyza = rgbaToXyza(rgba);
-  let x = xyza.x / 95.047;
+  let x = xyza.x / 96.422;
   let y = xyza.y / 100;
-  let z = xyza.z / 108.883;
+  let z = xyza.z / 82.521;
 
   x = x > e ? Math.cbrt(x) : k * x + 16 / 116;
   y = y > e ? Math.cbrt(y) : k * y + 16 / 116;
@@ -71,9 +71,9 @@ export const labaToRgba = (laba: LabaColor): RgbaColor => {
   const z = y - laba.b / 200;
 
   return xyzaToRgba({
-    x: (x ** 3 > e ? x ** 3 : (x - 16 / 116) / k) * 95.047,
+    x: (x ** 3 > e ? x ** 3 : (x - 16 / 116) / k) * 96.42,
     y: (y ** 3 > e ? y ** 3 : (y - 16 / 116) / k) * 100,
-    z: (z ** 3 > e ? z ** 3 : (z - 16 / 116) / k) * 108.883,
+    z: (z ** 3 > e ? z ** 3 : (z - 16 / 116) / k) * 82.52,
     a: laba.alpha,
   });
 };

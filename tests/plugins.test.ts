@@ -3,6 +3,7 @@ import a11yPlugin from "../src/plugins/a11y";
 import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
 import lchPlugin from "../src/plugins/lch";
+import mixPlugin from "../src/plugins/mix";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
 
@@ -79,21 +80,21 @@ describe("lab", () => {
     // https://www.easyrgb.com/en/convert.php
     expect(colord({ l: 100, a: 0, b: 0 }).toHex()).toBe("#ffffff");
     expect(colord({ l: 0, a: 0, b: 0 }).toHex()).toBe("#000000");
-    expect(colord({ l: 53.24, a: 80.09, b: 67.2 }).toHex()).toBe("#ff0000");
-    expect(colord({ l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 }).toHex()).toBe("#33221180");
-    expect(colord({ l: 50.48, a: 65.85, b: -7.51, alpha: 1 }).toHex()).toBe("#d53987");
+    expect(colord({ l: 54.29, a: 80.81, b: 69.89 }).toHex()).toBe("#ff0000");
+    expect(colord({ l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 }).toHex()).toBe("#33221180");
+    expect(colord({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 }).toHex()).toBe("#d53987");
   });
 
   it("Converts a color to CIE LAB object", () => {
     // https://www.easyrgb.com/en/convert.php
     expect(colord("#ffffff").toLab()).toMatchObject({ l: 100, a: 0, b: 0, alpha: 1 });
     expect(colord("#00000000").toLab()).toMatchObject({ l: 0, a: 0, b: 0, alpha: 0 });
-    expect(colord("#ff0000").toLab()).toMatchObject({ l: 53.24, a: 80.09, b: 67.2, alpha: 1 });
-    expect(colord("#00ff00").toLab()).toMatchObject({ l: 87.73, a: -86.18, b: 83.18, alpha: 1 });
-    expect(colord("#ffff00").toLab()).toMatchObject({ l: 97.14, a: -21.55, b: 94.48, alpha: 1 });
-    expect(colord("#aabbcc").toLab()).toMatchObject({ l: 75.1, a: -2.29, b: -10.53, alpha: 1 });
-    expect(colord("#33221180").toLab()).toMatchObject({ l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 });
-    expect(colord("#d53987").toLab()).toMatchObject({ l: 50.48, a: 65.85, b: -7.51, alpha: 1 });
+    expect(colord("#ff0000").toLab()).toMatchObject({ l: 54.29, a: 80.81, b: 69.89, alpha: 1 });
+    expect(colord("#00ff00").toLab()).toMatchObject({ l: 87.82, a: -79.29, b: 80.99, alpha: 1 });
+    expect(colord("#ffff00").toLab()).toMatchObject({ l: 97.61, a: -15.75, b: 93.39, alpha: 1 });
+    expect(colord("#aabbcc").toLab()).toMatchObject({ l: 74.97, a: -3.4, b: -10.7, alpha: 1 });
+    expect(colord("#33221180").toLab()).toMatchObject({ l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 });
+    expect(colord("#d53987").toLab()).toMatchObject({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 });
   });
 });
 
@@ -137,6 +138,16 @@ describe("lch", () => {
   });
 });
 
+// describe("mix", () => {
+//   extend([mixPlugin]);
+
+//   it("Mixes two colors", () => {
+//     expect(colord("#00F").mix("#FF0").toHex()).toBe("#00c6f1");
+//     expect(colord("#F00").mix("#FF0", 0.35).toHex()).toBe("#ff7f00");
+//     expect(colord("#cd853f").mix("#fcfaee", 0.6).toHex()).toBe("#e3cea2");
+//   });
+// });
+
 describe("names", () => {
   extend([namesPlugin]);
 
@@ -175,14 +186,14 @@ describe("xyz", () => {
   it("Parses XYZ color object", () => {
     // https://www.nixsensor.com/free-color-converter/
     expect(colord({ x: 0, y: 0, z: 0 }).toHex()).toBe("#000000");
-    expect(colord({ x: 50, y: 50, z: 50 }).toHex()).toBe("#ccb7b4");
-    expect(colord({ x: 95.047, y: 100, z: 108.883, a: 1 }).toHex()).toBe("#ffffff");
+    expect(colord({ x: 50, y: 50, z: 50 }).toHex()).toBe("#beb9cf");
+    expect(colord({ x: 96.42, y: 100, z: 82.52, a: 1 }).toHex()).toBe("#ffffff");
   });
 
   it("Converts a color to CIE XYZ object", () => {
     // https://www.easyrgb.com/en/convert.php
-    expect(colord("#ffffff").toXyz()).toMatchObject({ x: 95.047, y: 100, z: 108.883, a: 1 });
-    expect(colord("#5cbf54").toXyz()).toMatchObject({ x: 24.643, y: 40.175, z: 14.842, a: 1 });
+    expect(colord("#ffffff").toXyz()).toMatchObject({ x: 96.42, y: 100, z: 82.52, a: 1 });
+    expect(colord("#5cbf54").toXyz()).toMatchObject({ x: 26, y: 40.27, z: 11.54, a: 1 });
     expect(colord("#00000000").toXyz()).toMatchObject({ x: 0, y: 0, z: 0, a: 0 });
   });
 });
