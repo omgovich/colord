@@ -41,6 +41,18 @@ it("Adds alpha number to RGB and HSL strings only if the color has an opacity", 
   expect(colord("hsl(0, 0%, 0%)").alpha(0.5).toHslString()).toBe("hsla(0, 0%, 0%, 0.5)");
 });
 
+it("Parses modern RGB functional notations", () => {
+  expect(colord("rgb(0% 50% 100%)").toRgb()).toMatchObject({ r: 0, g: 128, b: 255, a: 1 });
+  expect(colord("rgb(10% 20% 30% / 33%)").toRgb()).toMatchObject({ r: 26, g: 51, b: 77, a: 0.33 });
+  expect(colord("rgba(10% 20% 30% / 0.5)").toRgb()).toMatchObject({ r: 26, g: 51, b: 77, a: 0.5 });
+});
+
+it("Parses modern HSL functional notations", () => {
+  expect(colord("hsl(120deg 100% 50%)").toHsl()).toMatchObject({ h: 120, s: 100, l: 50, a: 1 });
+  expect(colord("hsl(10deg 20% 30% / 0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
+  expect(colord("hsl(10deg 20% 30% / 90%)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.9 });
+});
+
 it("Supports HEX4 and HEX8 color models", () => {
   expect(colord("#ffffffff").toRgb()).toMatchObject({ r: 255, g: 255, b: 255, a: 1 });
   expect(colord("#80808080").toRgb()).toMatchObject({ r: 128, g: 128, b: 128, a: 0.5 });
@@ -54,8 +66,11 @@ it("Supports HEX4 and HEX8 color models", () => {
 it("Ignores a case and extra whitespace", () => {
   expect(colord(" #0a0a0a ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("RGB( 10, 10, 10 )").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
+  expect(colord(" rGb(10,10,10)").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
+  expect(colord(" rGb(10 10 10 0.1)").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 0.1 });
   expect(colord("  Rgb(10, 10, 10) ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("HsLa( 10, 10, 10, 1)  ").toHsl()).toMatchObject({ h: 10, s: 10, l: 10, a: 1 });
+  expect(colord("  hSl(10,20,30,0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
+  expect(colord("HsLa( 10, 20, 30, 1)  ").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 1 });
 });
 
 it("Parses shorthand alpha values", () => {
@@ -66,7 +81,11 @@ it("Parses shorthand alpha values", () => {
 it("Parses invalid color string", () => {
   expect(colord(" AbC ").toHex()).toBe("#aabbcc");
   expect(colord("RGB 10 10 10 ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
+  expect(colord("rgb( 100 100%,20/").toRgb()).toMatchObject({ r: 100, g: 255, b: 20, a: 1 });
+  expect(colord("rgb( 10 50%,30/.5").toRgb()).toMatchObject({ r: 10, g: 128, b: 30, a: 0.5 });
   expect(colord(" hsL(10 20%, 1 .5!").toHsl()).toMatchObject({ h: 10, s: 20, l: 1, a: 0.5 });
+  expect(colord("hsl( 10, 20 30 10%)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
+  expect(colord("hsl(10 20, 30/0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
 });
 
 it("Clamps input numbers", () => {

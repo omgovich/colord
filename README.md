@@ -112,7 +112,7 @@ The parser of the library is user-friendly: it trims unnecessary whitespaces, cl
 
 ```js
 colord(" aBc ").toHex(); // "#aabbcc"
-colord("__rGbA 10 20,  999...").toRgbString(); // "rgb(10, 20, 255)"
+colord("__rGbA 10 20,,  999...").toRgbString(); // "rgb(10, 20, 255)"
 colord(" hsL(  10, 200% 30 .5!!!").toHslString(); // "hsla(10, 100%, 30%, 0.5)"
 colord({ r: NaN, g: -Infinity, b: +Infinity, a: 100500 }).toRgb(); // { r: 0, g: 0, b: 255, a: 1 }
 ```

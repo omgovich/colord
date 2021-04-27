@@ -1,7 +1,7 @@
 import { RgbaColor } from "../types";
 import { clampLcha, rgbaToLcha, lchaToRgba, roundLcha } from "./lch";
 
-const lchaMatcher = /lcha?\(?\s*(-?\d+\.?\d*)%?,?\s*(-?\d+\.?\d*),?\s*(-?\d+\.?\d*),?\s*\/?\s*(-?\d*\.?\d+)?\s*\)?/i;
+const lchaMatcher = /lcha?\(?\s*(-?\d+\.?\d*)%?[,\s]+(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*),?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
 
 export const parseLchaString = (input: string): RgbaColor | null => {
   const match = lchaMatcher.exec(input);
@@ -12,7 +12,7 @@ export const parseLchaString = (input: string): RgbaColor | null => {
     l: Number(match[1]),
     c: Number(match[2]),
     h: Number(match[3]),
-    a: match[4] === undefined ? 1 : Number(match[4]),
+    a: match[4] === undefined ? 1 : Number(match[4]) / (match[5] ? 100 : 1),
   });
 
   return lchaToRgba(lcha);

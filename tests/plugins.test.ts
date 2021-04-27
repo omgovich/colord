@@ -116,6 +116,7 @@ describe("lch", () => {
     expect(colord("lch(0% 0 0 / 0)").toHex()).toBe("#00000000");
     expect(colord("lch(100% 0 0)").toHex()).toBe("#ffffff");
     expect(colord("lch(42.37, 0, 0, 0.5").toHex()).toBe("#64646480");
+    expect(colord("lch(51.87% 58.13 102.85 / 50%").toHex()).toBe("#80800080");
     expect(colord("  lch(   48.25   30.07,196.38   /    0.5000").toHex()).toBe("#00808080");
   });
 
