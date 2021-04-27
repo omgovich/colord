@@ -1,7 +1,7 @@
 import { RgbaColor } from "../types";
 import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsl";
 
-const hslaMatcher = /hsla?\(?\s*(-?\d+\.?\d*),?\s*(-?\d+\.?\d*)%?,?\s*(-?\d+\.?\d*)%?,?\s*(-?\d*\.?\d+)?\s*\)?/i;
+const hslaMatcher = /hsla?\(?\s*(-?\d+\.?\d*)(deg)?[,\s]+(-?\d+\.?\d*)%?[,\s]+(-?\d+\.?\d*)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
 
 export const parseHslaString = (input: string): RgbaColor | null => {
   const match = hslaMatcher.exec(input);
@@ -10,9 +10,9 @@ export const parseHslaString = (input: string): RgbaColor | null => {
 
   const hsla = clampHsla({
     h: Number(match[1]),
-    s: Number(match[2]),
-    l: Number(match[3]),
-    a: match[4] === undefined ? 1 : Number(match[4]),
+    s: Number(match[3]),
+    l: Number(match[4]),
+    a: match[5] === undefined ? 1 : Number(match[5]) / (match[6] ? 100 : 1),
   });
 
   return hslaToRgba(hsla);
