@@ -1,3 +1,7 @@
+### 1.3.1
+
+- Support modern CSS notations of RGB, HSL and LCH color functions
+
 ### 1.3.0
 
 - New plugin: CIE LCH color space
