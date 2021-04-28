@@ -378,6 +378,27 @@ colord("hsl(0, 50%, 100%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 50%)"
 
 </details>
 
+<details>
+  <summary><b><code>mix(color2, ratio = 0.5)</code></b> (<b>mix</b> plugin)</summary>
+
+Produces a mixture of two colors and returns the result of mixing them (new Colord instance).
+
+In contrast to other libraries that perform RGB values mixing, Colord mixes colors through LCH color space — same way the new CSS [`color-mix` function](https://drafts.csswg.org/css-color-5/#funcdef-color-mix) works. This approach produces better results and doesn't have the drawbacks the legacy way has.
+
+```js
+import { colord, extend } from "colord";
+import mixPlugin from "colord/plugins/mix";
+
+extend([mixPlugin]);
+
+colord("#ffffff").mix("#000000").toHex(); // "#777777"
+colord("#800080").mix("#dda0dd").toHex(); // "#af5cae"
+colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#dfc279"
+colord("#008080").mix("#808000", 0.35).toHex(); // "#14865f"
+```
+
+</details>
+
 ### Color analysis
 
 <details>
@@ -546,7 +567,7 @@ colord({ h: 0, w: 100, b: 0, a: 1 }).toHex(); // "#ffffff"
 </details>
 
 <details>
-  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>0.78 KB</i></summary>
+  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>0.9 KB</i></summary>
 
 Adds support of [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -563,7 +584,7 @@ colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 </details>
 
 <details>
-  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1 KB</i></summary>
+  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1.2 KB</i></summary>
 
 Adds support of [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -578,6 +599,27 @@ colord("lch(48.25% 30.07 196.38)").toHex(); // "#008080"
 
 colord("#646464").toLch(); // { l: 42.37, c: 0, h: 0, a: 1 }
 colord("#646464").alpha(0.5).toLchString(); // "lch(42.37% 0 0 / 0.5)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>mix</code> (Color mixing)</b> <i>0.97 KB</i></summary>
+
+A plugin adding a color mixing utility.
+
+In contrast to other libraries that perform RGB values mixing, Colord mixes colors through LCH color space — same way the new CSS [`color-mix` function](https://drafts.csswg.org/css-color-5/#funcdef-color-mix) works. This approach produces better results and doesn't have the drawbacks the legacy way has.
+
+```js
+import { colord, extend } from "colord";
+import mixPlugin from "colord/plugins/mix";
+
+extend([mixPlugin]);
+
+colord("#ffffff").mix("#000000").toHex(); // "#777777"
+colord("#800080").mix("#dda0dd").toHex(); // "#af5cae"
+colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#dfc279"
+colord("#008080").mix("#808000", 0.35).toHex(); // "#14865f"
 ```
 
 </details>
@@ -602,7 +644,7 @@ colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
 </details>
 
 <details>
-  <summary><b><code>xyz</code> (CIE XYZ color space)</b> <i>0.6 KB</i></summary>
+  <summary><b><code>xyz</code> (CIE XYZ color space)</b> <i>0.7 KB</i></summary>
 
 Adds support of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -653,5 +695,5 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
 - [x] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [x] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
+- [x] Mix colors (via plugin)
 - [ ] CMYK color space (via plugin)
-- [ ] Mix colors (via plugin)

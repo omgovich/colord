@@ -15,7 +15,7 @@ declare module "../colord" {
 }
 
 /**
- * A plugin adding color a mixing utility.
+ * A plugin adding a color mixing utility.
  * The logic is ported from new `color-mix` function in CSS.
  * https://www.w3.org/TR/css-color-5/#colormix
  */
