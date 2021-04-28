@@ -40,11 +40,16 @@ export const parseLcha = ({ l, c, h, a = 1 }: InputObject): RgbaColor | null => 
  */
 export const rgbaToLcha = (rgba: RgbaColor): LchaColor => {
   const laba = rgbaToLaba(rgba);
-  const hue = (Math.atan2(laba.b, laba.a) * 180) / Math.PI;
+
+  // Round axis values to get proper values for grayscale colors
+  const a = round(laba.a, 3) + 0;
+  const b = round(laba.b, 3) + 0;
+
+  const hue = 180 * (Math.atan2(b, a) / Math.PI);
 
   return {
     l: laba.l,
-    c: Math.sqrt(laba.a * laba.a + laba.b * laba.b),
+    c: Math.sqrt(a * a + b * b),
     h: hue < 0 ? hue + 360 : hue,
     a: laba.alpha,
   };

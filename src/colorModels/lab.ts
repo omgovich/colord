@@ -1,10 +1,10 @@
 import { RgbaColor, LabaColor, InputObject } from "../types";
 import { clamp, isPresent, round } from "../helpers";
-import { rgbaToXyza, xyzaToRgba } from "./xyz";
+import { D50, rgbaToXyza, xyzaToRgba } from "./xyz";
 
 // Conversion factors from https://en.wikipedia.org/wiki/CIELAB_color_space
-const e = 0.0088564517;
-const k = 7.787037037;
+const e = 216 / 24389;
+const k = 24389 / 27;
 
 /**
  * Limits LAB axis values.
@@ -45,13 +45,13 @@ export const parseLaba = ({ l, a, b, alpha = 1 }: InputObject): RgbaColor | null
 export const rgbaToLaba = (rgba: RgbaColor): LabaColor => {
   // Compute XYZ scaled relative to D50 reference white
   const xyza = rgbaToXyza(rgba);
-  let x = xyza.x / 96.422;
-  let y = xyza.y / 100;
-  let z = xyza.z / 82.521;
+  let x = xyza.x / D50.x;
+  let y = xyza.y / D50.y;
+  let z = xyza.z / D50.z;
 
-  x = x > e ? Math.cbrt(x) : k * x + 16 / 116;
-  y = y > e ? Math.cbrt(y) : k * y + 16 / 116;
-  z = z > e ? Math.cbrt(z) : k * z + 16 / 116;
+  x = x > e ? Math.cbrt(x) : (k * x + 16) / 116;
+  y = y > e ? Math.cbrt(y) : (k * y + 16) / 116;
+  z = z > e ? Math.cbrt(z) : (k * z + 16) / 116;
 
   return {
     l: 116 * y - 16,
@@ -71,9 +71,9 @@ export const labaToRgba = (laba: LabaColor): RgbaColor => {
   const z = y - laba.b / 200;
 
   return xyzaToRgba({
-    x: (x ** 3 > e ? x ** 3 : (x - 16 / 116) / k) * 96.42,
-    y: (y ** 3 > e ? y ** 3 : (y - 16 / 116) / k) * 100,
-    z: (z ** 3 > e ? z ** 3 : (z - 16 / 116) / k) * 82.52,
+    x: (Math.pow(x, 3) > e ? Math.pow(x, 3) : (116 * x - 16) / k) * D50.x,
+    y: (laba.l > k * e ? Math.pow((laba.l + 16) / 116, 3) : laba.l / k) * D50.y,
+    z: (Math.pow(z, 3) > e ? Math.pow(z, 3) : (116 * z - 16) / k) * D50.z,
     a: laba.alpha,
   });
 };

@@ -2,14 +2,22 @@ import { InputObject, RgbaColor, XyzaColor } from "../types";
 import { clamp, isPresent, round } from "../helpers";
 import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgb";
 
+// Theoretical light source that approximates "warm daylight" and follows the CIE standard.
+// https://en.wikipedia.org/wiki/Standard_illuminant
+export const D50 = {
+  x: 96.422,
+  y: 100,
+  z: 82.521,
+};
+
 /**
  * Limits XYZ axis values assuming XYZ is relative to D50.
  * https://www.sttmedia.com/colormodel-xyz
  */
 export const clampXyza = (xyza: XyzaColor): XyzaColor => ({
-  x: clamp(xyza.x, 0, 96.42),
-  y: clamp(xyza.y, 0, 100),
-  z: clamp(xyza.z, 0, 82.52),
+  x: clamp(xyza.x, 0, D50.x),
+  y: clamp(xyza.y, 0, D50.y),
+  z: clamp(xyza.z, 0, D50.z),
   a: clamp(xyza.a),
 });
 
