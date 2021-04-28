@@ -1,3 +1,8 @@
+### 1.4.0
+
+- New plugin: Color mixing
+- Adjust XYZ, LAB and LCH conversions to the D50 white point ([according to the latest CSS specs](https://drafts.csswg.org/css-color-5/#color-spaces)).
+
 ### 1.3.1
 
 - Support modern CSS notations of RGB, HSL and LCH color functions
