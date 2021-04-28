@@ -1,6 +1,6 @@
-import { AnyColor, LchaColor } from "../types";
+import { AnyColor, RgbaColor } from "../types";
 import { Plugin } from "../extend";
-import { rgbaToLcha } from "../colorModels/lch";
+import { lchaToRgba, rgbaToLcha } from "../colorModels/lch";
 
 declare module "../colord" {
   interface Colord {
@@ -26,12 +26,12 @@ const mixPlugin: Plugin = (ColordClass): void => {
     const lcha1 = rgbaToLcha(this.toRgb());
     const lcha2 = rgbaToLcha(instance2.toRgb());
 
-    const mixture: LchaColor = {
+    const mixture: RgbaColor = lchaToRgba({
       l: lcha1.l * (1 - ratio) + lcha2.l * ratio,
       c: lcha1.c * (1 - ratio) + lcha2.c * ratio,
       h: lcha1.h * (1 - ratio) + lcha2.h * ratio,
       a: lcha1.a * (1 - ratio) + lcha2.a * ratio,
-    };
+    });
 
     return new ColordClass(mixture);
   };
