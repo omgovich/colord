@@ -1,3 +1,7 @@
+### 1.4.1
+
+- Mix colors through CIE LAB color space
+
 ### 1.4.0
 
 - New plugin: Color mixing
