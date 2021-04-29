@@ -383,7 +383,7 @@ colord("hsl(0, 50%, 100%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 50%)"
 
 Produces a mixture of two colors and returns the result of mixing them (new Colord instance).
 
-In contrast to other libraries that perform RGB values mixing, Colord mixes colors through LCH color space — same way the new CSS [`color-mix` function](https://drafts.csswg.org/css-color-5/#funcdef-color-mix) works. This approach produces better results and doesn't have the drawbacks the legacy way has.
+In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space). This approach produces better results and doesn't have the drawbacks the legacy way has.
 
 ```js
 import { colord, extend } from "colord";
@@ -604,11 +604,11 @@ colord("#646464").alpha(0.5).toLchString(); // "lch(42.37% 0 0 / 0.5)"
 </details>
 
 <details>
-  <summary><b><code>mix</code> (Color mixing)</b> <i>0.97 KB</i></summary>
+  <summary><b><code>mix</code> (Color mixing)</b> <i>0.9 KB</i></summary>
 
 A plugin adding a color mixing utility.
 
-In contrast to other libraries that perform RGB values mixing, Colord mixes colors through LCH color space — same way the new CSS [`color-mix` function](https://drafts.csswg.org/css-color-5/#funcdef-color-mix) works. This approach produces better results and doesn't have the drawbacks the legacy way has.
+In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space). This approach produces better results and doesn't have the drawbacks the legacy way has.
 
 ```js
 import { colord, extend } from "colord";

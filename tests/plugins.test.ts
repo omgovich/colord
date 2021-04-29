@@ -146,14 +146,20 @@ describe("mix", () => {
   extend([mixPlugin]);
 
   it("Mixes two colors", () => {
-    // https://drafts.csswg.org/css-color-5/#funcdef-color-mix
+    expect(colord("#000000").mix("#ffffff").toHex()).toBe("#777777");
+    expect(colord("#dc143c").mix("#000000").toHex()).toBe("#6a1b21");
     expect(colord("#800080").mix("#dda0dd").toHex()).toBe("#af5cae");
-    expect(colord("#cd853f").mix("#eee8aa", 0.6).toHex()).toBe("#dfc279");
-    expect(colord("#008080").mix("#808000", 0.35).toHex()).toBe("#14865f");
+    expect(colord("#228b22").mix("#87cefa").toHex()).toBe("#60ac8f");
+    expect(colord("#cd853f").mix("#eee8aa", 0.6).toHex()).toBe("#e3c07e");
+    expect(colord("#483d8b").mix("#00bfff", 0.35).toHex()).toBe("#4969b2");
+  });
+
+  it("Returns the same color if ratio is 0 or 1", () => {
+    expect(colord("#cd853f").mix("#ffffff", 0).toHex()).toBe("#cd853f");
+    expect(colord("#ffffff").mix("#cd853f", 1).toHex()).toBe("#cd853f");
   });
 
   it("Return the color if both values are equal", () => {
-    // https://drafts.csswg.org/css-color-5/#funcdef-color-mix
     expect(colord("#ffffff").mix("#ffffff").toHex()).toBe("#ffffff");
     expect(colord("#000000").mix("#000000").toHex()).toBe("#000000");
   });
