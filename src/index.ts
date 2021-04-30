@@ -1,5 +1,6 @@
 export { colord, Colord } from "./colord";
 export { extend, Plugin } from "./extend";
+export { random } from "./random";
 
 export {
   HslColor,

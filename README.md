@@ -513,6 +513,22 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 
 </details>
 
+### Color utilities
+
+<details>
+  <summary><b><code>random()</code></b></summary>
+
+Returns a new Colord instance with a random color value inside.
+
+```js
+import { random } from "colord";
+
+random().toHex(); // "#01c8ec"
+random().alpha(0.5).toRgb(); // { r: 13, g: 237, b: 162, a: 0.5 }
+```
+
+</details>
+
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## Plugins

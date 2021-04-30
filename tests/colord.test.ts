@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { colord, AnyColor } from "../src/";
+import { colord, random, Colord, AnyColor } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
 
 it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
@@ -200,4 +200,9 @@ it("Gets an alpha channel value", () => {
 it("Changes an alpha channel value", () => {
   expect(colord("#000").alpha(0.25).alpha()).toBe(0.25);
   expect(colord("#FFF").alpha(0).toRgb().a).toBe(0);
+});
+
+it("Generates a random color", () => {
+  expect(random()).toBeInstanceOf(Colord);
+  expect(random().toHex()).not.toBe(random().toHex());
 });
