@@ -385,6 +385,8 @@ Produces a mixture of two colors and returns the result of mixing them (new Colo
 
 In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space). This approach produces better results and doesn't have the drawbacks the legacy way has.
 
+→ [Online demo](https://3cg7o.csb.app/)
+
 ```js
 import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
@@ -393,8 +395,8 @@ extend([mixPlugin]);
 
 colord("#ffffff").mix("#000000").toHex(); // "#777777"
 colord("#800080").mix("#dda0dd").toHex(); // "#af5cae"
-colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#dfc279"
-colord("#008080").mix("#808000", 0.35).toHex(); // "#14865f"
+colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#e3c07e"
+colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 ```
 
 </details>
@@ -610,6 +612,8 @@ A plugin adding a color mixing utility.
 
 In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space). This approach produces better results and doesn't have the drawbacks the legacy way has.
 
+→ [Online demo](https://3cg7o.csb.app/)
+
 ```js
 import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
@@ -618,8 +622,8 @@ extend([mixPlugin]);
 
 colord("#ffffff").mix("#000000").toHex(); // "#777777"
 colord("#800080").mix("#dda0dd").toHex(); // "#af5cae"
-colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#dfc279"
-colord("#008080").mix("#808000", 0.35).toHex(); // "#14865f"
+colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#e3c07e"
+colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 ```
 
 </details>
