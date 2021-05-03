@@ -1,3 +1,7 @@
+### 1.5.0
+
+- New utility: Random color generation
+
 ### 1.4.1
 
 - Mix colors through CIE LAB color space
