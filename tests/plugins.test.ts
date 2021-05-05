@@ -140,6 +140,14 @@ describe("lch", () => {
     expect(colord("#c65d06ed").toLchString()).toBe("lch(52.31% 72.21 56.33 / 0.93)");
     expect(colord("#aabbcc").toLchString()).toBe("lch(74.97% 11.22 252.37)");
   });
+
+  it("Supports all valid CSS angle units", () => {
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+    expect(colord("lch(50% 50 90deg)").toLch().h).toBe(90);
+    expect(colord("lch(50% 50 100grad)").toLch().h).toBe(90);
+    expect(colord("lch(50% 50 0.25turn)").toLch().h).toBe(90);
+    expect(colord("lch(50% 50 1.5708rad)").toLch().h).toBe(90);
+  });
 });
 
 describe("mix", () => {

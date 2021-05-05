@@ -90,7 +90,6 @@ it("Parses invalid color string", () => {
 
 it("Clamps input numbers", () => {
   expect(colord("rgba(256, 999, -200, 2)").toRgb()).toMatchObject({ r: 255, g: 255, b: 0, a: 1 });
-  expect(colord("hsla(-999, 200, 50, 2)").toHsl()).toMatchObject({ h: 0, s: 100, l: 50, a: 1 });
   expect(
     colord({
       r: NaN,
@@ -107,6 +106,27 @@ it("Clamps input numbers", () => {
       a: 100500,
     }).toHsl()
   ).toMatchObject({ h: 0, s: 0, l: 100, a: 1 });
+});
+
+it("Clamps hue (angle) value properly", () => {
+  expect(colord("hsl(361, 50, 50)").toHsl().h).toBe(1);
+  expect(colord("hsl(-1, 50, 50)").toHsl().h).toBe(359);
+  expect(colord({ h: 999, s: 50, l: 50 }).toHsl().h).toBe(279);
+  expect(colord({ h: -999, s: 50, l: 50 }).toHsl().h).toBe(81);
+  expect(colord({ h: 400, s: 50, v: 50 }).toHsv().h).toBe(40);
+  expect(colord({ h: -400, s: 50, v: 50 }).toHsv().h).toBe(320);
+});
+
+it("Supports all valid CSS angle units", () => {
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/angle#examples
+  expect(colord("hsl(90deg, 50, 50)").toHsl().h).toBe(90);
+  expect(colord("hsl(100grad, 50, 50)").toHsl().h).toBe(90);
+  expect(colord("hsl(.25turn, 50, 50)").toHsl().h).toBe(90);
+  expect(colord("hsl(1.5708rad, 50, 50)").toHsl().h).toBe(90);
+  expect(colord("hsl(-180deg, 50, 50)").toHsl().h).toBe(180);
+  expect(colord("hsl(-200grad, 50, 50)").toHsl().h).toBe(180);
+  expect(colord("hsl(-.5turn, 50, 50)").toHsl().h).toBe(180);
+  expect(colord("hsl(-3.1416rad, 50, 50)").toHsl().h).toBe(180);
 });
 
 it("Accepts a colord instance as an input", () => {
