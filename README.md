@@ -113,7 +113,7 @@ The parser of the library is user-friendly: it trims unnecessary whitespaces, cl
 ```js
 colord(" aBc ").toHex(); // "#aabbcc"
 colord("__rGbA 10 20,,  999...").toRgbString(); // "rgb(10, 20, 255)"
-colord(" hsL(  10, 200% 30 .5!!!").toHslString(); // "hsla(10, 100%, 30%, 0.5)"
+colord(" hsL(  -10, 200% 30 .5!!!").toHslString(); // "hsla(350, 100%, 30%, 0.5)"
 colord({ r: NaN, g: -Infinity, b: +Infinity, a: 100500 }).toRgb(); // { r: 0, g: 0, b: 255, a: 1 }
 ```
 
@@ -602,7 +602,7 @@ colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 </details>
 
 <details>
-  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1.2 KB</i></summary>
+  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1.28 KB</i></summary>
 
 Adds support of [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
