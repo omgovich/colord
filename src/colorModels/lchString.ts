@@ -2,7 +2,7 @@ import { RgbaColor } from "../types";
 import { parseHue } from "../helpers";
 import { clampLcha, rgbaToLcha, lchaToRgba, roundLcha } from "./lch";
 
-const lchaMatcher = /lcha?\(?\s*(-?\d+\.?\d*)%?[,\s]+(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)(deg|rad|grad|turn)?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
+const lchaMatcher = /lcha?\(?\s*(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)[,\s]+(-?\d*\.?\d+)(deg|rad|grad|turn)?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
 
 export const parseLchaString = (input: string): RgbaColor | null => {
   const match = lchaMatcher.exec(input);

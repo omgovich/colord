@@ -2,7 +2,7 @@ import { parseHue } from "../helpers";
 import { RgbaColor } from "../types";
 import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsl";
 
-const hslaMatcher = /hsla?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d+\.?\d*)%?[,\s]+(-?\d+\.?\d*)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
+const hslaMatcher = /hsla?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
 
 export const parseHslaString = (input: string): RgbaColor | null => {
   const match = hslaMatcher.exec(input);
