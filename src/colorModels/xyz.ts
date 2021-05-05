@@ -1,4 +1,4 @@
-import { InputObject, RgbaColor, XyzaColor } from "../types";
+import { InputObject, RgbaColor, XyzColor, XyzaColor } from "../types";
 import { clamp, isPresent, round } from "../helpers";
 import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgb";
 
@@ -12,7 +12,6 @@ export const D50 = {
 
 /**
  * Limits XYZ axis values assuming XYZ is relative to D50.
- * https://www.sttmedia.com/colormodel-xyz
  */
 export const clampXyza = (xyza: XyzaColor): XyzaColor => ({
   x: clamp(xyza.x, 0, D50.x),
@@ -54,11 +53,10 @@ export const adaptXyzaToD50 = (xyza: XyzaColor): XyzaColor => ({
 /**
  * Performs Bradford chromatic adaptation from D50 to D65
  */
-export const adaptXyzaToD65 = (xyza: XyzaColor): XyzaColor => ({
+export const adaptXyzToD65 = (xyza: XyzColor): XyzColor => ({
   x: xyza.x * 0.9555766 + xyza.y * -0.0230393 + xyza.z * 0.0631636,
   y: xyza.x * -0.0282895 + xyza.y * 1.0099416 + xyza.z * 0.0210077,
   z: xyza.x * 0.0122982 + xyza.y * -0.020483 + xyza.z * 1.3299098,
-  a: xyza.a,
 });
 
 /**
@@ -66,16 +64,13 @@ export const adaptXyzaToD65 = (xyza: XyzaColor): XyzaColor => ({
  * https://www.w3.org/TR/css-color-4/#color-conversion-code
  */
 export const xyzaToRgba = (sourceXyza: XyzaColor): RgbaColor => {
-  const xyza = adaptXyzaToD65(sourceXyza);
-  const x = xyza.x / 100;
-  const y = xyza.y / 100;
-  const z = xyza.z / 100;
+  const xyz = adaptXyzToD65(sourceXyza);
 
   return clampRgba({
-    r: unlinearizeRgbChannel(3.2404542 * x - 1.5371385 * y - 0.4985314 * z),
-    g: unlinearizeRgbChannel(-0.969266 * x + 1.8760108 * y + 0.041556 * z),
-    b: unlinearizeRgbChannel(0.0556434 * x - 0.2040259 * y + 1.0572252 * z),
-    a: xyza.a,
+    r: unlinearizeRgbChannel(0.032404542 * xyz.x - 0.015371385 * xyz.y - 0.004985314 * xyz.z),
+    g: unlinearizeRgbChannel(-0.00969266 * xyz.x + 0.018760108 * xyz.y + 0.00041556 * xyz.z),
+    b: unlinearizeRgbChannel(0.000556434 * xyz.x - 0.002040259 * xyz.y + 0.010572252 * xyz.z),
+    a: sourceXyza.a,
   });
 };
 
