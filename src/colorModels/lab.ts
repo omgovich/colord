@@ -20,8 +20,8 @@ export const clampLaba = (laba: LabaColor): LabaColor => ({
 
 export const roundLaba = (laba: LabaColor): LabaColor => ({
   l: round(laba.l, 2),
-  a: round(laba.a, 2) + 0,
-  b: round(laba.b, 2) + 0,
+  a: round(laba.a, 2),
+  b: round(laba.b, 2),
   alpha: round(laba.alpha, 2),
 });
 

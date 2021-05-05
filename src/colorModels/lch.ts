@@ -1,5 +1,5 @@
 import { RgbaColor, InputObject, LchaColor } from "../types";
-import { clamp, isPresent, round } from "../helpers";
+import { clamp, clampHue, isPresent, round } from "../helpers";
 import { labaToRgba, rgbaToLaba } from "./lab";
 
 /**
@@ -10,7 +10,7 @@ import { labaToRgba, rgbaToLaba } from "./lab";
 export const clampLcha = (laba: LchaColor): LchaColor => ({
   l: clamp(laba.l, 0, 100),
   c: laba.c, // chroma is theoretically unbounded in LCH
-  h: clamp(laba.h, 0, 360),
+  h: clampHue(laba.h),
   a: laba.a,
 });
 
@@ -42,8 +42,8 @@ export const rgbaToLcha = (rgba: RgbaColor): LchaColor => {
   const laba = rgbaToLaba(rgba);
 
   // Round axis values to get proper values for grayscale colors
-  const a = round(laba.a, 3) + 0;
-  const b = round(laba.b, 3) + 0;
+  const a = round(laba.a, 3);
+  const b = round(laba.b, 3);
 
   const hue = 180 * (Math.atan2(b, a) / Math.PI);
 
