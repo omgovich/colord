@@ -1,9 +1,9 @@
 import { RgbaColor, HwbaColor, InputObject } from "../types";
-import { clamp, round, isPresent } from "../helpers";
+import { clamp, clampHue, round, isPresent } from "../helpers";
 import { hsvaToRgba, rgbaToHsva } from "./hsv";
 
 export const clampHwba = (hwba: HwbaColor): HwbaColor => ({
-  h: clamp(hwba.h, 0, 360),
+  h: clampHue(hwba.h),
   w: clamp(hwba.w, 0, 100),
   b: clamp(hwba.b, 0, 100),
   a: clamp(hwba.a),

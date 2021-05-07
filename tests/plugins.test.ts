@@ -58,7 +58,7 @@ describe("hwb", () => {
   it("Parses HWB color object", () => {
     expect(colord({ h: 0, w: 0, b: 100 }).toHex()).toBe("#000000");
     expect(colord({ h: 210, w: 67, b: 20, a: 1 }).toHex()).toBe("#abbbcc");
-    expect(colord({ h: 236, w: 33, b: 33 }).toHex()).toBe("#545aab");
+    expect(colord({ h: 236, w: 33, b: 33, a: 0.5 }).toHex()).toBe("#545aab80");
     expect(colord({ h: 0, w: 100, b: 0, a: 1 }).toHex()).toBe("#ffffff");
   });
 
@@ -70,6 +70,30 @@ describe("hwb", () => {
     expect(colord("#665533").toHwb()).toMatchObject({ h: 40, w: 20, b: 60, a: 1 });
     expect(colord("#feacfa").toHwb()).toMatchObject({ h: 303, w: 67, b: 0, a: 1 });
     expect(colord("#ffffff").toHwb()).toMatchObject({ h: 0, w: 100, b: 0, a: 1 });
+  });
+
+  it("Parses HWB color string", () => {
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb()
+    // https://en.wikipedia.org/wiki/HWB_color_model
+    expect(colord("hwb(194 0% 0%)").toHex()).toBe("#00c3ff");
+    expect(colord("hwb(194 0% 0% / .5)").toHex()).toBe("#00c3ff80");
+    expect(colord("hwb(194, 0%, 0%, .5)").toHex()).toBe("#00c3ff80");
+    expect(colord("hwb(-90deg 40% 40% / 50%)").toHex()).toBe("#7f669980");
+  });
+
+  it("Converts a color to HWB string", () => {
+    // https://en.wikipedia.org/wiki/HWB_color_model
+    expect(colord("#999966").toHwbString()).toBe("hwb(60, 40%, 40%)");
+    expect(colord("#99ffff").toHwbString()).toBe("hwb(180, 60%, 0%)");
+    expect(colord("#00336680").toHwbString()).toBe("hwb(210, 0%, 60%, 0.5)");
+  });
+
+  it("Supports all valid CSS angle units", () => {
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+    expect(colord("hwb(90deg 20% 20%)").toHwb().h).toBe(90);
+    expect(colord("hwb(100grad 20% 20%)").toHwb().h).toBe(90);
+    expect(colord("hwb(1.25turn 20% 20%)").toHwb().h).toBe(90);
+    expect(colord("hwb(1.5708rad 20% 20%)").toHwb().h).toBe(90);
   });
 });
 
