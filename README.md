@@ -81,7 +81,7 @@ colord("hsl(0deg, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - HSL strings and objects
 - HSV objects
 - Color names ([via plugin](#plugins))
-- HWB objects ([via plugin](#plugins))
+- HWB objects and strings ([via plugin](#plugins))
 - LCH objects and strings ([via plugin](#plugins))
 - LAB objects ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
@@ -220,6 +220,24 @@ extend([hwbPlugin]);
 
 colord("#ffffff").toHwb(); // { h: 0, w: 100, b: 0, a: 1 }
 colord("#555aaa").toHwb(); // { h: 236, w: 33, b: 33, a: 1 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>toHwbString()</code></b> (<b>hwb</b> plugin)</summary>
+
+Converts a color to [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color space and expresses it through the [functional notation](https://www.w3.org/TR/css-color-4/#the-hwb-notation).
+
+```js
+import { colord, extend } from "colord";
+import hwbPlugin from "colord/plugins/hwb";
+
+extend([hwbPlugin]);
+
+colord("#999966").toHwbString(); // "hwb(60, 40%, 40%)"
+colord("#99ffff").toHwbString(); // "hwb(180, 60%, 0%)"
+colord("#003366").alpha(0.5).toHwbString(); // "hwb(210, 0%, 60%, 0.5)"
 ```
 
 </details>
@@ -565,7 +583,7 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
-  <summary><b><code>hwb</code> (HWB color model)</b> <i>0.5 KB</i></summary>
+  <summary><b><code>hwb</code> (HWB color model)</b> <i>0.8 KB</i></summary>
 
 Adds support of [Hue-Whiteness-Blackness](https://en.wikipedia.org/wiki/HWB_color_model) color model.
 
@@ -575,11 +593,11 @@ import hwbPlugin from "colord/plugins/hwb";
 
 extend([hwbPlugin]);
 
-colord("#ffffff").toHwb(); // { h: 0, w: 100, b: 0, a: 1 }
-colord("#555aaa").toHwb(); // { h: 236, w: 33, b: 33, a: 1 }
+colord("#999966").toHwb(); // { h: 60, w: 40, b: 40, a: 1 }
+colord("#003366").toHwbString(); // "hwb(210, 0%, 60%)"
 
-colord({ h: 0, w: 0, b: 100 }).toHex(); // "#000000"
-colord({ h: 0, w: 100, b: 0, a: 1 }).toHex(); // "#ffffff"
+colord({ h: 60, w: 40, b: 40 }).toHex(); // "#999966"
+colord("hwb(210 0% 60% / 50%)").toHex(); // "#00336680"
 ```
 
 </details>
