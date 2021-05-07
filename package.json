@@ -120,7 +120,7 @@
     },
     {
       "path": "dist/plugins/lch.mjs",
-      "limit": "1.3 KB"
+      "limit": "1.5 KB"
     },
     {
       "path": "dist/plugins/mix.mjs",
