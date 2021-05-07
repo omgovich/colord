@@ -1,3 +1,7 @@
+### 1.6.0
+
+- Improvement: You can now use every angle unit supported by CSS (`deg`, `rad`, `grad`, `turn`).
+
 ### 1.5.0
 
 - New utility: Random color generation
