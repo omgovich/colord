@@ -65,7 +65,7 @@ import { colord } from "colord";
 
 colord("#ff0000").grayscale().alpha(0.25).toRgbString(); // "rgba(128, 128, 128, 0.25)"
 colord("rgb(192, 192, 192)").isLight(); // true
-colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
+colord("hsl(0deg, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 ```
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
@@ -602,7 +602,7 @@ colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 </details>
 
 <details>
-  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1.28 KB</i></summary>
+  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1.3 KB</i></summary>
 
 Adds support of [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
