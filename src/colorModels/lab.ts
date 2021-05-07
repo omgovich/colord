@@ -7,14 +7,17 @@ const e = 216 / 24389;
 const k = 24389 / 27;
 
 /**
- * Limits LAB axis values.
- * http://colorizer.org/
- * https://www.nixsensor.com/free-color-converter/
+ * Clamps LAB axis values as defined in CSS Color Level 4 specs.
+ * https://www.w3.org/TR/css-color-4/#specifying-lab-lch
  */
 export const clampLaba = (laba: LabaColor): LabaColor => ({
-  l: clamp(laba.l, 0, 100),
-  a: clamp(laba.a, -128, 128),
-  b: clamp(laba.b, -128, 128),
+  // CIE Lightness values less than 0% must be clamped to 0%.
+  // Values greater than 100% are permitted for forwards compatibility with HDR.
+  l: clamp(laba.l, 0, 400),
+  // A and B axis values are signed (allow both positive and negative values)
+  // and theoretically unbounded (but in practice do not exceed ±160).
+  a: laba.a,
+  b: laba.b,
   alpha: clamp(laba.alpha),
 });
 

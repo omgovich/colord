@@ -1,6 +1,11 @@
+### Next
+
+- Support HWB color strings (CSS functional notation)
+- Clamp LAB values as defined in CSS Color Level 4 specs
+
 ### 1.6.0
 
-- Improvement: You can now use every angle unit supported by CSS (`deg`, `rad`, `grad`, `turn`).
+- Improvement: You can now use every angle unit supported by CSS (`deg`, `rad`, `grad`, `turn`)
 
 ### 1.5.0
 
