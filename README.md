@@ -70,11 +70,7 @@ colord("hsl(0deg, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
-## API
-
-### Color parsing
-
-#### Accepted input formats
+## Supported Color Models
 
 - Hexadecimal strings (including 3, 4 and 8 digit notations)
 - RGB strings and objects
@@ -86,7 +82,20 @@ colord("hsl(0deg, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - LAB objects ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
 
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
+## API
+
+### Color parsing
+
+<details>
+  <summary><b><code>colord(input)</code></b></summary>
+
+Parses the given input and creates a new Colord instance.
+
 ```js
+import { colord } from "colord";
+
 // String input examples
 colord("FFF");
 colord("#ffffff");
@@ -106,6 +115,8 @@ colord({ h: 360, s: 100, v: 100 });
 colord({ h: 360, s: 100, v: 100, a: 1 });
 ```
 
+Check out the ["Plugins"](#plugins) section for more input format examples.
+
 #### Permissive parser
 
 The parser of the library is user-friendly: it trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc. Here are some examples:
@@ -116,6 +127,24 @@ colord("__rGbA 10 20,,  999...").toRgbString(); // "rgb(10, 20, 255)"
 colord(" hsL(  -10, 200% 30 .5!!!").toHslString(); // "hsla(350, 100%, 30%, 0.5)"
 colord({ r: NaN, g: -Infinity, b: +Infinity, a: 100500 }).toRgb(); // { r: 0, g: 0, b: 255, a: 1 }
 ```
+
+</details>
+
+<details>
+  <summary><b><code>getFormat(input)</code></b></summary>
+
+Returns a color model name for the input passed to the function. Uses the same parsing system as `colord` function.
+
+```js
+import { getFormat } from "colord";
+
+getFormat("#aabbcc"); // "hex"
+getFormat({ r: 13, g: 237, b: 162, a: 0.5 }); // "rgb"
+getFormat("hsl(180deg, 50%, 50%)"); // "hsl"
+getFormat("WUT?"); // undefined
+```
+
+</details>
 
 ### Color conversion
 
@@ -543,22 +572,6 @@ import { random } from "colord";
 
 random().toHex(); // "#01c8ec"
 random().alpha(0.5).toRgb(); // { r: 13, g: 237, b: 162, a: 0.5 }
-```
-
-</details>
-
-<details>
-  <summary><b><code>getFormat(input)</code></b></summary>
-
-Returns a color model name for the input passed to the function.
-
-```js
-import { getFormat } from "colord";
-
-getFormat("#aabbcc"); // "hex"
-getFormat({ r: 13, g: 237, b: 162, a: 0.5 }); // "rgb"
-getFormat("hsl(180deg, 50%, 50%)"); // "hsl"
-getFormat("WUT?"); // undefined
 ```
 
 </details>
