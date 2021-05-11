@@ -1,5 +1,6 @@
-### Next
+### 1.7.0
 
+- New `getFormat` utility
 - Support HWB color strings (CSS functional notation)
 - Clamp LAB values as defined in CSS Color Level 4 specs
 
