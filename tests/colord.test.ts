@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { colord, random, Colord, AnyColor } from "../src/";
+import { colord, random, getFormat, Colord, AnyColor } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
 
 it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
@@ -225,4 +225,16 @@ it("Changes an alpha channel value", () => {
 it("Generates a random color", () => {
   expect(random()).toBeInstanceOf(Colord);
   expect(random().toHex()).not.toBe(random().toHex());
+});
+
+it("Gets an input color format", () => {
+  expect(getFormat("#000")).toBe("hex");
+  expect(getFormat("rgb(128, 128, 128)")).toBe("rgb");
+  expect(getFormat("hsl(180, 50, 50)")).toBe("hsl");
+  expect(getFormat({ r: 128, g: 128, b: 128, a: 0.5 })).toBe("rgb");
+  expect(getFormat({ h: 180, s: 50, l: 50, a: 0.5 })).toBe("hsl");
+  expect(getFormat({ h: 180, s: 50, v: 50, a: 0.5 })).toBe("hsv");
+  expect(getFormat("disco-dancing")).toBeUndefined();
+  // @ts-ignore
+  expect(getFormat({ w: 1, u: 2, t: 3 })).toBeUndefined();
 });

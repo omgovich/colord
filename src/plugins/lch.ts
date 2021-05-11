@@ -33,8 +33,8 @@ const lchPlugin: Plugin = (ColordClass, parsers): void => {
     return rgbaToLchaString(this.rgba);
   };
 
-  parsers.string.push(parseLchaString);
-  parsers.object.push(parseLcha);
+  parsers.string.push([parseLchaString, "lch"]);
+  parsers.object.push([parseLcha, "lch"]);
 };
 
 export default lchPlugin;

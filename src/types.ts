@@ -69,9 +69,15 @@ export type AnyColor = string | ObjectColor;
 
 export type InputObject = Record<string, unknown>;
 
+export type Format = "name" | "hex" | "rgb" | "hsl" | "hsv" | "hwb" | "xyz" | "lab" | "lch";
+
 export type Input = string | InputObject;
 
-export type Parser<I extends Input> = (input: I) => RgbaColor | null;
+export type ParseResult = [RgbaColor, Format];
+
+export type ParseFunction<I extends Input> = (input: I) => RgbaColor | null;
+
+export type Parser<I extends Input> = [ParseFunction<I>, Format];
 
 export type Parsers = {
   string: Array<Parser<string>>;

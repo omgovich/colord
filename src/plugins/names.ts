@@ -1,4 +1,4 @@
-import { Parser, RgbaColor } from "../types";
+import { ParseFunction, RgbaColor } from "../types";
 import { Plugin } from "../extend";
 
 declare module "../colord" {
@@ -179,14 +179,14 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
   };
 
   // Add CSS color names parser.
-  const parseColorName: Parser<string> = (input: string): RgbaColor | null => {
+  const parseColorName: ParseFunction<string> = (input: string): RgbaColor | null => {
     const name = input.trim();
     const hex = name === "transparent" ? "#0000" : NAME_HEX_STORE[name];
     if (hex) return new ColordClass(hex).toRgb();
     return null;
   };
 
-  parsers.string.push(parseColorName);
+  parsers.string.push([parseColorName, "name"]);
 };
 
 export default namesPlugin;

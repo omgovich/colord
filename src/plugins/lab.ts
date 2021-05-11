@@ -21,7 +21,7 @@ const labPlugin: Plugin = (ColordClass, parsers): void => {
     return roundLaba(rgbaToLaba(this.rgba));
   };
 
-  parsers.object.push(parseLaba);
+  parsers.object.push([parseLaba, "lab"]);
 };
 
 export default labPlugin;
