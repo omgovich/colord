@@ -20,7 +20,7 @@ export class Colord {
   constructor(input: AnyColor) {
     // Internal color format is RGBA object.
     // We do not round the internal RGBA numbers for better conversion accuracy.
-    this.parsed = parse(input as Input);
+    this.parsed = parse(input as Input)[0];
     this.rgba = this.parsed || { r: 0, g: 0, b: 0, a: 1 };
   }
 

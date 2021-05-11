@@ -18,7 +18,7 @@ const xyzPlugin: Plugin = (ColordClass, parsers): void => {
     return roundXyza(rgbaToXyza(this.rgba));
   };
 
-  parsers.object.push(parseXyza);
+  parsers.object.push([parseXyza, "xyz"]);
 };
 
 export default xyzPlugin;

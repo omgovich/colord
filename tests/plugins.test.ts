@@ -1,4 +1,4 @@
-import { colord, extend } from "../src/";
+import { colord, getFormat, extend } from "../src/";
 import a11yPlugin from "../src/plugins/a11y";
 import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
@@ -95,6 +95,11 @@ describe("hwb", () => {
     expect(colord("hwb(1.25turn 20% 20%)").toHwb().h).toBe(90);
     expect(colord("hwb(1.5708rad 20% 20%)").toHwb().h).toBe(90);
   });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat("hwb(180deg 50% 50%)")).toBe("hwb");
+    expect(getFormat({ h: 0, w: 0, b: 100 })).toBe("hwb");
+  });
 });
 
 describe("lab", () => {
@@ -119,6 +124,10 @@ describe("lab", () => {
     expect(colord("#aabbcc").toLab()).toMatchObject({ l: 74.97, a: -3.4, b: -10.7, alpha: 1 });
     expect(colord("#33221180").toLab()).toMatchObject({ l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 });
     expect(colord("#d53987").toLab()).toMatchObject({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 });
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat({ l: 50, a: 0, b: 0, alpha: 1 })).toBe("lab");
   });
 });
 
@@ -171,6 +180,11 @@ describe("lch", () => {
     expect(colord("lch(50% 50 100grad)").toLch().h).toBe(90);
     expect(colord("lch(50% 50 0.25turn)").toLch().h).toBe(90);
     expect(colord("lch(50% 50 1.5708rad)").toLch().h).toBe(90);
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat("lch(50% 50 180deg)")).toBe("lch");
+    expect(getFormat({ l: 50, c: 50, h: 180 })).toBe("lch");
   });
 });
 
@@ -227,6 +241,11 @@ describe("names", () => {
     expect(colord("yellow").isValid()).toBe(true);
     expect(colord("sunyellow").isValid()).toBe(false);
   });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat("transparent")).toBe("name");
+    expect(getFormat("yellow")).toBe("name");
+  });
 });
 
 describe("xyz", () => {
@@ -245,5 +264,9 @@ describe("xyz", () => {
     expect(colord("#ffffff").toXyz()).toMatchObject({ x: 96.42, y: 100, z: 82.52, a: 1 });
     expect(colord("#5cbf54").toXyz()).toMatchObject({ x: 26, y: 40.27, z: 11.54, a: 1 });
     expect(colord("#00000000").toXyz()).toMatchObject({ x: 0, y: 0, z: 0, a: 0 });
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat({ x: 50, y: 50, z: 50 })).toBe("xyz");
   });
 });

@@ -32,8 +32,8 @@ const hwbPlugin: Plugin = (ColordClass, parsers): void => {
     return rgbaToHwbaString(this.rgba);
   };
 
-  parsers.string.push(parseHwbaString);
-  parsers.object.push(parseHwba);
+  parsers.string.push([parseHwbaString, "hwb"]);
+  parsers.object.push([parseHwba, "hwb"]);
 };
 
 export default hwbPlugin;
