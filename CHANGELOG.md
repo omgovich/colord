@@ -1,3 +1,7 @@
+### Next
+
+- Parse a color name disregarding the case
+
 ### 1.7.0
 
 - New `getFormat` utility
