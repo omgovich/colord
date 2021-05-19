@@ -32,10 +32,40 @@
       "require": "./index.js",
       "default": "./index.mjs"
     },
-    "./plugins/*": {
-      "import": "./plugins/*.mjs",
-      "require": "./plugins/*.js",
-      "default": "./plugins/*.mjs"
+    "./plugins/a11y": {
+      "import": "./plugins/a11y.mjs",
+      "require": "./plugins/a11y.js",
+      "default": "./plugins/a11y.mjs"
+    },
+    "./plugins/hwb": {
+      "import": "./plugins/hwb.mjs",
+      "require": "./plugins/hwb.js",
+      "default": "./plugins/hwb.mjs"
+    },
+    "./plugins/lab": {
+      "import": "./plugins/lab.mjs",
+      "require": "./plugins/lab.js",
+      "default": "./plugins/lab.mjs"
+    },
+    "./plugins/lch": {
+      "import": "./plugins/lch.mjs",
+      "require": "./plugins/lch.js",
+      "default": "./plugins/lch.mjs"
+    },
+    "./plugins/mix": {
+      "import": "./plugins/mix.mjs",
+      "require": "./plugins/mix.js",
+      "default": "./plugins/mix.mjs"
+    },
+    "./plugins/names": {
+      "import": "./plugins/names.mjs",
+      "require": "./plugins/names.js",
+      "default": "./plugins/names.mjs"
+    },
+    "./plugins/xyz": {
+      "import": "./plugins/xyz.mjs",
+      "require": "./plugins/xyz.js",
+      "default": "./plugins/xyz.mjs"
     }
   },
   "files": [
