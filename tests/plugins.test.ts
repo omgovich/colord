@@ -220,6 +220,12 @@ describe("names", () => {
     expect(colord("rebeccapurple").toHex()).toBe("#663399");
   });
 
+  it("Ignores the case and extra whitespaces", () => {
+    expect(colord("White ").toHex()).toBe("#ffffff");
+    expect(colord(" YELLOW").toHex()).toBe("#ffff00");
+    expect(colord("  REbeccapurpLE ").toHex()).toBe("#663399");
+  });
+
   it("Converts a color to CSS name", () => {
     expect(colord("#F00").toName()).toBe("red");
   });
