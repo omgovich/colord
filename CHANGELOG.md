@@ -1,4 +1,4 @@
-### Next
+### 1.7.1
 
 - Parse a color name disregarding the case
 
