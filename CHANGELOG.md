@@ -1,3 +1,7 @@
+### 1.7.2
+
+- Simplify package "exports" field to improve different environments support
+
 ### 1.7.1
 
 - Parse a color name disregarding the case
