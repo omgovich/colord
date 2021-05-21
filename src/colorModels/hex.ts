@@ -2,7 +2,7 @@ import { RgbaColor } from "../types";
 import { round } from "../helpers";
 import { roundRgba } from "./rgb";
 
-const hexMatcher = /^\s*#?([0-9a-f]{3,8})\s*$/i;
+const hexMatcher = /^#([0-9a-f]{3,8})$/i;
 
 /** Parses any valid Hex3, Hex4, Hex6 or Hex8 string and converts it to an RGBA object */
 export const parseHex = (hex: string): RgbaColor | null => {

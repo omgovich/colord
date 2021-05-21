@@ -2,10 +2,20 @@ import { parseHue } from "../helpers";
 import { RgbaColor } from "../types";
 import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsl";
 
-const hslaMatcher = /hsla?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
+// Functional syntax
+// hsl( <hue>, <percentage>, <percentage>, <alpha-value>? )
+const commaHslaMatcher = /^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
 
+// Whitespace syntax
+// hsl( <hue> <percentage> <percentage> [ / <alpha-value> ]? )
+const spaceHslaMatcher = /^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
+
+/**
+ * Parses a valid HSL[A] CSS color function/string
+ * https://www.w3.org/TR/css-color-4/#the-hsl-notation
+ */
 export const parseHslaString = (input: string): RgbaColor | null => {
-  const match = hslaMatcher.exec(input);
+  const match = commaHslaMatcher.exec(input) || spaceHslaMatcher.exec(input);
 
   if (!match) return null;
 

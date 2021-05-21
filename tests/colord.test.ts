@@ -51,6 +51,7 @@ it("Parses modern HSL functional notations", () => {
   expect(colord("hsl(120deg 100% 50%)").toHsl()).toMatchObject({ h: 120, s: 100, l: 50, a: 1 });
   expect(colord("hsl(10deg 20% 30% / 0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
   expect(colord("hsl(10deg 20% 30% / 90%)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.9 });
+  expect(colord("hsl(90deg 50% 50%/50%)").toHsl()).toMatchObject({ h: 90, s: 50, l: 50, a: 0.5 });
 });
 
 it("Supports HEX4 and HEX8 color models", () => {
@@ -66,26 +67,38 @@ it("Supports HEX4 and HEX8 color models", () => {
 it("Ignores a case and extra whitespace", () => {
   expect(colord(" #0a0a0a ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("RGB( 10, 10, 10 )").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord(" rGb(10,10,10)").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord(" rGb(10 10 10 0.1)").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 0.1 });
+  expect(colord(" rGb(10,10,10 )").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
   expect(colord("  Rgb(10, 10, 10) ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("  hSl(10,20,30,0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
-  expect(colord("HsLa( 10, 20, 30, 1)  ").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 1 });
+  expect(colord("  hSl(10,20%,30%,0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
+  expect(colord("HsLa( 10, 20%, 30%, 1)  ").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 1 });
 });
 
 it("Parses shorthand alpha values", () => {
-  expect(colord("rgba(0, 0, 0, .1)").alpha()).toBe(0.1);
+  expect(colord("rgba(0, 0, 0, .5)").alpha()).toBe(0.5);
+  expect(colord("rgba(50% 50% 50% / .999%)").alpha()).toBe(0.01);
   expect(colord("hsla(0, 0%, 0%, .25)").alpha()).toBe(0.25);
 });
 
-it("Parses invalid color string", () => {
-  expect(colord(" AbC ").toHex()).toBe("#aabbcc");
-  expect(colord("RGB 10 10 10 ").toRgb()).toMatchObject({ r: 10, g: 10, b: 10, a: 1 });
-  expect(colord("rgb( 100 100%,20/").toRgb()).toMatchObject({ r: 100, g: 255, b: 20, a: 1 });
-  expect(colord("rgb( 10 50%,30/.5").toRgb()).toMatchObject({ r: 10, g: 128, b: 30, a: 0.5 });
-  expect(colord(" hsL(10 20%, 1 .5!").toHsl()).toMatchObject({ h: 10, s: 20, l: 1, a: 0.5 });
-  expect(colord("hsl( 10, 20 30 10%)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
-  expect(colord("hsl(10 20, 30/0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
+it("Ignores invalid color formats", () => {
+  // mixing prefix
+  expect(colord("AbC").isValid()).toBe(false);
+  expect(colord("999999").isValid()).toBe(false);
+  // no bracket
+  expect(colord("rgb 10 10 10)").isValid()).toBe(false);
+  expect(colord("rgb(10 10 10").isValid()).toBe(false);
+  // missing commas
+  expect(colord("rgb( 10 10 10 0.1 )").isValid()).toBe(false);
+  expect(colord("hsl(10, 20 30)").isValid()).toBe(false);
+  // mixing numbers and percentage
+  expect(colord("rgb(100, 100%, 20)").isValid()).toBe(false);
+  // mixing commas and slash
+  expect(colord("rgba(10, 50, 30 / .5").isValid()).toBe(false);
+  expect(colord("hsla(10, 20, 30/50%)").isValid()).toBe(false);
+  // missing percent
+  expect(colord("hsl(10deg, 50, 50").isValid()).toBe(false);
+  // wrong content
+  expect(colord("rgb(10, 10, 10, var(--alpha))").isValid()).toBe(false);
+  expect(colord("hsl(var(--h) 10% 10%)").isValid()).toBe(false);
 });
 
 it("Clamps input numbers", () => {
@@ -109,8 +122,8 @@ it("Clamps input numbers", () => {
 });
 
 it("Clamps hue (angle) value properly", () => {
-  expect(colord("hsl(361, 50, 50)").toHsl().h).toBe(1);
-  expect(colord("hsl(-1, 50, 50)").toHsl().h).toBe(359);
+  expect(colord("hsl(361, 50%, 50%)").toHsl().h).toBe(1);
+  expect(colord("hsl(-1, 50%, 50%)").toHsl().h).toBe(359);
   expect(colord({ h: 999, s: 50, l: 50 }).toHsl().h).toBe(279);
   expect(colord({ h: -999, s: 50, l: 50 }).toHsl().h).toBe(81);
   expect(colord({ h: 400, s: 50, v: 50 }).toHsv().h).toBe(40);
@@ -119,14 +132,14 @@ it("Clamps hue (angle) value properly", () => {
 
 it("Supports all valid CSS angle units", () => {
   // https://developer.mozilla.org/en-US/docs/Web/CSS/angle#examples
-  expect(colord("hsl(90deg, 50, 50)").toHsl().h).toBe(90);
-  expect(colord("hsl(100grad, 50, 50)").toHsl().h).toBe(90);
-  expect(colord("hsl(.25turn, 50, 50)").toHsl().h).toBe(90);
-  expect(colord("hsl(1.5708rad, 50, 50)").toHsl().h).toBe(90);
-  expect(colord("hsl(-180deg, 50, 50)").toHsl().h).toBe(180);
-  expect(colord("hsl(-200grad, 50, 50)").toHsl().h).toBe(180);
-  expect(colord("hsl(-.5turn, 50, 50)").toHsl().h).toBe(180);
-  expect(colord("hsl(-3.1416rad, 50, 50)").toHsl().h).toBe(180);
+  expect(colord("hsl(90deg, 50%, 50%)").toHsl().h).toBe(90);
+  expect(colord("hsl(100grad, 50%, 50%)").toHsl().h).toBe(90);
+  expect(colord("hsl(.25turn, 50%, 50%)").toHsl().h).toBe(90);
+  expect(colord("hsl(1.5708rad, 50%, 50%)").toHsl().h).toBe(90);
+  expect(colord("hsl(-180deg, 50%, 50%)").toHsl().h).toBe(180);
+  expect(colord("hsl(-200grad, 50%, 50%)").toHsl().h).toBe(180);
+  expect(colord("hsl(-.5turn, 50%, 50%)").toHsl().h).toBe(180);
+  expect(colord("hsl(-3.1416rad, 50%, 50%)").toHsl().h).toBe(180);
 });
 
 it("Accepts a colord instance as an input", () => {
@@ -230,7 +243,8 @@ it("Generates a random color", () => {
 it("Gets an input color format", () => {
   expect(getFormat("#000")).toBe("hex");
   expect(getFormat("rgb(128, 128, 128)")).toBe("rgb");
-  expect(getFormat("hsl(180, 50, 50)")).toBe("hsl");
+  expect(getFormat("rgba(50% 50% 50% / 50%)")).toBe("rgb");
+  expect(getFormat("hsl(180, 50%, 50%)")).toBe("hsl");
   expect(getFormat({ r: 128, g: 128, b: 128, a: 0.5 })).toBe("rgb");
   expect(getFormat({ h: 180, s: 50, l: 50, a: 0.5 })).toBe("hsl");
   expect(getFormat({ h: 180, s: 50, v: 50, a: 0.5 })).toBe("hsv");

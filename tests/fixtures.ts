@@ -70,7 +70,6 @@ export const lime: TestColor = {
   rgbaString: "rgba(0, 255, 0, 1)",
   hsl: { h: 120, s: 100, l: 50 },
   hslString: "hsl(120, 100%, 50%)",
-  hslStringNoSpacesAndPercent: "hsl(120,100,50)",
   hsla: { h: 120, s: 100, l: 50, a: 1 },
   hslaString: "hsla(120, 100%, 50%, 1)",
   hsv: { h: 120, s: 100, v: 100 },
