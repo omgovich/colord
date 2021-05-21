@@ -35,6 +35,7 @@
 - 🛡 **Bulletproof**: Written in strict TypeScript and has 100% test coverage
 - 🗂 **Typed**: Ships with [types included](#types)
 - 🏗 **Extendable**: Built-in [plugin system](#plugins) to add new functionality
+- 📚 **CSS-compliant**: Strictly follows CSS Color Level specifications
 - 👫 **Works everywhere**: Supports all browsers and Node.js
 - 💨 **Dependency-free**
 
@@ -65,7 +66,7 @@ import { colord } from "colord";
 
 colord("#ff0000").grayscale().alpha(0.25).toRgbString(); // "rgba(128, 128, 128, 0.25)"
 colord("rgb(192, 192, 192)").isLight(); // true
-colord("hsl(0deg, 50%, 50%)").darken(0.25).toHex(); // "#602020"
+colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 ```
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>

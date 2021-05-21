@@ -96,7 +96,7 @@ it("Ignores invalid color formats", () => {
   expect(colord("rgba(10, 50, 30 / .5").isValid()).toBe(false);
   expect(colord("hsla(10, 20, 30/50%)").isValid()).toBe(false);
   // missing percent
-  expect(colord("hsl(10deg, 50, 50").isValid()).toBe(false);
+  expect(colord("hsl(10deg, 50, 50)").isValid()).toBe(false);
   // wrong content
   expect(colord("rgb(10, 10, 10, var(--alpha))").isValid()).toBe(false);
   expect(colord("hsl(var(--h) 10% 10%)").isValid()).toBe(false);
