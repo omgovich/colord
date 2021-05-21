@@ -614,7 +614,7 @@ import hwbPlugin from "colord/plugins/hwb";
 extend([hwbPlugin]);
 
 colord("#999966").toHwb(); // { h: 60, w: 40, b: 40, a: 1 }
-colord("#003366").toHwbString(); // "hwb(210, 0%, 60%)"
+colord("#003366").toHwbString(); // "hwb(210 0% 60%)"
 
 colord({ h: 60, w: 40, b: 40 }).toHex(); // "#999966"
 colord("hwb(210 0% 60% / 50%)").toHex(); // "#00336680"
