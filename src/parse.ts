@@ -36,7 +36,7 @@ const findValidColor = <I extends Input>(
 /** Tries to convert an incoming value into RGBA color by going through all color model parsers */
 export const parse = (input: Input): ParseResult | [null, undefined] => {
   if (typeof input === "string") {
-    return findValidColor<string>(input, parsers.string);
+    return findValidColor<string>(input.trim(), parsers.string);
   }
 
   // Don't forget that the type of `null` is "object" in JavaScript
