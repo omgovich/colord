@@ -2,8 +2,14 @@ import { RgbaColor } from "../types";
 import { parseHue } from "../helpers";
 import { clampLcha, rgbaToLcha, lchaToRgba, roundLcha } from "./lch";
 
-const lchaMatcher = /lcha?\(?\s*(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)[,\s]+(-?\d*\.?\d+)(deg|rad|grad|turn)?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
+// The only valid LCH syntax
+// lch() = lch( <percentage> <number> <hue> [ / <alpha-value> ]? )
+const lchaMatcher = /^lch\(\s*([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)\s+([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
 
+/**
+ * Parses a valid LCH CSS color function/string
+ * https://www.w3.org/TR/css-color-4/#specifying-lab-lch
+ */
 export const parseLchaString = (input: string): RgbaColor | null => {
   const match = lchaMatcher.exec(input);
 

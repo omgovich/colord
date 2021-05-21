@@ -77,15 +77,21 @@ describe("hwb", () => {
     // https://en.wikipedia.org/wiki/HWB_color_model
     expect(colord("hwb(194 0% 0%)").toHex()).toBe("#00c3ff");
     expect(colord("hwb(194 0% 0% / .5)").toHex()).toBe("#00c3ff80");
-    expect(colord("hwb(194, 0%, 0%, .5)").toHex()).toBe("#00c3ff80");
     expect(colord("hwb(-90deg 40% 40% / 50%)").toHex()).toBe("#7f669980");
+  });
+
+  it("Ignores invalid syntax", () => {
+    // comma syntax is not documented
+    expect(colord("hwb(194, 0%, 0%, .5)").isValid()).toBe(false);
+    // missing percents
+    expect(colord("hwb(-90deg 40 40)").isValid()).toBe(false);
   });
 
   it("Converts a color to HWB string", () => {
     // https://en.wikipedia.org/wiki/HWB_color_model
-    expect(colord("#999966").toHwbString()).toBe("hwb(60, 40%, 40%)");
-    expect(colord("#99ffff").toHwbString()).toBe("hwb(180, 60%, 0%)");
-    expect(colord("#00336680").toHwbString()).toBe("hwb(210, 0%, 60%, 0.5)");
+    expect(colord("#999966").toHwbString()).toBe("hwb(60 40% 40%)");
+    expect(colord("#99ffff").toHwbString()).toBe("hwb(180 60% 0%)");
+    expect(colord("#00336680").toHwbString()).toBe("hwb(210 0% 60% / 0.5)");
   });
 
   it("Supports all valid CSS angle units", () => {
