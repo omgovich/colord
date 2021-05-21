@@ -245,6 +245,7 @@ describe("names", () => {
     expect(colord("transparent").alpha()).toBe(0);
     expect(colord("transparent").toHex()).toBe("#00000000");
     expect(colord("rgba(0, 0, 0, 0)").toName()).toBe("transparent");
+    expect(colord("rgba(255, 255, 255, 0)").toName()).toBeUndefined();
   });
 
   it("Works properly in pair with the built-in validation", () => {

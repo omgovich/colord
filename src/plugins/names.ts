@@ -174,13 +174,15 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
 
   // Define new color conversion method
   ColordClass.prototype.toName = function () {
-    if (this.rgba.a === 0) return "transparent";
+    if (!this.rgba.a && !this.rgba.r && !this.rgba.g && !this.rgba.b) return "transparent";
     return HEX_NAME_STORE[this.toHex()] || undefined;
   };
 
-  // Add CSS color names parser.
+  // Add CSS color names parser
   const parseColorName: ParseFunction<string> = (input: string): RgbaColor | null => {
-    const name = input.trim().toLowerCase();
+    // the color names are case-insensitive according to CSS Color Level 3
+    const name = input.toLowerCase();
+    // "transparent" is a shorthand for transparent black
     const hex = name === "transparent" ? "#0000" : NAME_HEX_STORE[name];
     if (hex) return new ColordClass(hex).toRgb();
     return null;
