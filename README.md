@@ -28,7 +28,7 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.5 KB** gzipped ([3x+ lighter](#benchmarks) than **color** and **tinycolor2**)
+- 📦 **Small**: Just **1.6 KB** gzipped ([3x+ lighter](#benchmarks) than **color** and **tinycolor2**)
 - 🚀 **Fast**: [3x+ faster](#benchmarks) than **color** and **tinycolor2**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations

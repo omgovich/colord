@@ -1,3 +1,7 @@
+### 2.0.0
+
+- Strict string color parsing conforming to the CSS Color Level specifications
+
 ### 1.7.2
 
 - Simplify package "exports" field to improve different environments support
