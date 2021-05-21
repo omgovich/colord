@@ -97,7 +97,7 @@ Parses the given input and creates a new Colord instance. String parsing strictl
 import { colord } from "colord";
 
 // String input examples
-colord("FFF");
+colord("#FFF");
 colord("#ffffff");
 colord("#ffffffff");
 colord("rgb(255, 255, 255)");
