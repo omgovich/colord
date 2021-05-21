@@ -82,6 +82,7 @@ it("Parses shorthand alpha values", () => {
 it("Ignores invalid color formats", () => {
   // mixing prefix
   expect(colord("AbC").isValid()).toBe(false);
+  expect(colord("111").isValid()).toBe(false);
   expect(colord("999999").isValid()).toBe(false);
   // no bracket
   expect(colord("rgb 10 10 10)").isValid()).toBe(false);

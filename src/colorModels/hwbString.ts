@@ -2,8 +2,14 @@ import { parseHue } from "../helpers";
 import { RgbaColor } from "../types";
 import { clampHwba, rgbaToHwba, hwbaToRgba, roundHwba } from "./hwb";
 
-const hwbaMatcher = /hwba?\(?\s*(-?\d*\.?\d+)(deg|rad|grad|turn)?[,\s]+(-?\d*\.?\d+)%?[,\s]+(-?\d*\.?\d+)%?,?\s*[/\s]*(-?\d*\.?\d+)?(%)?\s*\)?/i;
+// The only valid HWB syntax
+// hwb( <hue> <percentage> <percentage> [ / <alpha-value> ]? )
+const hwbaMatcher = /^hwb\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
 
+/**
+ * Parses a valid HWB[A] CSS color function/string
+ * https://www.w3.org/TR/css-color-4/#the-hwb-notation
+ */
 export const parseHwbaString = (input: string): RgbaColor | null => {
   const match = hwbaMatcher.exec(input);
 
@@ -21,5 +27,5 @@ export const parseHwbaString = (input: string): RgbaColor | null => {
 
 export const rgbaToHwbaString = (rgba: RgbaColor): string => {
   const { h, w, b, a } = roundHwba(rgbaToHwba(rgba));
-  return a < 1 ? `hwb(${h}, ${w}%, ${b}%, ${a})` : `hwb(${h}, ${w}%, ${b}%)`;
+  return a < 1 ? `hwb(${h} ${w}% ${b}% / ${a})` : `hwb(${h} ${w}% ${b}%)`;
 };
