@@ -91,7 +91,7 @@ colord("hsl(0deg, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 <details>
   <summary><b><code>colord(input)</code></b></summary>
 
-Parses the given input and creates a new Colord instance.
+Parses the given input and creates a new Colord instance. String parsing strictly conforms to [CSS Color Level Specifications](https://www.w3.org/TR/css-color-4/#color-type).
 
 ```js
 import { colord } from "colord";
@@ -101,9 +101,11 @@ colord("FFF");
 colord("#ffffff");
 colord("#ffffffff");
 colord("rgb(255, 255, 255)");
-colord("rgba(255, 255, 255, 1)");
-colord("hsl(0, 100%, 100%)");
-colord("hsla(0, 100%, 100%, 1)");
+colord("rgba(255, 255, 255, 0.5)");
+colord("rgba(100% 100% 100% / 50%)");
+colord("hsl(90, 100%, 100%)");
+colord("hsla(90, 100%, 100%, 0.5)");
+colord("hsla(90deg 100% 100% / 50%)");
 colord("tomato"); // requires "names" plugin
 
 // Object input examples
@@ -116,17 +118,6 @@ colord({ h: 360, s: 100, v: 100, a: 1 });
 ```
 
 Check out the ["Plugins"](#plugins) section for more input format examples.
-
-#### Permissive parser
-
-The parser of the library is user-friendly: it trims unnecessary whitespaces, clamps numbers, disregards character case, punctuation, brackets, etc. Here are some examples:
-
-```js
-colord(" aBc ").toHex(); // "#aabbcc"
-colord("__rGbA 10 20,,  999...").toRgbString(); // "rgb(10, 20, 255)"
-colord(" hsL(  -10, 200% 30 .5!!!").toHslString(); // "hsla(350, 100%, 30%, 0.5)"
-colord({ r: NaN, g: -Infinity, b: +Infinity, a: 100500 }).toRgb(); // { r: 0, g: 0, b: 255, a: 1 }
-```
 
 </details>
 
@@ -264,9 +255,9 @@ import hwbPlugin from "colord/plugins/hwb";
 
 extend([hwbPlugin]);
 
-colord("#999966").toHwbString(); // "hwb(60, 40%, 40%)"
-colord("#99ffff").toHwbString(); // "hwb(180, 60%, 0%)"
-colord("#003366").alpha(0.5).toHwbString(); // "hwb(210, 0%, 60%, 0.5)"
+colord("#999966").toHwbString(); // "hwb(60 40% 40%)"
+colord("#99ffff").toHwbString(); // "hwb(180 60% 0%)"
+colord("#003366").alpha(0.5).toHwbString(); // "hwb(210 0% 60% / 0.5)"
 ```
 
 </details>
