@@ -1,4 +1,5 @@
 import { RgbaColor, HwbaColor, InputObject } from "../types";
+import { ALPHA_PRECISION } from "../constants";
 import { clamp, clampHue, round, isPresent } from "../helpers";
 import { hsvaToRgba, rgbaToHsva } from "./hsv";
 
@@ -13,7 +14,7 @@ export const roundHwba = (hwba: HwbaColor): HwbaColor => ({
   h: round(hwba.h),
   w: round(hwba.w),
   b: round(hwba.b),
-  a: round(hwba.a, 2),
+  a: round(hwba.a, ALPHA_PRECISION),
 });
 
 export const rgbaToHwba = (rgba: RgbaColor): HwbaColor => {
