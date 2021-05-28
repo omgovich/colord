@@ -1,3 +1,7 @@
+### 2.0.1
+
+- Improve the precision of alpha values
+
 ### 2.0.0
 
 - Strict string color parsing conforming to the CSS Color Level specifications
