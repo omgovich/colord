@@ -1,3 +1,5 @@
+import { ANGLE_UNITS } from "./constants";
+
 export const isPresent = (value: unknown): boolean => {
   if (typeof value === "string") return value.length > 0;
   if (typeof value === "number") return true;
@@ -33,18 +35,8 @@ export const clampHue = (degrees: number): number => {
 };
 
 /**
- * Valid CSS <angle> units.
- * https://developer.mozilla.org/en-US/docs/Web/CSS/angle
- */
-const angleUnits: Record<string, number> = {
-  grad: 360 / 400,
-  turn: 360,
-  rad: 360 / (Math.PI * 2),
-};
-
-/**
  * Converts a hue value to degrees from 0 to 360 inclusive.
  */
 export const parseHue = (value: string, unit = "deg"): number => {
-  return Number(value) * (angleUnits[unit] || 1);
+  return Number(value) * (ANGLE_UNITS[unit] || 1);
 };

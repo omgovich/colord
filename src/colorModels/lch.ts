@@ -1,4 +1,5 @@
 import { RgbaColor, InputObject, LchaColor } from "../types";
+import { ALPHA_PRECISION } from "../constants";
 import { clamp, clampHue, isPresent, round } from "../helpers";
 import { labaToRgba, rgbaToLaba } from "./lab";
 
@@ -18,7 +19,7 @@ export const roundLcha = (laba: LchaColor): LchaColor => ({
   l: round(laba.l, 2),
   c: round(laba.c, 2),
   h: round(laba.h, 2),
-  a: round(laba.a, 2),
+  a: round(laba.a, ALPHA_PRECISION),
 });
 
 export const parseLcha = ({ l, c, h, a = 1 }: InputObject): RgbaColor | null => {

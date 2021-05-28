@@ -236,6 +236,15 @@ it("Changes an alpha channel value", () => {
   expect(colord("#FFF").alpha(0).toRgb().a).toBe(0);
 });
 
+it("Produces alpha values with up to 3 digits after the decimal point", () => {
+  expect(colord("#000").alpha(0.9).alpha()).toBe(0.9);
+  expect(colord("#000").alpha(0.01).alpha()).toBe(0.01);
+  expect(colord("#000").alpha(0.33333333).alpha()).toBe(0.333);
+  expect(colord("rgba(0, 0, 0, 0.075)").toRgbString()).toBe("rgba(0, 0, 0, 0.075)");
+  expect(colord("hsla(0, 0%, 0%, 0.789)").toHslString()).toBe("hsla(0, 0%, 0%, 0.789)");
+  expect(colord("hsla(0, 0%, 0%, 0.999)").toRgbString()).toBe("rgba(0, 0, 0, 0.999)");
+});
+
 it("Generates a random color", () => {
   expect(random()).toBeInstanceOf(Colord);
   expect(random().toHex()).not.toBe(random().toHex());
