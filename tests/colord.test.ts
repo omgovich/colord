@@ -245,6 +245,24 @@ it("Produces alpha values with up to 3 digits after the decimal point", () => {
   expect(colord("hsla(0, 0%, 0%, 0.999)").toRgbString()).toBe("rgba(0, 0, 0, 0.999)");
 });
 
+it("Gets a hue value", () => {
+  expect(colord("#000").hue()).toBe(0);
+  expect(colord("hsl(90, 50%, 50%)").hue()).toBe(90);
+});
+
+it("Changes a hue value", () => {
+  expect(colord("hsl(90, 50%, 50%)").hue(0).toHslString()).toBe("hsl(0, 50%, 50%)");
+  expect(colord("hsl(90, 50%, 50%)").hue(180).toHslString()).toBe("hsl(180, 50%, 50%)");
+  expect(colord("hsl(90, 50%, 50%)").hue(370).toHslString()).toBe("hsl(10, 50%, 50%)");
+});
+
+it("Rotates a hue circle", () => {
+  expect(colord("hsl(90, 50%, 50%)").rotate(0).toHslString()).toBe("hsl(90, 50%, 50%)");
+  expect(colord("hsl(90, 50%, 50%)").rotate(360).toHslString()).toBe("hsl(90, 50%, 50%)");
+  expect(colord("hsl(90, 50%, 50%)").rotate(90).toHslString()).toBe("hsl(180, 50%, 50%)");
+  expect(colord("hsl(90, 50%, 50%)").rotate(-180).toHslString()).toBe("hsl(270, 50%, 50%)");
+});
+
 it("Generates a random color", () => {
   expect(random()).toBeInstanceOf(Colord);
   expect(random().toHex()).not.toBe(random().toHex());
