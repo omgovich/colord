@@ -170,17 +170,9 @@ export class Colord {
   public hue(): number;
   public hue(value: number): Colord;
   public hue(value?: number): Colord | number {
-    const hsla = this.toHsl();
-
-    if (typeof value === "number") {
-      return colord({
-        h: value,
-        s: hsla.s,
-        l: hsla.l,
-        a: hsla.a,
-      });
-    }
-    return hsla.h;
+    const hsla = rgbaToHsla(this.rgba);
+    if (typeof value === "number") return colord({ h: value, s: hsla.s, l: hsla.l, a: hsla.a });
+    return round(hsla.h);
   }
 }
 
