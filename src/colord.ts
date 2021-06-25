@@ -148,6 +148,13 @@ export class Colord {
   }
 
   /**
+   * Changes the HSL hue of a color by the given amount.
+   */
+  public rotate(amount = 0): Colord {
+    return this.hue(this.hue() + amount);
+  }
+
+  /**
    * Allows to get or change an alpha channel value.
    */
   public alpha(): number;
@@ -155,6 +162,25 @@ export class Colord {
   public alpha(value?: number): Colord | number {
     if (typeof value === "number") return colord(changeAlpha(this.rgba, value));
     return round(this.rgba.a, ALPHA_PRECISION);
+  }
+
+  /**
+   * Allows to get or change a hue value.
+   */
+  public hue(): number;
+  public hue(value: number): Colord;
+  public hue(value?: number): Colord | number {
+    const hsla = this.toHsl();
+
+    if (typeof value === "number") {
+      return colord({
+        h: value,
+        s: hsla.s,
+        l: hsla.l,
+        a: hsla.a,
+      });
+    }
+    return hsla.h;
   }
 }
 
