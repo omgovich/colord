@@ -150,7 +150,7 @@ export class Colord {
   /**
    * Changes the HSL hue of a color by the given amount.
    */
-  public rotate(amount = 0): Colord {
+  public rotate(amount = 15): Colord {
     return this.hue(this.hue() + amount);
   }
 
