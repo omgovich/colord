@@ -338,7 +338,7 @@ colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
 Changes the alpha channel value and returns a new `Colord` instance.
 
 ```js
-colord("rgb(0, 0, 0)").alpha(0.5).toRgbString(); // rgba(0, 0, 0, 0.5)
+colord("rgb(0, 0, 0)").alpha(0.5).toRgbString(); // "rgba(0, 0, 0, 0.5)"
 ```
 
 </details>
@@ -418,6 +418,30 @@ colord("hsl(0, 50%, 100%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 50%)"
 </details>
 
 <details>
+  <summary><b><code>.hue(value)</code></b></summary>
+
+Changes the hue value and returns a new `Colord` instance.
+
+```js
+colord("hsl(90, 50%, 50%)").hue(180).toHslString(); // "hsl(180, 50%, 50%)"
+colord("hsl(90, 50%, 50%)").hue(370).toHslString(); // "hsl(10, 50%, 50%)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>.rotate(amount = 15)</code></b></summary>
+
+Increases the [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV) hue value of a color by the given amount.
+
+```js
+colord("hsl(90, 50%, 50%)").rotate(90).toHslString(); // "hsl(180, 50%, 50%)"
+colord("hsl(90, 50%, 50%)").rotate(-180).toHslString(); // "hsl(270, 50%, 50%)"
+```
+
+</details>
+
+<details>
   <summary><b><code>.mix(color2, ratio = 0.5)</code></b> (<b>mix</b> plugin)</summary>
 
 Produces a mixture of two colors and returns the result of mixing them (new Colord instance).
@@ -464,6 +488,16 @@ colord({ r: 0, g: 0, v: 0 }).isValid(); // false
 ```js
 colord("#ffffff").alpha(); // 1
 colord("rgba(50, 100, 150, 0.5)").alpha(); // 0.5
+```
+
+</details>
+
+<details>
+  <summary><b><code>.hue()</code></b></summary>
+
+```js
+colord("hsl(90, 50%, 50%)").hue(); // 90
+colord("hsl(-10, 50%, 50%)").hue(); // 350
 ```
 
 </details>

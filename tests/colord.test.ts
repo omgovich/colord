@@ -248,6 +248,7 @@ it("Produces alpha values with up to 3 digits after the decimal point", () => {
 it("Gets a hue value", () => {
   expect(colord("#000").hue()).toBe(0);
   expect(colord("hsl(90, 50%, 50%)").hue()).toBe(90);
+  expect(colord("hsl(-10, 50%, 50%)").hue()).toBe(350);
 });
 
 it("Changes a hue value", () => {
