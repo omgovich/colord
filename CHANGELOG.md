@@ -1,3 +1,7 @@
+### 2.1.0
+
+- Add new `hue` and `rotate` methods
+
 ### 2.0.1
 
 - Improve the precision of alpha values
