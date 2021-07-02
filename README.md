@@ -770,6 +770,16 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
+## Projects using Colord
+
+- [cssnano](https://github.com/cssnano/cssnano) — the most popular CSS minification tool
+- [Resume.io](https://resume.io/) — online resume builder with over 12,000,000 users worldwide
+- [Leva](https://github.com/pmndrs/leva) — open source extensible GUI panel made for React
+- [Qui Max](https://github.com/Qvant-lab/qui-max) — Vue.js design system and component library
+- and [thousands more](https://github.com/omgovich/colord/network/dependents)...
+
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
 ## Roadmap
 
 - [x] Parse and convert Hex, RGB(A), HSL(A), HSV(A)
