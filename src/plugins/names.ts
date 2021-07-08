@@ -3,7 +3,10 @@ import { Plugin } from "../extend";
 
 declare module "../colord" {
   interface Colord {
+    /** Finds CSS keyword that exactly matches with the color value */
     toName(): string | undefined;
+    /** Finds a color name that is closest to the color value (approximate) */
+    toClosestName(): string;
   }
 }
 
@@ -172,10 +175,48 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
   const HEX_NAME_STORE: Record<string, string> = {};
   for (const name in NAME_HEX_STORE) HEX_NAME_STORE[NAME_HEX_STORE[name]] = name;
 
+  // Third dictionary to cache RGBA values (useful for distance calculation)
+  const NAME_RGBA_STORE: Record<string, RgbaColor> = {};
+
+  // Finds a distance between two colors
+  // See https://www.wikiwand.com/en/Color_difference
+  const getDistanceBetween = (rgb1: RgbaColor, rgb2: RgbaColor) => {
+    return (rgb1.r - rgb2.r) ** 2 + (rgb1.g - rgb2.g) ** 2 + (rgb1.b - rgb2.b) ** 2;
+  };
+
   // Define new color conversion method
   ColordClass.prototype.toName = function () {
     if (!this.rgba.a && !this.rgba.r && !this.rgba.g && !this.rgba.b) return "transparent";
     return HEX_NAME_STORE[this.toHex()] || undefined;
+  };
+
+  // Define new color conversion method
+  ColordClass.prototype.toClosestName = function () {
+    // Return exact match if present
+    const exactMatch = this.toName();
+    if (exactMatch) return exactMatch;
+
+    const rgba = this.toRgb();
+    let minDistance = Infinity;
+    let closestMatch = "black";
+
+    // Fill the dictionary if empty
+    if (!NAME_RGBA_STORE.length) {
+      for (const name in NAME_HEX_STORE) {
+        NAME_RGBA_STORE[name] = new ColordClass(NAME_HEX_STORE[name]).toRgb();
+      }
+    }
+
+    // Find the closest color
+    for (const name in NAME_HEX_STORE) {
+      const distance = getDistanceBetween(rgba, NAME_RGBA_STORE[name]);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestMatch = name;
+      }
+    }
+
+    return closestMatch;
   };
 
   // Add CSS color names parser
