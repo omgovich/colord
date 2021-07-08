@@ -296,6 +296,13 @@ describe("names", () => {
     expect(colord("#F00").toName()).toBe("red");
   });
 
+  it("Gets the closest CSS color keyword", () => {
+    expect(colord("#AAA").toClosestName()).toBe("darkgray");
+    expect(colord("#fd0202").toClosestName()).toBe("red");
+    expect(colord("#00008d").toClosestName()).toBe("darkblue");
+    expect(colord("#FFF").toClosestName()).toBe("white");
+  });
+
   it("Does not crash when name is not found", () => {
     expect(colord("#123456").toName()).toBe(undefined);
     expect(colord("myownpurple").toHex()).toBe("#000000");
