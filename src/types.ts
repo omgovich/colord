@@ -40,6 +40,13 @@ export interface LchColor {
   h: number;
 }
 
+export interface CmykColor {
+  c: number;
+  m: number;
+  y: number;
+  k: number;
+}
+
 type WithAlpha<O> = O & { a: number };
 export type RgbaColor = WithAlpha<RgbColor>;
 export type HslaColor = WithAlpha<HslColor>;
@@ -48,6 +55,7 @@ export type HwbaColor = WithAlpha<HwbColor>;
 export type XyzaColor = WithAlpha<XyzColor>; // Naming is the hardest part https://stackoverflow.com/a/2464027
 export type LabaColor = LabColor & { alpha: number };
 export type LchaColor = WithAlpha<LchColor>;
+export type CmykaColor = WithAlpha<CmykColor>;
 
 export type ObjectColor =
   | RgbColor
@@ -63,13 +71,15 @@ export type ObjectColor =
   | LabColor
   | LabaColor
   | LchColor
-  | LchaColor;
+  | LchaColor
+  | CmykColor
+  | CmykaColor;
 
 export type AnyColor = string | ObjectColor;
 
 export type InputObject = Record<string, unknown>;
 
-export type Format = "name" | "hex" | "rgb" | "hsl" | "hsv" | "hwb" | "xyz" | "lab" | "lch";
+export type Format = "name" | "hex" | "rgb" | "hsl" | "hsv" | "hwb" | "xyz" | "lab" | "lch" | "cmyk";
 
 export type Input = string | InputObject;
 
