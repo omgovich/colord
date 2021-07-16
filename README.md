@@ -229,6 +229,23 @@ colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
 </details>
 
 <details>
+  <summary><b><code>.toCmyk()</code></b> (<b>cmyk</b> plugin)</summary>
+
+Converts a color to [CMYK](https://en.wikipedia.org/wiki/CMYK_color_model) color space.
+
+```js
+import { colord, extend } from "colord";
+import cmykPlugin from "colord/plugins/cmyk";
+
+extend([cmykPlugin]);
+
+colord("#ffffff").toCmyk(); // { c: 0, m: 0, y: 0, k: 0, a: 1 }
+colord("#555aaa").toCmyk(); // { c: 50, m: 47, y: 0, k: 33, a: 1 }
+```
+
+</details>
+
+<details>
   <summary><b><code>.toHwb()</code></b> (<b>hwb</b> plugin)</summary>
 
 Converts a color to [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color space.
@@ -633,6 +650,23 @@ colord("#777777").isReadable(); // false (gray on white)
 colord("#e60000").isReadable("#ffff47"); // true (normal red text on yellow bg conforms to WCAG AA)
 colord("#e60000").isReadable("#ffff47", { level: "AAA" }); // false (normal red text on yellow bg does not conform to WCAG AAA)
 colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // true (large red text on yellow bg conforms to WCAG AAA)
+```
+
+</details>
+
+<details>
+  <summary><b><code>cmyk</code> (CMYK color space)</b> <i></i></summary>
+
+Adds support of [CMYK](https://www.sttmedia.com/colormodel-cmyk) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+
+```js
+import { colord, extend } from "colord";
+import cmykPlugin from "colord/plugins/cmyk";
+
+extend([cmykPlugin]);
+
+colord("#ffffff").toCmyk(); // { c: 0, m: 0, y: 0, k: 0, a: 1 }
+colord({ c: 0, m: 0, y: 0, k: 100, a: 1 }).toHex(); // "#000000"
 ```
 
 </details>

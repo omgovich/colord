@@ -1,5 +1,6 @@
 import { colord, getFormat, extend } from "../src/";
 import a11yPlugin from "../src/plugins/a11y";
+import cmykPlugin from "../src/plugins/cmyk";
 import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
 import lchPlugin from "../src/plugins/lch";
@@ -49,6 +50,38 @@ describe("a11y", () => {
     expect(colord("#e9dddd").isReadable("#864b7c", { level: "AAA", size: "large" })).toBe(true);
     expect(colord("#e9dddd").isReadable("#67325e", { level: "AAA" })).toBe(true);
     expect(colord("#e9dddd").isReadable(colord("#67325e"), { level: "AAA" })).toBe(true);
+  });
+});
+
+describe("cmyk", () => {
+  extend([cmykPlugin]);
+
+  it("Parses CMYK color object", () => {
+    expect(colord({ c: 0, m: 0, y: 0, k: 100 }).toHex()).toBe("#000000");
+    expect(colord({ c: 16, m: 8, y: 0, k: 20, a: 1 }).toHex()).toBe("#abbccc");
+    expect(colord({ c: 51, m: 47, y: 0, k: 33, a: 0.5 }).toHex()).toBe("#545bab80");
+    expect(colord({ c: 0, m: 0, y: 0, k: 0, a: 1 }).toHex()).toBe("#ffffff");
+  });
+
+  it("Converts a color to CMYK object", () => {
+    // https://htmlcolors.com/color-converter
+    expect(colord("#000000").toCmyk()).toMatchObject({ c: 0, m: 0, y: 0, k: 100, a: 1 });
+    expect(colord("#ff0000").toCmyk()).toMatchObject({ c: 0, m: 100, y: 100, k: 0, a: 1 });
+    expect(colord("#00ffff").toCmyk()).toMatchObject({ c: 100, m: 0, y: 0, k: 0, a: 1 });
+    expect(colord("#665533").toCmyk()).toMatchObject({ c: 0, m: 17, y: 50, k: 60, a: 1 });
+    expect(colord("#feacfa").toCmyk()).toMatchObject({ c: 0, m: 32, y: 2, k: 0, a: 1 });
+    expect(colord("#ffffff").toCmyk()).toMatchObject({ c: 0, m: 0, y: 0, k: 0, a: 1 });
+  });
+
+  it("Converts a color to CMYK string", () => {
+    https://en.wikipedia.org/wiki/CMYK_color_model
+    expect(colord("#999966").toCmykString()).toBe("device-cmyk(0% 0% 33% 40%)");
+    expect(colord("#99ffff").toCmykString()).toBe("device-cmyk(40% 0% 0% 0%)");
+    expect(colord("#00336680").toCmykString()).toBe("device-cmyk(100% 50% 0% 60% / 0.5)");
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat({ c: 0, m: 0, y: 0, k: 100 })).toBe("cmyk");
   });
 });
 
