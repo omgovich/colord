@@ -79,7 +79,17 @@ export type AnyColor = string | ObjectColor;
 
 export type InputObject = Record<string, unknown>;
 
-export type Format = "name" | "hex" | "rgb" | "hsl" | "hsv" | "hwb" | "xyz" | "lab" | "lch" | "cmyk";
+export type Format =
+  | "name"
+  | "hex"
+  | "rgb"
+  | "hsl"
+  | "hsv"
+  | "hwb"
+  | "xyz"
+  | "lab"
+  | "lch"
+  | "cmyk";
 
 export type Input = string | InputObject;
 
