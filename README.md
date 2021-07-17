@@ -655,7 +655,7 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
-  <summary><b><code>cmyk</code> (CMYK color space)</b> <i></i></summary>
+  <summary><b><code>cmyk</code> (CMYK color space)</b> <i>1.38 KB</i></summary>
 
 Adds support of [CMYK](https://www.sttmedia.com/colormodel-cmyk) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
