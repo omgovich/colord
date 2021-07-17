@@ -11,7 +11,7 @@ export function clampCmyka({ c, m, y, k, a = 1 }: CmykaColor): CmykaColor {
     m: clamp(m, 0, 100),
     y: clamp(y, 0, 100),
     k: clamp(k, 0, 100),
-    a: clamp(a)
+    a: clamp(a),
   };
 }
 
@@ -24,7 +24,7 @@ export function roundCmyka({ c, m, y, k, a = 1 }: CmykaColor): CmykaColor {
     m: round(m, 2),
     y: round(y, 2),
     k: round(k, 2),
-    a: round(a, ALPHA_PRECISION)
+    a: round(a, ALPHA_PRECISION),
   };
 }
 
@@ -33,17 +33,16 @@ export function roundCmyka({ c, m, y, k, a = 1 }: CmykaColor): CmykaColor {
  * https://www.rapidtables.com/convert/color/cmyk-to-rgb.html
  */
 export function cmykaToRgba(color: CmykaColor): RgbaColor {
-  let c = color.c / 100;
-  let m = color.m / 100;
-  let y = color.y / 100;
-  let k = color.k / 100;
-  let a = color?.a ?? 1;
-  
+  const c = color.c / 100;
+  const m = color.m / 100;
+  const y = color.y / 100;
+  const k = color.k / 100;
+  const a = color?.a ?? 1;
   return {
     r: round(255 * (1 - c) * (1 - k)),
     g: round(255 * (1 - m) * (1 - k)),
     b: round(255 * (1 - y) * (1 - k)),
-    a: a ? round(a, ALPHA_PRECISION) : 1
+    a: a ? round(a, ALPHA_PRECISION) : 1,
   };
 }
 
@@ -52,23 +51,19 @@ export function cmykaToRgba(color: CmykaColor): RgbaColor {
  * https://www.rapidtables.com/convert/color/rgb-to-cmyk.html
  */
 export function rgbaToCmyka(color: RgbaColor): CmykaColor {
-  let r = color.r / 255;
-  let g = color.g / 255;
-  let b = color.b / 255;
-  let a = color.a ?? 1;
-  
-  let k = 1 - Math.max(r, g, b);
-  
-  let c = (1 - r - k) / (1 - k);
-  let m = (1 - g - k) / (1 - k);
-  let y = (1 - b - k) / (1 - k);
-  
+  const [ r, g, b, a ] = [ color.r / 255, color.g / 255, color.b / 255, color.a ?? 1 ];
+  const k = 1 - Math.max(r, g, b);
+  const [ c, m, y ] = [
+    (1 - r - k) / (1 - k),
+    (1 - g - k) / (1 - k),
+    (1 - b - k) / (1 - k),
+  ];
   return {
     c: Number.isNaN(c) ? 0 : round(c * 100),
     m: Number.isNaN(m) ? 0 : round(m * 100),
     y: Number.isNaN(y) ? 0 : round(y * 100),
     k: round(k * 100),
-    a: round(a, 2)
+    a: round(a, 2),
   };
 }
 
@@ -82,12 +77,10 @@ export function parseCmyka({ c, m, y, k, a = 1 }: InputObject): RgbaColor | null
       m: Number(m),
       y: Number(y),
       k: Number(k),
-      a: Number(a)
+      a: Number(a),
     });
-    
     return cmykaToRgba(cmyk);
   }
-  
   return null;
 }
 
