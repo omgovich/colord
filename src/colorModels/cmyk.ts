@@ -51,13 +51,9 @@ export function cmykaToRgba(color: CmykaColor): RgbaColor {
  * https://www.rapidtables.com/convert/color/rgb-to-cmyk.html
  */
 export function rgbaToCmyka(color: RgbaColor): CmykaColor {
-  const [ r, g, b, a ] = [ color.r / 255, color.g / 255, color.b / 255, color.a ?? 1 ];
+  const [r, g, b, a] = [color.r / 255, color.g / 255, color.b / 255, color.a ?? 1];
   const k = 1 - Math.max(r, g, b);
-  const [ c, m, y ] = [
-    (1 - r - k) / (1 - k),
-    (1 - g - k) / (1 - k),
-    (1 - b - k) / (1 - k),
-  ];
+  const [c, m, y] = [(1 - r - k) / (1 - k), (1 - g - k) / (1 - k), (1 - b - k) / (1 - k)];
   return {
     c: Number.isNaN(c) ? 0 : round(c * 100),
     m: Number.isNaN(m) ? 0 : round(m * 100),
