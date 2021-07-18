@@ -1,7 +1,7 @@
 import { CmykaColor } from "../types";
 import { Plugin } from "../extend";
 import { parseCmyka, roundCmyka, rgbaToCmyka } from "../colorModels/cmyk";
-import { cmykToCmykaString } from "../colorModels/cmyk";
+import { parseCmykaString, rgbaToCmykaString } from "../colorModels/cmykString";
 
 declare module "../colord" {
   interface Colord {
@@ -30,10 +30,11 @@ const cmykPlugin: Plugin = (ColordClass, parsers): void => {
   };
 
   ColordClass.prototype.toCmykString = function () {
-    return cmykToCmykaString(this.rgba);
+    return rgbaToCmykaString(this.rgba);
   };
 
   parsers.object.push([parseCmyka, "cmyk"]);
+  parsers.string.push([parseCmykaString, "cmyk"]);
 };
 
 export default cmykPlugin;

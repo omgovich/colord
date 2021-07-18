@@ -1,3 +1,7 @@
+### 2.2.0
+
+- New plugin: CMYK color space ❤️ [@EricRovell](https://github.com/EricRovell)
+
 ### 2.1.0
 
 - Add new `hue` and `rotate` methods
@@ -51,8 +55,8 @@
 
 ### 1.2.1
 
-- Fix: Do not treat 7-digit hex as a valid color ❤️ @subzey
-- Parser update: Turn NaN input values into valid numbers ❤️ @subzey
+- Fix: Do not treat 7-digit hex as a valid color ❤️ [@subzey](https://github.com/subzey)
+- Parser update: Turn NaN input values into valid numbers ❤️ [@subzey](https://github.com/subzey)
 
 ### 1.2.0
 
@@ -72,7 +76,7 @@
 
 ### 0.10.2
 
-- Sort named colors dictionary for better compression ❤️ @subzey
+- Sort named colors dictionary for better compression ❤️ [@subzey](https://github.com/subzey)
 
 ### 0.10.1
 
@@ -109,7 +113,7 @@
 
 ### 0.6.2
 
-- 20% speed improvement ❤️ @jeetiss
+- 20% speed improvement ❤️ [@jeetiss](https://github.com/jeetiss)
 
 ### 0.6.1
 

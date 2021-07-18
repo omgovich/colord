@@ -63,6 +63,12 @@ describe("cmyk", () => {
     expect(colord({ c: 0, m: 0, y: 0, k: 0, a: 1 }).toHex()).toBe("#ffffff");
   });
 
+  it("Parses CMYK color string", () => {
+    expect(colord("device-cmyk(0% 0% 0% 100%)").toHex()).toBe("#000000");
+    expect(colord("device-cmyk(0% 61% 72% 0% / 50%)").toHex()).toBe("#ff634780");
+    expect(colord("device-cmyk(0 0.61 0.72 0 / 0.5)").toHex()).toBe("#ff634780");
+  });
+
   it("Converts a color to CMYK object", () => {
     // https://htmlcolors.com/color-converter
     expect(colord("#000000").toCmyk()).toMatchObject({ c: 0, m: 0, y: 0, k: 100, a: 1 });
@@ -74,7 +80,7 @@ describe("cmyk", () => {
   });
 
   it("Converts a color to CMYK string", () => {
-    https://en.wikipedia.org/wiki/CMYK_color_model
+    // https://en.wikipedia.org/wiki/CMYK_color_model
     expect(colord("#999966").toCmykString()).toBe("device-cmyk(0% 0% 33% 40%)");
     expect(colord("#99ffff").toCmykString()).toBe("device-cmyk(40% 0% 0% 0%)");
     expect(colord("#00336680").toCmykString()).toBe("device-cmyk(100% 50% 0% 60% / 0.5)");
