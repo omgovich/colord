@@ -246,6 +246,25 @@ colord("#555aaa").toCmyk(); // { c: 50, m: 47, y: 0, k: 33, a: 1 }
 </details>
 
 <details>
+  <summary><b><code>.toCmykString()</code></b> (<b>cmyk</b> plugin)</summary>
+
+Converts a color to color space.
+
+Converts a color to [CMYK](https://en.wikipedia.org/wiki/CMYK_color_model) color space and expresses it through the [functional notation](https://www.w3.org/TR/css-color-4/#device-cmyk)
+
+```js
+import { colord, extend } from "colord";
+import cmykPlugin from "colord/plugins/cmyk";
+
+extend([cmykPlugin]);
+
+colord("#99ffff").toCmykString(); // "device-cmyk(40% 0% 0% 0%)"
+colord("#00336680").toCmykString(); // "device-cmyk(100% 50% 0% 60% / 0.5)"
+```
+
+</details>
+
+<details>
   <summary><b><code>.toHwb()</code></b> (<b>hwb</b> plugin)</summary>
 
 Converts a color to [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color space.
@@ -655,9 +674,9 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
-  <summary><b><code>cmyk</code> (CMYK color space)</b> <i>1.38 KB</i></summary>
+  <summary><b><code>cmyk</code> (CMYK color space)</b> <i>0.6 KB</i></summary>
 
-Adds support of [CMYK](https://www.sttmedia.com/colormodel-cmyk) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
+Adds support of [CMYK](https://www.sttmedia.com/colormodel-cmyk) color model.
 
 ```js
 import { colord, extend } from "colord";
@@ -666,7 +685,9 @@ import cmykPlugin from "colord/plugins/cmyk";
 extend([cmykPlugin]);
 
 colord("#ffffff").toCmyk(); // { c: 0, m: 0, y: 0, k: 0, a: 1 }
+colord("#999966").toCmykString(); // "device-cmyk(0% 0% 33% 40%)"
 colord({ c: 0, m: 0, y: 0, k: 100, a: 1 }).toHex(); // "#000000"
+colord("device-cmyk(0% 61% 72% 0% / 50%)").toHex(); // "#ff634780"
 ```
 
 </details>
@@ -833,4 +854,4 @@ const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 - [x] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
 - [x] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
 - [x] Mix colors (via plugin)
-- [ ] CMYK color space (via plugin)
+- [x] CMYK color space (via plugin)

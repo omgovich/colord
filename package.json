@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
@@ -18,6 +18,7 @@
     "css",
     "color-names",
     "a11y",
+    "cmyk",
     "mix"
   ],
   "repository": "omgovich/colord",
@@ -36,6 +37,11 @@
       "import": "./plugins/a11y.mjs",
       "require": "./plugins/a11y.js",
       "default": "./plugins/a11y.mjs"
+    },
+    "./plugins/cmyk": {
+      "import": "./plugins/cmyk.mjs",
+      "require": "./plugins/cmyk.js",
+      "default": "./plugins/cmyk.mjs"
     },
     "./plugins/hwb": {
       "import": "./plugins/hwb.mjs",
@@ -139,6 +145,10 @@
     {
       "path": "dist/plugins/a11y.mjs",
       "limit": "0.5 KB"
+    },
+    {
+      "path": "dist/plugins/cmyk.mjs",
+      "limit": "1 KB"
     },
     {
       "path": "dist/plugins/hwb.mjs",
