@@ -174,6 +174,13 @@ export class Colord {
     if (typeof value === "number") return colord({ h: value, s: hsla.s, l: hsla.l, a: hsla.a });
     return round(hsla.h);
   }
+
+  /**
+   * Checks the color with another instance for equality.
+   */
+  public isEqual(color: Colord): boolean {
+    return this.toHex() === color.toHex();
+  }
 }
 
 /**

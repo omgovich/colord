@@ -264,6 +264,20 @@ it("Rotates a hue circle", () => {
   expect(colord("hsl(90, 50%, 50%)").rotate(-180).toHslString()).toBe("hsl(270, 50%, 50%)");
 });
 
+it("Checks colors for equality", () => {
+  const otherInstance = colord("#1ab2c3");
+  for (const format in lime) {
+    const instance = colord(lime[format] as AnyColor);
+    expect(instance.isEqual(colord(lime["hex"] as AnyColor))).toBe(true);
+    expect(instance.isEqual(colord(lime["rgb"] as AnyColor))).toBe(true);
+    expect(instance.isEqual(colord(lime["rgbString"] as AnyColor))).toBe(true);
+    expect(instance.isEqual(colord(lime["hsl"] as AnyColor))).toBe(true);
+    expect(instance.isEqual(colord(lime["hslString"] as AnyColor))).toBe(true);
+    expect(instance.isEqual(colord(lime["hsv"] as AnyColor))).toBe(true);
+    expect(instance.isEqual(otherInstance)).toBe(false);
+  }
+});
+
 it("Generates a random color", () => {
   expect(random()).toBeInstanceOf(Colord);
   expect(random().toHex()).not.toBe(random().toHex());
