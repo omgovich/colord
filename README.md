@@ -519,6 +519,22 @@ colord({ r: 0, g: 0, v: 0 }).isValid(); // false
 </details>
 
 <details>
+  <summary><b><code>.isEqual()</code></b></summary>
+
+Checks for color equality with another `Colord` instance.
+
+```js
+const color1 = colord("#ffffff")
+const color2 = colord("rgb(255, 255, 255)");
+const color3 = colord("rgb(255, 255, 255, 0.5)");
+
+color1.isEqual(color2) // true
+color1.isEqual(color3) // false
+```
+
+</details>
+
+<details>
   <summary><b><code>.alpha()</code></b></summary>
 
 ```js
