@@ -178,8 +178,8 @@ export class Colord {
   /**
    * Checks the color with another instance for equality.
    */
-  public isEqual(color: Colord): boolean {
-    return this.toHex() === color.toHex();
+  public isEqual(color: AnyColor | Colord): boolean {
+    return this.toHex() === colord(color).toHex();
   }
 }
 
