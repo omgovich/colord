@@ -266,7 +266,7 @@ it("Rotates a hue circle", () => {
 
 it("Checks colors for equality", () => {
   const otherColor = "#1ab2c3";
-  const otherInstance = colord(otherColor);  
+  const otherInstance = colord(otherColor);
   for (const format in lime) {
     const instance = colord(lime[format] as AnyColor);
     expect(instance.isEqual(colord(lime["hex"] as AnyColor))).toBe(true);

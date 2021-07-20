@@ -79,6 +79,7 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - HSV objects
 - Color names ([via plugin](#plugins))
 - HWB objects and strings ([via plugin](#plugins))
+- CMYK objects and strings ([via plugin](#plugins))
 - LCH objects and strings ([via plugin](#plugins))
 - LAB objects ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
@@ -519,13 +520,13 @@ colord({ r: 0, g: 0, v: 0 }).isValid(); // false
 </details>
 
 <details>
-  <summary><b><code>.isEqual(color)</code></b></summary>
+  <summary><b><code>.isEqual(color2)</code></b></summary>
 
-Checks for color equality with another `Colord` instance.
+Determines whether two values are the same color.
 
 ```js
-colord("#000").isEqual("rgb(255, 255, 255)"); // true
-colord("rgba(255, 255, 255, 0.5)").isEqual("#FFF"); // false
+colord("#000000").isEqual("rgb(0, 0, 0)"); // true
+colord("#000000").isEqual("rgb(255, 255, 255)"); // false
 ```
 
 </details>

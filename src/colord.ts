@@ -176,7 +176,7 @@ export class Colord {
   }
 
   /**
-   * Checks the color with another instance for equality.
+   * Determines whether two values are the same color.
    */
   public isEqual(color: AnyColor | Colord): boolean {
     return this.toHex() === colord(color).toHex();

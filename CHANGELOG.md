@@ -1,3 +1,7 @@
+### 2.3.0
+
+- Add new `isEqual` method ❤️ [@EricRovell](https://github.com/EricRovell)
+
 ### 2.2.0
 
 - New plugin: CMYK color space ❤️ [@EricRovell](https://github.com/EricRovell)
