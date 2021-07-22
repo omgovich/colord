@@ -134,7 +134,7 @@ describe("harmonies", () => {
     ]);
   });
   it("Generates splitcomplimentary colors", () => {
-    expect(color.harmonies("splitcomplimentary").map((value) => value.toHex())).toEqual([
+    expect(color.harmonies("split-complimentary").map((value) => value.toHex())).toEqual([
       "#ff0000",
       "#00ff80",
       "#0080ff",
