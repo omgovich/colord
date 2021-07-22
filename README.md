@@ -265,32 +265,6 @@ colord("#00336680").toCmykString(); // "device-cmyk(100% 50% 0% 60% / 0.5)"
 </details>
 
 <details>
-  <summary><code>Harmonies</code></b> (<b>Harmony colors</b> plugin)</summary>
-
-Provides functionatity to generate [harmony colors](https://en.wikipedia.org/wiki/Harmony_(color)).
-
-```js
-import { colord, extends } from "colord";
-import { harmonies } from "colord/plugins/harmonies";
-
-const color = colord("FF0000");
-
-color.harmonies("analogous")
-  .map(color => color.hex); // [ "#FF0080", "#FF0000", "#FF8000"]
-color.harmonies("complimentary")
-  .map(color => color.hex); // [ "#FF0000", "#00FFFF" ]
-color.harmonies("rectangle")
-  .map(color => color.hex); // [ "#FF0000", "#FFFF00", "#00FFFF", "#0000FF" ]
-color.harmonies("tetradic")
-  .map(color => color.hex); // [ "#FF0000", "#80FF00", "#00FFFF", "#8000FF" ]
-color.harmonies("triadic"  )
-  .map(color => color.hex); // [ "#FF0000", "#00FF00", "#0000FF" ]
-color.harmonies("splitcomplimentary")
-  .map(color => color.hex); // [ "#FF0000", "#00FF80", "#0080FF" ]
-```
-</details>
-
-<details>
   <summary><b><code>.toHwb()</code></b> (<b>hwb</b> plugin)</summary>
 
 Converts a color to [HWB (Hue-Whiteness-Blackness)](https://en.wikipedia.org/wiki/HWB_color_model) color space.
@@ -524,6 +498,32 @@ colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#e3c07e"
 colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 ```
 
+</details>
+
+<details>
+  <summary><code>.harmonies(type = "complimentary")</code></b> (<b>harmonies</b> plugin)</summary>
+
+Provides functionatity to generate [harmony colors](https://en.wikipedia.org/wiki/Harmony_(color)).
+
+```js
+import { colord, extends } from "colord";
+import { harmonies } from "colord/plugins/harmonies";
+
+const color = colord("FF0000");
+
+color.harmonies("analogous")
+  .map(color => color.toHex()); // [ "#FF0080", "#FF0000", "#FF8000"]
+color.harmonies("complimentary")
+  .map(color => color.toHex()); // [ "#FF0000", "#00FFFF" ]
+color.harmonies("rectangle")
+  .map(color => color.toHex()); // [ "#FF0000", "#FFFF00", "#00FFFF", "#0000FF" ]
+color.harmonies("tetradic")
+  .map(color => color.toHex()); // [ "#FF0000", "#80FF00", "#00FFFF", "#8000FF" ]
+color.harmonies("triadic"  )
+  .map(color => color.toHex()); // [ "#FF0000", "#00FF00", "#0000FF" ]
+color.harmonies("split-complimentary")
+  .map(color => color.toHex()); // [ "#FF0000", "#00FF80", "#0080FF" ]
+```
 </details>
 
 ### Color analysis
