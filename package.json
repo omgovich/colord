@@ -19,7 +19,8 @@
     "color-names",
     "a11y",
     "cmyk",
-    "mix"
+    "mix",
+    "harmony colors"
   ],
   "repository": "omgovich/colord",
   "author": "Vlad Shilov <omgovich@ya.ru>",
@@ -42,6 +43,11 @@
       "import": "./plugins/cmyk.mjs",
       "require": "./plugins/cmyk.js",
       "default": "./plugins/cmyk.mjs"
+    },
+    "./plugins/harmonies": {
+      "import": "./plugins/harmonies.mjs",
+      "require": "./plugins/harmonies.js",
+      "default": "./plugins/harmonies.mjs"
     },
     "./plugins/hwb": {
       "import": "./plugins/hwb.mjs",
@@ -149,6 +155,10 @@
     {
       "path": "dist/plugins/cmyk.mjs",
       "limit": "1 KB"
+    },
+    {
+      "path": "dist/plugins/harmonies.mjs",
+      "limit": "0.5 KB"
     },
     {
       "path": "dist/plugins/hwb.mjs",
