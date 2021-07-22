@@ -1,6 +1,7 @@
 import { colord, getFormat, extend } from "../src/";
 import a11yPlugin from "../src/plugins/a11y";
 import cmykPlugin from "../src/plugins/cmyk";
+import harmoniesPlugin from "../src/plugins/harmonies";
 import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
 import lchPlugin from "../src/plugins/lch";
@@ -88,6 +89,56 @@ describe("cmyk", () => {
 
   it("Supported by `getFormat`", () => {
     expect(getFormat({ c: 0, m: 0, y: 0, k: 100 })).toBe("cmyk");
+  });
+});
+
+describe("harmonies", () => {
+  extend([harmoniesPlugin]);
+
+  const color = colord("#FF0000");
+
+  it("Generates analogous colors", () => {
+    expect(color.harmonies("analogous").map((value) => value.toHex())).toEqual([
+      "#ff0080",
+      "#ff0000",
+      "#ff8000",
+    ]);
+  });
+  it("Generates complimentary colors", () => {
+    expect(color.harmonies("complimentary").map((value) => value.toHex())).toEqual([
+      "#ff0000",
+      "#00ffff",
+    ]);
+  });
+  it("Generates rectangle colors", () => {
+    expect(color.harmonies("rectangle").map((value) => value.toHex())).toEqual([
+      "#ff0000",
+      "#ffff00",
+      "#00ffff",
+      "#0000ff",
+    ]);
+  });
+  it("Generates tetradic colors", () => {
+    expect(color.harmonies("tetradic").map((value) => value.toHex())).toEqual([
+      "#ff0000",
+      "#80ff00",
+      "#00ffff",
+      "#8000ff",
+    ]);
+  });
+  it("Generates triadic colors", () => {
+    expect(color.harmonies("triadic").map((value) => value.toHex())).toEqual([
+      "#ff0000",
+      "#00ff00",
+      "#0000ff",
+    ]);
+  });
+  it("Generates splitcomplimentary colors", () => {
+    expect(color.harmonies("splitcomplimentary").map((value) => value.toHex())).toEqual([
+      "#ff0000",
+      "#00ff80",
+      "#0080ff",
+    ]);
   });
 });
 
