@@ -266,7 +266,7 @@ colord("#00336680").toCmykString(); // "device-cmyk(100% 50% 0% 60% / 0.5)"
 </details>
 
 <details>
-  <summary><code>Harmonies</code></summary>
+  <summary><code>Harmonies</code></b> (<b>Harmony colors</b> plugin)</summary>
 
 Provides functionatity to generate [harmony colors](https://en.wikipedia.org/wiki/Harmony_(color)).
 
