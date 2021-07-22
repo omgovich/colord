@@ -6,12 +6,12 @@ export type Harmony =
   | "rectangle"
   | "tetradic"
   | "triadic"
-  | "splitcomplimentary";
+  | "split-complimentary";
 
 declare module "../colord" {
   interface Colord {
     /**
-     * Returns an array of harmony colors as `blossom` instances.
+     * Returns an array of harmony colors as `Colord` instances.
      */
     harmonies(type: Harmony): Colord[];
   }
@@ -31,7 +31,7 @@ const harmoniesPlugin: Plugin = (ColordClass): void => {
     rectangle: [0, 60, 180, 240],
     tetradic: [0, 90, 180, 270],
     triadic: [0, 120, 240],
-    splitcomplimentary: [0, 150, 210],
+    "split-complimentary": [0, 150, 210],
   };
 
   ColordClass.prototype.harmonies = function (type = "complimentary") {
