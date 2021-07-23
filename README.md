@@ -502,29 +502,25 @@ colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 </details>
 
 <details>
-  <summary><code>.harmonies(type = "complimentary")</code></b> (<b>harmonies</b> plugin)</summary>
+  <summary><b><code>.harmonies(type = "complementary")</code></b> (<b>harmonies</b> plugin)</summary>
 
-Provides functionatity to generate [harmony colors](https://en.wikipedia.org/wiki/Harmony_(color)).
+Provides functionality to generate [harmony colors](<https://en.wikipedia.org/wiki/Harmony_(color)>). Returns an array of `Colord` instances.
 
 ```js
 import { colord, extends } from "colord";
-import { harmonies } from "colord/plugins/harmonies";
+import harmoniesPlugin from "colord/plugins/harmonies";
 
-const color = colord("FF0000");
+extend([harmoniesPlugin]);
 
-color.harmonies("analogous")
-  .map(color => color.toHex()); // [ "#FF0080", "#FF0000", "#FF8000"]
-color.harmonies("complimentary")
-  .map(color => color.toHex()); // [ "#FF0000", "#00FFFF" ]
-color.harmonies("rectangle")
-  .map(color => color.toHex()); // [ "#FF0000", "#FFFF00", "#00FFFF", "#0000FF" ]
-color.harmonies("tetradic")
-  .map(color => color.toHex()); // [ "#FF0000", "#80FF00", "#00FFFF", "#8000FF" ]
-color.harmonies("triadic"  )
-  .map(color => color.toHex()); // [ "#FF0000", "#00FF00", "#0000FF" ]
-color.harmonies("split-complimentary")
-  .map(color => color.toHex()); // [ "#FF0000", "#00FF80", "#0080FF" ]
+const color = colord("#ff0000");
+color.harmonies("analogous").map((c) => c.toHex()); // ["#ff0080", "#ff0000", "#ff8000"]
+color.harmonies("complementary").map((c) => c.toHex()); // ["#ff0000", "#00ffff"]
+color.harmonies("rectangle").map((c) => c.toHex()); // ["#ff0000", "#ffff00", "#00ffff", "#0000ff"]
+color.harmonies("split-complementary").map((c) => c.toHex()); // ["#ff0000", "#00ff80", "#0080ff"]
+color.harmonies("tetradic").map((c) => c.toHex()); // ["#ff0000", "#80ff00", "#00ffff", "#8000ff"]
+color.harmonies("triadic").map((c) => c.toHex()); // ["#ff0000", "#00ff00", "#0000ff"]
 ```
+
 </details>
 
 ### Color analysis
@@ -727,6 +723,28 @@ colord("#ffffff").toCmyk(); // { c: 0, m: 0, y: 0, k: 0, a: 1 }
 colord("#999966").toCmykString(); // "device-cmyk(0% 0% 33% 40%)"
 colord({ c: 0, m: 0, y: 0, k: 100, a: 1 }).toHex(); // "#000000"
 colord("device-cmyk(0% 61% 72% 0% / 50%)").toHex(); // "#ff634780"
+```
+
+</details>
+
+<details>
+  <summary><b><code>harmonies</code> (Color harmonies)</b> <i>0.15 KB</i></summary>
+
+Provides functionality to generate [harmony colors](<https://en.wikipedia.org/wiki/Harmony_(color)>).
+
+```js
+import { colord, extends } from "colord";
+import harmonies from "colord/plugins/harmonies";
+
+extend([harmonies]);
+
+const color = colord("#ff0000");
+color.harmonies("analogous").map((c) => c.toHex()); // ["#ff0080", "#ff0000", "#ff8000"]
+color.harmonies("complementary").map((c) => c.toHex()); // ["#ff0000", "#00ffff"]
+color.harmonies("rectangle").map((c) => c.toHex()); // ["#ff0000", "#ffff00", "#00ffff", "#0000ff"]
+color.harmonies("split-complementary").map((c) => c.toHex()); // ["#ff0000", "#00ff80", "#0080ff"]
+color.harmonies("tetradic").map((c) => c.toHex()); // ["#ff0000", "#80ff00", "#00ffff", "#8000ff"]
+color.harmonies("triadic").map((c) => c.toHex()); // ["#ff0000", "#00ff00", "#0000ff"]
 ```
 
 </details>

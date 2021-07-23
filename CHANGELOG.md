@@ -1,3 +1,7 @@
+### 2.4.0
+
+- New plugin: Color harmonies generator ❤️ [@EricRovell](https://github.com/EricRovell)
+
 ### 2.3.0
 
 - Add new `isEqual` method ❤️ [@EricRovell](https://github.com/EricRovell)
