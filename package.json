@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
@@ -20,7 +20,7 @@
     "a11y",
     "cmyk",
     "mix",
-    "harmony colors"
+    "harmonies"
   ],
   "repository": "omgovich/colord",
   "author": "Vlad Shilov <omgovich@ya.ru>",
