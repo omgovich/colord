@@ -211,7 +211,7 @@ colord("rgba(0, 255, 255, 0.5) ").toHsv(); // { h: 180, s: 100, v: 100, a: 1 }
 </details>
 
 <details>
-  <summary><b><code>.toName()</code></b> (<b>names</b> plugin)</summary>
+  <summary><b><code>.toName(options?)</code></b> (<b>names</b> plugin)</summary>
 
 Converts a color to a [CSS keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords). Returns `undefined` if the color is not specified in the specs.
 
@@ -223,8 +223,10 @@ extend([namesPlugin]);
 
 colord("#ff6347").toName(); // "tomato"
 colord("#00ffff").toName(); // "cyan"
-colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
 colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
+
+colord("#fe0000").toName(); // undefined (the color is not specified in CSS specs)
+colord("#fe0000").toName({ closest: true }); // "red" (closest color available)
 ```
 
 </details>
@@ -842,8 +844,9 @@ extend([namesPlugin]);
 
 colord("tomato").toHex(); // "#ff6347"
 colord("#00ffff").toName(); // "cyan"
-colord("#aabbcc").toName(); // undefined (the color is not specified in CSS specs)
 colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
+colord("#fe0000").toName(); // undefined (the color is not specified in CSS specs)
+colord("#fe0000").toName({ closest: true }); // "red" (closest color)
 ```
 
 </details>

@@ -294,13 +294,15 @@ describe("names", () => {
 
   it("Converts a color to CSS name", () => {
     expect(colord("#F00").toName()).toBe("red");
+    expect(colord("#663399").toName()).toBe("rebeccapurple");
   });
 
   it("Gets the closest CSS color keyword", () => {
-    expect(colord("#AAA").toClosestName()).toBe("darkgray");
-    expect(colord("#fd0202").toClosestName()).toBe("red");
-    expect(colord("#00008d").toClosestName()).toBe("darkblue");
-    expect(colord("#FFF").toClosestName()).toBe("white");
+    expect(colord("#AAA").toName({ closest: true })).toBe("darkgray");
+    expect(colord("#fd0202").toName({ closest: true })).toBe("red");
+    expect(colord("#00008d").toName({ closest: true })).toBe("darkblue");
+    expect(colord("#fe0000").toName({ closest: true })).toBe("red");
+    expect(colord("#FFF").toName({ closest: true })).toBe("white");
   });
 
   it("Does not crash when name is not found", () => {
