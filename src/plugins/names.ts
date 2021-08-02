@@ -1,12 +1,14 @@
 import { ParseFunction, RgbaColor } from "../types";
 import { Plugin } from "../extend";
 
+interface ConvertOptions {
+  closest?: boolean;
+}
+
 declare module "../colord" {
   interface Colord {
-    /** Finds CSS keyword that exactly matches with the color value */
-    toName(): string | undefined;
-    /** Finds a color name that is closest to the color value (approximate) */
-    toClosestName(): string;
+    /** Finds CSS color keyword that matches with the color value */
+    toName(options?: ConvertOptions): string | undefined;
   }
 }
 
@@ -185,38 +187,41 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
   };
 
   // Define new color conversion method
-  ColordClass.prototype.toName = function () {
+  ColordClass.prototype.toName = function (options) {
+    // Process "transparent" keyword
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#transparent_keyword
     if (!this.rgba.a && !this.rgba.r && !this.rgba.g && !this.rgba.b) return "transparent";
-    return HEX_NAME_STORE[this.toHex()] || undefined;
-  };
 
-  // Define new color conversion method
-  ColordClass.prototype.toClosestName = function () {
-    // Return exact match if present
-    const exactMatch = this.toName();
+    // Return exact match right away
+    const exactMatch = HEX_NAME_STORE[this.toHex()];
     if (exactMatch) return exactMatch;
 
-    const rgba = this.toRgb();
-    let minDistance = Infinity;
-    let closestMatch = "black";
+    // Find closest color, if there is no exact match and `approximate` flag enabled
+    if (options?.closest) {
+      const rgba = this.toRgb();
+      let minDistance = Infinity;
+      let closestMatch = "black";
 
-    // Fill the dictionary if empty
-    if (!NAME_RGBA_STORE.length) {
+      // Fill the dictionary if empty
+      if (!NAME_RGBA_STORE.length) {
+        for (const name in NAME_HEX_STORE) {
+          NAME_RGBA_STORE[name] = new ColordClass(NAME_HEX_STORE[name]).toRgb();
+        }
+      }
+
+      // Find the closest color
       for (const name in NAME_HEX_STORE) {
-        NAME_RGBA_STORE[name] = new ColordClass(NAME_HEX_STORE[name]).toRgb();
+        const distance = getDistanceBetween(rgba, NAME_RGBA_STORE[name]);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestMatch = name;
+        }
       }
+
+      return closestMatch;
     }
 
-    // Find the closest color
-    for (const name in NAME_HEX_STORE) {
-      const distance = getDistanceBetween(rgba, NAME_RGBA_STORE[name]);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestMatch = name;
-      }
-    }
-
-    return closestMatch;
+    return undefined;
   };
 
   // Add CSS color names parser
