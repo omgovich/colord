@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/omgovich/colord">
+  <a href="https://colord.omgovich.ru/">
     <img src="assets/logo.png" width="280" height="210" alt="colord" />
   </a>
 </div>
