@@ -1,3 +1,7 @@
+### 2.5.0
+
+- New `closest` option of `toName` method allows you to find the closest color if there is no exact match
+
 ### 2.4.0
 
 - New plugin: Color harmonies generator ❤️ [@EricRovell](https://github.com/EricRovell)

@@ -832,7 +832,7 @@ colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 </details>
 
 <details>
-  <summary><b><code>names</code> (CSS color keywords)</b> <i>1.29 KB</i></summary>
+  <summary><b><code>names</code> (CSS color keywords)</b> <i>1.45 KB</i></summary>
 
 Provides options to convert a color into a [CSS color keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords) and vice versa.
 
