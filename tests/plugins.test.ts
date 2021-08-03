@@ -105,6 +105,7 @@ describe("harmonies", () => {
     check(undefined, "#ff0000", ["#ff0000", "#00ffff"]); // "complementary"
     check("analogous", "#ff0000", ["#ff0080", "#ff0000", "#ff8000"]);
     check("complementary", "#ff0000", ["#ff0000", "#00ffff"]);
+    check("double-split-complementary", "#ff0000", ["#ff0080", "#ff0000", "#ff8000", "#00ff80", "#0080ff"]);
     check("rectangle", "#ff0000", ["#ff0000", "#ffff00", "#00ffff", "#0000ff"]);
     check("tetradic", "#ff0000", ["#ff0000", "#80ff00", "#00ffff", "#8000ff"]);
     check("triadic", "#ff0000", ["#ff0000", "#00ff00", "#0000ff"]);

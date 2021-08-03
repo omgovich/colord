@@ -517,6 +517,7 @@ extend([harmoniesPlugin]);
 const color = colord("#ff0000");
 color.harmonies("analogous").map((c) => c.toHex()); // ["#ff0080", "#ff0000", "#ff8000"]
 color.harmonies("complementary").map((c) => c.toHex()); // ["#ff0000", "#00ffff"]
+color.harmonies("double-split-complementary").map((c) => c.toHex()); // ["#ff0080", "#ff0000", "#ff8000", "#00ff80", "#0080ff"]
 color.harmonies("rectangle").map((c) => c.toHex()); // ["#ff0000", "#ffff00", "#00ffff", "#0000ff"]
 color.harmonies("split-complementary").map((c) => c.toHex()); // ["#ff0000", "#00ff80", "#0080ff"]
 color.harmonies("tetradic").map((c) => c.toHex()); // ["#ff0000", "#80ff00", "#00ffff", "#8000ff"]

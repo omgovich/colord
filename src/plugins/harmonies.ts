@@ -3,6 +3,7 @@ import { Plugin } from "../extend";
 export type HarmonyType =
   | "analogous"
   | "complementary"
+  | "double-split-complementary"
   | "rectangle"
   | "split-complementary"
   | "tetradic"
@@ -28,6 +29,7 @@ const harmoniesPlugin: Plugin = (ColordClass): void => {
   const hueShifts: Record<HarmonyType, number[]> = {
     analogous: [-30, 0, 30],
     complementary: [0, 180],
+    "double-split-complementary": [-30, 0, 30, 150, 210],
     rectangle: [0, 60, 180, 240],
     tetradic: [0, 90, 180, 270],
     triadic: [0, 120, 240],
