@@ -1,3 +1,7 @@
+### 2.6.0
+
+- Support "double split complementary" color harmony generation ❤️ [@EricRovell](https://github.com/EricRovell) & [@lbragile](https://github.com/lbragile)
+
 ### 2.5.0
 
 - New `closest` option of `toName` method allows you to find the closest color if there is no exact match
