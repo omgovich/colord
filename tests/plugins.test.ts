@@ -275,6 +275,18 @@ describe("mix", () => {
     expect(colord("#ffffff").mix("#ffffff").toHex()).toBe("#ffffff");
     expect(colord("#000000").mix("#000000").toHex()).toBe("#000000");
   });
+
+  it("Generates a tints palette", () => {
+    expect(colord("#ff0000").tints(10).map(color => color.toHex())).toEqual(["#ff0000", "#ff3f20", "#ff5c39", "#ff7551", "#ff8b68", "#ff9f80", "#ffb399", "#ffc6b2", "#ffd9cb", "#ffece5", "#ffffff"]);
+  });
+
+  it("Generates a shades palette", () => {
+    expect(colord("#ff0000").shades(10).map(color => color.toHex())).toEqual(["#ff0000", "#e31004", "#c81707", "#ad1b09", "#931c0b", "#7a1b0b", "#621a0b", "#4a1709", "#341306", "#200d03", "#000000"]);
+  });
+
+  it("Generates a tones palette", () => {
+    expect(colord("#ff0000").tones(10).map(color => color.toHex())).toEqual(["#ff0000", "#f52d14", "#ea4023", "#df4e30", "#d4583b", "#c86147", "#bc6952", "#af705e", "#a17669", "#917b75", "#808080"]);
+  });
 });
 
 describe("names", () => {
