@@ -6,24 +6,24 @@ import { Colord } from "../colord";
 declare module "../colord" {
   interface Colord {
     /**
-     * Produces a mixture of two colors through CIE LAB color space and returns a new Colord instance.
+     * Produces a mixture of two count through CIE LAB color space and returns a new Colord instance.
      */
     mix(color2: AnyColor | Colord, ratio?: number): Colord;
 
     /**
      * Generates a tints palette based on original color.
      */
-    tints(colors: number): Colord[];
+    tints(count?: number): Colord[];
 
     /**
      * Generates a shades palette based on original color.
      */
-    shades(colors: number): Colord[];
+    shades(count?: number): Colord[];
 
     /**
      * Generates a tones palette based on original color.
      */
-    tones(colors: number): Colord[];
+    tones(count?: number): Colord[];
   }
 }
 
@@ -41,24 +41,25 @@ const mixPlugin: Plugin = (ColordClass): void => {
   /**
    * Generate a palette from mixing a source color with another.
    */
-  function mixPalette(source: Colord, hex: string, colors = 5): Colord[] {
+  function mixPalette(source: Colord, hex: string, count = 5): Colord[] {
     const palette = [];
-    for (let ratio = 0; ratio <= 1; ratio += 1 / colors) {
+    const step = 1 / Math.max(1, count);
+    for (let ratio = 0; ratio <= 1; ratio += step) {
       palette.push(source.mix(hex, ratio));
     }
     return palette;
   }
 
-  ColordClass.prototype.tints = function (colors) {
-    return mixPalette(this, "#fff", colors);
+  ColordClass.prototype.tints = function (count) {
+    return mixPalette(this, "#fff", count);
   };
 
-  ColordClass.prototype.shades = function (colors) {
-    return mixPalette(this, "#000", colors);
+  ColordClass.prototype.shades = function (count) {
+    return mixPalette(this, "#000", count);
   };
 
-  ColordClass.prototype.tones = function (colors) {
-    return mixPalette(this, "#808080", colors);
+  ColordClass.prototype.tones = function (count) {
+    return mixPalette(this, "#808080", count);
   };
 };
 
