@@ -504,7 +504,7 @@ colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 </details>
 
 <details>
-  <summary><b><code>.tints(colors = 5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.tints(count = 5)</code></b> (<b>mix</b> plugin)</summary>
 
 Provides functionality to generate [tints](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
 
@@ -514,13 +514,13 @@ import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
 
-colord("#ff0000").tints(10).map(color => color.toHex()) // ["#ff0000", "#ff3f20", "#ff5c39", "#ff7551", "#ff8b68", "#ff9f80", "#ffb399", "#ffc6b2", "#ffd9cb", "#ffece5", "#ffffff"];
+colord("#ff0000").tints().map(color => color.toHex()) // ["#ff0000", "#ff5c39", "#ff8b68", "#ffb399", "#ffd9cb", "#ffffff"];
 ```
 
 </details>
 
 <details>
-  <summary><b><code>.shades(colors = 5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.shades(count = 5)</code></b> (<b>mix</b> plugin)</summary>
 
 Provides functionality to generate [shades](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
 
@@ -530,13 +530,13 @@ import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
 
-lord("#ff0000").shades(10).map(color => color.toHex()) // ["#ff0000", "#e31004", "#c81707", "#ad1b09", "#931c0b", "#7a1b0b", "#621a0b", "#4a1709", "#341306", "#200d03", "#000000"];
+colord("#ff0000").shades().map(color => color.toHex()) // ["#ff0000", "#c81707", "#931c0b", "#621a0b", "#341306", "#000000"];
 ```
 
 </details>
 
 <details>
-  <summary><b><code>.tones(colors = 5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.tones(count = 5)</code></b> (<b>mix</b> plugin)</summary>
 
 Provides functionality to generate [tones](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
 
@@ -546,7 +546,7 @@ import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
 
-colord("#ff0000").tones(10).map(color => color.toHex()) // ["#ff0000", "#f52d14", "#ea4023", "#df4e30", "#d4583b", "#c86147", "#bc6952", "#af705e", "#a17669", "#917b75", "#808080"];
+colord("#ff0000").tones().map(color => color.toHex()) // ["#ff0000", "#ea4023", "#d4583b", "#bc6952", "#a17669", "#808080"];
 ```
 
 </details>
@@ -859,7 +859,7 @@ colord("#646464").alpha(0.5).toLchString(); // "lch(42.37% 0 0 / 0.5)"
 </details>
 
 <details>
-  <summary><b><code>mix</code> (Color mixing)</b> <i>0.9 KB</i></summary>
+  <summary><b><code>mix</code> (Color mixing)</b> <i>0.96 KB</i></summary>
 
 A plugin adding a color mixing utilities.
 
@@ -886,9 +886,9 @@ Also, plugin provides special mixtures such as [tints, shades, and tones](https:
 </div>
 
 ```js
-colord("#ff0000").tints(10).map(color => color.toHex()) // ["#ff0000", "#ff3f20", "#ff5c39", "#ff7551", "#ff8b68", "#ff9f80", "#ffb399", "#ffc6b2", "#ffd9cb", "#ffece5", "#ffffff"];
-colord("#ff0000").shades(10).map(color => color.toHex()) // ["#ff0000", "#e31004", "#c81707", "#ad1b09", "#931c0b", "#7a1b0b", "#621a0b", "#4a1709", "#341306", "#200d03", "#000000"];
-colord("#ff0000").tones(10).map(color => color.toHex()) // ["#ff0000", "#f52d14", "#ea4023", "#df4e30", "#d4583b", "#c86147", "#bc6952", "#af705e", "#a17669", "#917b75", "#808080"];
+colord("#ff0000").tints().map(color => color.toHex()) // ["#ff0000", "#ff5c39", "#ff8b68", "#ffb399", "#ffd9cb", "#ffffff"];
+colord("#ff0000").shades().map(color => color.toHex()) // ["#ff0000", "#c81707", "#931c0b", "#621a0b", "#341306", "#000000"];
+colord("#ff0000").tones().map(color => color.toHex()) // ["#ff0000", "#ea4023", "#d4583b", "#bc6952", "#a17669", "#808080"];
 
 ```
 
