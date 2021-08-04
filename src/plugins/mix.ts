@@ -1,6 +1,7 @@
 import { AnyColor } from "../types";
 import { Plugin } from "../extend";
 import { mix } from "../manipulate/mix";
+import { Colord } from "../colord";
 
 declare module "../colord" {
   interface Colord {
@@ -23,8 +24,6 @@ declare module "../colord" {
      * Generates a tones palette based on original color.
      */
     tones(colors: number): Colord[];
-
-    _mixPalette(color: AnyColor | Colord, colors: number): Colord[];
   }
 }
 
@@ -39,24 +38,27 @@ const mixPlugin: Plugin = (ColordClass): void => {
     return new ColordClass(mixture);
   };
 
-  ColordClass.prototype._mixPalette = function (color, colors = 5) {
+  /**
+   * Generate a palette from mixing a source color with another.
+   */
+  function mixPalette(source: Colord, hex: string, colors = 5): Colord[] {
     const palette = [];
     for (let ratio = 0; ratio <= 1; ratio += 1 / colors) {
-      palette.push(this.mix(color, ratio));
+      palette.push(source.mix(hex, ratio));
     }
     return palette;
-  };
+  }
 
   ColordClass.prototype.tints = function (colors) {
-    return this._mixPalette("#ffffff", colors);
+    return mixPalette(this, "#fff", colors);
   };
 
   ColordClass.prototype.shades = function (colors) {
-    return this._mixPalette("#000000", colors);
+    return mixPalette(this, "#000", colors);
   };
 
   ColordClass.prototype.tones = function (colors) {
-    return this._mixPalette("#808080", colors);
+    return mixPalette(this, "#808080", colors);
   };
 };
 
