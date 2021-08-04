@@ -536,7 +536,7 @@ lord("#ff0000").shades(10).map(color => color.toHex()) // ["#ff0000", "#e31004",
 </details>
 
 <details>
-  <summary><b><code>.shades(colors = 5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.tones(colors = 5)</code></b> (<b>mix</b> plugin)</summary>
 
 Provides functionality to generate [tones](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
 
