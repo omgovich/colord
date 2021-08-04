@@ -1,10 +1,6 @@
 import { AnyColor } from "../types";
 import { Plugin } from "../extend";
 import { mix } from "../manipulate/mix";
-import { Colord } from "../colord";
-
-type Mixer = (color: AnyColor | Colord, ratio: number) => Colord;
-type PaletteMixer = (color: string, colors: number, mixer: Mixer) => Colord[];
 
 declare module "../colord" {
   interface Colord {
@@ -49,7 +45,7 @@ const mixPlugin: Plugin = (ColordClass): void => {
       palette.push(this.mix(color, ratio));
     }
     return palette;
-  }
+  };
 
   ColordClass.prototype.tints = function (colors) {
     return this._mixPalette("#ffffff", colors);
