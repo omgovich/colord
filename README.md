@@ -512,7 +512,8 @@ import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
 
-colord("#ff0000").tints().map(color => color.toHex()) // ["#ff0000", "#ff5c39", "#ff8b68", "#ffb399", "#ffd9cb", "#ffffff"];
+const color = colord("#ff0000");
+color.tints(3).map((c) => c.toHex()); // ["#ff0000", "#ff9f80", "#ffffff"];
 ```
 
 </details>
@@ -528,7 +529,8 @@ import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
 
-colord("#ff0000").shades().map(color => color.toHex()) // ["#ff0000", "#c81707", "#931c0b", "#621a0b", "#341306", "#000000"];
+const color = colord("#ff0000");
+color.shades(3).map((c) => c.toHex()); // ["#ff0000", "#7a1b0b", "#000000"];
 ```
 
 </details>
@@ -544,7 +546,8 @@ import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
 
-colord("#ff0000").tones().map(color => color.toHex()) // ["#ff0000", "#ea4023", "#d4583b", "#bc6952", "#a17669", "#808080"];
+const color = colord("#ff0000");
+color.tones(3).map((c) => c.toHex()); // ["#ff0000", "#c86147", "#808080"];
 ```
 
 </details>
@@ -875,17 +878,17 @@ colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#e3c07e"
 colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 ```
 
-Also, plugin provides special mixtures such as [tints, shades, and tones](https://en.wikipedia.org/wiki/Tints_and_shades):
+Also, the plugin provides special mixtures such as [tints, shades, and tones](https://en.wikipedia.org/wiki/Tints_and_shades):
 
 <div align="center">
-<image src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Tint-tone-shade.svg/320px-Tint-tone-shade.svg.png" alt="tints, shades, and tones mixtures">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Tint-tone-shade.svg/320px-Tint-tone-shade.svg.png" alt="tints, shades, and tones mixtures" />
 </div>
 
 ```js
-colord("#ff0000").tints().map(color => color.toHex()) // ["#ff0000", "#ff5c39", "#ff8b68", "#ffb399", "#ffd9cb", "#ffffff"];
-colord("#ff0000").shades().map(color => color.toHex()) // ["#ff0000", "#c81707", "#931c0b", "#621a0b", "#341306", "#000000"];
-colord("#ff0000").tones().map(color => color.toHex()) // ["#ff0000", "#ea4023", "#d4583b", "#bc6952", "#a17669", "#808080"];
-
+const color = colord("#ff0000");
+color.tints(3).map((c) => c.toHex()); // ["#ff0000", "#ff9f80", "#ffffff"];
+color.shades(3).map((c) => c.toHex()); // ["#ff0000", "#7a1b0b", "#000000"];
+color.tones(3).map((c) => c.toHex()); // ["#ff0000", "#c86147", "#808080"];
 ```
 
 </details>

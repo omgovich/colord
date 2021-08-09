@@ -6,7 +6,7 @@ import { Colord } from "../colord";
 declare module "../colord" {
   interface Colord {
     /**
-     * Produces a mixture of two count through CIE LAB color space and returns a new Colord instance.
+     * Produces a mixture of two colors through CIE LAB color space and returns a new Colord instance.
      */
     mix(color2: AnyColor | Colord, ratio?: number): Colord;
 
@@ -43,7 +43,7 @@ const mixPlugin: Plugin = (ColordClass): void => {
    */
   function mixPalette(source: Colord, hex: string, count = 5): Colord[] {
     const palette = [];
-    const step = 1 / Math.max(1, count);
+    const step = 1 / (count - 1);
     for (let ratio = 0; ratio <= 1; ratio += step) {
       palette.push(source.mix(hex, ratio));
     }
