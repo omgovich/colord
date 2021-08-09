@@ -1,4 +1,4 @@
-import { colord, getFormat, extend } from "../src/";
+import { colord, getFormat, extend, Colord } from "../src/";
 import a11yPlugin from "../src/plugins/a11y";
 import cmykPlugin from "../src/plugins/cmyk";
 import harmoniesPlugin, { HarmonyType } from "../src/plugins/harmonies";
@@ -283,31 +283,27 @@ describe("mix", () => {
     expect(colord("#000000").mix("#000000").toHex()).toBe("#000000");
   });
 
+  const check = (colors: Colord[], expected: string[]) => {
+    const hexes = colors.map((value) => value.toHex());
+    return expect(hexes).toEqual(expected);
+  };
+
   it("Generates a tints palette", () => {
-    expect(colord("#ff0000").tints(-5).map(color => color.toHex())).toEqual(["#ff0000", "#ffffff"]);
-    expect(colord("#ff0000").tints(1).map(color => color.toHex())).toEqual(["#ff0000", "#ffffff"]);
-    expect(colord("#ff0000").tints(2).map(color => color.toHex())).toEqual(["#ff0000", "#ff9f80", "#ffffff"]);
-    expect(colord("#ff0000").tints(3).map(color => color.toHex())).toEqual(["#ff0000", "#ff7c59", "#ffc0a9", "#ffffff"]);
-    expect(colord("#ff0000").tints().map(color => color.toHex())).toEqual(["#ff0000", "#ff5c39", "#ff8b68", "#ffb399", "#ffd9cb", "#ffffff"]);
-    expect(colord("#ff0000").tints(10).map(color => color.toHex())).toEqual(["#ff0000", "#ff3f20", "#ff5c39", "#ff7551", "#ff8b68", "#ff9f80", "#ffb399", "#ffc6b2", "#ffd9cb", "#ffece5", "#ffffff"]);
+    check(colord("#ff0000").tints(2), ["#ff0000", "#ffffff"]);
+    check(colord("#ff0000").tints(3), ["#ff0000", "#ff9f80", "#ffffff"]);
+    check(colord("#ff0000").tints(), ["#ff0000", "#ff6945", "#ff9f80", "#ffd0be", "#ffffff"]);
   });
 
   it("Generates a shades palette", () => {
-    expect(colord("#ff0000").shades(-5).map(color => color.toHex())).toEqual(["#ff0000", "#000000"]);
-    expect(colord("#ff0000").shades(1).map(color => color.toHex())).toEqual(["#ff0000", "#000000"]);
-    expect(colord("#ff0000").shades(2).map(color => color.toHex())).toEqual(["#ff0000", "#7a1b0b", "#000000"]);
-    expect(colord("#ff0000").shades(3).map(color => color.toHex())).toEqual(["#ff0000", "#a41b0a", "#52180a", "#000000"]);
-    expect(colord("#ff0000").shades().map(color => color.toHex())).toEqual(["#ff0000", "#c81707", "#931c0b", "#621a0b", "#341306", "#000000"]);
-    expect(colord("#ff0000").shades(10).map(color => color.toHex())).toEqual(["#ff0000", "#e31004", "#c81707", "#ad1b09", "#931c0b", "#7a1b0b", "#621a0b", "#4a1709", "#341306", "#200d03", "#000000"]);
+    check(colord("#ff0000").shades(2), ["#ff0000", "#000000"]);
+    check(colord("#ff0000").shades(3), ["#ff0000", "#7a1b0b", "#000000"]);
+    check(colord("#ff0000").shades(), ["#ff0000", "#ba1908", "#7a1b0b", "#3f1508", "#000000"]);
   });
 
   it("Generates a tones palette", () => {
-    expect(colord("#ff0000").tones(-5).map(color => color.toHex())).toEqual(["#ff0000", "#808080"]);
-    expect(colord("#ff0000").tones(1).map(color => color.toHex())).toEqual(["#ff0000", "#808080"]);
-    expect(colord("#ff0000").tones(2).map(color => color.toHex())).toEqual(["#ff0000", "#c86147", "#808080"]);
-    expect(colord("#ff0000").tones(3).map(color => color.toHex())).toEqual(["#ff0000", "#dc5134", "#b36e5a", "#808080"]);
-    expect(colord("#ff0000").tones().map(color => color.toHex())).toEqual(["#ff0000", "#ea4023", "#d4583b", "#bc6952", "#a17669", "#808080"]);
-    expect(colord("#ff0000").tones(10).map(color => color.toHex())).toEqual(["#ff0000", "#f52d14", "#ea4023", "#df4e30", "#d4583b", "#c86147", "#bc6952", "#af705e", "#a17669", "#917b75", "#808080"]);
+    check(colord("#ff0000").tones(2), ["#ff0000", "#808080"]);
+    check(colord("#ff0000").tones(3), ["#ff0000", "#c86147", "#808080"]);
+    check(colord("#ff0000").tones(), ["#ff0000", "#e54729", "#c86147", "#a87363", "#808080"]);
   });
 });
 
