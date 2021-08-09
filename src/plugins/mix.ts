@@ -44,8 +44,8 @@ const mixPlugin: Plugin = (ColordClass): void => {
   function mixPalette(source: Colord, hex: string, count = 5): Colord[] {
     const palette = [];
     const step = 1 / (count - 1);
-    for (let ratio = 0; ratio <= 1; ratio += step) {
-      palette.push(source.mix(hex, ratio));
+    for (let i = 0; i <= count - 1; i++) {
+      palette.push(source.mix(hex, step * i));
     }
     return palette;
   }

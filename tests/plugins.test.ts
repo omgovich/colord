@@ -292,18 +292,21 @@ describe("mix", () => {
     check(colord("#ff0000").tints(2), ["#ff0000", "#ffffff"]);
     check(colord("#ff0000").tints(3), ["#ff0000", "#ff9f80", "#ffffff"]);
     check(colord("#ff0000").tints(), ["#ff0000", "#ff6945", "#ff9f80", "#ffd0be", "#ffffff"]);
+    expect(colord("#aabbcc").tints(499)).toHaveLength(499);
   });
 
   it("Generates a shades palette", () => {
     check(colord("#ff0000").shades(2), ["#ff0000", "#000000"]);
     check(colord("#ff0000").shades(3), ["#ff0000", "#7a1b0b", "#000000"]);
     check(colord("#ff0000").shades(), ["#ff0000", "#ba1908", "#7a1b0b", "#3f1508", "#000000"]);
+    expect(colord("#aabbcc").shades(333)).toHaveLength(333);
   });
 
   it("Generates a tones palette", () => {
     check(colord("#ff0000").tones(2), ["#ff0000", "#808080"]);
     check(colord("#ff0000").tones(3), ["#ff0000", "#c86147", "#808080"]);
     check(colord("#ff0000").tones(), ["#ff0000", "#e54729", "#c86147", "#a87363", "#808080"]);
+    expect(colord("#aabbcc").tones(987)).toHaveLength(987);
   });
 });
 
