@@ -509,7 +509,7 @@ colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
 Provides functionality to generate [tints](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
 
 ```js
-import { colord, extends } from "colord";
+import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
@@ -526,7 +526,7 @@ color.tints(3).map((c) => c.toHex()); // ["#ff0000", "#ff9f80", "#ffffff"];
 Provides functionality to generate [shades](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
 
 ```js
-import { colord, extends } from "colord";
+import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
@@ -543,7 +543,7 @@ color.shades(3).map((c) => c.toHex()); // ["#ff0000", "#7a1b0b", "#000000"];
 Provides functionality to generate [tones](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
 
 ```js
-import { colord, extends } from "colord";
+import { colord, extend } from "colord";
 import mixPlugin from "colord/plugins/mix";
 
 extend([mixPlugin]);
@@ -560,7 +560,7 @@ color.tones(3).map((c) => c.toHex()); // ["#ff0000", "#c86147", "#808080"];
 Provides functionality to generate [harmony colors](<https://en.wikipedia.org/wiki/Harmony_(color)>). Returns an array of `Colord` instances.
 
 ```js
-import { colord, extends } from "colord";
+import { colord, extend } from "colord";
 import harmoniesPlugin from "colord/plugins/harmonies";
 
 extend([harmoniesPlugin]);
@@ -787,7 +787,7 @@ colord("device-cmyk(0% 61% 72% 0% / 50%)").toHex(); // "#ff634780"
 Provides functionality to generate [harmony colors](<https://en.wikipedia.org/wiki/Harmony_(color)>).
 
 ```js
-import { colord, extends } from "colord";
+import { colord, extend } from "colord";
 import harmonies from "colord/plugins/harmonies";
 
 extend([harmonies]);
