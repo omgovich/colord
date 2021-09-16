@@ -8,6 +8,7 @@ import lchPlugin from "../src/plugins/lch";
 import mixPlugin from "../src/plugins/mix";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
+import { round } from "../src/helpers";
 
 describe("a11y", () => {
   extend([a11yPlugin]);
@@ -197,6 +198,19 @@ describe("lab", () => {
     expect(colord("#aabbcc").toLab()).toMatchObject({ l: 74.97, a: -3.4, b: -10.7, alpha: 1 });
     expect(colord("#33221180").toLab()).toMatchObject({ l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 });
     expect(colord("#d53987").toLab()).toMatchObject({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 });
+  });
+
+  it("Calculates the the perceived color difference", () => {
+    // test results: https://cielab.xyz/colordiff.php
+    expect(
+      round(colord({ l: 28.27, a: 50.61, b: 42.13 }).deltaE00({ l: 33.56, a: -6.01, b: 40.81 }), 5)
+    ).toBe(35.65174);
+    expect(round(colord({ l: 28, a: 50, b: 64 }).deltaE00({ l: 33, a: -10, b: 98 }), 5)).toBe(
+      37.81158
+    );
+    expect(round(colord({ l: 59, a: -25, b: -50 }).deltaE00({ l: 78, a: -36, b: 29 }), 5)).toBe(
+      48.25889
+    );
   });
 
   it("Supported by `getFormat`", () => {
