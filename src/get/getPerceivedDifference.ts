@@ -34,7 +34,7 @@ export interface DeltaE00Options {
  * [Source](http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE2000.html)
  * [Read about Delta E](https://zschuessler.github.io/DeltaE/learn/#toc-delta-e-2000)
  */
-export function deltaE00(
+export function getDeltaE00(
   color1: LabaColor,
   color2: LabaColor,
   options: Partial<DeltaE00Options> = {}

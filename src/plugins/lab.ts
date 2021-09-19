@@ -1,7 +1,7 @@
 import { LabaColor, AnyColor } from "../types";
 import { Plugin } from "../extend";
 import { parseLaba, roundLaba, rgbaToLaba } from "../colorModels/lab";
-import { deltaE00, DeltaE00Options } from "../get/getPerceivedDifference";
+import { getDeltaE00, DeltaE00Options } from "../get/getPerceivedDifference";
 import { clamp } from "../helpers";
 
 declare module "../colord" {
@@ -31,7 +31,7 @@ const labPlugin: Plugin = (ColordClass, parsers): void => {
 
   ColordClass.prototype.delta = function (color, options) {
     const compared = color instanceof ColordClass ? color : new ColordClass(color);
-    return clamp(deltaE00(this.toLab(), compared.toLab(), options) / 100);
+    return clamp(getDeltaE00(this.toLab(), compared.toLab(), options) / 100);
   };
 
   parsers.object.push([parseLaba, "lab"]);
