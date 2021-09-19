@@ -201,16 +201,19 @@ describe("lab", () => {
   });
 
   it("Calculates the the perceived color difference", () => {
-    // test results: https://cielab.xyz/colordiff.php
-    expect(
-      round(colord({ l: 28.27, a: 50.61, b: 42.13 }).deltaE00({ l: 33.56, a: -6.01, b: 40.81 }), 5)
-    ).toBe(35.65174);
-    expect(round(colord({ l: 28, a: 50, b: 64 }).deltaE00({ l: 33, a: -10, b: 98 }), 5)).toBe(
-      37.81158
-    );
-    expect(round(colord({ l: 59, a: -25, b: -50 }).deltaE00({ l: 78, a: -36, b: 29 }), 5)).toBe(
-      48.25889
-    );
+    /**
+     * Test resuls: https://cielab.xyz/colordiff.php
+     *
+     * All tests done using RGB.
+     * Inner state is RGB, it is discrete thus all model transformations become discrete
+     * and some accuracy is lost.
+     *
+     * After migrating the state to XYZ or handling the rounding problem, tests using other color models should be added.
+     */
+    expect(round(colord("#3296fa").delta("#197dc8"), 7)).toBe(0.0989261);
+    expect(round(colord("#faf0c8").delta("#fff"), 7)).toBe(0.1447411);
+    expect(round(colord("#afafaf").delta("#b4b4b4"), 7)).toBe(0.0138414);
+    expect(round(colord("#000").delta("#fff"), 5)).toBe(1.0);
   });
 
   it("Supported by `getFormat`", () => {
