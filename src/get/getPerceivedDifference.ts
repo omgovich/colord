@@ -6,7 +6,7 @@ import { LabaColor } from "../types";
  * kl - unity factor;
  * kh - weighting factor;
  */
-interface Options {
+export interface DeltaE00Options {
   kl: 1 | 2;
   kc: number;
   kh: number;
@@ -37,7 +37,7 @@ interface Options {
 export function deltaE00(
   color1: LabaColor,
   color2: LabaColor,
-  options: Partial<Options> = {}
+  options: Partial<DeltaE00Options> = {}
 ): number {
   const { kl = 1, kc = 1, kh = 1 } = options;
 
