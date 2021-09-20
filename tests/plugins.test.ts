@@ -8,7 +8,6 @@ import lchPlugin from "../src/plugins/lch";
 import mixPlugin from "../src/plugins/mix";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
-import { round } from "../src/helpers";
 
 describe("a11y", () => {
   extend([a11yPlugin]);
@@ -210,10 +209,10 @@ describe("lab", () => {
      *
      * After migrating the state to XYZ or handling the rounding problem, tests using other color models should be added.
      */
-    expect(round(colord("#3296fa").delta("#197dc8"), 7)).toBe(0.0989261);
-    expect(round(colord("#faf0c8").delta("#fff"), 7)).toBe(0.1447411);
-    expect(round(colord("#afafaf").delta("#b4b4b4"), 7)).toBe(0.0138414);
-    expect(round(colord("#000").delta("#fff"), 5)).toBe(1.0);
+    expect(colord("#3296fa").delta("#197dc8")).toBe(0.099);
+    expect(colord("#faf0c8").delta("#fff")).toBe(0.145);
+    expect(colord("#afafaf").delta("#b4b4b4")).toBe(0.014);
+    expect(colord("#000").delta("#fff")).toBe(1);
   });
 
   it("Supported by `getFormat`", () => {

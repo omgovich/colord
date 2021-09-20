@@ -720,9 +720,9 @@ The difference calculated according to [Delta E2000](https://en.wikipedia.org/wi
 Returns the normalized value in range from [0, 1], where 0 is the same color and 1 are completely different.
 
 ```js
-colord("#3296fa").delta("#197dc8") // 0.0989261
-colord("#faf0c8").delta("#fff") // 0.1447411
-colord("#afafaf").delta("#b4b4b4") // 0.0138414
+colord("#3296fa").delta("#197dc8") // 0.099
+colord("#faf0c8").delta("#fff") // 0.148
+colord("#afafaf").delta("#b4b4b4") // 0.014
 colord("#000").delta("#fff") // 1.0
 ```
 
