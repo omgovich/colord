@@ -166,7 +166,7 @@
     },
     {
       "path": "dist/plugins/lab.mjs",
-      "limit": "1 KB"
+      "limit": "1.5 KB"
     },
     {
       "path": "dist/plugins/lch.mjs",
