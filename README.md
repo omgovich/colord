@@ -842,7 +842,7 @@ colord("hwb(210 0% 60% / 50%)").toHex(); // "#00336680"
 </details>
 
 <details>
-  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>0.9 KB</i></summary>
+  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>1.5 KB</i></summary>
 
 Adds support of [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -856,6 +856,9 @@ extend([labPlugin]);
 
 colord({ l: 53.24, a: 80.09, b: 67.2 }).toHex(); // "#ff0000"
 colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
+
+colord("#afafaf").delta("#b4b4b4") // 0.014
+colord("#000").delta("#fff") // 1.0
 ```
 
 </details>
