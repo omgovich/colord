@@ -2,17 +2,6 @@ import { rad2deg, deg2rad } from "../constants";
 import { LabaColor } from "../types";
 
 /**
- * kl - grafic arts = 1; textiles = 2;
- * kl - unity factor;
- * kh - weighting factor;
- */
-export interface DeltaE00Options {
-  kl: 1 | 2;
-  kc: number;
-  kh: number;
-}
-
-/**
  * Calculates the perceived color difference according to [Delta E2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000).
  *
  * ΔE - (Delta E, dE) The measure of change in visual perception of two given colors.
@@ -34,12 +23,13 @@ export interface DeltaE00Options {
  * [Source](http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE2000.html)
  * [Read about Delta E](https://zschuessler.github.io/DeltaE/learn/#toc-delta-e-2000)
  */
-export function getDeltaE00(
-  color1: LabaColor,
-  color2: LabaColor,
-  options: Partial<DeltaE00Options> = {}
-): number {
-  const { kl = 1, kc = 1, kh = 1 } = options;
+export function getDeltaE00(color1: LabaColor, color2: LabaColor): number {
+  /**
+   * kl - grafic arts = 1; textiles = 2;
+   * kl - unity factor;
+   * kh - weighting factor;
+   */
+  const [kl, kc, kh] = [1, 1, 1];
 
   const { l: l1, a: a1, b: b1 } = color1;
   const { l: l2, a: a2, b: b2 } = color2;
