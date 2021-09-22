@@ -1,7 +1,7 @@
 import { LabaColor, AnyColor } from "../types";
 import { Plugin } from "../extend";
 import { parseLaba, roundLaba, rgbaToLaba } from "../colorModels/lab";
-import { getDeltaE00, DeltaE00Options } from "../get/getPerceivedDifference";
+import { getDeltaE00 } from "../get/getPerceivedDifference";
 import { clamp, round } from "../helpers";
 
 declare module "../colord" {
@@ -16,7 +16,7 @@ declare module "../colord" {
      * Calculates the perceived color difference for two colors according to
      * [Delta E2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000).
      */
-    delta(color: AnyColor | Colord, options?: Partial<DeltaE00Options>): number;
+    delta(color: AnyColor | Colord): number;
   }
 }
 
@@ -29,9 +29,9 @@ const labPlugin: Plugin = (ColordClass, parsers): void => {
     return roundLaba(rgbaToLaba(this.rgba));
   };
 
-  ColordClass.prototype.delta = function (color, options) {
+  ColordClass.prototype.delta = function (color) {
     const compared = color instanceof ColordClass ? color : new ColordClass(color);
-    const delta = getDeltaE00(this.toLab(), compared.toLab(), options) / 100;
+    const delta = getDeltaE00(this.toLab(), compared.toLab()) / 100;
     return clamp(round(delta, 3));
   };
 
