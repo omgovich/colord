@@ -1,4 +1,3 @@
-import { rad2deg, deg2rad } from "../constants";
 import { LabaColor } from "../types";
 
 /**
@@ -14,25 +13,21 @@ import { LabaColor } from "../types";
  *
  * | Delta E | Perception                             |
  * |---------|----------------------------------------|
- * | <= 1.0	 | Not perceptible by human eyes          |
- * | 1 - 2	 | Perceptible through close observation  |
- * | 2 - 10	 | Perceptible at a glance                |
+ * | <= 1.0  | Not perceptible by human eyes          |
+ * | 1 - 2   | Perceptible through close observation  |
+ * | 2 - 10  | Perceptible at a glance                |
  * | 11 - 49 | Colors are more similar than opposite  |
- * | 100	   | Colors are exact opposite              |
+ * | 100     | Colors are exact opposite              |
  *
  * [Source](http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE2000.html)
  * [Read about Delta E](https://zschuessler.github.io/DeltaE/learn/#toc-delta-e-2000)
  */
 export function getDeltaE00(color1: LabaColor, color2: LabaColor): number {
-  /**
-   * kl - grafic arts = 1; textiles = 2;
-   * kl - unity factor;
-   * kh - weighting factor;
-   */
-  const [kl, kc, kh] = [1, 1, 1];
-
   const { l: l1, a: a1, b: b1 } = color1;
   const { l: l2, a: a2, b: b2 } = color2;
+
+  const rad2deg = 180 / Math.PI;
+  const deg2rad = Math.PI / 180;
 
   // dc -> delta c;
   // ml -> median l;
@@ -55,13 +50,8 @@ export function getDeltaE00(color1: LabaColor, color2: LabaColor): number {
   let h1 = a11 === 0 && b1 === 0 ? 0 : Math.atan2(b1, a11) * rad2deg;
   let h2 = a22 === 0 && b2 === 0 ? 0 : Math.atan2(b2, a22) * rad2deg;
 
-  if (h1 < 0) {
-    h1 += 360;
-  }
-
-  if (h2 < 0) {
-    h2 += 360;
-  }
+  if (h1 < 0) h1 += 360;
+  if (h2 < 0) h2 += 360;
 
   let dh = h2 - h1;
   const dhAbs = Math.abs(h2 - h1);
@@ -98,6 +88,10 @@ export function getDeltaE00(color1: LabaColor, color2: LabaColor): number {
   const dTheta = 30 * Math.exp(-1 * ((H - 275) / 25) ** 2);
   const Rc = 2 * (c7 / (c7 + 25 ** 7)) ** 0.5;
   const Rt = -Rc * Math.sin(deg2rad * 2 * dTheta);
+
+  const kl = 1; // 1 for graphic arts, 2 for textiles
+  const kc = 1; // unity factor
+  const kh = 1; // weighting factor
 
   return (
     ((dL / kl / sL) ** 2 +

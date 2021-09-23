@@ -712,18 +712,17 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
-  <summary><b><code>.delta(color2 = "#FFF", options?)</code></b> (<b>lab</b> plugin)</summary>
+  <summary><b><code>.delta(color2 = "#FFF")</code></b> (<b>lab</b> plugin)</summary>
 
 Calculates the perceived color difference between two colors.
 The difference calculated according to [Delta E2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000).
-
-Returns the normalized value in range from [0, 1], where 0 is the same color and 1 are completely different.
+The return value is `0` if the colors are equal, `1` if they are entirely different.
 
 ```js
-colord("#3296fa").delta("#197dc8") // 0.099
-colord("#faf0c8").delta("#fff") // 0.148
-colord("#afafaf").delta("#b4b4b4") // 0.014
-colord("#000").delta("#fff") // 1.0
+colord("#3296fa").delta("#197dc8"); // 0.099
+colord("#faf0c8").delta("#ffffff"); // 0.148
+colord("#afafaf").delta("#b4b4b4"); // 0.014
+colord("#000000").delta("#ffffff"); // 1
 ```
 
 </details>
@@ -842,11 +841,11 @@ colord("hwb(210 0% 60% / 50%)").toHex(); // "#00336680"
 </details>
 
 <details>
-  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>1.5 KB</i></summary>
+  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>1.4 KB</i></summary>
 
 Adds support of [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
-Also plugin provides `.delta` method for perceived color difference calculations.
+Also plugin provides `.delta` method for [perceived color difference calculations](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000).
 
 ```js
 import { colord, extend } from "colord";
@@ -857,8 +856,8 @@ extend([labPlugin]);
 colord({ l: 53.24, a: 80.09, b: 67.2 }).toHex(); // "#ff0000"
 colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 
-colord("#afafaf").delta("#b4b4b4") // 0.014
-colord("#000").delta("#fff") // 1.0
+colord("#afafaf").delta("#b4b4b4"); // 0.014
+colord("#000000").delta("#ffffff"); // 1
 ```
 
 </details>
