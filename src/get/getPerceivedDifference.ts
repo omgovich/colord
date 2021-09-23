@@ -77,11 +77,7 @@ export function getDeltaE00(color1: LabaColor, color2: LabaColor): number {
   if (dhAbs <= 180) {
     H /= 2;
   } else {
-    if (h1 + h2 < 360) {
-      H = (H + 360) / 2;
-    } else {
-      H = (H - 360) / 2;
-    }
+    H = (h1 + h2 < 360 ? H + 360 : H - 360) / 2;
   }
 
   const T =
