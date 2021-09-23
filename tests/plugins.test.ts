@@ -213,6 +213,10 @@ describe("lab", () => {
     expect(colord("#faf0c8").delta("#fff")).toBe(0.145);
     expect(colord("#afafaf").delta("#b4b4b4")).toBe(0.014);
     expect(colord("#000").delta("#fff")).toBe(1);
+    expect(colord("#000").delta("#c8cdd7")).toBe(0.737);
+    expect(colord("#c8cdd7").delta("#000")).toBe(0.737);
+    expect(colord("#f4f4f4").delta("#fafafa")).toBe(0.012);
+    expect(colord("#f4f4f4").delta("#f4f4f4")).toBe(0);
   });
 
   it("Supported by `getFormat`", () => {
