@@ -1,3 +1,7 @@
+### 2.8.0
+
+- New `delta` method to calculate the perceived color difference between two colors ❤️ [@EricRovell](https://github.com/EricRovell)
+
 ### 2.7.0
 
 - Improve `mix` plugin by adding new `tints`, `tones` and `shades` methods ❤️ [@EricRovell](https://github.com/EricRovell)
