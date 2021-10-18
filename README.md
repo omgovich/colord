@@ -743,6 +743,35 @@ random().alpha(0.5).toRgb(); // { r: 13, g: 237, b: 162, a: 0.5 }
 
 </details>
 
+<details>
+  <summary><b><code>.minify(options?)</code></b></summary>
+
+Converts a color to its shortest string representation.
+
+```js
+import { colord, extend } from "colord";
+import minifyPlugin from "colord/plugins/minify";
+
+extend([minifyPlugin]);
+
+colord("black").minify(); // "#000"
+colord("#112233").minify(); // "#123"
+colord("darkgray").minify(); // "#a9a9a9"
+colord("rgba(170,170,170,0.4)").minify(); // "hsla(0,0%,67%,.4)"
+colord("rgba(170,170,170,0.4)").minify({ alphaHex: true }); // "#aaa6"
+```
+
+| Option        | Default | Description                                                  |
+| ------------- | ------- | ------------------------------------------------------------ |
+| `hex`         | `true`  | Enable `#rrggbb` and `#rgb` notations                        |
+| `alphaHex`    | `false` | Enable `#rrggbbaa` and `#rgba` notations                     |
+| `rgb`         | `true`  | Enable `rgb()` and `rgba()` functional notations             |
+| `hsl`         | `true`  | Enable `hsl()` and `hsla()` functional notations             |
+| `name`        | `false` | Enable CSS color keywords. Requires `names` plugin installed |
+| `transparent` | `false` | Enable `"transparent"` color keyword                         |
+
+</details>
+
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## Plugins
@@ -883,9 +912,29 @@ colord("#646464").alpha(0.5).toLchString(); // "lch(42.37% 0 0 / 0.5)"
 </details>
 
 <details>
+  <summary><b><code>minify</code> (Color string minification)</b> <i>0.5 KB</i></summary>
+
+A plugin adding color string minification utilities.
+
+```js
+import { colord, extend } from "colord";
+import minifyPlugin from "colord/plugins/minify";
+
+extend([minifyPlugin]);
+
+colord("black").minify(); // "#000"
+colord("#112233").minify(); // "#123"
+colord("darkgray").minify(); // "#a9a9a9"
+colord("rgba(170,170,170,0.4)").minify(); // "hsla(0,0%,67%,.4)"
+colord("rgba(170,170,170,0.4)").minify({ alphaHex: true }); // "#aaa6"
+```
+
+</details>
+
+<details>
   <summary><b><code>mix</code> (Color mixing)</b> <i>0.96 KB</i></summary>
 
-A plugin adding a color mixing utilities.
+A plugin adding color mixing utilities.
 
 In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space). This approach produces better results and doesn't have the drawbacks the legacy way has.
 
