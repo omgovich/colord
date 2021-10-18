@@ -20,6 +20,7 @@
     "a11y",
     "cmyk",
     "mix",
+    "minify",
     "harmonies"
   ],
   "repository": "omgovich/colord",
@@ -63,6 +64,11 @@
       "import": "./plugins/lch.mjs",
       "require": "./plugins/lch.js",
       "default": "./plugins/lch.mjs"
+    },
+    "./plugins/minify": {
+      "import": "./plugins/minify.mjs",
+      "require": "./plugins/minify.js",
+      "default": "./plugins/minify.mjs"
     },
     "./plugins/mix": {
       "import": "./plugins/mix.mjs",
@@ -171,6 +177,10 @@
     {
       "path": "dist/plugins/lch.mjs",
       "limit": "1.5 KB"
+    },
+    {
+      "path": "dist/plugins/minify.mjs",
+      "limit": "0.5 KB"
     },
     {
       "path": "dist/plugins/mix.mjs",
