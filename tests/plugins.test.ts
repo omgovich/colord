@@ -5,6 +5,7 @@ import harmoniesPlugin, { HarmonyType } from "../src/plugins/harmonies";
 import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
 import lchPlugin from "../src/plugins/lch";
+import minifyPlugin from "../src/plugins/minify";
 import mixPlugin from "../src/plugins/mix";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
@@ -201,7 +202,7 @@ describe("lab", () => {
 
   it("Calculates the the perceived color difference", () => {
     /**
-     * Test resuls: https://cielab.xyz/colordiff.php
+     * Test results: https://cielab.xyz/colordiff.php
      *
      * All tests done using RGB.
      * Inner state is RGB, it is discrete thus all model transformations become discrete
@@ -278,6 +279,39 @@ describe("lch", () => {
   it("Supported by `getFormat`", () => {
     expect(getFormat("lch(50% 50 180deg)")).toBe("lch");
     expect(getFormat({ l: 50, c: 50, h: 180 })).toBe("lch");
+  });
+});
+
+describe("minify", () => {
+  extend([minifyPlugin, namesPlugin]);
+
+  it("Minifies a color", () => {
+    expect(colord("#000000").minify()).toBe("#000");
+    expect(colord("black").minify()).toBe("#000");
+    expect(colord("#112233").minify()).toBe("#123");
+    expect(colord("darkgray").minify()).toBe("#a9a9a9");
+    expect(colord("rgba(200,200,200,0.55)").minify()).toBe("hsla(0,0%,78%,.55)");
+    expect(colord("rgba(200,200,200,0.55)").minify({ hsl: false })).toBe("rgba(200,200,200,.55)");
+  });
+
+  it("Supports alpha hexes", () => {
+    expect(colord("hsla(0, 100%, 50%, .5)").minify()).toBe("rgba(255,0,0,.5)");
+    expect(colord("hsla(0, 100%, 50%, .5)").minify({ alphaHex: true })).toBe("#ff000080");
+    expect(colord("rgba(0, 0, 255, 0.4)").minify({ alphaHex: true })).toBe("#00f6");
+  });
+
+  it("Supports names", () => {
+    expect(colord("#f00").minify({ name: true })).toBe("red");
+    expect(colord("#000080").minify({ name: true })).toBe("navy");
+    expect(colord("rgb(255,0,0)").minify({ name: true })).toBe("red");
+    expect(colord("hsl(0, 100%, 50%)").minify({ name: true })).toBe("red");
+  });
+
+  it("Supports `transparent` keyword", () => {
+    expect(colord("rgba(0,0,0,0)").minify()).toBe("rgba(0,0,0,0)");
+    expect(colord("hsla(0,0%,0%,0)").minify({ transparent: true })).toBe("transparent");
+    expect(colord("rgba(0,0,0,0)").minify({ transparent: true })).toBe("transparent");
+    expect(colord("rgba(0,0,0,0)").minify({ transparent: true, alphaHex: true })).toBe("#0000");
   });
 });
 
