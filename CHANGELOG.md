@@ -1,3 +1,7 @@
+### 2.9.0
+
+- New plugin: Color string minification 🗜
+
 ### 2.8.0
 
 - New `delta` method to calculate the perceived color difference between two colors ❤️ [@EricRovell](https://github.com/EricRovell)
