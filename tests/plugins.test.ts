@@ -309,6 +309,7 @@ describe("minify", () => {
 
   it("Supports `transparent` keyword", () => {
     expect(colord("rgba(0,0,0,0)").minify()).toBe("rgba(0,0,0,0)");
+    expect(colord("rgba(0,0,0,0.0)").minify({ name: true })).toBe("rgba(0,0,0,0)");
     expect(colord("hsla(0,0%,0%,0)").minify({ transparent: true })).toBe("transparent");
     expect(colord("rgba(0,0,0,0)").minify({ transparent: true })).toBe("transparent");
     expect(colord("rgba(0,0,0,0)").minify({ transparent: true, alphaHex: true })).toBe("#0000");
