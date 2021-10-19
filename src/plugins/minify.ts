@@ -1,5 +1,6 @@
 import { Colord } from "../colord";
 import { Plugin } from "../extend";
+import { round } from "../helpers";
 
 interface MinificationOptions {
   hex?: boolean;
@@ -22,13 +23,17 @@ declare module "../colord" {
  */
 const minifyPlugin: Plugin = (ColordClass): void => {
   // Finds the shortest hex representation
-  const minifyHex = (instance: Colord): string => {
+  const minifyHex = (instance: Colord): string | null => {
     const hex = instance.toHex();
+    const alpha = instance.alpha();
     const [, r1, r2, g1, g2, b1, b2, a1, a2] = hex.split("");
+
+    // Make sure conversion is lossless
+    if (alpha > 0 && alpha < 1 && round(parseInt(a1 + a2, 16) / 255, 2) !== alpha) return null;
 
     // Check if the string can be shorten
     if (r1 === r2 && g1 === g2 && b1 === b2) {
-      if (instance.alpha() === 1) {
+      if (alpha === 1) {
         // Express as 3 digit hexadecimal string if the color doesn't have an alpha channel
         return "#" + r1 + g1 + b1;
       } else if (a1 === a2) {
@@ -82,8 +87,9 @@ const minifyPlugin: Plugin = (ColordClass): void => {
     const variants: string[] = [];
 
     // #rrggbb, #rrggbbaa, #rgb or #rgba
-    if (settings.hex) {
-      if (a === 1 || settings.alphaHex) variants.push(minifyHex(this));
+    if (settings.hex && (a === 1 || settings.alphaHex)) {
+      const hex = minifyHex(this);
+      if (hex) variants.push(hex);
     }
 
     // rgb() functional notation with no spaces

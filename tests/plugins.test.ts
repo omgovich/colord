@@ -300,6 +300,12 @@ describe("minify", () => {
     expect(colord("rgba(0, 0, 255, 0.4)").minify({ alphaHex: true })).toBe("#00f6");
   });
 
+  it("Performs lossless minification (handles alpha hex issues)", () => {
+    expect(colord("rgba(0,0,0,.4)").minify({ alphaHex: true })).toBe("#0006");
+    expect(colord("rgba(0,0,0,.075)").minify({ alphaHex: true })).toBe("rgba(0,0,0,.075)");
+    expect(colord("hsla(0,0%,50%,.515)").minify({ alphaHex: true })).toBe("hsla(0,0%,50%,.515)");
+  });
+
   it("Supports names", () => {
     expect(colord("#f00").minify({ name: true })).toBe("red");
     expect(colord("#000080").minify({ name: true })).toBe("navy");
