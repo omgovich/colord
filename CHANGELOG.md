@@ -1,3 +1,8 @@
+### 2.9.1
+
+- Fix: Make minification lossless
+- Fix: Minify to name only if color is opaque
+
 ### 2.9.0
 
 - New plugin: Color string minification 🗜
