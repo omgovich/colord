@@ -99,7 +99,7 @@ const minifyPlugin: Plugin = (ColordClass): void => {
     if (settings.transparent && r === 0 && g === 0 && b === 0 && a === 0) {
       // Convert to transparent keyword if this option is enabled
       variants.push("transparent");
-    } else if (settings.name && typeof this.toName === "function") {
+    } else if (a === 1 && settings.name && typeof this.toName === "function") {
       // CSS color keyword if "names" plugin is installed
       const name = this.toName();
       if (name) variants.push(name);
