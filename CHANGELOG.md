@@ -1,3 +1,7 @@
+### 2.9.2
+
+- Fix: Add "package.json" to exports map
+
 ### 2.9.1
 
 - Fix: Make minification lossless

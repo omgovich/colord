@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
@@ -84,7 +84,8 @@
       "import": "./plugins/xyz.mjs",
       "require": "./plugins/xyz.js",
       "default": "./plugins/xyz.mjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "*.{js,mjs,ts,map}",
