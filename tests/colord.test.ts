@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { colord, random, getFormat, Colord, AnyColor } from "../src/";
+import { colord, random, randomFromSeed, getFormat, Colord, AnyColor } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
 
 it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
@@ -289,6 +289,16 @@ it("Checks colors for equality", () => {
 it("Generates a random color", () => {
   expect(random()).toBeInstanceOf(Colord);
   expect(random().toHex()).not.toBe(random().toHex());
+});
+
+it("Generates a random color", () => {
+  expect(random()).toBeInstanceOf(Colord);
+  expect(random().toHex()).not.toBe(random().toHex());
+});
+
+it("Generate a random color from seed", () => {
+  expect(randomFromSeed("goose").toHex()).toBe("#1999df");
+  expect(randomFromSeed("duck").toHex()).toBe("#b9382f");
 });
 
 it("Gets an input color format", () => {
