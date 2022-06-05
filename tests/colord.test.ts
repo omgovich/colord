@@ -206,6 +206,11 @@ it("Makes a color lighter and darker", () => {
   expect(colord("#000").lighten(0.5).toHex()).toBe("#808080");
   expect(colord("#FFF").darken(1).toHex()).toBe("#000000");
   expect(colord("#FFF").darken(0.5).toHex()).toBe("#808080");
+
+  // relative manipulation case
+  expect(colord("hsl(100, 50%, 50%)").lighten(0.2, true).toHsl().l).toBe(60);
+  expect(colord("hsl(100, 50%, 50%)").darken(0.1, true).toHslString()).toBe("hsl(100, 50%, 45%)");
+  expect(colord("hsl(100, 50%, 50%)").darken(0.2, true).toHsl().l).toBe(40);
 });
 
 it("Inverts a color", () => {
