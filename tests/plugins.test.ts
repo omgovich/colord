@@ -4,7 +4,9 @@ import cmykPlugin from "../src/plugins/cmyk";
 import harmoniesPlugin, { HarmonyType } from "../src/plugins/harmonies";
 import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
+import oklabPlugin from "../src/plugins/oklab";
 import lchPlugin from "../src/plugins/lch";
+import oklchPlugin from "../src/plugins/oklch";
 import minifyPlugin from "../src/plugins/minify";
 import mixPlugin from "../src/plugins/mix";
 import namesPlugin from "../src/plugins/names";
@@ -225,6 +227,55 @@ describe("lab", () => {
   });
 });
 
+describe("oklab", () => {
+  extend([oklabPlugin]);
+
+  it("Parses OKLAB color object", () => {
+    expect(colord({ l: 1, a: 0, b: 0, ok: true }).toHex()).toBe("#ffffff");
+    expect(colord({ l: 0, a: 0, b: 0, ok: true }).toHex()).toBe("#000000");
+    expect(colord({ l: 0.628, a: 0.2249, b: 0.1258, ok: true }).toHex()).toBe("#ff0000");
+    expect(colord({ l: 0.2684, a: 0.0162, b: 0.0347, alpha: 0.5, ok: true }).toHex()).toBe(
+      "#33221180"
+    );
+    expect(colord({ l: 0.5999, a: 0.202, b: -0.019, alpha: 1, ok: true }).toHex()).toBe("#d53987");
+  });
+
+  it("Converts a color to OKLAB object", () => {
+    expect(colord("#ffffff").toOklab()).toMatchObject({ l: 1, a: 0, b: 0, alpha: 1 });
+    expect(colord("#00000000").toOklab()).toMatchObject({ l: 0, a: 0, b: 0, alpha: 0 });
+    expect(colord("#ff0000").toOklab()).toMatchObject({ l: 0.628, a: 0.2249, b: 0.1258, alpha: 1 });
+    expect(colord("#00ff00").toOklab()).toMatchObject({
+      l: 0.8664,
+      a: -0.2339,
+      b: 0.1795,
+      alpha: 1,
+    });
+    expect(colord("#ffff00").toOklab()).toMatchObject({
+      l: 0.968,
+      a: -0.0714,
+      b: 0.1986,
+      alpha: 1,
+    });
+    expect(colord("#aabbcc").toOklab()).toMatchObject({
+      l: 0.7844,
+      a: -0.0114,
+      b: -0.0285,
+      alpha: 1,
+    });
+    expect(colord("#33221180").toOklab()).toMatchObject({
+      l: 0.2684,
+      a: 0.0162,
+      b: 0.0347,
+      alpha: 0.5,
+    });
+    expect(colord("#d53987").toOklab()).toMatchObject({ l: 0.5999, a: 0.202, b: -0.019, alpha: 1 });
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat({ l: 1, a: 0, b: 0, alpha: 1, ok: true })).toBe("oklab");
+  });
+});
+
 describe("lch", () => {
   extend([lchPlugin]);
 
@@ -279,6 +330,39 @@ describe("lch", () => {
   it("Supported by `getFormat`", () => {
     expect(getFormat("lch(50% 50 180deg)")).toBe("lch");
     expect(getFormat({ l: 50, c: 50, h: 180 })).toBe("lch");
+  });
+});
+
+describe("oklch", () => {
+  extend([oklchPlugin]);
+
+  it("Parses CIE LCH color object", () => {
+    expect(colord({ l: 0, c: 0, h: 0, a: 0, ok: true }).toHex()).toBe("#00000000");
+    expect(colord({ l: 1, c: 0, h: 0, ok: true }).toHex()).toBe("#ffffff");
+    expect(colord({ l: 0.4005, c: 0.1236, h: 21.1, ok: true }).toHex()).toBe("#7d2329");
+    expect(colord({ l: 0.5975, c: 0.1561, h: 49.94, ok: true }).toHex()).toBe("#c65d06");
+    expect(colord({ l: 0.6518, c: 0.1316, h: 104.38, ok: true }).toHex()).toBe("#9d9318");
+    expect(colord({ l: 0.6601, c: 0.1553, h: 134.17, ok: true }).toHex()).toBe("#68a639");
+    expect(colord({ l: 0.7242, c: 0.123, h: 247.65, a: 0.5, ok: true }).toHex()).toBe("#62acef80");
+  });
+
+  it("Converts a color to CIE LCH object", () => {
+    expect(colord("#00000000").toOklch()).toMatchObject({ l: 0, c: 0, h: 0, a: 0 });
+    expect(colord("#ffffff").toOklch()).toMatchObject({ l: 1, c: 0, h: 0, a: 1 });
+    expect(colord("#7d2329").toOklch()).toMatchObject({ l: 0.4005, c: 0.1236, h: 21.1, a: 1 });
+    expect(colord("#c65d06").toOklch()).toMatchObject({ l: 0.5975, c: 0.1561, h: 49.94, a: 1 });
+    expect(colord("#9d9318").toOklch()).toMatchObject({ l: 0.6518, c: 0.1316, h: 104.38, a: 1 });
+    expect(colord("#68a639").toOklch()).toMatchObject({ l: 0.6601, c: 0.1553, h: 134.17, a: 1 });
+    expect(colord("#62acef80").toOklch()).toMatchObject({
+      l: 0.7242,
+      c: 0.123,
+      h: 247.65,
+      a: 0.5,
+    });
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat({ l: 1, c: 0, h: 0, ok: true })).toBe("oklch");
   });
 });
 

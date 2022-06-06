@@ -32,6 +32,7 @@ export interface LabColor {
   l: number;
   a: number;
   b: number;
+  ok?: boolean;
 }
 
 export interface LchColor {
@@ -88,7 +89,9 @@ export type Format =
   | "hwb"
   | "xyz"
   | "lab"
+  | "oklab"
   | "lch"
+  | "oklch"
   | "cmyk";
 
 export type Input = string | InputObject;

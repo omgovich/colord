@@ -81,7 +81,9 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - HWB objects and strings ([via plugin](#plugins))
 - CMYK objects and strings ([via plugin](#plugins))
 - LCH objects and strings ([via plugin](#plugins))
+- OKLCH objects ([via plugin](#plugins))
 - LAB objects ([via plugin](#plugins))
+- OKLAB objects ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
@@ -117,6 +119,8 @@ colord({ h: 360, s: 100, l: 100 });
 colord({ h: 360, s: 100, l: 100, a: 1 });
 colord({ h: 360, s: 100, v: 100 });
 colord({ h: 360, s: 100, v: 100, a: 1 });
+colord({ l: 1, c: 0, h: 0, a: 1, ok: true }); // oklch
+colord({ l: 1, a: 0, b: 0, a: 1, ok: true }); // oklab
 ```
 
 Check out the ["Plugins"](#plugins) section for more input format examples.
@@ -320,6 +324,23 @@ colord("#33221180").toLab(); // { l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 }
 </details>
 
 <details>
+  <summary><b><code>.toOklab()</code></b> (<b>oklab</b> plugin)</summary>
+
+Converts a color to [OKLAB](https://bottosson.github.io/posts/oklab) color space.
+
+```js
+import { colord, extend } from "colord";
+import oklabPlugin from "colord/plugins/lab";
+
+extend([oklabPlugin]);
+
+colord("#ffffff").toOklab(); // { l: 1, c: 0, h: 0, a: 1 }
+colord("#33221180").toOklab(); // { l: 0.2684, a: 0.0162, b: 0.0347, alpha: 0.5 }
+```
+
+</details>
+
+<details>
   <summary><b><code>.toLch()</code></b> (<b>lch</b> plugin)</summary>
 
 Converts a color to [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
@@ -349,6 +370,23 @@ extend([lchPlugin]);
 
 colord("#ffffff").toLchString(); // "lch(100% 0 0)"
 colord("#213b0b").alpha(0.5).toLchString(); // "lch(21.85% 31.95 127.77 / 0.5)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>.toOklch()</code></b> (<b>oklch</b> plugin)</summary>
+
+Converts a color to [OKLCH](https://bottosson.github.io/posts/oklab/#the-oklab-color-space) color space.
+
+```js
+import { colord, extend } from "colord";
+import oklchPlugin from "colord/plugins/lch";
+
+extend([oklchPlugin]);
+
+colord("#ffffff").toOklch(); // { l: 1, c: 0, h: 0, a: 1 }
+colord("#7d2329").toOklch(); // { l: 0.4005, c: 0.1236, h: 21.1 }
 ```
 
 </details>

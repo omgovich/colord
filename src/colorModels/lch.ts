@@ -22,8 +22,8 @@ export const roundLcha = (laba: LchaColor): LchaColor => ({
   a: round(laba.a, ALPHA_PRECISION),
 });
 
-export const parseLcha = ({ l, c, h, a = 1 }: InputObject): RgbaColor | null => {
-  if (!isPresent(l) || !isPresent(c) || !isPresent(h)) return null;
+export const parseLcha = ({ l, c, h, ok, a = 1 }: InputObject): RgbaColor | null => {
+  if (!isPresent(l) || !isPresent(c) || !isPresent(h) || ok) return null;
 
   const lcha = clampLcha({
     l: Number(l),

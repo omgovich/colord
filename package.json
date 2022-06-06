@@ -13,7 +13,9 @@
     "hsv",
     "hwb",
     "lab",
+    "oklab",
     "lch",
+    "oklch",
     "xyz",
     "css",
     "color-names",
@@ -60,10 +62,20 @@
       "require": "./plugins/lab.js",
       "default": "./plugins/lab.mjs"
     },
+    "./plugins/oklab": {
+      "import": "./plugins/oklab.mjs",
+      "require": "./plugins/oklab.js",
+      "default": "./plugins/oklab.mjs"
+    },
     "./plugins/lch": {
       "import": "./plugins/lch.mjs",
       "require": "./plugins/lch.js",
       "default": "./plugins/lch.mjs"
+    },
+    "./plugins/oklch": {
+      "import": "./plugins/oklch.mjs",
+      "require": "./plugins/oklch.js",
+      "default": "./plugins/oklch.mjs"
     },
     "./plugins/minify": {
       "import": "./plugins/minify.mjs",
@@ -176,8 +188,16 @@
       "limit": "1.5 KB"
     },
     {
+      "path": "dist/plugins/oklab.mjs",
+      "limit": "1 KB"
+    },
+    {
       "path": "dist/plugins/lch.mjs",
       "limit": "1.5 KB"
+    },
+    {
+      "path": "dist/plugins/oklch.mjs",
+      "limit": "1 KB"
     },
     {
       "path": "dist/plugins/minify.mjs",

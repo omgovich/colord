@@ -29,8 +29,8 @@ export const roundLaba = (laba: LabaColor): LabaColor => ({
   alpha: round(laba.alpha, ALPHA_PRECISION),
 });
 
-export const parseLaba = ({ l, a, b, alpha = 1 }: InputObject): RgbaColor | null => {
-  if (!isPresent(l) || !isPresent(a) || !isPresent(b)) return null;
+export const parseLaba = ({ l, a, b, ok, alpha = 1 }: InputObject): RgbaColor | null => {
+  if (!isPresent(l) || !isPresent(a) || !isPresent(b) || ok) return null;
 
   const laba = clampLaba({
     l: Number(l),
