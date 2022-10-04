@@ -431,7 +431,7 @@ colord("hsl(0, 100%, 50%)").grayscale().toHslString(); // "hsl(0, 0%, 50%)"
 </details>
 
 <details>
-  <summary><b><code>.lighten(amount = 0.1)</code></b></summary>
+  <summary><b><code>.lighten(amount = 0.1, relative = false)</code></b></summary>
 
 Increases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
@@ -441,10 +441,16 @@ colord("#223344").lighten(0.3).toHex(); // "#5580aa"
 colord("hsl(0, 50%, 50%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 100%)"
 ```
 
+The manipulation can be relative to the color itself:
+
+```js
+colord("hsl(0, 50%, 50%)").lighten(0.5, true).toHslString(); // "hsl(0, 50%, 75%)"
+```
+
 </details>
 
 <details>
-  <summary><b><code>.darken(amount = 0.1)</code></b></summary>
+  <summary><b><code>.darken(amount = 0.1, relative = false)</code></b></summary>
 
 Decreases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
@@ -452,6 +458,12 @@ Decreases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a co
 colord("#ffffff").darken(0.5).toHex(); // "#808080"
 colord("#5580aa").darken(0.3).toHex(); // "#223344"
 colord("hsl(0, 50%, 100%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 50%)"
+```
+
+The manipulation can be relative to the color itself:
+
+```js
+colord("hsl(0, 50%, 50%)").darken(0.5, true).toHslString(); // "hsl(0, 50%, 25%)"
 ```
 
 </details>

@@ -136,15 +136,15 @@ export class Colord {
   /**
    * Increases the HSL lightness of a color by the given amount.
    */
-  public lighten(amount = 0.1): Colord {
-    return colord(lighten(this.rgba, amount));
+  public lighten(amount = 0.1, relative?: boolean): Colord {
+    return colord(lighten(this.rgba, amount, relative));
   }
 
   /**
    * Increases the HSL lightness of a color by the given amount.
    */
-  public darken(amount = 0.1): Colord {
-    return colord(lighten(this.rgba, -amount));
+  public darken(amount = 0.1, relative?: boolean): Colord {
+    return colord(lighten(this.rgba, -amount, relative));
   }
 
   /**
