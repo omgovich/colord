@@ -51,9 +51,20 @@ export class Colord {
 
   /**
    * Same as calling `brightness() >= 0.5`.
-   * */
+   */
   public isLight(): boolean {
     return getBrightness(this.rgba) >= 0.5;
+  }
+
+  /**
+   * Returns the base 10 representation of a color.
+   * When the alpha channel value of the color is less than 1,
+   * it outputs RGBA (32bits) instead of RGB (24bits).
+   */
+  public toBase10(): number {
+    return this.rgba.a < 1
+      ? (this.rgba.r << 24) + (this.rgba.g << 16) + (this.rgba.b << 8) + round(this.rgba.a * 255)
+      : (this.rgba.r << 16) + (this.rgba.g << 8) + this.rgba.b;
   }
 
   /**
