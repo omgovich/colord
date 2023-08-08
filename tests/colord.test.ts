@@ -23,8 +23,10 @@ it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
 });
 
 it("Parses and converts a color", () => {
+  const base10 = parseInt((lime.hex as string).slice(1), 16);
   for (const format in lime) {
     const instance = colord(lime[format] as AnyColor);
+    expect(instance.toBase10()).toBe(base10);
     expect(instance.toHex()).toBe(lime.hex);
     expect(instance.toRgb()).toMatchObject(lime.rgba);
     expect(instance.toRgbString()).toBe(lime.rgbString);
