@@ -4,12 +4,12 @@ import { roundRgba, clampRgba } from "./rgb";
 // Functional syntax
 // rgb( <percentage>#{3} , <alpha-value>? )
 // rgb( <number>#{3} , <alpha-value>? )
-const commaRgbaMatcher = /^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
+const commaRgbaMatcher = /^rgba?\(\s*([+-]?\d{1,3}(?:\.\d+)?)%\s*,\s*([+-]?\d{1,3}(?:\.\d+)?)%\s*,\s*([+-]?\d{1,3}(?:\.\d+)?)%\s*(?:,\s*([+-]?\d{1,3}(?:\.\d+)?)%)?\)$/i;
 
 // Whitespace syntax
 // rgb( <percentage>{3} [ / <alpha-value> ]? )
 // rgb( <number>{3} [ / <alpha-value> ]? )
-const spaceRgbaMatcher = /^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
+const spaceRgbaMatcher = /^rgba?\(\s*([+-]?\d{1,3}(?:\.\d+)?)%\s+([+-]?\d{1,3}(?:\.\d+)?)%\s+([+-]?\d{1,3}(?:\.\d+)?)%\s*(?:\/\s*([+-]?\d{1,3}(?:\.\d+)?)%)?\)$/i;
 
 /**
  * Parses a valid RGB[A] CSS color function/string
