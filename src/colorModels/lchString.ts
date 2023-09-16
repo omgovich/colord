@@ -4,7 +4,7 @@ import { clampLcha, rgbaToLcha, lchaToRgba, roundLcha } from "./lch";
 
 // The only valid LCH syntax
 // lch() = lch( <percentage> <number> <hue> [ / <alpha-value> ]? )
-const lchaMatcher = /^lch\(\s*([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)\s+([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
+const lchaMatcher = /^lch\(\s*([+-]?\d{1,3}(?:\.\d+)?)%\s+([+-]?\d{1,3}(?:\.\d+)?)\s+([+-]?\d{1,3}(?:\.\d+)?)\s*(deg|rad|grad|turn)?\s*(?:\/\s*([+-]?\d{1,3}(?:\.\d+)?)%)?\)$/i;
 
 /**
  * Parses a valid LCH CSS color function/string
