@@ -4,11 +4,11 @@ import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsl";
 
 // Functional syntax
 // hsl( <hue>, <percentage>, <percentage>, <alpha-value>? )
-const commaHslaMatcher = /^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
+const commaHslaMatcher = /^hsla?\(\s*([+-]?\d{1,3})(deg|rad|grad|turn)?\s*,\s*([+-]?\d{1,3})%\s*,\s*([+-]?\d{1,3})%\s*(?:,\s*([+-]?\d*\.?\d{1,3})(%)?\s*)?\)$/i;
 
 // Whitespace syntax
 // hsl( <hue> <percentage> <percentage> [ / <alpha-value> ]? )
-const spaceHslaMatcher = /^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
+const spaceHslaMatcher = /^hsla?\(\s*([+-]?\d{1,3}(?:\.\d+)?)\s*(deg|rad|grad|turn)?\s+([+-]?\d{1,3}(?:\.\d+)?)%\s+([+-]?\d{1,3}(?:\.\d+)?)%\s*(?:\/\s*([+-]?\d{1,3}(?:\.\d+)?)%)?\)$/i;
 
 /**
  * Parses a valid HSL[A] CSS color function/string

@@ -1,7 +1,8 @@
 import { RgbaColor } from "../types";
 import { clampCmyka, cmykaToRgba, rgbaToCmyka, roundCmyka } from "./cmyk";
 
-const cmykMatcher = /^device-cmyk\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i;
+const cmykMatcher = /^device-cmyk\(\s*([+-]?\d{1,3}(?:\.\d+)?)%\s+([+-]?\d{1,3}(?:\.\d+)?)%\s+([+-]?\d{1,3}(?:\.\d+)?)%\s+([+-]?\d{1,3}(?:\.\d+)?)%(?:\s*\/\s*([+-]?\d{1,3}(?:\.\d+)?)%)?\)$/i;
+
 
 /**
  * Parses a valid CMYK CSS color function/string
