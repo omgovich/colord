@@ -4,6 +4,7 @@ import { parseLaba, roundLaba, rgbaToLaba } from "../colorModels/lab";
 import { getDeltaE00 } from "../get/getPerceivedDifference";
 import { clamp, round as roundNumber } from "../helpers";
 import { ALPHA_PRECISION } from "../constants";
+import { IlluminantName } from "../colorModels/xyz";
 
 declare module "../colord" {
   interface Colord {
@@ -11,18 +12,26 @@ declare module "../colord" {
      * Converts a color to CIELAB color space and returns an object.
      * The object always includes `alpha` value [0, 1].
      */
-    toLab(): LabaColor;
-    toLab(round: false): LabaColor;
-    toLab(round: true, precision: number, alphaPrecision: number): LabaColor;
+    toLab(options?: {
+      round?: boolean;
+      precision?: number;
+      alphaPrecision?: number;
+      illuminantName?: IlluminantName;
+    }): LabaColor;
 
     /**
      * Calculates the perceived color difference for two colors according to
      * [Delta E2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000).
      * Returns a value in [0, 1] range.
      */
-    delta(color?: AnyColor | Colord): number;
-    delta(color: AnyColor | Colord, round: false): number;
-    delta(color: AnyColor | Colord, round: true, precision: number): number;
+    delta(
+      color?: AnyColor | Colord,
+      options?: {
+        round?: boolean;
+        precision?: number;
+        illuminantName?: IlluminantName;
+      }
+    ): number;
   }
 }
 
@@ -31,22 +40,40 @@ declare module "../colord" {
  * https://en.wikipedia.org/wiki/CIELAB_color_space
  */
 const labPlugin: Plugin = (ColordClass, parsers): void => {
-  ColordClass.prototype.toLab = function (
+  ColordClass.prototype.toLab = function ({
     round = true,
     precision = 2,
-    alphaPrecision = ALPHA_PRECISION
-  ) {
-    const laba = rgbaToLaba(this.rgba);
+    alphaPrecision = ALPHA_PRECISION,
+    illuminantName = "D50",
+  }: {
+    round?: boolean;
+    precision?: number;
+    alphaPrecision?: number;
+    illuminantName?: IlluminantName;
+  }) {
+    const laba = rgbaToLaba(this.rgba, illuminantName);
     return round ? roundLaba(laba, precision, alphaPrecision) : laba;
   };
 
   ColordClass.prototype.delta = function (
-    color: AnyColor | InstanceType<typeof ColordClass> = "#FFF",
-    round = true,
-    precision = 3
+    color = "#FFF",
+    {
+      round = true,
+      precision = 3,
+      illuminantName = "D50",
+    }: {
+      round?: boolean;
+      precision?: number;
+      alphaPrecision?: number;
+      illuminantName?: IlluminantName;
+    }
   ) {
     const compared = color instanceof ColordClass ? color : new ColordClass(color);
-    const delta = getDeltaE00(this.toLab(false), compared.toLab(false)) / 100;
+    const delta =
+      getDeltaE00(
+        this.toLab({ round: false, illuminantName }),
+        compared.toLab({ round: false, illuminantName })
+      ) / 100;
     const clampedDelta = clamp(delta);
     return round ? roundNumber(clampedDelta, precision) : clampedDelta;
   };

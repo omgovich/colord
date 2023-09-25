@@ -3,6 +3,7 @@ import { Plugin } from "../extend";
 import { parseLcha, roundLcha, rgbaToLcha } from "../colorModels/lch";
 import { parseLchaString, rgbaToLchaString } from "../colorModels/lchString";
 import { ALPHA_PRECISION } from "../constants";
+import { IlluminantName } from "../colorModels/xyz";
 
 declare module "../colord" {
   interface Colord {
@@ -11,16 +12,22 @@ declare module "../colord" {
      * https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/
      * https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_model
      */
-    toLch(): LchaColor;
-    toLch(round: false): LchaColor;
-    toLch(round: true, precision: number, alphaPrecision: number): LchaColor;
+    toLch(options?: {
+      round?: boolean;
+      precision?: number;
+      alphaPrecision?: number;
+      illuminantName?: IlluminantName;
+    }): LchaColor;
     /**
      * Converts a color to CIELCH (Lightness-Chroma-Hue) color space and returns a string.
      * https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch()
      */
-    toLchString(): string;
-    toLchString(round: false): string;
-    toLchString(round: true, precision: number, alphaPrecision: number): string;
+    toLchString(options?: {
+      round?: boolean;
+      precision?: number;
+      alphaPrecision?: number;
+      illuminantName?: IlluminantName;
+    }): string;
   }
 }
 
@@ -30,21 +37,33 @@ declare module "../colord" {
  * https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_model
  */
 const lchPlugin: Plugin = (ColordClass, parsers): void => {
-  ColordClass.prototype.toLch = function (
+  ColordClass.prototype.toLch = function ({
     round = true,
     precision = 2,
-    alphaPrecision = ALPHA_PRECISION
-  ) {
-    const lcha = rgbaToLcha(this.rgba);
+    alphaPrecision = ALPHA_PRECISION,
+    illuminantName = "D50",
+  }: {
+    round?: boolean;
+    precision?: number;
+    alphaPrecision?: number;
+    illuminantName?: IlluminantName;
+  }) {
+    const lcha = rgbaToLcha(this.rgba, illuminantName);
     return round ? roundLcha(lcha, precision, alphaPrecision) : lcha;
   };
 
-  ColordClass.prototype.toLchString = function (
+  ColordClass.prototype.toLchString = function ({
     round = true,
     precision = 2,
-    alphaPrecision = ALPHA_PRECISION
-  ) {
-    return rgbaToLchaString(this.rgba, round, precision, alphaPrecision);
+    alphaPrecision = ALPHA_PRECISION,
+    illuminantName = "D50",
+  }: {
+    round?: boolean;
+    precision?: number;
+    alphaPrecision?: number;
+    illuminantName?: IlluminantName;
+  }) {
+    return rgbaToLchaString(this.rgba, { round, precision, alphaPrecision, illuminantName });
   };
 
   parsers.string.push([parseLchaString, "lch"]);
