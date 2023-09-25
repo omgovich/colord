@@ -1,3 +1,4 @@
+import { ALPHA_PRECISION } from "../constants";
 import { RgbaColor } from "../types";
 import { clampCmyka, cmykaToRgba, rgbaToCmyka, roundCmyka } from "./cmyk";
 
@@ -23,8 +24,14 @@ export const parseCmykaString = (input: string): RgbaColor | null => {
   return cmykaToRgba(cmyka);
 };
 
-export function rgbaToCmykaString(rgb: RgbaColor): string {
-  const { c, m, y, k, a } = roundCmyka(rgbaToCmyka(rgb));
+export function rgbaToCmykaString(
+  rgb: RgbaColor,
+  round: boolean,
+  precision = 2,
+  alphaPrecision = ALPHA_PRECISION
+): string {
+  const cmyka = rgbaToCmyka(rgb);
+  const { c, m, y, k, a } = round ? roundCmyka(cmyka, precision, alphaPrecision) : cmyka;
 
   return a < 1
     ? `device-cmyk(${c}% ${m}% ${y}% ${k}% / ${a})`

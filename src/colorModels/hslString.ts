@@ -1,3 +1,4 @@
+import { ALPHA_PRECISION } from "../constants";
 import { parseHue } from "../helpers";
 import { RgbaColor } from "../types";
 import { clampHsla, rgbaToHsla, hslaToRgba, roundHsla } from "./hsl";
@@ -29,7 +30,13 @@ export const parseHslaString = (input: string): RgbaColor | null => {
   return hslaToRgba(hsla);
 };
 
-export const rgbaToHslaString = (rgba: RgbaColor): string => {
-  const { h, s, l, a } = roundHsla(rgbaToHsla(rgba));
+export const rgbaToHslaString = (
+  rgba: RgbaColor,
+  round = true,
+  precision = 0,
+  alphaPrecision = ALPHA_PRECISION
+): string => {
+  const hsla = rgbaToHsla(rgba);
+  const { h, s, l, a } = round ? roundHsla(hsla, precision, alphaPrecision) : hsla;
   return a < 1 ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
 };

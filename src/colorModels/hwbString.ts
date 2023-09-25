@@ -1,3 +1,4 @@
+import { ALPHA_PRECISION } from "../constants";
 import { parseHue } from "../helpers";
 import { RgbaColor } from "../types";
 import { clampHwba, rgbaToHwba, hwbaToRgba, roundHwba } from "./hwb";
@@ -25,7 +26,13 @@ export const parseHwbaString = (input: string): RgbaColor | null => {
   return hwbaToRgba(hwba);
 };
 
-export const rgbaToHwbaString = (rgba: RgbaColor): string => {
-  const { h, w, b, a } = roundHwba(rgbaToHwba(rgba));
+export const rgbaToHwbaString = (
+  rgba: RgbaColor,
+  round = true,
+  precision = 0,
+  alphaPrecision = ALPHA_PRECISION
+): string => {
+  const hwba = rgbaToHwba(rgba);
+  const { h, w, b, a } = round ? roundHwba(hwba, precision, alphaPrecision) : hwba;
   return a < 1 ? `hwb(${h} ${w}% ${b}% / ${a})` : `hwb(${h} ${w}% ${b}%)`;
 };

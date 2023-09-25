@@ -16,12 +16,16 @@ export const clampCmyka = (cmyka: CmykaColor): CmykaColor => ({
 /**
  * Rounds the CMYK color object values.
  */
-export const roundCmyka = (cmyka: CmykaColor): CmykaColor => ({
-  c: round(cmyka.c, 2),
-  m: round(cmyka.m, 2),
-  y: round(cmyka.y, 2),
-  k: round(cmyka.k, 2),
-  a: round(cmyka.a, ALPHA_PRECISION),
+export const roundCmyka = (
+  cmyka: CmykaColor,
+  precision = 2,
+  alphaPrecision = ALPHA_PRECISION
+): CmykaColor => ({
+  c: round(cmyka.c, precision),
+  m: round(cmyka.m, precision),
+  y: round(cmyka.y, precision),
+  k: round(cmyka.k, precision),
+  a: round(cmyka.a, alphaPrecision),
 });
 
 /**

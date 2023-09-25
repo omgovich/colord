@@ -10,11 +10,15 @@ export const clampHwba = (hwba: HwbaColor): HwbaColor => ({
   a: clamp(hwba.a),
 });
 
-export const roundHwba = (hwba: HwbaColor): HwbaColor => ({
-  h: round(hwba.h),
-  w: round(hwba.w),
-  b: round(hwba.b),
-  a: round(hwba.a, ALPHA_PRECISION),
+export const roundHwba = (
+  hwba: HwbaColor,
+  precision = 0,
+  alphaPrecision = ALPHA_PRECISION
+): HwbaColor => ({
+  h: round(hwba.h, precision),
+  w: round(hwba.w, precision),
+  b: round(hwba.b, precision),
+  a: round(hwba.a, alphaPrecision),
 });
 
 export const rgbaToHwba = (rgba: RgbaColor): HwbaColor => {
