@@ -1,6 +1,7 @@
 import { RgbaColor } from "../types";
 import { parseHue } from "../helpers";
 import { clampLcha, rgbaToLcha, lchaToRgba, roundLcha } from "./lch";
+import { ALPHA_PRECISION } from "../constants";
 
 // The only valid LCH syntax
 // lch() = lch( <percentage> <number> <hue> [ / <alpha-value> ]? )
@@ -25,7 +26,13 @@ export const parseLchaString = (input: string): RgbaColor | null => {
   return lchaToRgba(lcha);
 };
 
-export const rgbaToLchaString = (rgba: RgbaColor): string => {
-  const { l, c, h, a } = roundLcha(rgbaToLcha(rgba));
+export const rgbaToLchaString = (
+  rgba: RgbaColor,
+  round = true,
+  precision = 2,
+  alphaPrecision = ALPHA_PRECISION
+): string => {
+  const lcha = rgbaToLcha(rgba);
+  const { l, c, h, a } = round ? roundLcha(lcha, precision, alphaPrecision) : lcha;
   return a < 1 ? `lch(${l}% ${c} ${h} / ${a})` : `lch(${l}% ${c} ${h})`;
 };

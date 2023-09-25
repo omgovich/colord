@@ -1,5 +1,5 @@
 import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor } from "./types";
-import { round } from "./helpers";
+import { round as roundNumber } from "./helpers";
 import { ALPHA_PRECISION } from "./constants";
 import { parse } from "./parse";
 import { rgbaToHex } from "./colorModels/hex";
@@ -38,8 +38,12 @@ export class Colord {
    * The calculation logic is modified from WCAG.
    * https://www.w3.org/TR/AERT/#color-contrast
    */
-  public brightness(): number {
-    return round(getBrightness(this.rgba), 2);
+  public brightness(): number;
+  public brightness(round: false): number;
+  public brightness(round: true, precision?: number): number;
+  public brightness(round = true, precision = 2): number {
+    const b = getBrightness(this.rgba);
+    return round ? roundNumber(b, precision) : b;
   }
 
   /**
@@ -69,40 +73,57 @@ export class Colord {
    * Converts a color to RGB color space and returns an object.
    * Always includes an alpha value from 0 to 1.
    */
-  public toRgb(): RgbaColor {
-    return roundRgba(this.rgba);
+  public toRgb(): RgbaColor;
+  public toRgb(round: false): RgbaColor;
+  public toRgb(round: true, precision?: number, alphaPrecision?: number): RgbaColor;
+  public toRgb(round = true, precision = 0, alphaPrecision = ALPHA_PRECISION): RgbaColor {
+    return round ? roundRgba(this.rgba, precision, alphaPrecision) : this.rgba;
   }
 
   /**
    * Converts a color to RGB color space and returns a string representation.
    * Outputs an alpha value only if it is less than 1.
    */
-  public toRgbString(): string {
-    return rgbaToRgbaString(this.rgba);
+  public toRgbString(): string;
+  public toRgbString(round: false): string;
+  public toRgbString(round: true, precision?: number, alphaPrecision?: number): string;
+  public toRgbString(round = true, precision = 0, alphaPrecision = ALPHA_PRECISION): string {
+    return rgbaToRgbaString(this.rgba, round, precision, alphaPrecision);
   }
 
   /**
    * Converts a color to HSL color space and returns an object.
    * Always includes an alpha value from 0 to 1.
    */
-  public toHsl(): HslaColor {
-    return roundHsla(rgbaToHsla(this.rgba));
+  public toHsl(): HslaColor;
+  public toHsl(round: false): HslaColor;
+  public toHsl(round: true, precision?: number, alphaPrecision?: number): HslaColor;
+  public toHsl(round = true, precision = 0, alphaPrecision = ALPHA_PRECISION): HslaColor {
+    const hsla = rgbaToHsla(this.rgba);
+    return round ? roundHsla(hsla, precision, alphaPrecision) : hsla;
   }
 
   /**
    * Converts a color to HSL color space and returns a string representation.
    * Always includes an alpha value from 0 to 1.
    */
-  public toHslString(): string {
-    return rgbaToHslaString(this.rgba);
+  public toHslString(): string;
+  public toHslString(round: false): string;
+  public toHslString(round: true, precision?: number, alphaPrecision?: number): string;
+  public toHslString(round = true, precision = 0, alphaPrecision = ALPHA_PRECISION): string {
+    return rgbaToHslaString(this.rgba, round, precision, alphaPrecision);
   }
 
   /**
    * Converts a color to HSV color space and returns an object.
    * Always includes an alpha value from 0 to 1.
    */
-  public toHsv(): HsvaColor {
-    return roundHsva(rgbaToHsva(this.rgba));
+  public toHsv(): HsvaColor;
+  public toHsv(round: false): HsvaColor;
+  public toHsv(round: true, precision?: number, alphaPrecision?: number): HsvaColor;
+  public toHsv(round = true, precision = 0, alphaPrecision = ALPHA_PRECISION): HsvaColor {
+    const hsva = rgbaToHsva(this.rgba);
+    return round ? roundHsva(hsva, precision, alphaPrecision) : hsva;
   }
 
   /**
@@ -159,9 +180,12 @@ export class Colord {
    */
   public alpha(): number;
   public alpha(value: number): Colord;
-  public alpha(value?: number): Colord | number {
+  public alpha(value: undefined, round: false): number;
+  public alpha(value: undefined, round: true, precision?: number): number;
+  public alpha(value?: number, round = true, precision = ALPHA_PRECISION): Colord | number {
     if (typeof value === "number") return colord(changeAlpha(this.rgba, value));
-    return round(this.rgba.a, ALPHA_PRECISION);
+    const { a } = this.rgba;
+    return round ? roundNumber(a, precision) : a;
   }
 
   /**
@@ -169,10 +193,13 @@ export class Colord {
    */
   public hue(): number;
   public hue(value: number): Colord;
-  public hue(value?: number): Colord | number {
+  public hue(value: undefined, round: false): number;
+  public hue(value: undefined, round: true, precision?: number): number;
+  public hue(value?: number, round = true, precision = 0): Colord | number {
     const hsla = rgbaToHsla(this.rgba);
     if (typeof value === "number") return colord({ h: value, s: hsla.s, l: hsla.l, a: hsla.a });
-    return round(hsla.h);
+    const { h } = hsla;
+    return round ? roundNumber(h, precision) : h;
   }
 
   /**

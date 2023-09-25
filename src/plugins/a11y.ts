@@ -2,7 +2,7 @@ import { AnyColor } from "../types";
 import { Plugin } from "../extend";
 import { getContrast } from "../get/getContrast";
 import { getLuminance } from "../get/getLuminance";
-import { round, floor } from "../helpers";
+import { round as roundNumber, floor } from "../helpers";
 
 // https://webaim.org/resources/contrastchecker/
 interface ReadabilityOptions {
@@ -19,6 +19,8 @@ declare module "../colord" {
      * https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_Colors_and_Luminance
      */
     luminance(): number;
+    luminance(round: false): number;
+    luminance(round: true, precision: number): number;
     /**
      * Calculates a contrast ratio for a color pair.
      * This luminance difference is expressed as a ratio ranging
@@ -52,8 +54,9 @@ const a11yPlugin: Plugin = (ColordClass): void => {
     return 4.5;
   };
 
-  ColordClass.prototype.luminance = function () {
-    return round(getLuminance(this.rgba), 2);
+  ColordClass.prototype.luminance = function (round = true, precision = 2) {
+    const l = getLuminance(this.rgba);
+    return round ? roundNumber(l, precision) : l;
   };
 
   ColordClass.prototype.contrast = function (color2 = "#FFF") {

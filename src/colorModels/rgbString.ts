@@ -1,3 +1,4 @@
+import { ALPHA_PRECISION } from "../constants";
 import { RgbaColor } from "../types";
 import { roundRgba, clampRgba } from "./rgb";
 
@@ -32,7 +33,12 @@ export const parseRgbaString = (input: string): RgbaColor | null => {
   });
 };
 
-export const rgbaToRgbaString = (rgba: RgbaColor): string => {
-  const { r, g, b, a } = roundRgba(rgba);
+export const rgbaToRgbaString = (
+  rgba: RgbaColor,
+  round = true,
+  precision = 0,
+  alphaPrecision = ALPHA_PRECISION
+): string => {
+  const { r, g, b, a } = round ? roundRgba(rgba, precision, alphaPrecision) : rgba;
   return a < 1 ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
 };

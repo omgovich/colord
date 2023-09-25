@@ -25,7 +25,7 @@ const minifyPlugin: Plugin = (ColordClass): void => {
   // Finds the shortest hex representation
   const minifyHex = (instance: Colord): string | null => {
     const hex = instance.toHex();
-    const alpha = instance.alpha();
+    const alpha = instance.alpha(undefined, true, 2);
     const [, r1, r2, g1, g2, b1, b2, a1, a2] = hex.split("");
 
     // Make sure conversion is lossless

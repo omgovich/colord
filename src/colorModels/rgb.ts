@@ -9,11 +9,15 @@ export const clampRgba = (rgba: RgbaColor): RgbaColor => ({
   a: clamp(rgba.a),
 });
 
-export const roundRgba = (rgba: RgbaColor): RgbaColor => ({
-  r: round(rgba.r),
-  g: round(rgba.g),
-  b: round(rgba.b),
-  a: round(rgba.a, ALPHA_PRECISION),
+export const roundRgba = (
+  rgba: RgbaColor,
+  precision = 0,
+  alphaPrecision = ALPHA_PRECISION
+): RgbaColor => ({
+  r: round(rgba.r, precision),
+  g: round(rgba.g, precision),
+  b: round(rgba.b, precision),
+  a: round(rgba.a, alphaPrecision),
 });
 
 export const parseRgba = ({ r, g, b, a = 1 }: InputObject): RgbaColor | null => {
