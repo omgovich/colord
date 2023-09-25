@@ -1,7 +1,7 @@
 import { RgbaColor, LabaColor, InputObject } from "../types";
 import { ALPHA_PRECISION } from "../constants";
 import { clamp, isPresent, round } from "../helpers";
-import { D50, rgbaToXyza, xyzaToRgba } from "./xyz";
+import { IlluminantName, Illuminants, rgbaToXyza, xyzaToRgba } from "./xyz";
 
 // Conversion factors from https://en.wikipedia.org/wiki/CIELAB_color_space
 const e = 216 / 24389;
@@ -33,7 +33,10 @@ export const roundLaba = (
   alpha: round(laba.alpha, alphaPrecision),
 });
 
-export const parseLaba = ({ l, a, b, alpha = 1 }: InputObject): RgbaColor | null => {
+export const parseLaba = (
+  { l, a, b, alpha = 1 }: InputObject,
+  illuminantName: IlluminantName = "D50"
+): RgbaColor | null => {
   if (!isPresent(l) || !isPresent(a) || !isPresent(b)) return null;
 
   const laba = clampLaba({
@@ -43,19 +46,21 @@ export const parseLaba = ({ l, a, b, alpha = 1 }: InputObject): RgbaColor | null
     alpha: Number(alpha),
   });
 
-  return labaToRgba(laba);
+  return labaToRgba(laba, illuminantName);
 };
 
 /**
  * Performs RGB → CIEXYZ → LAB color conversion
  * https://www.w3.org/TR/css-color-4/#color-conversion-code
  */
-export const rgbaToLaba = (rgba: RgbaColor): LabaColor => {
-  // Compute XYZ scaled relative to D50 reference white
-  const xyza = rgbaToXyza(rgba);
-  let x = xyza.x / D50.x;
-  let y = xyza.y / D50.y;
-  let z = xyza.z / D50.z;
+export const rgbaToLaba = (rgba: RgbaColor, illuminantName: IlluminantName = "D50"): LabaColor => {
+  const illuminant = Illuminants[illuminantName];
+
+  // Compute XYZ scaled relative to the illuminant reference white
+  const xyza = rgbaToXyza(rgba, illuminantName);
+  let x = xyza.x / illuminant.x;
+  let y = xyza.y / illuminant.y;
+  let z = xyza.z / illuminant.z;
 
   x = x > e ? Math.cbrt(x) : (k * x + 16) / 116;
   y = y > e ? Math.cbrt(y) : (k * y + 16) / 116;
@@ -73,15 +78,17 @@ export const rgbaToLaba = (rgba: RgbaColor): LabaColor => {
  * Performs LAB → CIEXYZ → RGB color conversion
  * https://www.w3.org/TR/css-color-4/#color-conversion-code
  */
-export const labaToRgba = (laba: LabaColor): RgbaColor => {
+export const labaToRgba = (laba: LabaColor, illuminantName: IlluminantName = "D50"): RgbaColor => {
   const y = (laba.l + 16) / 116;
   const x = laba.a / 500 + y;
   const z = y - laba.b / 200;
 
+  const illuminant = Illuminants[illuminantName];
+
   return xyzaToRgba({
-    x: (Math.pow(x, 3) > e ? Math.pow(x, 3) : (116 * x - 16) / k) * D50.x,
-    y: (laba.l > k * e ? Math.pow((laba.l + 16) / 116, 3) : laba.l / k) * D50.y,
-    z: (Math.pow(z, 3) > e ? Math.pow(z, 3) : (116 * z - 16) / k) * D50.z,
+    x: (Math.pow(x, 3) > e ? Math.pow(x, 3) : (116 * x - 16) / k) * illuminant.x,
+    y: (laba.l > k * e ? Math.pow((laba.l + 16) / 116, 3) : laba.l / k) * illuminant.y,
+    z: (Math.pow(z, 3) > e ? Math.pow(z, 3) : (116 * z - 16) / k) * illuminant.z,
     a: laba.alpha,
   });
 };
