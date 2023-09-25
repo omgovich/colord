@@ -1,10 +1,10 @@
 import { XyzaColor } from "../types";
 import { Plugin } from "../extend";
-import { parseXyza, rgbaToXyza, roundXyza } from "../colorModels/xyz";
+import { IlluminantName, parseXyza, rgbaToXyza, roundXyza } from "../colorModels/xyz";
 
 declare module "../colord" {
   interface Colord {
-    toXyz(): XyzaColor;
+    toXyz(illuminantName?: IlluminantName): XyzaColor;
   }
 }
 
@@ -14,8 +14,8 @@ declare module "../colord" {
  * Helpful article: https://www.sttmedia.com/colormodel-xyz
  */
 const xyzPlugin: Plugin = (ColordClass, parsers): void => {
-  ColordClass.prototype.toXyz = function () {
-    return roundXyza(rgbaToXyza(this.rgba));
+  ColordClass.prototype.toXyz = function (illuminantName: IlluminantName = "D50") {
+    return roundXyza(rgbaToXyza(this.rgba, illuminantName));
   };
 
   parsers.object.push([parseXyza, "xyz"]);

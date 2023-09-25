@@ -2,6 +2,7 @@ import { LchaColor } from "../types";
 import { Plugin } from "../extend";
 import { parseLcha, roundLcha, rgbaToLcha } from "../colorModels/lch";
 import { parseLchaString, rgbaToLchaString } from "../colorModels/lchString";
+import { IlluminantName } from "../colorModels/xyz";
 
 declare module "../colord" {
   interface Colord {
@@ -10,12 +11,12 @@ declare module "../colord" {
      * https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/
      * https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_model
      */
-    toLch(): LchaColor;
+    toLch(illuminantName?: IlluminantName): LchaColor;
     /**
      * Converts a color to CIELCH (Lightness-Chroma-Hue) color space and returns a string.
      * https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/lch()
      */
-    toLchString(): string;
+    toLchString(illuminantName?: IlluminantName): string;
   }
 }
 
@@ -25,12 +26,12 @@ declare module "../colord" {
  * https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_model
  */
 const lchPlugin: Plugin = (ColordClass, parsers): void => {
-  ColordClass.prototype.toLch = function () {
-    return roundLcha(rgbaToLcha(this.rgba));
+  ColordClass.prototype.toLch = function (illuminantName: IlluminantName = "D50") {
+    return roundLcha(rgbaToLcha(this.rgba, illuminantName));
   };
 
-  ColordClass.prototype.toLchString = function () {
-    return rgbaToLchaString(this.rgba);
+  ColordClass.prototype.toLchString = function (illuminantName: IlluminantName = "D50") {
+    return rgbaToLchaString(this.rgba, illuminantName);
   };
 
   parsers.string.push([parseLchaString, "lch"]);

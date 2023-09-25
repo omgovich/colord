@@ -2,6 +2,7 @@ import { RgbaColor, InputObject, LchaColor } from "../types";
 import { ALPHA_PRECISION } from "../constants";
 import { clamp, clampHue, isPresent, round } from "../helpers";
 import { labaToRgba, rgbaToLaba } from "./lab";
+import { IlluminantName } from "./xyz";
 
 /**
  * Limits LCH axis values.
@@ -22,7 +23,10 @@ export const roundLcha = (laba: LchaColor): LchaColor => ({
   a: round(laba.a, ALPHA_PRECISION),
 });
 
-export const parseLcha = ({ l, c, h, a = 1 }: InputObject): RgbaColor | null => {
+export const parseLcha = (
+  { l, c, h, a = 1 }: InputObject,
+  illuminantName: IlluminantName = "D50"
+): RgbaColor | null => {
   if (!isPresent(l) || !isPresent(c) || !isPresent(h)) return null;
 
   const lcha = clampLcha({
@@ -32,15 +36,15 @@ export const parseLcha = ({ l, c, h, a = 1 }: InputObject): RgbaColor | null => 
     a: Number(a),
   });
 
-  return lchaToRgba(lcha);
+  return lchaToRgba(lcha, illuminantName);
 };
 
 /**
  * Performs RGB → CIEXYZ → CIELAB → CIELCH color conversion
  * https://www.w3.org/TR/css-color-4/#color-conversion-code
  */
-export const rgbaToLcha = (rgba: RgbaColor): LchaColor => {
-  const laba = rgbaToLaba(rgba);
+export const rgbaToLcha = (rgba: RgbaColor, illuminantName: IlluminantName = "D50"): LchaColor => {
+  const laba = rgbaToLaba(rgba, illuminantName);
 
   // Round axis values to get proper values for grayscale colors
   const a = round(laba.a, 3);
@@ -60,11 +64,14 @@ export const rgbaToLcha = (rgba: RgbaColor): LchaColor => {
  * Performs CIELCH → CIELAB → CIEXYZ → RGB color conversion
  * https://www.w3.org/TR/css-color-4/#color-conversion-code
  */
-export const lchaToRgba = (lcha: LchaColor): RgbaColor => {
-  return labaToRgba({
-    l: lcha.l,
-    a: lcha.c * Math.cos((lcha.h * Math.PI) / 180),
-    b: lcha.c * Math.sin((lcha.h * Math.PI) / 180),
-    alpha: lcha.a,
-  });
+export const lchaToRgba = (lcha: LchaColor, illuminantName: IlluminantName = "D50"): RgbaColor => {
+  return labaToRgba(
+    {
+      l: lcha.l,
+      a: lcha.c * Math.cos((lcha.h * Math.PI) / 180),
+      b: lcha.c * Math.sin((lcha.h * Math.PI) / 180),
+      alpha: lcha.a,
+    },
+    illuminantName
+  );
 };

@@ -1,6 +1,7 @@
 import { RgbaColor } from "../types";
 import { parseHue } from "../helpers";
 import { clampLcha, rgbaToLcha, lchaToRgba, roundLcha } from "./lch";
+import { IlluminantName } from "./xyz";
 
 // The only valid LCH syntax
 // lch() = lch( <percentage> <number> <hue> [ / <alpha-value> ]? )
@@ -10,7 +11,10 @@ const lchaMatcher = /^lch\(\s*([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)\s+([+-]?\d*\.
  * Parses a valid LCH CSS color function/string
  * https://www.w3.org/TR/css-color-4/#specifying-lab-lch
  */
-export const parseLchaString = (input: string): RgbaColor | null => {
+export const parseLchaString = (
+  input: string,
+  illuminantName: IlluminantName = "D50"
+): RgbaColor | null => {
   const match = lchaMatcher.exec(input);
 
   if (!match) return null;
@@ -22,10 +26,13 @@ export const parseLchaString = (input: string): RgbaColor | null => {
     a: match[5] === undefined ? 1 : Number(match[5]) / (match[6] ? 100 : 1),
   });
 
-  return lchaToRgba(lcha);
+  return lchaToRgba(lcha, illuminantName);
 };
 
-export const rgbaToLchaString = (rgba: RgbaColor): string => {
-  const { l, c, h, a } = roundLcha(rgbaToLcha(rgba));
+export const rgbaToLchaString = (
+  rgba: RgbaColor,
+  illuminantName: IlluminantName = "D50"
+): string => {
+  const { l, c, h, a } = roundLcha(rgbaToLcha(rgba, illuminantName));
   return a < 1 ? `lch(${l}% ${c} ${h} / ${a})` : `lch(${l}% ${c} ${h})`;
 };

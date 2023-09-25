@@ -3,21 +3,30 @@ import { ALPHA_PRECISION } from "../constants";
 import { clamp, isPresent, round } from "../helpers";
 import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgb";
 
-// Theoretical light source that approximates "warm daylight" and follows the CIE standard.
-// https://en.wikipedia.org/wiki/Standard_illuminant
-export const D50 = {
-  x: 96.422,
-  y: 100,
-  z: 82.521,
-};
+export const Illuminants = {
+  // Theoretical light source that approximates "warm daylight" and follows the CIE standard.
+  // https://en.wikipedia.org/wiki/Standard_illuminant
+  D50: {
+    x: 96.422,
+    y: 100,
+    z: 82.521,
+  },
+  D65: {
+    x: 95.047,
+    y: 100,
+    z: 108.883,
+  },
+} as const;
+
+export type IlluminantName = keyof typeof Illuminants;
 
 /**
  * Limits XYZ axis values assuming XYZ is relative to D50.
  */
-export const clampXyza = (xyza: XyzaColor): XyzaColor => ({
-  x: clamp(xyza.x, 0, D50.x),
-  y: clamp(xyza.y, 0, D50.y),
-  z: clamp(xyza.z, 0, D50.z),
+export const clampXyza = (xyza: XyzaColor, illuminantName: IlluminantName = "D50"): XyzaColor => ({
+  x: clamp(xyza.x, 0, Illuminants[illuminantName].x),
+  y: clamp(xyza.y, 0, Illuminants[illuminantName].y),
+  z: clamp(xyza.z, 0, Illuminants[illuminantName].z),
   a: clamp(xyza.a),
 });
 
@@ -28,17 +37,23 @@ export const roundXyza = (xyza: XyzaColor): XyzaColor => ({
   a: round(xyza.a, ALPHA_PRECISION),
 });
 
-export const parseXyza = ({ x, y, z, a = 1 }: InputObject): RgbaColor | null => {
+export const parseXyza = (
+  { x, y, z, a = 1 }: InputObject,
+  illuminantName: IlluminantName = "D50"
+): RgbaColor | null => {
   if (!isPresent(x) || !isPresent(y) || !isPresent(z)) return null;
 
-  const xyza = clampXyza({
-    x: Number(x),
-    y: Number(y),
-    z: Number(z),
-    a: Number(a),
-  });
+  const xyza = clampXyza(
+    {
+      x: Number(x),
+      y: Number(y),
+      z: Number(z),
+      a: Number(a),
+    },
+    illuminantName
+  );
 
-  return xyzaToRgba(xyza);
+  return xyzaToRgba(xyza, illuminantName);
 };
 
 /**
@@ -64,8 +79,11 @@ export const adaptXyzToD65 = (xyza: XyzColor): XyzColor => ({
  * Converts an CIE XYZ color (D50) to RGBA color space (D65)
  * https://www.w3.org/TR/css-color-4/#color-conversion-code
  */
-export const xyzaToRgba = (sourceXyza: XyzaColor): RgbaColor => {
-  const xyz = adaptXyzToD65(sourceXyza);
+export const xyzaToRgba = (
+  sourceXyza: XyzaColor,
+  sourceIlluminantName: IlluminantName = "D50"
+): RgbaColor => {
+  const xyz = sourceIlluminantName === "D50" ? adaptXyzToD65(sourceXyza) : sourceXyza;
 
   return clampRgba({
     r: unlinearizeRgbChannel(0.032404542 * xyz.x - 0.015371385 * xyz.y - 0.004985314 * xyz.z),
@@ -79,7 +97,7 @@ export const xyzaToRgba = (sourceXyza: XyzaColor): RgbaColor => {
  * Converts an RGB color (D65) to CIE XYZ (D50)
  * https://image-engineering.de/library/technotes/958-how-to-convert-between-srgb-and-ciexyz
  */
-export const rgbaToXyza = (rgba: RgbaColor): XyzaColor => {
+export const rgbaToXyza = (rgba: RgbaColor, illuminantName: IlluminantName = "D50"): XyzaColor => {
   const sRed = linearizeRgbChannel(rgba.r);
   const sGreen = linearizeRgbChannel(rgba.g);
   const sBlue = linearizeRgbChannel(rgba.b);
@@ -93,5 +111,5 @@ export const rgbaToXyza = (rgba: RgbaColor): XyzaColor => {
     a: rgba.a,
   };
 
-  return clampXyza(adaptXyzaToD50(xyza));
+  return clampXyza(illuminantName === "D50" ? adaptXyzaToD50(xyza) : xyza, illuminantName);
 };
