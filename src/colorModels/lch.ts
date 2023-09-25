@@ -43,8 +43,8 @@ export const rgbaToLcha = (rgba: RgbaColor): LchaColor => {
   const laba = rgbaToLaba(rgba);
 
   // Round axis values to get proper values for grayscale colors
-  const a = round(laba.a, 3);
-  const b = round(laba.b, 3);
+  const a = laba.a;
+  const b = laba.b;
 
   const hue = 180 * (Math.atan2(b, a) / Math.PI);
 

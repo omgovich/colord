@@ -30,9 +30,9 @@ export const roundCmyka = (cmyka: CmykaColor): CmykaColor => ({
  */
 export function cmykaToRgba(cmyka: CmykaColor): RgbaColor {
   return {
-    r: round(255 * (1 - cmyka.c / 100) * (1 - cmyka.k / 100)),
-    g: round(255 * (1 - cmyka.m / 100) * (1 - cmyka.k / 100)),
-    b: round(255 * (1 - cmyka.y / 100) * (1 - cmyka.k / 100)),
+    r: 255 * (1 - cmyka.c / 100) * (1 - cmyka.k / 100),
+    g: 255 * (1 - cmyka.m / 100) * (1 - cmyka.k / 100),
+    b: 255 * (1 - cmyka.y / 100) * (1 - cmyka.k / 100),
     a: cmyka.a,
   };
 }
@@ -48,10 +48,10 @@ export function rgbaToCmyka(rgba: RgbaColor): CmykaColor {
   const y = (1 - rgba.b / 255 - k) / (1 - k);
 
   return {
-    c: isNaN(c) ? 0 : round(c * 100),
-    m: isNaN(m) ? 0 : round(m * 100),
-    y: isNaN(y) ? 0 : round(y * 100),
-    k: round(k * 100),
+    c: isNaN(c) ? 0 : c * 100,
+    m: isNaN(m) ? 0 : m * 100,
+    y: isNaN(y) ? 0 : y * 100,
+    k: k * 100,
     a: rgba.a,
   };
 }
