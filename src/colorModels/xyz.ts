@@ -41,11 +41,10 @@ export const roundXyza = (
   a: round(xyza.a, alphaPrecision),
 });
 
-export const parseXyza = (
-  { x, y, z, a = 1 }: InputObject,
-  illuminantName: IlluminantName = "D50"
-): RgbaColor | null => {
+export const parseXyza = ({ x, y, z, a = 1, isD65 = false }: InputObject): RgbaColor | null => {
   if (!isPresent(x) || !isPresent(y) || !isPresent(z)) return null;
+
+  const illuminantName = isD65 ? "D65" : "D50";
 
   const xyza = clampXyza(
     {

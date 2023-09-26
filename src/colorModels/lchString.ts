@@ -12,10 +12,13 @@ const lchaMatcher = /^lch\(\s*([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)\s+([+-]?\d*\.
  * Parses a valid LCH CSS color function/string
  * https://www.w3.org/TR/css-color-4/#specifying-lab-lch
  */
-export const parseLchaString = (
-  input: string,
-  illuminantName: IlluminantName = "D50"
-): RgbaColor | null => {
+export const parseLchaString = (input: string): RgbaColor | null => {
+  let illuminantName: IlluminantName = "D50";
+  if (input.slice(-3).toUpperCase() === "D65") {
+    input = input.slice(0, -3);
+    illuminantName = "D65";
+  }
+
   const match = lchaMatcher.exec(input);
 
   if (!match) return null;

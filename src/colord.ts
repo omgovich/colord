@@ -1,4 +1,4 @@
-import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor } from "./types";
+import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor, ObjectColorIlluminant } from "./types";
 import { round as roundNumber } from "./helpers";
 import { ALPHA_PRECISION } from "./constants";
 import { parse } from "./parse";
@@ -214,7 +214,7 @@ export class Colord {
  * Parses the given input color and creates a new `Colord` instance.
  * See accepted input formats: https://github.com/omgovich/colord#color-parsing
  */
-export const colord = (input: AnyColor | Colord): Colord => {
+export const colord = (input: AnyColor | ObjectColorIlluminant | Colord): Colord => {
   if (input instanceof Colord) return input;
   return new Colord(input);
 };
