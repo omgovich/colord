@@ -29,11 +29,10 @@ export const roundLaba = (laba: LabaColor): LabaColor => ({
   alpha: round(laba.alpha, ALPHA_PRECISION),
 });
 
-export const parseLaba = (
-  { l, a, b, alpha = 1 }: InputObject,
-  illuminantName: IlluminantName = "D50"
-): RgbaColor | null => {
-  if (!isPresent(l) || !isPresent(a) || !isPresent(b)) return null;
+export const parseLaba = ({ l, a, b, alpha = 1, isD65 = false }: InputObject): RgbaColor | null => {
+  if (!isPresent(l) || !isPresent(a) || !isPresent(b)) {
+    return null;
+  }
 
   const laba = clampLaba({
     l: Number(l),
@@ -42,7 +41,7 @@ export const parseLaba = (
     alpha: Number(alpha),
   });
 
-  return labaToRgba(laba, illuminantName);
+  return labaToRgba(laba, isD65 ? "D65" : "D50");
 };
 
 /**

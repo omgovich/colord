@@ -103,3 +103,12 @@ export type Parsers = {
   string: Array<Parser<string>>;
   object: Array<Parser<InputObject>>;
 };
+
+export type ObjectColorIlluminant = (
+  | LabColor
+  | LabaColor
+  | LchColor
+  | LchaColor
+  | XyzColor
+  | XyzaColor
+) & { isD65: boolean };
