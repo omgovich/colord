@@ -412,8 +412,8 @@ colord("hsl(0, 50%, 50%)").saturate(0.5).toHslString(); // "hsl(0, 100%, 50%)"
 Decreases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
 ```js
-colord("#df2020").saturate(0.25).toHex(); // "#bf4040"
-colord("hsl(0, 100%, 50%)").saturate(0.5).toHslString(); // "hsl(0, 50%, 50%)"
+colord("#df2020").desaturate(0.25).toHex(); // "#bf4040"
+colord("hsl(0, 100%, 50%)").desaturate(0.5).toHslString(); // "hsl(0, 50%, 50%)"
 ```
 
 </details>
