@@ -100,7 +100,8 @@
   },
   "files": [
     "*.{js,mjs,ts,map}",
-    "plugins/*.{js,mjs,ts,map}"
+    "plugins/*.{js,mjs,ts,map}",
+    "LICENSE.md"
   ],
   "types": "index.d.ts",
   "scripts": {
