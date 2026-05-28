@@ -1,5 +1,4 @@
-import { AnyColor } from "../types";
-import { Plugin } from "../extend";
+import { AnyColor, Parsers } from "../types";
 import { mix } from "../manipulate/mix";
 import { Colord } from "../colord";
 
@@ -30,7 +29,7 @@ declare module "../colord" {
 /**
  * A plugin adding a color mixing utilities.
  */
-const mixPlugin: Plugin = (ColordClass): void => {
+export default function mixPlugin(ColordClass: typeof Colord, _parsers: Parsers): void {
   ColordClass.prototype.mix = function (color2, ratio = 0.5) {
     const instance2 = color2 instanceof ColordClass ? color2 : new ColordClass(color2);
 
@@ -61,6 +60,4 @@ const mixPlugin: Plugin = (ColordClass): void => {
   ColordClass.prototype.tones = function (count) {
     return mixPalette(this, "#808080", count);
   };
-};
-
-export default mixPlugin;
+}

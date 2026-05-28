@@ -1,5 +1,5 @@
-import { ParseFunction, RgbaColor } from "../types";
-import { Plugin } from "../extend";
+import { ParseFunction, RgbaColor, Parsers } from "../types";
+import { Colord } from "../colord";
 
 interface ConvertOptions {
   closest?: boolean;
@@ -19,7 +19,7 @@ declare module "../colord" {
  * Supports 'transparent' string as defined in
  * https://drafts.csswg.org/css-color/#transparent-color
  */
-const namesPlugin: Plugin = (ColordClass, parsers): void => {
+export default function namesPlugin(ColordClass: typeof Colord, parsers: Parsers): void {
   // The default CSS color names dictionary
   // The properties order is optimized for better compression
   const NAME_HEX_STORE: Record<string, string> = {
@@ -235,6 +235,4 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
   };
 
   parsers.string.push([parseColorName, "name"]);
-};
-
-export default namesPlugin;
+}

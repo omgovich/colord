@@ -1,4 +1,5 @@
-import { Plugin } from "../extend";
+import { Parsers } from "../types";
+import { Colord } from "../colord";
 
 export type HarmonyType =
   | "analogous"
@@ -22,7 +23,7 @@ declare module "../colord" {
  * A plugin adding functionality to generate harmony colors.
  * https://en.wikipedia.org/wiki/Harmony_(color)
  */
-const harmoniesPlugin: Plugin = (ColordClass): void => {
+export default function harmoniesPlugin(ColordClass: typeof Colord, _parsers: Parsers): void {
   /**
    * Harmony colors are colors with particular hue shift of the original color.
    */
@@ -39,6 +40,4 @@ const harmoniesPlugin: Plugin = (ColordClass): void => {
   ColordClass.prototype.harmonies = function (type = "complementary") {
     return hueShifts[type].map((shift) => this.rotate(shift));
   };
-};
-
-export default harmoniesPlugin;
+}

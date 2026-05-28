@@ -1,5 +1,5 @@
-import { LchaColor } from "../types";
-import { Plugin } from "../extend";
+import { LchaColor, Parsers } from "../types";
+import { Colord } from "../colord";
 import { parseLcha, roundLcha, rgbaToLcha } from "../colorModels/lch";
 import { parseLchaString, rgbaToLchaString } from "../colorModels/lchString";
 
@@ -24,7 +24,7 @@ declare module "../colord" {
  * https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/
  * https://en.wikipedia.org/wiki/CIELAB_color_space#Cylindrical_model
  */
-const lchPlugin: Plugin = (ColordClass, parsers): void => {
+export default function lchPlugin(ColordClass: typeof Colord, parsers: Parsers): void {
   ColordClass.prototype.toLch = function () {
     return roundLcha(rgbaToLcha(this.rgba));
   };
@@ -35,6 +35,4 @@ const lchPlugin: Plugin = (ColordClass, parsers): void => {
 
   parsers.string.push([parseLchaString, "lch"]);
   parsers.object.push([parseLcha, "lch"]);
-};
-
-export default lchPlugin;
+}

@@ -1,5 +1,5 @@
-import { HwbaColor } from "../types";
-import { Plugin } from "../extend";
+import { HwbaColor, Parsers } from "../types";
+import { Colord } from "../colord";
 import { parseHwba, rgbaToHwba, roundHwba } from "../colorModels/hwb";
 import { parseHwbaString, rgbaToHwbaString } from "../colorModels/hwbString";
 
@@ -23,7 +23,7 @@ declare module "../colord" {
  * https://en.wikipedia.org/wiki/HWB_color_model
  * https://www.w3.org/TR/css-color-4/#the-hwb-notation
  */
-const hwbPlugin: Plugin = (ColordClass, parsers): void => {
+export default function hwbPlugin(ColordClass: typeof Colord, parsers: Parsers): void {
   ColordClass.prototype.toHwb = function () {
     return roundHwba(rgbaToHwba(this.rgba));
   };
@@ -34,6 +34,4 @@ const hwbPlugin: Plugin = (ColordClass, parsers): void => {
 
   parsers.string.push([parseHwbaString, "hwb"]);
   parsers.object.push([parseHwba, "hwb"]);
-};
-
-export default hwbPlugin;
+}
