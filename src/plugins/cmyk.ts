@@ -1,5 +1,5 @@
-import { CmykaColor } from "../types";
-import { Plugin } from "../extend";
+import { CmykaColor, Parsers } from "../types";
+import { Colord } from "../colord";
 import { parseCmyka, roundCmyka, rgbaToCmyka } from "../colorModels/cmyk";
 import { parseCmykaString, rgbaToCmykaString } from "../colorModels/cmykString";
 
@@ -24,7 +24,7 @@ declare module "../colord" {
  * https://lea.verou.me/2009/03/cmyk-colors-in-css-useful-or-useless/
  * https://en.wikipedia.org/wiki/CMYK_color_model
  */
-const cmykPlugin: Plugin = (ColordClass, parsers): void => {
+export default function cmykPlugin(ColordClass: typeof Colord, parsers: Parsers): void {
   ColordClass.prototype.toCmyk = function () {
     return roundCmyka(rgbaToCmyka(this.rgba));
   };
@@ -35,6 +35,4 @@ const cmykPlugin: Plugin = (ColordClass, parsers): void => {
 
   parsers.object.push([parseCmyka, "cmyk"]);
   parsers.string.push([parseCmykaString, "cmyk"]);
-};
-
-export default cmykPlugin;
+}

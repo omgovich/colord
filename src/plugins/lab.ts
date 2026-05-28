@@ -1,5 +1,5 @@
-import { LabaColor, AnyColor } from "../types";
-import { Plugin } from "../extend";
+import { LabaColor, AnyColor, Parsers } from "../types";
+import { Colord } from "../colord";
 import { parseLaba, roundLaba, rgbaToLaba } from "../colorModels/lab";
 import { getDeltaE00 } from "../get/getPerceivedDifference";
 import { clamp, round } from "../helpers";
@@ -25,7 +25,7 @@ declare module "../colord" {
  * A plugin adding support for CIELAB color space.
  * https://en.wikipedia.org/wiki/CIELAB_color_space
  */
-const labPlugin: Plugin = (ColordClass, parsers): void => {
+export default function labPlugin(ColordClass: typeof Colord, parsers: Parsers): void {
   ColordClass.prototype.toLab = function () {
     return roundLaba(rgbaToLaba(this.rgba));
   };
@@ -37,6 +37,4 @@ const labPlugin: Plugin = (ColordClass, parsers): void => {
   };
 
   parsers.object.push([parseLaba, "lab"]);
-};
-
-export default labPlugin;
+}

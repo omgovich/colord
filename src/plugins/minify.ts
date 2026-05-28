@@ -1,5 +1,5 @@
 import { Colord } from "../colord";
-import { Plugin } from "../extend";
+import { Parsers } from "../types";
 import { round } from "../helpers";
 
 interface MinificationOptions {
@@ -21,7 +21,7 @@ declare module "../colord" {
 /**
  * A plugin adding a color minification utilities.
  */
-const minifyPlugin: Plugin = (ColordClass): void => {
+export default function minifyPlugin(ColordClass: typeof Colord, _parsers: Parsers): void {
   // Finds the shortest hex representation
   const minifyHex = (instance: Colord): string | null => {
     const hex = instance.toHex();
@@ -113,6 +113,4 @@ const minifyPlugin: Plugin = (ColordClass): void => {
 
     return findShortestString(variants);
   };
-};
-
-export default minifyPlugin;
+}

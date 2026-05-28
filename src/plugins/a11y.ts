@@ -1,5 +1,5 @@
-import { AnyColor } from "../types";
-import { Plugin } from "../extend";
+import { AnyColor, Parsers } from "../types";
+import { Colord } from "../colord";
 import { getContrast } from "../get/getContrast";
 import { getLuminance } from "../get/getLuminance";
 import { round, floor } from "../helpers";
@@ -41,7 +41,7 @@ declare module "../colord" {
  * Follows Web Content Accessibility Guidelines 2.0.
  * https://www.w3.org/TR/WCAG20/
  */
-const a11yPlugin: Plugin = (ColordClass): void => {
+export default function a11yPlugin(ColordClass: typeof Colord, _parsers: Parsers): void {
   /**
    * Returns WCAG text color contrast requirement.
    * Read explanation here https://webaim.org/resources/contrastchecker/
@@ -64,6 +64,4 @@ const a11yPlugin: Plugin = (ColordClass): void => {
   ColordClass.prototype.isReadable = function (color2 = "#FFF", options = {}) {
     return this.contrast(color2) >= getMinimalContrast(options);
   };
-};
-
-export default a11yPlugin;
+}

@@ -1,5 +1,5 @@
-import { XyzaColor } from "../types";
-import { Plugin } from "../extend";
+import { XyzaColor, Parsers } from "../types";
+import { Colord } from "../colord";
 import { parseXyza, rgbaToXyza, roundXyza } from "../colorModels/xyz";
 
 declare module "../colord" {
@@ -13,12 +13,10 @@ declare module "../colord" {
  * Wikipedia: https://en.wikipedia.org/wiki/CIE_1931_color_space
  * Helpful article: https://www.sttmedia.com/colormodel-xyz
  */
-const xyzPlugin: Plugin = (ColordClass, parsers): void => {
+export default function xyzPlugin(ColordClass: typeof Colord, parsers: Parsers): void {
   ColordClass.prototype.toXyz = function () {
     return roundXyza(rgbaToXyza(this.rgba));
   };
 
   parsers.object.push([parseXyza, "xyz"]);
-};
-
-export default xyzPlugin;
+}
