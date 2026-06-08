@@ -11,7 +11,9 @@ export const clampHsla = (hsla: HslaColor): HslaColor => ({
 });
 
 export const roundHsla = (hsla: HslaColor): HslaColor => ({
-  h: round(hsla.h),
+  // Keep the hue in [0, 360); rounding can otherwise produce 360 (e.g. for
+  // near-360 reds), which breaks round-tripping since parsing normalizes 360 to 0.
+  h: round(hsla.h) % 360,
   s: round(hsla.s),
   l: round(hsla.l),
   a: round(hsla.a, ALPHA_PRECISION),

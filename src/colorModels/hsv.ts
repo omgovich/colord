@@ -10,7 +10,9 @@ export const clampHsva = (hsva: HsvaColor): HsvaColor => ({
 });
 
 export const roundHsva = (hsva: HsvaColor): HsvaColor => ({
-  h: round(hsva.h),
+  // Keep the hue in [0, 360); rounding can otherwise produce 360 (e.g. for
+  // near-360 reds), which breaks round-tripping since parsing normalizes 360 to 0.
+  h: round(hsva.h) % 360,
   s: round(hsva.s),
   v: round(hsva.v),
   a: round(hsva.a, ALPHA_PRECISION),

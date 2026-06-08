@@ -41,6 +41,16 @@ it("Adds alpha number to RGB and HSL strings only if the color has an opacity", 
   expect(colord("hsl(0, 0%, 0%)").alpha(0.5).toHslString()).toBe("hsla(0, 0%, 0%, 0.5)");
 });
 
+it("Keeps the hue within [0, 360) so HSL/HSV round-trips are stable", () => {
+  // rgb(221, 4, 5) has a hue that rounds up to 360, which used to be emitted
+  // verbatim while parsing normalizes it back to 0 — breaking the round-trip.
+  const red = colord({ r: 221, g: 4, b: 5 });
+  expect(red.toHsl().h).toBe(0);
+  expect(red.toHsv().h).toBe(0);
+  expect(colord(red.toHslString()).toHslString()).toBe(red.toHslString());
+  expect(colord(red.toHsv()).toHsv()).toMatchObject(red.toHsv());
+});
+
 it("Parses modern RGB functional notations", () => {
   expect(colord("rgb(0% 50% 100%)").toRgb()).toMatchObject({ r: 0, g: 128, b: 255, a: 1 });
   expect(colord("rgb(10% 20% 30% / 33%)").toRgb()).toMatchObject({ r: 26, g: 51, b: 77, a: 0.33 });
