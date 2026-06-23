@@ -25,9 +25,17 @@ export const rgbaToHwba = (rgba: RgbaColor): HwbaColor => {
 };
 
 export const hwbaToRgba = (hwba: HwbaColor): RgbaColor => {
+  // When the sum of whiteness and blackness reaches 100% the color is an
+  // achromatic gray with value white / (white + black).
+  // https://www.w3.org/TR/css-color-4/#hwb-to-rgb
+  if (hwba.w + hwba.b >= 100) {
+    const gray = (hwba.w / (hwba.w + hwba.b)) * 255;
+    return { r: gray, g: gray, b: gray, a: hwba.a };
+  }
+
   return hsvaToRgba({
     h: hwba.h,
-    s: hwba.b === 100 ? 0 : 100 - (hwba.w / (100 - hwba.b)) * 100,
+    s: 100 - (hwba.w / (100 - hwba.b)) * 100,
     v: 100 - hwba.b,
     a: hwba.a,
   });

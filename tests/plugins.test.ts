@@ -147,6 +147,14 @@ describe("hwb", () => {
     expect(colord({ h: 0, w: 100, b: 0, a: 1 }).toHex()).toBe("#ffffff");
   });
 
+  it("Normalizes whiteness + blackness over 100% to an achromatic gray", () => {
+    // https://www.w3.org/TR/css-color-4/#hwb-to-rgb
+    // When w + b >= 100% the color is gray with value w / (w + b).
+    expect(colord({ h: 120, w: 70, b: 70 }).toHex()).toBe("#808080");
+    expect(colord({ h: 200, w: 100, b: 100 }).toHex()).toBe("#808080");
+    expect(colord({ h: 0, w: 50, b: 60 }).toHex()).toBe("#747474");
+  });
+
   it("Converts a color to HWB object", () => {
     // https://htmlcolors.com/color-converter
     expect(colord("#000000").toHwb()).toMatchObject({ h: 0, w: 0, b: 100, a: 1 });
