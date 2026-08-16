@@ -218,6 +218,10 @@ describe("lab", () => {
     expect(colord("#c8cdd7").delta("#000")).toBe(0.737);
     expect(colord("#f4f4f4").delta("#fafafa")).toBe(0.012);
     expect(colord("#f4f4f4").delta("#f4f4f4")).toBe(0);
+    // Pairs with a mean hue in the blue region (~275°) exercise the CIEDE2000
+    // rotation term (R_T), where R_C must use the adjusted (a'-based) chroma.
+    // Verified against the Sharma et al. reference data set.
+    expect(colord("#e0ffff").delta("#ffc0e0")).toBe(0.312);
   });
 
   it("Supported by `getFormat`", () => {
