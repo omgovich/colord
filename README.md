@@ -48,7 +48,7 @@
 | ac-colors                     | 660,722                       | 10.4 kB               | 3.45 kB              | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |
 | chroma-js                     | 962,967                       | 42.9 kB               | 17.6 kB              | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://npmjs.com/package/chroma-js)   |
 
-The performance results were generated on an MBP 2019, 2,6 GHz Intel Core i7 by running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes were measured with [bundlejs](https://bundlejs.com/) for colord@2.9.3, color@5.0.3, tinycolor2@1.6.0, ac-colors@1.4.3 and chroma-js@3.2.0, importing each library's full entry point. The 1.7 KB above is smaller because it is the tree-shaken `{ colord }` import alone, as measured by `npm run size`.
+The performance results were generated on an MBP 2019, 2,6 GHz Intel Core i7 by running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes were measured with [bundlejs](https://bundlejs.com/) for colord@2.9.3, color@5.0.3, tinycolor2@1.6.0, ac-colors@1.4.3 and chroma-js@3.2.0, importing each library's full entry point, so they sit above the tree-shaken `{ colord }` figure quoted under Features, which comes from `npm run size`.
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
