@@ -26,7 +26,7 @@
 ## Features
 
 - 📦 **Small**: Just **1.7 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
-- 🚀 **Fast**: [3x+ faster](#benchmarks) than **color**
+- 🚀 **Fast**: [4x+ faster](#benchmarks) than **color**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Written in strict TypeScript and has 100% test coverage
