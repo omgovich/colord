@@ -65,6 +65,11 @@ When writing parsing regexes, spell numbers as `(?:\d*\.\d+|\d+)`, never `\d*\.?
 
 **Never run `npm run release` (or `npm publish`) without explicit approval from the maintainer.** Use `npm run check-release` (a dry run) to verify packaging.
 
+Release conventions:
+
+- Every release, including patches, gets a CHANGELOG.md entry (newest on top), crediting the contributor: `- Fix: ... ❤️ [@user](https://github.com/user)`.
+- Patch releases are **not** tagged in the repo. Minor and major releases get a git tag (`v2.9` — no patch digit) and a GitHub Release.
+
 ## Testing
 
 - `tests/colord.test.ts` — core; `tests/plugins.test.ts` — all plugins; conversion fixtures in `tests/fixtures.ts` are cross-checked against reference converters (links at the top of the file).
