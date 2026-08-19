@@ -35,6 +35,16 @@ export const clampHue = (degrees: number): number => {
 };
 
 /**
+ * Rounds a hue and keeps it inside [0, 360).
+ * Rounding alone can produce exactly 360 (a raw hue of 359.6 rounds up), which
+ * every consumer then has to special-case, so the wrap belongs here.
+ * Examples: 359.6 => 0, 12.4 => 12
+ */
+export const roundHue = (degrees: number, digits = 0): number => {
+  return round(degrees, digits) % 360;
+};
+
+/**
  * Converts a hue value to degrees from 0 to 360 inclusive.
  */
 export const parseHue = (value: string, unit = "deg"): number => {

@@ -138,6 +138,9 @@ describe("hwb", () => {
     expect(colord("#665533").toHwb()).toMatchObject({ h: 40, w: 20, b: 60, a: 1 });
     expect(colord("#feacfa").toHwb()).toMatchObject({ h: 303, w: 67, b: 0, a: 1 });
     expect(colord("#ffffff").toHwb()).toMatchObject({ h: 0, w: 100, b: 0, a: 1 });
+    // A hue that rounds up to 360 must wrap to 0 like everywhere else
+    expect(colord({ r: 120, g: 0, b: 1 }).toHwb()).toMatchObject({ h: 0 });
+    expect(colord({ r: 120, g: 0, b: 1 }).toHwbString()).toBe("hwb(0 0% 53%)");
   });
 
   it("Parses HWB color string", () => {
@@ -258,6 +261,11 @@ describe("lch", () => {
     expect(colord("#9d9318").toLch()).toMatchObject({ l: 60.31, c: 59.2, h: 95.46, a: 1 });
     expect(colord("#68a639").toLch()).toMatchObject({ l: 62.22, c: 59.15, h: 126.15, a: 1 });
     expect(colord("#62acef80").toLch()).toMatchObject({ l: 67.67, c: 42.18, h: 257.79, a: 0.5 });
+  });
+
+  it("Keeps the LCH hue within [0, 360)", () => {
+    // The Lab-derived hue can round up to exactly 360; it must wrap to 0.
+    expect(colord({ r: 48, g: 7, b: 24 }).toLch().h).toBe(0);
   });
 
   it("Converts a color to CIE LCH string (CSS functional notation)", () => {

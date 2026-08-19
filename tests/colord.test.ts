@@ -51,6 +51,21 @@ it("Keeps the hue within [0, 360) so HSL/HSV round-trips are stable", () => {
   expect(colord(red.toHsv()).toHsv()).toMatchObject(red.toHsv());
 });
 
+it("Reports the same hue through every accessor", () => {
+  // Each of these rounds the hue separately, so they can drift apart if any of
+  // them forgets to wrap 360 back to 0.
+  for (const rgb of [
+    { r: 221, g: 4, b: 5 },
+    { r: 120, g: 0, b: 1 },
+    { r: 121, g: 1, b: 2 },
+  ]) {
+    const color = colord(rgb);
+    expect(color.hue()).toBe(color.toHsl().h);
+    expect(color.hue()).toBe(color.toHsv().h);
+    expect(color.hue()).toBe(0);
+  }
+});
+
 it("Parses modern RGB functional notations", () => {
   expect(colord("rgb(0% 50% 100%)").toRgb()).toMatchObject({ r: 0, g: 128, b: 255, a: 1 });
   expect(colord("rgb(10% 20% 30% / 33%)").toRgb()).toMatchObject({ r: 26, g: 51, b: 77, a: 0.33 });
