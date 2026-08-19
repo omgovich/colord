@@ -55,6 +55,25 @@ The performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7 by r
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
+## Who Uses Colord
+
+| Project                                                 | What it is                                                    | Reach                             |
+| ------------------------------------------------------- | ------------------------------------------------------------- | --------------------------------- |
+| **[GitLab](https://gitlab.com/gitlab-org/gitlab)**      | DevSecOps for the entire software lifecycle                   | <nobr>50M+ users</nobr>           |
+| **[WordPress](https://github.com/WordPress/gutenberg)** | Gutenberg, the editor inside every WordPress site             | <nobr>40% of all websites</nobr>  |
+| **[Stylelint](https://github.com/stylelint/stylelint)** | A mighty CSS linter                                           | <nobr>44M downloads/month</nobr>  |
+| **[cssnano](https://github.com/cssnano/cssnano)**       | The CSS minifier of the PostCSS world <nobr>(up to v6)</nobr> | <nobr>48M downloads/month</nobr>  |
+| **[pdf.net](https://pdf.net/)**                         | Everything you can do to a PDF, in the browser                | <nobr>4M+ users</nobr>            |
+| **[Gitea](https://github.com/go-gitea/gitea)**          | Self-hosted all-in-one software development service           | <nobr>57.5k ⭐</nobr>              |
+| **[PixiJS](https://github.com/pixijs/pixijs)**          | The fastest, most flexible 2D WebGL renderer                  | <nobr>48k ⭐</nobr>                |
+| **[Umami](https://github.com/umami-software/umami)**    | Analytics without the surveillance                            | <nobr>38k ⭐</nobr>                |
+| **[Documenso](https://github.com/documenso/documenso)** | The open source DocuSign                                      | <nobr>14.6k ⭐</nobr>              |
+| **[Leva](https://github.com/pmndrs/leva)**              | React-first GUI panel for live tweaking                       | <nobr>3.5M downloads/month</nobr> |
+
+...and [9.5 million more repositories](https://github.com/omgovich/colord/network/dependents) 🤯
+
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
 ## Getting Started
 
 ```
@@ -1018,36 +1037,3 @@ import { RgbColor, RgbaColor, HslColor, HslaColor, HsvColor, HsvaColor } from "c
 const foo: HslColor = { h: 0, s: 0, l: 0 };
 const bar: RgbColor = { r: 0, g: 0, v: 0 }; // ERROR
 ```
-
-<div><img src="assets/divider.png" width="838" alt="---" /></div>
-
-## Projects using Colord
-
-- [cssnano](https://github.com/cssnano/cssnano) — the most popular CSS minification tool
-- [Resume.io](https://resume.io/) — online resume builder with over 12,000,000 users worldwide
-- [Leva](https://github.com/pmndrs/leva) — open source extensible GUI panel made for React
-- [Qui Max](https://github.com/Qvant-lab/qui-max) — Vue.js design system and component library
-- and [thousands more](https://github.com/omgovich/colord/network/dependents)...
-
-<div><img src="assets/divider.png" width="838" alt="---" /></div>
-
-## Roadmap
-
-- [x] Parse and convert Hex, RGB(A), HSL(A), HSV(A)
-- [x] Saturate, desaturate, grayscale
-- [x] Trim an input value
-- [x] Clamp input numbers to resolve edge cases (e.g. `rgb(256, -1, 999, 2)`)
-- [x] `brightness`, `isDark`, `isLight`
-- [x] Set and get `alpha`
-- [x] Plugin API
-- [x] 4 and 8 digit Hex
-- [x] `lighten`, `darken`
-- [x] `invert`
-- [x] CSS color names (via plugin)
-- [x] A11y and contrast utils (via plugin)
-- [x] XYZ color space (via plugin)
-- [x] [HWB](https://drafts.csswg.org/css-color/#the-hwb-notation) color space (via plugin)
-- [x] [LAB](https://www.w3.org/TR/css-color-4/#resolving-lab-lch-values) color space (via plugin)
-- [x] [LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space (via plugin)
-- [x] Mix colors (via plugin)
-- [x] CMYK color space (via plugin)
