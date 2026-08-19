@@ -100,6 +100,18 @@ it("Ignores invalid color formats", () => {
   // wrong content
   expect(colord("rgb(10, 10, 10, var(--alpha))").isValid()).toBe(false);
   expect(colord("hsl(var(--h) 10% 10%)").isValid()).toBe(false);
+  // trailing decimal point
+  expect(colord("rgb(1., 2, 3)").isValid()).toBe(false);
+  expect(colord("rgb(., 2, 3)").isValid()).toBe(false);
+  expect(colord("hsl(1., 20%, 30%)").isValid()).toBe(false);
+  expect(colord("rgba(1, 2, 3, 4.)").isValid()).toBe(false);
+});
+
+it("Parses numbers with an omitted integer part", () => {
+  expect(colord("rgb(.5, .5, .5)").isValid()).toBe(true);
+  expect(colord("rgb(.5% .5% .5%)").isValid()).toBe(true);
+  expect(colord("hsl(.5, .5%, .5%)").isValid()).toBe(true);
+  expect(colord("hsl(.5deg .5% .5% / .5)").isValid()).toBe(true);
 });
 
 it("Clamps input numbers", () => {
