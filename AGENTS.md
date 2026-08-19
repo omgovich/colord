@@ -2,6 +2,16 @@
 
 Guidance for AI agents working in this repository.
 
+## What this is and what's at stake
+
+Colord is a tiny (1.7 KB brotlied), dependency-free, immutable color manipulation and conversion library that strictly follows the CSS Color specifications. It sits at the bottom of the ecosystem: GitLab, WordPress (Gutenberg), Stylelint, cssnano, PixiJS and ~9.5 million other repositories depend on it (see "Who Uses Colord" in README.md).
+
+That reach sets the priorities for every change:
+
+1. **Correctness first.** Conversions must match the CSS specs and reference converters; edge cases (NaN, out-of-range, malformed input) matter more than in a typical app. 100% test coverage is expected — a subtle rounding or parsing regression ships to millions of installs.
+2. **Backward compatibility.** Any observable behavior change — output rounding, parsing acceptance, defaulting — is potentially breaking for someone. Don't change existing behavior as a side effect of a fix; when a behavior change is the point, call it out explicitly.
+3. **Size.** It's a mini-library and stays one: strict per-bundle byte budgets (below), zero runtime dependencies — never add one.
+
 ## Commands
 
 - **Lint:** `npm run lint`
@@ -18,13 +28,11 @@ CI (`.github/workflows/node.yml`) runs `lint`, `check-types`, `test`, and `size`
 
 ## Key constraint: bundle size
 
-Size budgets are enforced by `size-limit` in package.json: the main bundle (`{ colord }` import) must stay under **2 KB** gzipped, and every plugin has its own budget (0.5–1.5 KB). Zero runtime dependencies.
+Size budgets are enforced by `size-limit` in package.json: the main bundle (`{ colord }` import) must stay under **2 KB** gzipped, and every plugin has its own budget (0.5–1.5 KB).
 
 This shapes the code style: ternary chains instead of `Math.min/Math.max` (see `clamp` in `src/helpers.ts`), arrays of tuples instead of objects for parser lists, no classes outside `Colord` itself. When adding code, run `npm run size` and keep the terser-minified output in mind.
 
 ## Architecture
-
-A tiny immutable color manipulation/conversion library. No DOM, no dependencies.
 
 ### Internal color model: unrounded RGBA
 
