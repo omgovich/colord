@@ -25,7 +25,7 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.7 KB** gzipped ([3x+ lighter](#benchmarks) than **color** and **tinycolor2**)
+- 📦 **Small**: Just **1.7 KB** brotlied ([2.7x+ lighter](#benchmarks) than **color** and **tinycolor2**)
 - 🚀 **Fast**: [3x+ faster](#benchmarks) than **color** and **tinycolor2**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
@@ -40,15 +40,15 @@
 
 ## Benchmarks
 
-| Library                       | <nobr>Operations/sec</nobr>   | Size<br /> (minified) | Size<br /> (gzipped) | Type declarations                                                                                        |
-| ----------------------------- | ----------------------------- | --------------------- | -------------------- | -------------------------------------------------------------------------------------------------------- |
-| <nobr><b>colord 👑</b></nobr> | <nobr><b>3,524,989</b></nobr> | <b>5.88 kB</b>        | <b>2.02 kB</b>       | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://npmjs.com/package/colord)         |
-| color                         | 744,263                       | 24 kB                 | 8.59 kB              | [![](https://badgen.net/npm/types/color?color=6ead0a&label=)](https://npmjs.com/package/color)           |
-| tinycolor2                    | 971,312                       | 15.3 kB               | 5.34 kB              | [![](https://badgen.net/npm/types/tinycolor2?color=e6591d&label=)](https://npmjs.com/package/tinycolor2) |
-| ac-colors                     | 660,722                       | 10.4 kB               | 3.45 kB              | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |
-| chroma-js                     | 962,967                       | 42.9 kB               | 17.6 kB              | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://npmjs.com/package/chroma-js)   |
+| Library                       | <nobr>Operations/sec</nobr>   | Size<br /> (minified) | Size<br /> (brotlied) | Type declarations                                                                                        |
+| ----------------------------- | ----------------------------- | --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------- |
+| <nobr><b>colord 👑</b></nobr> | <nobr><b>3,524,989</b></nobr> | <b>5.71 kB</b>        | <b>1.71 kB</b>        | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://npmjs.com/package/colord)         |
+| color                         | 744,263                       | 24 kB                 | 7.52 kB               | [![](https://badgen.net/npm/types/color?color=6ead0a&label=)](https://npmjs.com/package/color)           |
+| tinycolor2                    | 971,312                       | 15.23 kB              | 4.67 kB               | [![](https://badgen.net/npm/types/tinycolor2?color=e6591d&label=)](https://npmjs.com/package/tinycolor2) |
+| ac-colors                     | 660,722                       | 10.18 kB              | 2.96 kB               | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |
+| chroma-js                     | 962,967                       | 42.47 kB              | 14.89 kB              | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://npmjs.com/package/chroma-js)   |
 
-The performance results were generated on an MBP 2019, 2,6 GHz Intel Core i7 by running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes were measured with [bundlejs](https://bundlejs.com/) for colord@2.9.3, color@5.0.3, tinycolor2@1.6.0, ac-colors@1.4.3 and chroma-js@3.2.0, importing each library's full entry point, so they sit above the tree-shaken `{ colord }` figure quoted under Features, which comes from `npm run size`.
+The performance results were generated on an MBP 2019, 2,6 GHz Intel Core i7 by running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes come from [size-limit](https://github.com/ai/size-limit), importing each library's main export so unused code is tree-shaken away, the same way `npm run size` measures colord.
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
