@@ -86,7 +86,11 @@ export function getDeltaE00(color1: LabaColor, color2: LabaColor): number {
   const sH = 1 + 0.015 * mc1 * T;
 
   const dTheta = 30 * Math.exp(-1 * ((H - 275) / 25) ** 2);
-  const Rc = 2 * (c7 / (c7 + 25 ** 7)) ** 0.5;
+  // Rc is based on the mean of the two rotated (a'-adjusted) chromas, not the
+  // original chromas used for `g`. Reusing `c7` here understates the rotation
+  // term for high-chroma pairs (e.g. blues).
+  const mc17 = mc1 ** 7;
+  const Rc = 2 * (mc17 / (mc17 + 25 ** 7)) ** 0.5;
   const Rt = -Rc * Math.sin(deg2rad * 2 * dTheta);
 
   const kl = 1; // 1 for graphic arts, 2 for textiles
