@@ -63,6 +63,8 @@ When writing parsing regexes, spell numbers as `(?:\d*\.\d+|\d+)`, never `\d*\.?
 
 `npm run release` builds and publishes **`./dist`** (with package.json and .md files copied in), so the npm package root is `dist/`: users import `colord` and `colord/plugins/lch`, while paths in this repo are `src/...`. The `files`/`exports` fields in package.json describe the dist layout, not the repo layout.
 
+**Never run `npm run release` (or `npm publish`) without explicit approval from the maintainer.** Use `npm run check-release` (a dry run) to verify packaging.
+
 ## Testing
 
 - `tests/colord.test.ts` — core; `tests/plugins.test.ts` — all plugins; conversion fixtures in `tests/fixtures.ts` are cross-checked against reference converters (links at the top of the file).
