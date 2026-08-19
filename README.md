@@ -8,14 +8,11 @@
   <a href="https://npmjs.org/package/colord">
     <img alt="npm" src="https://img.shields.io/npm/v/colord.svg?labelColor=dd3a5e&color=6ead0a" />
   </a>
-  <a href="https://github.com/omgovich/colord/actions">
-    <img alt="build" src="https://img.shields.io/github/workflow/status/omgovich/colord/Node.js%20CI/master.svg?labelColor=dd3a5e&color=6ead0a" />
-  </a>
   <a href="https://codecov.io/gh/omgovich/colord">
     <img alt="coverage" src="https://img.shields.io/codecov/c/github/omgovich/colord.svg?labelColor=dd3a5e&color=6ead0a" />
   </a>
   <a href="https://npmjs.org/package/colord">
-    <img alt="no dependencies" src="https://badgen.net/bundlephobia/dependency-count/colord?labelColor=dd3a5e&color=6ead0a" />
+    <img alt="no dependencies" src="https://img.shields.io/badge/dependencies-0-6ead0a?labelColor=dd3a5e" />
   </a>
   <a href="https://npmjs.org/package/colord">
     <img alt="types included" src="https://badgen.net/npm/types/colord?labelColor=dd3a5e&color=6ead0a" />
@@ -28,8 +25,8 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.7 KB** gzipped ([3x+ lighter](#benchmarks) than **color** and **tinycolor2**)
-- 🚀 **Fast**: [3x+ faster](#benchmarks) than **color** and **tinycolor2**
+- 📦 **Small**: Just **1.7 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
+- 🚀 **Fast**: [4x+ faster](#benchmarks) than **color**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Written in strict TypeScript and has 100% test coverage
@@ -43,15 +40,15 @@
 
 ## Benchmarks
 
-| Library                       | <nobr>Operations/sec</nobr>   | Size<br /> (minified)                                                                                                 | Size<br /> (gzipped)                                                                                                     | Dependencies                                                                                                                         | Type declarations                                                                                                |
-| ----------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| <nobr><b>colord 👑</b></nobr> | <nobr><b>3,524,989</b></nobr> | [![](https://badgen.net/bundlephobia/min/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)       | [![](https://badgen.net/bundlephobia/minzip/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)       | [![](https://badgen.net/bundlephobia/dependency-count/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)         | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://bundlephobia.com/result?p=colord)         |
-| color                         | 744,263                       | [![](https://badgen.net/bundlephobia/min/color?color=red&label=)](https://bundlephobia.com/result?p=color)            | [![](https://badgen.net/bundlephobia/minzip/color?color=red&label=)](https://bundlephobia.com/result?p=color)            | [![](https://badgen.net/bundlephobia/dependency-count/color?color=red&label=)](https://bundlephobia.com/result?p=color)              | [![](https://badgen.net/npm/types/color?color=e6591d&label=)](https://bundlephobia.com/result?p=color)           |
-| tinycolor2                    | 971,312                       | [![](https://badgen.net/bundlephobia/min/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2)  | [![](https://badgen.net/bundlephobia/minzip/tinycolor2?color=red&label=)](https://bundlephobia.com/result?p=tinycolor2)  | [![](https://badgen.net/bundlephobia/dependency-count/tinycolor2?color=6ead0a&label=)](https://bundlephobia.com/result?p=tinycolor2) | [![](https://badgen.net/npm/types/tinycolor2?color=e6591d&label=)](https://bundlephobia.com/result?p=tinycolor2) |
-| ac-colors                     | 660,722                       | [![](https://badgen.net/bundlephobia/min/ac-colors?color=e6591d&label=)](https://bundlephobia.com/result?p=ac-colors) | [![](https://badgen.net/bundlephobia/minzip/ac-colors?color=e6591d&label=)](https://bundlephobia.com/result?p=ac-colors) | [![](https://badgen.net/bundlephobia/dependency-count/ac-colors?color=6ead0a&label=)](https://bundlephobia.com/result?p=ac-colors)   | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://bundlephobia.com/result?p=ac-colors)      |
-| chroma-js                     | 962,967                       | [![](https://badgen.net/bundlephobia/min/chroma-js?color=red&label=)](https://bundlephobia.com/result?p=chroma-js)    | [![](https://badgen.net/bundlephobia/minzip/chroma-js?color=red&label=)](https://bundlephobia.com/result?p=chroma-js)    | [![](https://badgen.net/bundlephobia/dependency-count/chroma-js?color=red&label=)](https://bundlephobia.com/result?p=chroma-js)      | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://bundlephobia.com/result?p=chroma-js)   |
+| Library                       | <nobr>Operations/sec</nobr>   | Size<br /> (minified) | Size<br /> (brotlied) | Type declarations                                                                                        |
+| ----------------------------- | ----------------------------- | --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------- |
+| <nobr><b>colord 👑</b></nobr> | <nobr><b>3,524,989</b></nobr> | <b>5.71 kB</b>        | <b>1.71 kB</b>        | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://npmjs.com/package/colord)         |
+| color                         | 744,263                       | 24 kB                 | 7.52 kB               | [![](https://badgen.net/npm/types/color?color=6ead0a&label=)](https://npmjs.com/package/color)           |
+| tinycolor2                    | 971,312                       | 15.23 kB              | 4.67 kB               | [![](https://badgen.net/npm/types/tinycolor2?color=e6591d&label=)](https://npmjs.com/package/tinycolor2) |
+| ac-colors                     | 660,722                       | 10.18 kB              | 2.96 kB               | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |
+| chroma-js                     | 962,967                       | 42.47 kB              | 14.89 kB              | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://npmjs.com/package/chroma-js)   |
 
-The performance results were generated on a MBP 2019, 2,6 GHz Intel Core i7 by running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts).
+The performance results were generated on an MBP 2019, 2,6 GHz Intel Core i7 by running `npm run benchmark` in the library folder. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes come from [size-limit](https://github.com/ai/size-limit), importing each library's main export so unused code is tree-shaken away, the same way `npm run size` measures colord.
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
