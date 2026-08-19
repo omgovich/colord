@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { colord, random, getFormat, Colord, AnyColor } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
+import { clampHue } from "../src/helpers";
 
 it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
   for (const fixture of fixtures) {
@@ -49,6 +50,16 @@ it("Keeps the hue within [0, 360) so HSL/HSV round-trips are stable", () => {
   expect(red.toHsv().h).toBe(0);
   expect(colord(red.toHslString()).toHslString()).toBe(red.toHslString());
   expect(colord(red.toHsv()).toHsv()).toMatchObject(red.toHsv());
+});
+
+it("Clamps a hue into [0, 360)", () => {
+  // The upper bound is exclusive, and non-finite input falls back to 0 — both
+  // are relied upon by every model that carries a hue.
+  expect(clampHue(360)).toBe(0);
+  expect(clampHue(0)).toBe(0);
+  expect(clampHue(NaN)).toBe(0);
+  expect(clampHue(-1)).toBe(359);
+  expect(clampHue(361)).toBe(1);
 });
 
 it("Reports the same hue through every accessor", () => {

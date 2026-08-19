@@ -27,11 +27,11 @@ export const clamp = (number: number, min = 0, max = 1): number => {
 /**
  * Processes and clamps a degree (angle) value properly.
  * Any `NaN` or `Infinity` will be converted to `0`.
- * Examples: -1 => 359, 361 => 1
+ * Examples: -1 => 359, 361 => 1, 360 => 0
  */
 export const clampHue = (degrees: number): number => {
   degrees = isFinite(degrees) ? degrees % 360 : 0;
-  return degrees > 0 ? degrees : degrees + 360;
+  return degrees < 0 ? degrees + 360 : degrees;
 };
 
 /**
