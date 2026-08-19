@@ -29,10 +29,11 @@ export const clamp = (number: number, min = 0, max = 1): number => {
  * Any `NaN` or `Infinity` will be converted to `0`.
  * Examples: -1 => 359, 361 => 1, 360 => 0
  *
- * Deliberately not the canonical `((degrees % 360) + 360) % 360`: that form
- * loses precision for values already in range (`0.4` comes back as
- * `0.39999999999997726`), and the result reaches the `*ToRgba` conversions
- * unrounded.
+ * Deliberately not the canonical `((degrees % 360) + 360) % 360`. That form
+ * perturbs values already in range: `0.4` comes back as `0.39999999999997726`,
+ * and 69% of hues in [0, 360) shift by up to 6e-14 degrees. Far too small to
+ * change any 8-bit output, but the two-step form below is exact for every
+ * in-range value and the same length, so nothing is traded for it.
  */
 export const clampHue = (degrees: number): number => {
   degrees = isFinite(degrees) ? degrees % 360 : 0;
