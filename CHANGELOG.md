@@ -1,3 +1,7 @@
+### 2.9.4
+
+- Fix: Reject malformed color strings in linear time ❤️ [@GAP-dev](https://github.com/GAP-dev)
+
 ### 2.9.3
 
 - Fix types export for TypeScript 4.7 ❤️ [@pkishorez](https://github.com/pkishorez)
