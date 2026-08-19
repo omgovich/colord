@@ -138,9 +138,14 @@ describe("hwb", () => {
     expect(colord("#665533").toHwb()).toMatchObject({ h: 40, w: 20, b: 60, a: 1 });
     expect(colord("#feacfa").toHwb()).toMatchObject({ h: 303, w: 67, b: 0, a: 1 });
     expect(colord("#ffffff").toHwb()).toMatchObject({ h: 0, w: 100, b: 0, a: 1 });
-    // A hue that rounds up to 360 must wrap to 0 like everywhere else
-    expect(colord({ r: 120, g: 0, b: 1 }).toHwb()).toMatchObject({ h: 0 });
-    expect(colord({ r: 120, g: 0, b: 1 }).toHwbString()).toBe("hwb(0 0% 53%)");
+    // A hue that rounds up to 360 must wrap to 0 like everywhere else, and must
+    // agree with the other models — HWB reads the very same hue as HSL.
+    const red = colord({ r: 120, g: 0, b: 1 });
+    expect(red.toHwb()).toMatchObject({ h: 0 });
+    expect(red.toHwb().h).toBe(red.toHsl().h);
+    expect(red.toHwbString()).toBe("hwb(0 0% 53%)");
+    expect(colord({ h: 360, w: 0, b: 0 }).toHwb()).toMatchObject({ h: 0 });
+    expect(colord("hwb(360 0% 0%)").toHwbString()).toBe("hwb(0 0% 0%)");
   });
 
   it("Parses HWB color string", () => {
@@ -266,6 +271,9 @@ describe("lch", () => {
   it("Keeps the LCH hue within [0, 360)", () => {
     // The Lab-derived hue can round up to exactly 360; it must wrap to 0.
     expect(colord({ r: 48, g: 7, b: 24 }).toLch().h).toBe(0);
+    expect(colord({ r: 48, g: 7, b: 24 }).toLchString()).toBe("lch(7.82% 22.2 0)");
+    expect(colord({ l: 50, c: 50, h: 360 }).toLch()).toMatchObject({ h: 0 });
+    expect(colord("lch(50% 50 360)").toLchString()).toBe("lch(50% 50 0)");
   });
 
   it("Converts a color to CIE LCH string (CSS functional notation)", () => {

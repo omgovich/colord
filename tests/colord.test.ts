@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { colord, random, getFormat, Colord, AnyColor } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
-import { clampHue } from "../src/helpers";
+import { clampHue, roundHue } from "../src/helpers";
 
 it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
   for (const fixture of fixtures) {
@@ -60,6 +60,40 @@ it("Clamps a hue into [0, 360)", () => {
   expect(clampHue(NaN)).toBe(0);
   expect(clampHue(-1)).toBe(359);
   expect(clampHue(361)).toBe(1);
+});
+
+it("Rounds a hue into [0, 360)", () => {
+  // The single place the invariant lives, so every model depends on it. The
+  // `digits` argument is used by LCH only.
+  expect(roundHue(359.6)).toBe(0);
+  expect(roundHue(359.4)).toBe(359);
+  expect(roundHue(12.4)).toBe(12);
+  expect(roundHue(0)).toBe(0);
+  expect(roundHue(359.996, 2)).toBe(0);
+  expect(roundHue(359.72, 2)).toBe(359.72);
+});
+
+it("Accepts a hue of 360 on input and reports it as 0", () => {
+  // 360deg is a valid CSS hue and the same angle as 0. Parsing normalizes it,
+  // so nothing downstream has to special-case a full turn.
+  expect(colord({ h: 360, s: 100, l: 50 }).toHsl()).toMatchObject({ h: 0, s: 100, l: 50 });
+  expect(colord({ h: 360, s: 100, v: 100 }).toHsv()).toMatchObject({ h: 0, s: 100, v: 100 });
+  expect(colord("hsl(360, 100%, 50%)").toHslString()).toBe("hsl(0, 100%, 50%)");
+  expect(colord("hsl(360deg 100% 50%)").toHslString()).toBe("hsl(0, 100%, 50%)");
+  expect(colord("hsl(90, 50%, 50%)").hue(360).toHslString()).toBe("hsl(0, 50%, 50%)");
+  // ...and it is the same color as 0, not a different one
+  expect(colord({ h: 360, s: 100, l: 50 }).toHex()).toBe(colord({ h: 0, s: 100, l: 50 }).toHex());
+});
+
+it("Rotates across the 0/360 boundary", () => {
+  // `rotate` reads `hue()`, so it depends on the wrap: for these colors the
+  // getter used to report 360 and now reports 0.
+  const red = colord({ r: 120, g: 0, b: 1 });
+  expect(red.hue()).toBe(0);
+  expect(red.rotate(15).hue()).toBe(15);
+  expect(red.rotate(-15).hue()).toBe(345);
+  expect(colord("hsl(350, 100%, 50%)").rotate(20).hue()).toBe(10);
+  expect(colord("hsl(10, 100%, 50%)").rotate(-20).hue()).toBe(350);
 });
 
 it("Reports the same hue through every accessor", () => {
