@@ -67,7 +67,7 @@ When writing parsing regexes, spell numbers as `(?:\d*\.\d+|\d+)`, never `\d*\.?
 
 Release conventions:
 
-- Every release, including patches, gets a CHANGELOG.md entry (newest on top), crediting the contributor: `- Fix: ... ❤️ [@user](https://github.com/user)`.
+- Every release, including patches, gets a CHANGELOG.md entry (newest on top), crediting the code contributor (the PR author, not the issue reporter): `- Fix: ... ❤️ [@user](https://github.com/user)`. Keep fix entries compact — one bullet per fix, no explanatory paragraphs; the details live in the PR.
 - Patch releases are **not** tagged in the repo. Minor and major releases get a git tag (`v2.9` — no patch digit) and a GitHub Release.
 
 ## Testing

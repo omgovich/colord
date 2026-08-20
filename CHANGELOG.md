@@ -1,3 +1,7 @@
+### 2.9.6
+
+- Fix: Rotate the unrounded hue so `rotate` and `harmonies` preserve the original color
+
 ### 2.9.5
 
 - Fix: Use adjusted chroma for the CIEDE2000 rotation term ❤️ [@maximilliangrand](https://github.com/maximilliangrand)
