@@ -1,6 +1,6 @@
 ### 2.9.6
 
-- Fix: Rotate the unrounded hue so `rotate` and `harmonies` preserve the original color ❤️ [@jfagan1](https://github.com/jfagan1)
+- Fix: Rotate the unrounded hue so `rotate` and `harmonies` preserve the original color
 
 ### 2.9.5
 
