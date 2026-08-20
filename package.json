@@ -90,6 +90,18 @@
       "require": "./plugins/names.js",
       "default": "./plugins/names.mjs"
     },
+    "./plugins/oklab": {
+      "types": "./plugins/oklab.d.ts",
+      "import": "./plugins/oklab.mjs",
+      "require": "./plugins/oklab.js",
+      "default": "./plugins/oklab.mjs"
+    },
+    "./plugins/oklch": {
+      "types": "./plugins/oklch.d.ts",
+      "import": "./plugins/oklch.mjs",
+      "require": "./plugins/oklch.js",
+      "default": "./plugins/oklch.mjs"
+    },
     "./plugins/xyz": {
       "types": "./plugins/xyz.d.ts",
       "import": "./plugins/xyz.mjs",
@@ -203,6 +215,14 @@
     },
     {
       "path": "dist/plugins/names.mjs",
+      "limit": "1.5 KB"
+    },
+    {
+      "path": "dist/plugins/oklab.mjs",
+      "limit": "1.5 KB"
+    },
+    {
+      "path": "dist/plugins/oklch.mjs",
       "limit": "1.5 KB"
     },
     {
