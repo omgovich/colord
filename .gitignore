@@ -20,3 +20,4 @@ dist/
 # OSX
 .DS_Store
 .LSOverride
+/docs/superpowers
