@@ -1,0 +1,38 @@
+name: Benchmark
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+# Perf numbers are only worth having one run at a time per branch.
+concurrency:
+  group: benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    # Both the runner image and the Node major are pinned on purpose. The regression
+    # check watches how much faster colord is than its rivals rather than raw ops/sec,
+    # because absolute numbers swing ±10-30% between runs on shared runners. That ratio
+    # is far steadier, but it still drifts with hardware and V8 version, so the floors
+    # in tests/benchmark.ts are only meaningful against a fixed environment.
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22.x
+          cache: npm
+
+      # `npm ci` rather than `npm install`: the rival libraries are the denominator of
+      # every measurement, so they have to come from the lockfile.
+      - run: npm ci
+
+      - name: Run benchmark
+        run: npm run benchmark
