@@ -1,3 +1,7 @@
+### 2.9.7
+
+- Make HEX parsing and serialization more than 2x faster
+
 ### 2.9.6
 
 - Fix: Rotate the unrounded hue so `rotate` and `harmonies` preserve the original color

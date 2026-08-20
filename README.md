@@ -25,8 +25,8 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.7 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
-- 🚀 **Fast**: [4x faster](#benchmarks) than **color**
+- 📦 **Small**: Just **1.8 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
+- 🚀 **Fast**: [5.5x+ faster](#benchmarks) than **color**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
 - 🛡 **Bulletproof**: Written in strict TypeScript and has 100% test coverage
@@ -42,13 +42,13 @@
 
 | Library                      | <nobr>Operations/sec</nobr>   | Size<br /> (minified) | Size<br /> (brotlied) | Type declarations                                                                                        |
 | ---------------------------- | ----------------------------- | --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------- |
-| <nobr><b>colord 👑</b></nobr> | <nobr><b>4,168,820</b></nobr> | <b>5.71 kB</b>        | <b>1.71 kB</b>        | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://npmjs.com/package/colord)         |
-| color                        | 1,087,346                     | 24 kB                 | 7.52 kB               | [![](https://badgen.net/npm/types/color?color=6ead0a&label=)](https://npmjs.com/package/color)           |
-| tinycolor2                   | 1,481,881                     | 15.23 kB              | 4.67 kB               | [![](https://badgen.net/npm/types/tinycolor2?color=e6591d&label=)](https://npmjs.com/package/tinycolor2) |
-| ac-colors                    | 1,173,725                     | 10.18 kB              | 2.96 kB               | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |
-| chroma-js                    | 1,200,753                     | 42.47 kB              | 14.89 kB              | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://npmjs.com/package/chroma-js)   |
+| <nobr><b>colord 👑</b></nobr> | <nobr><b>4,740,298</b></nobr> | <b>5.81 kB</b>        | <b>1.80 kB</b>        | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://npmjs.com/package/colord)         |
+| color                        | 815,693                       | 24 kB                 | 7.52 kB               | [![](https://badgen.net/npm/types/color?color=6ead0a&label=)](https://npmjs.com/package/color)           |
+| tinycolor2                   | 1,012,855                     | 15.23 kB              | 4.67 kB               | [![](https://badgen.net/npm/types/tinycolor2?color=e6591d&label=)](https://npmjs.com/package/tinycolor2) |
+| ac-colors                    | 973,255                       | 10.18 kB              | 2.96 kB               | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |
+| chroma-js                    | 951,018                       | 42.47 kB              | 14.89 kB              | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://npmjs.com/package/chroma-js)   |
 
-Measured by the [Benchmark workflow](https://github.com/omgovich/colord/actions/workflows/benchmark.yml) on a standard GitHub-hosted runner (`ubuntu-24.04`, 4 vCPU, Node 22). Ops/sec depend on the machine, so read the ratios rather than the absolute numbers. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes come from [size-limit](https://github.com/ai/size-limit), importing each library's main export so unused code is tree-shaken away, the same way `npm run size` measures colord.
+Measured by the [Benchmark workflow](https://github.com/omgovich/colord/actions/workflows/benchmark.yml) on a standard GitHub-hosted runner (Ubuntu 24.04, 4 vCPU, Node 22). Ops/sec depend on the machine, so read the ratios rather than the absolute numbers. Bundle sizes come from [size-limit](https://github.com/ai/size-limit), importing each library's main export so unused code is tree-shaken away, the same way `npm run size` measures colord.
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
