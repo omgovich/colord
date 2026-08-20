@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { colord, random, getFormat, Colord, AnyColor } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
+import { clampHue, roundHue } from "../src/helpers";
 
 it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
   for (const fixture of fixtures) {
@@ -39,6 +40,75 @@ it("Adds alpha number to RGB and HSL strings only if the color has an opacity", 
   expect(colord("hsl(0, 0%, 0%)").toHslString()).toBe("hsl(0, 0%, 0%)");
   expect(colord("rgb(0, 0, 0)").alpha(0.5).toRgbString()).toBe("rgba(0, 0, 0, 0.5)");
   expect(colord("hsl(0, 0%, 0%)").alpha(0.5).toHslString()).toBe("hsla(0, 0%, 0%, 0.5)");
+});
+
+it("Keeps the hue within [0, 360) so HSL/HSV round-trips are stable", () => {
+  // rgb(221, 4, 5) has a hue that rounds up to 360, which used to be emitted
+  // verbatim while parsing normalizes it back to 0 — breaking the round-trip.
+  const red = colord({ r: 221, g: 4, b: 5 });
+  expect(red.toHsl().h).toBe(0);
+  expect(red.toHsv().h).toBe(0);
+  expect(colord(red.toHslString()).toHslString()).toBe(red.toHslString());
+  expect(colord(red.toHsv()).toHsv()).toMatchObject(red.toHsv());
+});
+
+it("Clamps a hue into [0, 360)", () => {
+  // The upper bound is exclusive, and non-finite input falls back to 0 — both
+  // are relied upon by every model that carries a hue.
+  expect(clampHue(360)).toBe(0);
+  expect(clampHue(0)).toBe(0);
+  expect(clampHue(NaN)).toBe(0);
+  expect(clampHue(-1)).toBe(359);
+  expect(clampHue(361)).toBe(1);
+});
+
+it("Rounds a hue into [0, 360)", () => {
+  // The single place the invariant lives, so every model depends on it. The
+  // `digits` argument is used by LCH only.
+  expect(roundHue(359.6)).toBe(0);
+  expect(roundHue(359.4)).toBe(359);
+  expect(roundHue(12.4)).toBe(12);
+  expect(roundHue(0)).toBe(0);
+  expect(roundHue(359.996, 2)).toBe(0);
+  expect(roundHue(359.72, 2)).toBe(359.72);
+});
+
+it("Accepts a hue of 360 on input and reports it as 0", () => {
+  // 360deg is a valid CSS hue and the same angle as 0. Parsing normalizes it,
+  // so nothing downstream has to special-case a full turn.
+  expect(colord({ h: 360, s: 100, l: 50 }).toHsl()).toMatchObject({ h: 0, s: 100, l: 50 });
+  expect(colord({ h: 360, s: 100, v: 100 }).toHsv()).toMatchObject({ h: 0, s: 100, v: 100 });
+  expect(colord("hsl(360, 100%, 50%)").toHslString()).toBe("hsl(0, 100%, 50%)");
+  expect(colord("hsl(360deg 100% 50%)").toHslString()).toBe("hsl(0, 100%, 50%)");
+  expect(colord("hsl(90, 50%, 50%)").hue(360).toHslString()).toBe("hsl(0, 50%, 50%)");
+  // ...and it is the same color as 0, not a different one
+  expect(colord({ h: 360, s: 100, l: 50 }).toHex()).toBe(colord({ h: 0, s: 100, l: 50 }).toHex());
+});
+
+it("Rotates across the 0/360 boundary", () => {
+  // `rotate` reads `hue()`, so it depends on the wrap: for these colors the
+  // getter used to report 360 and now reports 0.
+  const red = colord({ r: 120, g: 0, b: 1 });
+  expect(red.hue()).toBe(0);
+  expect(red.rotate(15).hue()).toBe(15);
+  expect(red.rotate(-15).hue()).toBe(345);
+  expect(colord("hsl(350, 100%, 50%)").rotate(20).hue()).toBe(10);
+  expect(colord("hsl(10, 100%, 50%)").rotate(-20).hue()).toBe(350);
+});
+
+it("Reports the same hue through every accessor", () => {
+  // Each of these rounds the hue separately, so they can drift apart if any of
+  // them forgets to wrap 360 back to 0.
+  for (const rgb of [
+    { r: 221, g: 4, b: 5 },
+    { r: 120, g: 0, b: 1 },
+    { r: 121, g: 1, b: 2 },
+  ]) {
+    const color = colord(rgb);
+    expect(color.hue()).toBe(color.toHsl().h);
+    expect(color.hue()).toBe(color.toHsv().h);
+    expect(color.hue()).toBe(0);
+  }
 });
 
 it("Parses modern RGB functional notations", () => {
