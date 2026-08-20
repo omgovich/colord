@@ -497,11 +497,13 @@ colord("hsl(90, 50%, 50%)").rotate(-180).toHslString(); // "hsl(270, 50%, 50%)"
 </details>
 
 <details>
-  <summary><b><code>.mix(color2, ratio = 0.5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.mix(color2, ratio = 0.5, space = "lab")</code></b> (<b>mix</b> plugin)</summary>
 
 Produces a mixture of two colors and returns the result of mixing them (new Colord instance).
 
-In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space). This approach produces better results and doesn't have the drawbacks the legacy way has.
+In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space) by default. This approach produces better results and doesn't have the drawbacks the legacy way has.
+
+Pass `"rgb"` as the third argument to interpolate RGB channels instead. This mode matches the way browsers and design tools (such as Figma) composite translucent layers: mixing a background with an overlay color at the overlay's opacity gives the same result as alpha compositing.
 
 → [Online demo](https://3cg7o.csb.app/)
 
@@ -515,14 +517,18 @@ colord("#ffffff").mix("#000000").toHex(); // "#777777"
 colord("#800080").mix("#dda0dd").toHex(); // "#af5cae"
 colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#e3c07e"
 colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
+
+// RGB interpolation (matches alpha compositing in browsers and design tools)
+colord("#ff0000").mix("#ffffff", 0.5, "rgb").toHex(); // "#ff8080"
+colord("#f0f3f1").mix("#007d40", 0.14, "rgb").toHex(); // "#cee2d8"
 ```
 
 </details>
 
 <details>
-  <summary><b><code>.tints(count = 5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.tints(count = 5, space = "lab")</code></b> (<b>mix</b> plugin)</summary>
 
-Provides functionality to generate [tints](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
+Provides functionality to generate [tints](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color. Mixes through LAB color space by default; pass `"rgb"` to interpolate RGB channels instead.
 
 ```js
 import { colord, extend } from "colord";
@@ -537,9 +543,9 @@ color.tints(3).map((c) => c.toHex()); // ["#ff0000", "#ff9f80", "#ffffff"];
 </details>
 
 <details>
-  <summary><b><code>.shades(count = 5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.shades(count = 5, space = "lab")</code></b> (<b>mix</b> plugin)</summary>
 
-Provides functionality to generate [shades](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
+Provides functionality to generate [shades](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color. Mixes through LAB color space by default; pass `"rgb"` to interpolate RGB channels instead.
 
 ```js
 import { colord, extend } from "colord";
@@ -554,9 +560,9 @@ color.shades(3).map((c) => c.toHex()); // ["#ff0000", "#7a1b0b", "#000000"];
 </details>
 
 <details>
-  <summary><b><code>.tones(count = 5)</code></b> (<b>mix</b> plugin)</summary>
+  <summary><b><code>.tones(count = 5, space = "lab")</code></b> (<b>mix</b> plugin)</summary>
 
-Provides functionality to generate [tones](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color.
+Provides functionality to generate [tones](https://en.wikipedia.org/wiki/Tints_and_shades) of a color. Returns an array of `Colord` instances, including the original color. Mixes through LAB color space by default; pass `"rgb"` to interpolate RGB channels instead.
 
 ```js
 import { colord, extend } from "colord";
@@ -948,11 +954,11 @@ colord("rgba(170,170,170,0.4)").minify({ alphaHex: true }); // "#aaa6"
 </details>
 
 <details>
-  <summary><b><code>mix</code> (Color mixing)</b> <i>0.96 KB</i></summary>
+  <summary><b><code>mix</code> (Color mixing)</b> <i>1.01 KB</i></summary>
 
 A plugin adding color mixing utilities.
 
-In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space). This approach produces better results and doesn't have the drawbacks the legacy way has.
+In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space) by default. This approach produces better results and doesn't have the drawbacks the legacy way has. If you need to match the alpha compositing of browsers and design tools instead, pass `"rgb"` as the last argument to interpolate RGB channels.
 
 → [Online demo](https://3cg7o.csb.app/)
 
@@ -966,6 +972,7 @@ colord("#ffffff").mix("#000000").toHex(); // "#777777"
 colord("#800080").mix("#dda0dd").toHex(); // "#af5cae"
 colord("#cd853f").mix("#eee8aa", 0.6).toHex(); // "#e3c07e"
 colord("#008080").mix("#808000", 0.35).toHex(); // "#50805d"
+colord("#ff0000").mix("#ffffff", 0.5, "rgb").toHex(); // "#ff8080"
 ```
 
 Also, the plugin provides special mixtures such as [tints, shades, and tones](https://en.wikipedia.org/wiki/Tints_and_shades):
