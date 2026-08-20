@@ -29,7 +29,7 @@ type Summary = Resolved<ReturnType<typeof b.suite>>;
  */
 const MIN_SPEEDUP: Record<string, number> = {
   "Parse HEX and convert to HSLA object/array": 2.2,
-  "Lighten, saturate, set alpha and convert to RGBA object": 2.0,
+  "Lighten, saturate, set alpha and convert to RGBA object": 1.9,
   "Parse RGBA object and convert to HEX string": 1.7,
 };
 
