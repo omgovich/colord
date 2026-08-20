@@ -112,7 +112,7 @@
     "size": "npm run build && size-limit",
     "check-types": "tsc --noEmit true",
     "test": "jest tests --coverage",
-    "benchmark": "tsc --outDir bench --skipLibCheck --esModuleInterop ./tests/benchmark.ts && node ./bench/tests/benchmark.js && rm -rf ./bench",
+    "benchmark": "tsc --outDir bench --skipLibCheck --esModuleInterop ./tests/benchmark.ts && node ./bench/tests/benchmark.js; code=$?; rm -rf ./bench; exit $code",
     "build": "rm -rf ./dist/* && rollup --config",
     "release": "npm run build && cp *.json dist && cp *.md dist && npm publish ./dist",
     "check-release": "npm run release -- --dry-run"

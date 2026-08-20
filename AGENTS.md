@@ -21,10 +21,12 @@ That reach sets the priorities for every change:
 - **Test single case:** `npx jest tests/plugins.test.ts -t "lab"`
 - **Bundle size check:** `npm run size` (runs a full build first, then `size-limit`)
 - **Build:** `npm run build` (rollup → `dist/`)
-- **Benchmark:** `npm run benchmark` (compares against tinycolor2, chroma-js, etc.)
+- **Benchmark:** `npm run benchmark` (compares against tinycolor2, chroma-js, etc.; exits non-zero on a perf regression)
 - **Release dry run:** `npm run check-release`
 
 CI (`.github/workflows/node.yml`) runs `lint`, `check-types`, `test`, and `size` on Node 18/20/22. Run all four before declaring work done.
+
+A separate workflow (`.github/workflows/benchmark.yml`) runs `benchmark` on a pinned runner. It is both the regression check and the source of the numbers in README's benchmark table — copy them from the job summary rather than from a local run, since ops/sec are machine-specific. See the `MIN_SPEEDUP` comment in `tests/benchmark.ts` for why the check watches ratios instead of absolute numbers, and when to move the floors.
 
 ## Key constraint: bundle size
 

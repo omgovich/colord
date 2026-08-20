@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import b from "benny";
+import { Summary } from "benny/lib/internal/common-types";
+import { appendFileSync } from "fs";
 import { colord } from "../src";
 // @ts-ignore
 import tinycolor2 from "tinycolor2";
@@ -10,33 +12,186 @@ import chroma from "chroma-js";
 // @ts-ignore
 import AcColor from "ac-colors";
 
-b.suite(
-  "Parse HEX and convert to HSLA object/array",
+/**
+ * How much faster colord must stay than its fastest rival in each suite.
+ *
+ * Absolute ops/sec are useless as a baseline on shared CI runners (±10-30% between
+ * runs), so we watch the ratio instead: every library is measured on the same machine
+ * in the same run, which cancels most of the noise out. The ratio still drifts with
+ * hardware and V8 version, so these floors are calibrated on the pinned runner from
+ * .github/workflows/benchmark.yml with generous headroom — they exist to catch a real
+ * regression, not to police single-digit percentages.
+ */
+const MIN_SPEEDUP: Record<string, number> = {
+  "Parse HEX and convert to HSLA object/array": 1.55,
+  "Lighten, saturate, set alpha and convert to RGBA object": 1.4,
+  "Parse RGBA object and convert to HEX string": 1.3,
+};
 
-  b.add("colord", () => {
-    colord("#808080").toHsl();
-  }),
+const suites = [
+  () =>
+    b.suite(
+      "Parse HEX and convert to HSLA object/array",
 
-  b.add("color", () => {
-    // @ts-ignore
-    color("#808080").hsl().object();
-  }),
+      b.add("colord", () => {
+        colord("#808080").toHsl();
+      }),
 
-  b.add("tinycolor2", () => {
-    // @ts-ignore
-    tinycolor2("#808080").toHsl();
-  }),
+      b.add("color", () => {
+        // @ts-ignore
+        color("#808080").hsl().object();
+      }),
 
-  b.add("ac-colors", () => {
-    // @ts-ignore
-    new AcColor({ color: "#808080", type: "hex" }).hsl;
-  }),
+      b.add("tinycolor2", () => {
+        // @ts-ignore
+        tinycolor2("#808080").toHsl();
+      }),
 
-  b.add("chroma-js", () => {
-    // @ts-ignore
-    chroma("#808080").hsl();
-  }),
+      b.add("ac-colors", () => {
+        // @ts-ignore
+        new AcColor({ color: "#808080", type: "hex" }).hsl;
+      }),
 
-  b.cycle(),
-  b.complete()
-);
+      b.add("chroma-js", () => {
+        // @ts-ignore
+        chroma("#808080").hsl();
+      }),
+
+      b.cycle(),
+      b.complete()
+    ),
+
+  // ac-colors is a pure converter — it ships no manipulation methods at all, so it
+  // cannot take part in this suite.
+  // The libraries disagree on what the arguments mean (tinycolor2 takes percents,
+  // chroma-js brightens in Lab), so the outputs differ. That is fine here: the suite
+  // exists to give colord's manipulation math a stable denominator to be measured
+  // against, not to claim the operations are equivalent.
+  () =>
+    b.suite(
+      "Lighten, saturate, set alpha and convert to RGBA object",
+
+      b.add("colord", () => {
+        colord("#808080").lighten(0.1).saturate(0.1).alpha(0.5).toRgb();
+      }),
+
+      b.add("color", () => {
+        // @ts-ignore
+        color("#808080").lighten(0.1).saturate(0.1).alpha(0.5).rgb().object();
+      }),
+
+      b.add("tinycolor2", () => {
+        // @ts-ignore
+        tinycolor2("#808080").lighten(10).saturate(10).setAlpha(0.5).toRgb();
+      }),
+
+      b.add("chroma-js", () => {
+        // @ts-ignore
+        chroma("#808080").brighten(0.1).saturate(0.1).alpha(0.5).rgb();
+      }),
+
+      b.cycle(),
+      b.complete()
+    ),
+
+  () =>
+    b.suite(
+      "Parse RGBA object and convert to HEX string",
+
+      b.add("colord", () => {
+        colord({ r: 128, g: 128, b: 128 }).toHex();
+      }),
+
+      b.add("color", () => {
+        // @ts-ignore
+        color({ r: 128, g: 128, b: 128 }).hex();
+      }),
+
+      b.add("tinycolor2", () => {
+        // @ts-ignore
+        tinycolor2({ r: 128, g: 128, b: 128 }).toHexString();
+      }),
+
+      b.add("ac-colors", () => {
+        // @ts-ignore
+        new AcColor({ color: [128, 128, 128], type: "rgb" }).hex;
+      }),
+
+      b.add("chroma-js", () => {
+        // @ts-ignore
+        chroma({ r: 128, g: 128, b: 128 }).hex();
+      }),
+
+      b.cycle(),
+      b.complete()
+    ),
+];
+
+type Verdict = { suite: string; speedup: number; floor: number; rival: string; passed: boolean };
+
+const format = (ops: number) => ops.toLocaleString("en-US");
+
+const verdictOf = (summary: Summary): Verdict => {
+  const colordResult = summary.results.find((result) => result.name === "colord");
+  if (!colordResult) throw new Error(`No "colord" case in the "${summary.name}" suite`);
+
+  const rivals = summary.results.filter((result) => result.name !== "colord");
+  const rival = rivals.reduce((best, result) => (result.ops > best.ops ? result : best));
+
+  const floor = MIN_SPEEDUP[summary.name];
+  if (floor === undefined) throw new Error(`No MIN_SPEEDUP entry for the "${summary.name}" suite`);
+
+  const speedup = colordResult.ops / rival.ops;
+  return { suite: summary.name, speedup, floor, rival: rival.name, passed: speedup >= floor };
+};
+
+const report = (summary: Summary, verdict: Verdict) => {
+  const colordOps = summary.results.filter((result) => result.name === "colord")[0].ops;
+  const sorted = [...summary.results].sort((a, b) => b.ops - a.ops);
+  const rows = sorted.map((result) => {
+    const isColord = result.name === "colord";
+    const name = isColord ? "**colord 👑**" : result.name;
+    const ops = isColord ? `**${format(result.ops)}**` : format(result.ops);
+    const relative = isColord ? "—" : `${(colordOps / result.ops).toFixed(2)}x slower`;
+    return `| ${name} | ${ops} | ±${result.margin.toFixed(2)}% | ${relative} |`;
+  });
+
+  return [
+    `### ${summary.name}`,
+    "",
+    "| Library | Operations/sec | Margin | vs colord |",
+    "| ------- | -------------- | ------ | --------- |",
+    ...rows,
+    "",
+    `${verdict.passed ? "✅" : "❌"} **${verdict.speedup.toFixed(2)}x** faster than the fastest ` +
+      `rival (${verdict.rival}); floor is **${verdict.floor.toFixed(2)}x**.`,
+    "",
+  ].join("\n");
+};
+
+const main = async () => {
+  const summaries: Summary[] = [];
+  for (const suite of suites) summaries.push(await suite());
+
+  const verdicts = summaries.map(verdictOf);
+  const markdown = summaries.map((summary, i) => report(summary, verdicts[i])).join("\n");
+
+  console.log(`\n${markdown}`);
+
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${markdown}\n`);
+  }
+
+  const failed = verdicts.filter((verdict) => !verdict.passed);
+  if (failed.length > 0) {
+    for (const verdict of failed) {
+      console.error(
+        `Performance regression in "${verdict.suite}": ${verdict.speedup.toFixed(2)}x over ` +
+          `${verdict.rival}, expected at least ${verdict.floor.toFixed(2)}x.`
+      );
+    }
+    process.exitCode = 1;
+  }
+};
+
+main();
