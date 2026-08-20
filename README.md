@@ -48,7 +48,7 @@
 | ac-colors                    | 1,173,725                     | 10.18 kB              | 2.96 kB               | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |
 | chroma-js                    | 1,200,753                     | 42.47 kB              | 14.89 kB              | [![](https://badgen.net/npm/types/chroma-js?color=e6591d&label=)](https://npmjs.com/package/chroma-js)   |
 
-The performance results come from the [Benchmark workflow](https://github.com/omgovich/colord/actions/workflows/benchmark.yml), which runs `npm run benchmark` on a pinned `ubuntu-24.04` runner under Node 22 — the numbers above are the "Parse HEX and convert to HSLA object/array" suite. Ops/sec are hardware-specific, so treat the ratios rather than the absolute values as the takeaway. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes come from [size-limit](https://github.com/ai/size-limit), importing each library's main export so unused code is tree-shaken away, the same way `npm run size` measures colord.
+Measured by the [Benchmark workflow](https://github.com/omgovich/colord/actions/workflows/benchmark.yml) on a standard GitHub-hosted runner (`ubuntu-24.04`, 4 vCPU, Node 22). Ops/sec depend on the machine, so read the ratios rather than the absolute numbers. See [tests/benchmark.ts](https://github.com/omgovich/colord/blob/master/tests/benchmark.ts). Bundle sizes come from [size-limit](https://github.com/ai/size-limit), importing each library's main export so unused code is tree-shaken away, the same way `npm run size` measures colord.
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 

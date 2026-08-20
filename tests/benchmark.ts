@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import b from "benny";
-import { Summary } from "benny/lib/internal/common-types";
 import { appendFileSync } from "fs";
 import { colord } from "../src";
 // @ts-ignore
@@ -11,6 +10,12 @@ import color from "color";
 import chroma from "chroma-js";
 // @ts-ignore
 import AcColor from "ac-colors";
+
+// benny only exposes its Summary type through `lib/internal`, which is not public API and
+// is free to move between versions. Reading it off `suite()` keeps us on the public
+// surface. (`Awaited` would say this in one line, but the repo is on TypeScript 4.2.)
+type Resolved<T> = T extends Promise<infer U> ? U : never;
+type Summary = Resolved<ReturnType<typeof b.suite>>;
 
 /**
  * How much faster colord must stay than its fastest rival in each suite.
@@ -127,7 +132,14 @@ const suites = [
     ),
 ];
 
-type Verdict = { suite: string; speedup: number; floor: number; rival: string; passed: boolean };
+type Verdict = {
+  suite: string;
+  colordOps: number;
+  speedup: number;
+  floor: number;
+  rival: string;
+  passed: boolean;
+};
 
 const format = (ops: number) => ops.toLocaleString("en-US");
 
@@ -142,19 +154,35 @@ const verdictOf = (summary: Summary): Verdict => {
   if (floor === undefined) throw new Error(`No MIN_SPEEDUP entry for the "${summary.name}" suite`);
 
   const speedup = colordResult.ops / rival.ops;
-  return { suite: summary.name, speedup, floor, rival: rival.name, passed: speedup >= floor };
+  return {
+    suite: summary.name,
+    colordOps: colordResult.ops,
+    speedup,
+    floor,
+    rival: rival.name,
+    passed: speedup >= floor,
+  };
 };
 
+// Both the column and the headline have to name the direction, not assume it: the run
+// that matters most is the one where a rival has overtaken colord.
+const relativeTo = (ratio: number) =>
+  ratio >= 1 ? `${ratio.toFixed(2)}x slower` : `${(1 / ratio).toFixed(2)}x faster`;
+
 const report = (summary: Summary, verdict: Verdict) => {
-  const colordOps = summary.results.filter((result) => result.name === "colord")[0].ops;
   const sorted = [...summary.results].sort((a, b) => b.ops - a.ops);
   const rows = sorted.map((result) => {
     const isColord = result.name === "colord";
     const name = isColord ? "**colord 👑**" : result.name;
     const ops = isColord ? `**${format(result.ops)}**` : format(result.ops);
-    const relative = isColord ? "—" : `${(colordOps / result.ops).toFixed(2)}x slower`;
+    const relative = isColord ? "—" : relativeTo(verdict.colordOps / result.ops);
     return `| ${name} | ${ops} | ±${result.margin.toFixed(2)}% | ${relative} |`;
   });
+
+  const headline =
+    verdict.speedup >= 1
+      ? `**${verdict.speedup.toFixed(2)}x** faster than the fastest rival (${verdict.rival})`
+      : `**${(1 / verdict.speedup).toFixed(2)}x** slower than ${verdict.rival}`;
 
   return [
     `### ${summary.name}`,
@@ -163,8 +191,7 @@ const report = (summary: Summary, verdict: Verdict) => {
     "| ------- | -------------- | ------ | --------- |",
     ...rows,
     "",
-    `${verdict.passed ? "✅" : "❌"} **${verdict.speedup.toFixed(2)}x** faster than the fastest ` +
-      `rival (${verdict.rival}); floor is **${verdict.floor.toFixed(2)}x**.`,
+    `${verdict.passed ? "✅" : "❌"} ${headline}; floor is **${verdict.floor.toFixed(2)}x**.`,
     "",
   ].join("\n");
 };
@@ -186,8 +213,9 @@ const main = async () => {
   if (failed.length > 0) {
     for (const verdict of failed) {
       console.error(
-        `Performance regression in "${verdict.suite}": ${verdict.speedup.toFixed(2)}x over ` +
-          `${verdict.rival}, expected at least ${verdict.floor.toFixed(2)}x.`
+        `Performance regression in "${verdict.suite}": colord runs at ` +
+          `${verdict.speedup.toFixed(2)}x the speed of ${verdict.rival}, ` +
+          `expected at least ${verdict.floor.toFixed(2)}x.`
       );
     }
     process.exitCode = 1;
