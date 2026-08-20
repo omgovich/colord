@@ -98,6 +98,8 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - CMYK objects and strings ([via plugin](#plugins))
 - LCH objects and strings ([via plugin](#plugins))
 - LAB objects ([via plugin](#plugins))
+- OKLCH objects and strings ([via plugin](#plugins))
+- OKLab objects and strings ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
@@ -365,6 +367,74 @@ extend([lchPlugin]);
 
 colord("#ffffff").toLchString(); // "lch(100% 0 0)"
 colord("#213b0b").alpha(0.5).toLchString(); // "lch(21.85% 31.95 127.77 / 0.5)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>.toOklab()</code></b> (<b>oklab</b> plugin)</summary>
+
+Converts a color to [OKLab](https://bottosson.github.io/posts/oklab/) color space. The returned object carries an `ok: true` marker that distinguishes it from a CIE LAB object (both use the same `l`/`a`/`b` channel keys), so it can be safely passed back to `colord`.
+
+```js
+import { colord, extend } from "colord";
+import oklabPlugin from "colord/plugins/oklab";
+
+extend([oklabPlugin]);
+
+colord("#ffffff").toOklab(); // { l: 1, a: 0, b: 0, alpha: 1, ok: true }
+colord("#ff6347").toOklab(); // { l: 0.6962, a: 0.1652, b: 0.1045, alpha: 1, ok: true }
+```
+
+</details>
+
+<details>
+  <summary><b><code>.toOklabString()</code></b> (<b>oklab</b> plugin)</summary>
+
+Converts a color to [OKLab](https://bottosson.github.io/posts/oklab/) color space and expresses it through the [functional notation](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
+
+```js
+import { colord, extend } from "colord";
+import oklabPlugin from "colord/plugins/oklab";
+
+extend([oklabPlugin]);
+
+colord("#ffffff").toOklabString(); // "oklab(1 0 0)"
+colord("#ff6347").toOklabString(); // "oklab(0.6962 0.1652 0.1045)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>.toOklch()</code></b> (<b>oklch</b> plugin)</summary>
+
+Converts a color to [OKLCH](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl) color space. The returned object carries an `ok: true` marker that distinguishes it from a CIE LCH object (both use the same `l`/`c`/`h` channel keys), so it can be safely passed back to `colord`.
+
+```js
+import { colord, extend } from "colord";
+import oklchPlugin from "colord/plugins/oklch";
+
+extend([oklchPlugin]);
+
+colord("#ffffff").toOklch(); // { l: 1, c: 0, h: 0, a: 1, ok: true }
+colord("#008080").toOklch(); // { l: 0.5431, c: 0.0927, h: 194.77, a: 1, ok: true }
+```
+
+</details>
+
+<details>
+  <summary><b><code>.toOklchString()</code></b> (<b>oklch</b> plugin)</summary>
+
+Converts a color to [OKLCH](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl) color space and expresses it through the [functional notation](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
+
+```js
+import { colord, extend } from "colord";
+import oklchPlugin from "colord/plugins/oklch";
+
+extend([oklchPlugin]);
+
+colord("#ffffff").toOklchString(); // "oklch(1 0 0)"
+colord("#008080").alpha(0.5).toOklchString(); // "oklch(0.5431 0.0927 194.77 / 0.5)"
 ```
 
 </details>
@@ -999,6 +1069,50 @@ colord("#00ffff").toName(); // "cyan"
 colord("rgba(0, 0, 0, 0)").toName(); // "transparent"
 colord("#fe0000").toName(); // undefined (the color is not specified in CSS specs)
 colord("#fe0000").toName({ closest: true }); // "red" (closest color)
+```
+
+</details>
+
+<details>
+  <summary><b><code>oklab</code> (OKLab color space)</b> <i>1.04 KB</i></summary>
+
+Adds support of [OKLab](https://bottosson.github.io/posts/oklab/) — a perceptual color space designed for image processing and color manipulation, adopted by [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
+
+Since OKLab objects use the same `l`/`a`/`b` channel keys as CIE LAB, object input requires an `ok: true` marker (bare `{ l, a, b }` objects belong to the **lab** plugin). Strings are unambiguous and need no marker. The alpha channel lives in an `alpha` key (as in the **lab** plugin) because `a` is taken by the green–red axis. Colors outside the sRGB gamut are clipped channel-by-channel — the same strategy browsers use when rendering an out-of-gamut `oklab()` value on an sRGB screen.
+
+```js
+import { colord, extend } from "colord";
+import oklabPlugin from "colord/plugins/oklab";
+
+extend([oklabPlugin]);
+
+colord("oklab(0.628 0.2249 0.1258)").toHex(); // "#ff0000"
+colord({ l: 0.628, a: 0.2249, b: 0.1258, ok: true }).toHex(); // "#ff0000"
+
+colord("#ffffff").toOklab(); // { l: 1, a: 0, b: 0, alpha: 1, ok: true }
+colord("#ff6347").toOklabString(); // "oklab(0.6962 0.1652 0.1045)"
+```
+
+</details>
+
+<details>
+  <summary><b><code>oklch</code> (OKLCH color space)</b> <i>1.25 KB</i></summary>
+
+Adds support of [OKLCH](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl) — the polar form of OKLab and the format modern design systems (e.g. Tailwind CSS) define their palettes in. Adopted by [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
+
+Since OKLCH objects use the same `l`/`c`/`h` channel keys as CIE LCH, object input requires an `ok: true` marker (bare `{ l, c, h }` objects belong to the **lch** plugin). Strings are unambiguous and need no marker. The alpha channel lives in the regular `a` key, same as the **lch** plugin. Colors outside the sRGB gamut are clipped channel-by-channel — the same strategy browsers use when rendering an out-of-gamut `oklch()` value on an sRGB screen.
+
+```js
+import { colord, extend } from "colord";
+import oklchPlugin from "colord/plugins/oklch";
+
+extend([oklchPlugin]);
+
+colord("oklch(0.5 0.2 240)").toHex(); // "#0069c7"
+colord({ l: 0.5431, c: 0.0927, h: 194.77, ok: true }).toHex(); // "#008080"
+
+colord("#008080").toOklch(); // { l: 0.5431, c: 0.0927, h: 194.77, a: 1, ok: true }
+colord("#008080").alpha(0.5).toOklchString(); // "oklch(0.5431 0.0927 194.77 / 0.5)"
 ```
 
 </details>

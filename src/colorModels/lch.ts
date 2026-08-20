@@ -22,8 +22,9 @@ export const roundLcha = (laba: LchaColor): LchaColor => ({
   a: round(laba.a, ALPHA_PRECISION),
 });
 
-export const parseLcha = ({ l, c, h, a = 1 }: InputObject): RgbaColor | null => {
-  if (!isPresent(l) || !isPresent(c) || !isPresent(h)) return null;
+export const parseLcha = ({ l, c, h, a = 1, ok }: InputObject): RgbaColor | null => {
+  // Objects marked with `ok: true` are OKLCH colors, not CIE LCH (see the oklch plugin)
+  if (ok || !isPresent(l) || !isPresent(c) || !isPresent(h)) return null;
 
   const lcha = clampLcha({
     l: Number(l),

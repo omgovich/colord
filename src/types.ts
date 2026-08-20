@@ -40,6 +40,22 @@ export interface LchColor {
   h: number;
 }
 
+export interface OklabColor {
+  l: number;
+  a: number;
+  b: number;
+  /** Distinguishes OKLab objects from CIE LAB objects, which share the same channel keys */
+  ok: true;
+}
+
+export interface OklchColor {
+  l: number;
+  c: number;
+  h: number;
+  /** Distinguishes OKLCH objects from CIE LCH objects, which share the same channel keys */
+  ok: true;
+}
+
 export interface CmykColor {
   c: number;
   m: number;
@@ -55,6 +71,8 @@ export type HwbaColor = WithAlpha<HwbColor>;
 export type XyzaColor = WithAlpha<XyzColor>; // Naming is the hardest part https://stackoverflow.com/a/2464027
 export type LabaColor = LabColor & { alpha: number };
 export type LchaColor = WithAlpha<LchColor>;
+export type OklabaColor = OklabColor & { alpha: number };
+export type OklchaColor = WithAlpha<OklchColor>;
 export type CmykaColor = WithAlpha<CmykColor>;
 
 export type ObjectColor =
@@ -72,6 +90,10 @@ export type ObjectColor =
   | LabaColor
   | LchColor
   | LchaColor
+  | OklabColor
+  | OklabaColor
+  | OklchColor
+  | OklchaColor
   | CmykColor
   | CmykaColor;
 
@@ -89,6 +111,8 @@ export type Format =
   | "xyz"
   | "lab"
   | "lch"
+  | "oklab"
+  | "oklch"
   | "cmyk";
 
 export type Input = string | InputObject;
