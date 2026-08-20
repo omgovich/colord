@@ -2,8 +2,6 @@
 
 - Fix: Rotate the unrounded hue so `rotate` and `harmonies` preserve the original color ❤️ [@jfagan1](https://github.com/jfagan1)
 
-`rotate()` (and every `harmonies()` shift) no longer snaps the hue to a whole degree, so its output changes for colors whose hue isn't a whole degree — e.g. the complementary of `#03ff84` is now `#ff037e` instead of `#ff037d`, and a zero rotation returns the color unchanged.
-
 ### 2.9.5
 
 - Fix: Use adjusted chroma for the CIEDE2000 rotation term ❤️ [@maximilliangrand](https://github.com/maximilliangrand)
