@@ -23,9 +23,9 @@ import AcColor from "ac-colors";
  * regression, not to police single-digit percentages.
  */
 const MIN_SPEEDUP: Record<string, number> = {
-  "Parse HEX and convert to HSLA object/array": 1.55,
-  "Lighten, saturate, set alpha and convert to RGBA object": 1.4,
-  "Parse RGBA object and convert to HEX string": 1.3,
+  "Parse HEX and convert to HSLA object/array": 2.2,
+  "Lighten, saturate, set alpha and convert to RGBA object": 2.0,
+  "Parse RGBA object and convert to HEX string": 1.7,
 };
 
 const suites = [
