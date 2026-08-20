@@ -25,7 +25,7 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.7 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
+- 📦 **Small**: Just **1.8 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
 - 🚀 **Fast**: [4x+ faster](#benchmarks) than **color**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
@@ -42,7 +42,7 @@
 
 | Library                       | <nobr>Operations/sec</nobr>   | Size<br /> (minified) | Size<br /> (brotlied) | Type declarations                                                                                        |
 | ----------------------------- | ----------------------------- | --------------------- | --------------------- | -------------------------------------------------------------------------------------------------------- |
-| <nobr><b>colord 👑</b></nobr> | <nobr><b>3,524,989</b></nobr> | <b>5.71 kB</b>        | <b>1.71 kB</b>        | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://npmjs.com/package/colord)         |
+| <nobr><b>colord 👑</b></nobr> | <nobr><b>3,524,989</b></nobr> | <b>5.81 kB</b>        | <b>1.80 kB</b>        | [![](https://badgen.net/npm/types/colord?color=6ead0a&label=)](https://npmjs.com/package/colord)         |
 | color                         | 744,263                       | 24 kB                 | 7.52 kB               | [![](https://badgen.net/npm/types/color?color=6ead0a&label=)](https://npmjs.com/package/color)           |
 | tinycolor2                    | 971,312                       | 15.23 kB              | 4.67 kB               | [![](https://badgen.net/npm/types/tinycolor2?color=e6591d&label=)](https://npmjs.com/package/tinycolor2) |
 | ac-colors                     | 660,722                       | 10.18 kB              | 2.96 kB               | [![](https://badgen.net/npm/types/ac-colors?color=red&label=)](https://npmjs.com/package/ac-colors)      |

@@ -1,3 +1,7 @@
+### 2.9.7
+
+- Parse and serialize HEX colors without `parseInt` and `Number#toString`, making HEX input ~2x and HEX output ~2.7x faster
+
 ### 2.9.6
 
 - Fix: Rotate the unrounded hue so `rotate` and `harmonies` preserve the original color

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { colord, random, getFormat, Colord, AnyColor } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
-import { clampHue, roundHue } from "../src/helpers";
+import { clampHue, round, roundHue } from "../src/helpers";
 
 it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
   for (const fixture of fixtures) {
@@ -132,6 +132,53 @@ it("Supports HEX4 and HEX8 color models", () => {
   expect(colord({ r: 255, g: 255, b: 255, a: 1 }).toHex()).toBe("#ffffff");
   expect(colord({ r: 170, g: 170, b: 170, a: 0.5 }).toHex()).toBe("#aaaaaa80");
   expect(colord({ r: 128, g: 128, b: 128, a: 0 }).toHex()).toBe("#80808000");
+});
+
+it("Parses and serializes every HEX digit exactly", () => {
+  // Every byte survives a HEX6/HEX8 round trip, in both digit cases.
+  for (let byte = 0; byte < 256; byte++) {
+    const digits = byte.toString(16).padStart(2, "0");
+    const hex6 = `#${digits}${digits}${digits}`;
+    expect(colord(hex6).toRgb()).toMatchObject({ r: byte, g: byte, b: byte, a: 1 });
+    expect(colord(hex6.toUpperCase()).toRgb()).toMatchObject({ r: byte, g: byte, b: byte, a: 1 });
+    expect(colord({ r: byte, g: byte, b: byte, a: 1 }).toHex()).toBe(hex6);
+    expect(colord(`${hex6}${digits}`).toRgb()).toMatchObject({
+      r: byte,
+      g: byte,
+      b: byte,
+      a: round(byte / 255, 2),
+    });
+  }
+
+  // Every nibble is duplicated into a full byte by the HEX3/HEX4 shorthand.
+  for (let nibble = 0; nibble < 16; nibble++) {
+    const digit = nibble.toString(16);
+    const byte = nibble * 17;
+    expect(colord(`#${digit}${digit}${digit}`).toRgb()).toMatchObject({
+      r: byte,
+      g: byte,
+      b: byte,
+      a: 1,
+    });
+    expect(colord(`#000${digit}`).toRgb()).toMatchObject({
+      r: 0,
+      g: 0,
+      b: 0,
+      a: round(byte / 255, 2),
+    });
+  }
+
+  // A HEX string with an unsupported digit count is not a color.
+  expect(colord("#1").isValid()).toBe(false);
+  expect(colord("#12").isValid()).toBe(false);
+  expect(colord("#12345").isValid()).toBe(false);
+  expect(colord("#1234567").isValid()).toBe(false);
+  expect(colord("#123456789").isValid()).toBe(false);
+  expect(colord("#").isValid()).toBe(false);
+  // Only HEX digits are accepted.
+  expect(colord("#12345g").isValid()).toBe(false);
+  expect(colord("#-12345").isValid()).toBe(false);
+  expect(colord("# 12345").isValid()).toBe(false);
 });
 
 it("Ignores a case and extra whitespace", () => {
