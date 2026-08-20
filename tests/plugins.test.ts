@@ -153,6 +153,10 @@ describe("hwb", () => {
     expect(colord({ h: 120, w: 70, b: 70 }).toHex()).toBe("#808080");
     expect(colord({ h: 200, w: 100, b: 100 }).toHex()).toBe("#808080");
     expect(colord({ h: 0, w: 50, b: 60 }).toHex()).toBe("#747474");
+    // Blackness of exactly 100% is gray too when whiteness is non-zero, not black
+    expect(colord({ h: 0, w: 50, b: 100 }).toHex()).toBe("#555555");
+    // The string parser goes through the same normalization and keeps the alpha
+    expect(colord("hwb(120 70% 70% / 50%)").toRgbString()).toBe("rgba(128, 128, 128, 0.5)");
   });
 
   it("Converts a color to HWB object", () => {
