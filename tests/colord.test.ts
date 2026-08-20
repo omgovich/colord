@@ -126,12 +126,20 @@ it("Parses modern HSL functional notations", () => {
 
 it("Supports HEX4 and HEX8 color models", () => {
   expect(colord("#ffffffff").toRgb()).toMatchObject({ r: 255, g: 255, b: 255, a: 1 });
-  expect(colord("#80808080").toRgb()).toMatchObject({ r: 128, g: 128, b: 128, a: 0.5 });
+  expect(colord("#80808080").toRgb()).toMatchObject({ r: 128, g: 128, b: 128, a: 0.502 });
   expect(colord("#AAAF").toRgb()).toMatchObject({ r: 170, g: 170, b: 170, a: 1 });
   expect(colord("#5550").toRgb()).toMatchObject({ r: 85, g: 85, b: 85, a: 0 });
   expect(colord({ r: 255, g: 255, b: 255, a: 1 }).toHex()).toBe("#ffffff");
   expect(colord({ r: 170, g: 170, b: 170, a: 0.5 }).toHex()).toBe("#aaaaaa80");
   expect(colord({ r: 128, g: 128, b: 128, a: 0 }).toHex()).toBe("#80808000");
+});
+
+it("Round-trips a HEX8 alpha channel without drifting", () => {
+  // The alpha byte of a HEX8 string is 8-bit; parsing must keep enough
+  // precision (ALPHA_PRECISION) to re-encode the very same byte.
+  ["#476d5e55", "#80808080", "#0a141e7f", "#ffffff01", "#000000fe"].forEach((hex) => {
+    expect(colord(hex).toHex()).toBe(hex);
+  });
 });
 
 it("Ignores a case and extra whitespace", () => {
