@@ -37,8 +37,7 @@ const harmoniesPlugin: Plugin = (ColordClass): void => {
   };
 
   ColordClass.prototype.harmonies = function (type = "complementary") {
-    // The instances are immutable, so the zero shift can return the original
-    // color instead of paying for an HSL round trip.
+    // The zero shift returns the original color: instances are immutable, and it skips an HSL round trip
     return hueShifts[type].map((shift) => (shift ? this.rotate(shift) : this));
   };
 };

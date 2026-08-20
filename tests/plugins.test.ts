@@ -120,9 +120,7 @@ describe("harmonies", () => {
   });
 
   it("Preserves an input color with a non-integer hue", () => {
-    // https://github.com/omgovich/colord/issues/123
-    // "#03ff84" has a hue of ~150.71 degrees, so rounding it to 151 while
-    // rotating used to mutate the original color to "#03ff85".
+    // https://github.com/omgovich/colord/issues/123 — hue rounding used to mutate the input color
     check("analogous", "#03ff84", ["#03ff06", "#03ff84", "#03fcff"]);
     check("complementary", "#03ff84", ["#03ff84", "#ff037e"]);
     check("double-split-complementary", "#03ff84", [
