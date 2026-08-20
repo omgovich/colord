@@ -346,6 +346,14 @@ it("Rotates a hue circle", () => {
   expect(colord("hsl(90, 50%, 50%)").rotate(-180).toHslString()).toBe("hsl(270, 50%, 50%)");
 });
 
+it("Preserves a color with a non-integer hue while rotating", () => {
+  // https://github.com/omgovich/colord/issues/123
+  // "#03ff84" has a hue of ~150.71 degrees. `rotate` must not snap it to 151.
+  expect(colord("#03ff84").rotate(0).toHex()).toBe("#03ff84");
+  expect(colord("#03ff84").rotate(360).toHex()).toBe("#03ff84");
+  expect(colord("#03ff84").rotate(180).rotate(180).toHex()).toBe("#03ff84");
+});
+
 it("Checks colors for equality", () => {
   const otherColor = "#1ab2c3";
   const otherInstance = colord(otherColor);

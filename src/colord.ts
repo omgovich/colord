@@ -151,7 +151,9 @@ export class Colord {
    * Changes the HSL hue of a color by the given amount.
    */
   public rotate(amount = 15): Colord {
-    return this.hue(this.hue() + amount);
+    // Shift the unrounded hue: reading it through the `hue()` getter rounds it
+    // to a whole degree, which perturbs the other channels (issue #123).
+    return this.hue(rgbaToHsla(this.rgba).h + amount);
   }
 
   /**

@@ -118,6 +118,25 @@ describe("harmonies", () => {
     check("triadic", "#ff0000", ["#ff0000", "#00ff00", "#0000ff"]);
     check("split-complementary", "#ff0000", ["#ff0000", "#00ff80", "#0080ff"]);
   });
+
+  it("Preserves an input color with a non-integer hue", () => {
+    // https://github.com/omgovich/colord/issues/123
+    // "#03ff84" has a hue of ~150.71 degrees, so rounding it to 151 while
+    // rotating used to mutate the original color to "#03ff85".
+    check("analogous", "#03ff84", ["#03ff06", "#03ff84", "#03fcff"]);
+    check("complementary", "#03ff84", ["#03ff84", "#ff037e"]);
+    check("double-split-complementary", "#03ff84", [
+      "#03ff06",
+      "#03ff84",
+      "#03fcff",
+      "#ff03fc",
+      "#ff0603",
+    ]);
+    check("rectangle", "#03ff84", ["#03ff84", "#037eff", "#ff037e", "#ff8403"]);
+    check("tetradic", "#03ff84", ["#03ff84", "#0603ff", "#ff037e", "#fcff03"]);
+    check("triadic", "#03ff84", ["#03ff84", "#8403ff", "#ff8403"]);
+    check("split-complementary", "#03ff84", ["#03ff84", "#ff03fc", "#ff0603"]);
+  });
 });
 
 describe("hwb", () => {
