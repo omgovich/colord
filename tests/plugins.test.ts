@@ -376,6 +376,7 @@ describe("mix", () => {
 
   it("Mixes two colors", () => {
     expect(colord("#000000").mix("#ffffff").toHex()).toBe("#777777");
+    expect(colord("#000000").mix(colord("#ffffff")).toHex()).toBe("#777777");
     expect(colord("#dc143c").mix("#000000").toHex()).toBe("#6a1b21");
     expect(colord("#800080").mix("#dda0dd").toHex()).toBe("#af5cae");
     expect(colord("#228b22").mix("#87cefa").toHex()).toBe("#60ac8f");
@@ -417,6 +418,32 @@ describe("mix", () => {
     check(colord("#ff0000").tones(3), ["#ff0000", "#c86147", "#808080"]);
     check(colord("#ff0000").tones(), ["#ff0000", "#e54729", "#c86147", "#a87363", "#808080"]);
     expect(colord("#aabbcc").tones(987)).toHaveLength(987);
+  });
+
+  it("Mixes two colors through RGB color space", () => {
+    // https://github.com/omgovich/colord/issues/106
+    expect(colord("#ff0000").mix("#ffffff", 0.25, "rgb").toHex()).toBe("#ff4040");
+    expect(colord("#ff0000").mix("#ffffff", 0.5, "rgb").toHex()).toBe("#ff8080");
+    expect(colord("#ff0000").mix("#ffffff", 0.75, "rgb").toHex()).toBe("#ffbfbf");
+    // https://github.com/omgovich/colord/issues/126
+    // matches the alpha compositing of a `rgba(0, 125, 64, 0.14)` layer over `#f0f3f1`
+    expect(colord("#f0f3f1").mix("#007d40", 0.14, "rgb").toHex()).toBe("#cee2d8");
+  });
+
+  it("Interpolates alpha channel in RGB color space", () => {
+    expect(colord("rgba(0, 0, 0, 1)").mix("rgba(255, 255, 255, 0)", 0.5, "rgb").toRgbString()).toBe(
+      "rgba(128, 128, 128, 0.5)"
+    );
+  });
+
+  it("Mixes through LAB when the space is set explicitly", () => {
+    expect(colord("#000000").mix("#ffffff", 0.5, "lab").toHex()).toBe("#777777");
+  });
+
+  it("Generates palettes through RGB color space", () => {
+    check(colord("#ff0000").tints(3, "rgb"), ["#ff0000", "#ff8080", "#ffffff"]);
+    check(colord("#ff0000").shades(3, "rgb"), ["#ff0000", "#800000", "#000000"]);
+    check(colord("#ff0000").tones(3, "rgb"), ["#ff0000", "#c04040", "#808080"]);
   });
 });
 

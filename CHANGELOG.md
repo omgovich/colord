@@ -1,3 +1,7 @@
+### 2.10.0
+
+- Improve `mix` plugin by adding an optional `"rgb"` interpolation mode to `mix`, `tints`, `tones` and `shades`
+
 ### 2.9.7
 
 - Make HEX parsing and serialization more than 2x faster

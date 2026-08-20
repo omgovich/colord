@@ -1,6 +1,6 @@
 {
   "name": "colord",
-  "version": "2.9.7",
+  "version": "2.10.0",
   "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
   "keywords": [
     "color",
@@ -199,7 +199,7 @@
     },
     {
       "path": "dist/plugins/mix.mjs",
-      "limit": "1 KB"
+      "limit": "1.1 KB"
     },
     {
       "path": "dist/plugins/names.mjs",
