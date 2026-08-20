@@ -1,6 +1,7 @@
 ### 2.9.6
 
 - Fix: Rotate the unrounded hue so `rotate` and `harmonies` preserve the original color
+- Fix: Normalize HWB whiteness + blackness over 100% to gray ❤️ [@spokodev](https://github.com/spokodev)
 
 ### 2.9.5
 
