@@ -1,3 +1,10 @@
+### 2.9.5
+
+- Fix: Use adjusted chroma for the CIEDE2000 rotation term ❤️ [@maximilliangrand](https://github.com/maximilliangrand)
+- Fix: Keep the hue within `[0, 360)` in every color model ❤️ [@sarathfrancis90](https://github.com/sarathfrancis90)
+
+Both change returned numbers on a small set of colors; `toHex()` output is unchanged. Snapshots holding `h: 360`, `"hsl(360, …)"` or a `delta()` value may need updating.
+
 ### 2.9.4
 
 - Fix: Reject malformed color strings in linear time ❤️ [@GAP-dev](https://github.com/GAP-dev)
