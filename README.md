@@ -90,8 +90,8 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 ## Supported Color Models
 
 - Hexadecimal strings (including 3, 4 and 8 digit notations)
-- RGB strings and objects
-- HSL strings and objects
+- RGB strings (comma and whitespace syntax) and objects
+- HSL strings (comma and whitespace syntax) and objects
 - HSV objects
 - Color names ([via plugin](#plugins))
 - HWB objects and strings ([via plugin](#plugins))
@@ -120,11 +120,17 @@ colord("#ffffff");
 colord("#ffffffff");
 colord("rgb(255, 255, 255)");
 colord("rgba(255, 255, 255, 0.5)");
-colord("rgba(100% 100% 100% / 50%)");
 colord("hsl(90, 100%, 100%)");
 colord("hsla(90, 100%, 100%, 0.5)");
-colord("hsla(90deg 100% 100% / 50%)");
 colord("tomato"); // requires "names" plugin
+
+// Modern whitespace syntax
+colord("rgb(255 255 255)");
+colord("rgb(255 255 255 / 0.5)");
+colord("rgb(100% 100% 100% / 50%)");
+colord("hsl(90 100% 100%)");
+colord("hsl(90deg 100% 100% / 50%)");
+colord("hsl(0.25turn 100% 100% / 50%)");
 
 // Object input examples
 colord({ r: 255, g: 255, b: 255 });
@@ -150,6 +156,7 @@ import { getFormat } from "colord";
 getFormat("#aabbcc"); // "hex"
 getFormat({ r: 13, g: 237, b: 162, a: 0.5 }); // "rgb"
 getFormat("hsl(180deg, 50%, 50%)"); // "hsl"
+getFormat("hsl(180deg 50% 50% / 50%)"); // "hsl"
 getFormat("WUT?"); // undefined
 ```
 
