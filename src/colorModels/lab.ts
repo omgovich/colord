@@ -29,8 +29,9 @@ export const roundLaba = (laba: LabaColor): LabaColor => ({
   alpha: round(laba.alpha, ALPHA_PRECISION),
 });
 
-export const parseLaba = ({ l, a, b, alpha = 1 }: InputObject): RgbaColor | null => {
-  if (!isPresent(l) || !isPresent(a) || !isPresent(b)) return null;
+export const parseLaba = ({ l, a, b, alpha = 1, ok }: InputObject): RgbaColor | null => {
+  // Objects marked with `ok: true` are OKLab colors, not CIE LAB (see the oklab plugin)
+  if (ok || !isPresent(l) || !isPresent(a) || !isPresent(b)) return null;
 
   const laba = clampLaba({
     l: Number(l),
