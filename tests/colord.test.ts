@@ -142,12 +142,14 @@ it("Parses and serializes every HEX digit exactly", () => {
     expect(colord(hex6).toRgb()).toMatchObject({ r: byte, g: byte, b: byte, a: 1 });
     expect(colord(hex6.toUpperCase()).toRgb()).toMatchObject({ r: byte, g: byte, b: byte, a: 1 });
     expect(colord({ r: byte, g: byte, b: byte, a: 1 }).toHex()).toBe(hex6);
-    expect(colord(`${hex6}${digits}`).toRgb()).toMatchObject({
-      r: byte,
-      g: byte,
-      b: byte,
-      a: round(byte / 255, 2),
-    });
+    // The alpha byte is read exactly, so it survives too — on its own and through
+    // an RGB string (255 is left out: an opaque color serializes back to HEX6).
+    const hex8 = `${hex6}${digits}`;
+    expect(colord(hex8).toRgb()).toMatchObject({ r: byte, g: byte, b: byte });
+    if (byte < 255) {
+      expect(colord(hex8).toHex()).toBe(hex8);
+      expect(colord(colord(hex8).toRgbString()).toHex()).toBe(hex8);
+    }
   }
 
   // Every nibble is duplicated into a full byte by the HEX3/HEX4 shorthand.
@@ -160,12 +162,8 @@ it("Parses and serializes every HEX digit exactly", () => {
       b: byte,
       a: 1,
     });
-    expect(colord(`#000${digit}`).toRgb()).toMatchObject({
-      r: 0,
-      g: 0,
-      b: 0,
-      a: round(byte / 255, 2),
-    });
+    expect(colord(`#000${digit}`).toRgb()).toMatchObject({ r: 0, g: 0, b: 0 });
+    if (nibble < 15) expect(colord(`#000${digit}`).toHex()).toBe(`#000000${digit}${digit}`);
   }
 
   // A HEX string with an unsupported digit count is not a color.
@@ -419,6 +417,114 @@ it("Checks colors for equality", () => {
     expect(instance.isEqual(lime["hslString"] as AnyColor)).toBe(true);
     expect(instance.isEqual(lime["hsv"] as AnyColor)).toBe(true);
     expect(instance.isEqual(otherColor)).toBe(false);
+  }
+});
+
+it("Keeps every HEX alpha byte intact through the core conversions", () => {
+  for (let byte = 0; byte < 256; byte++) {
+    const hex8 = `#3366cc${byte.toString(16).padStart(2, "0")}`;
+    const color = colord(hex8);
+    const alpha = color.alpha();
+
+    // Whatever the alpha is printed as, it has to stand for the byte it came from
+    expect(round(alpha * 255)).toBe(byte);
+
+    // Every core model reports that same alpha, and reading any of them back
+    // yields it again — an alpha never drifts by travelling through a notation
+    const notations: AnyColor[] = [
+      color.toHex(),
+      color.toRgb(),
+      color.toRgbString(),
+      color.toHsl(),
+      color.toHslString(),
+      color.toHsv(),
+    ];
+
+    expect(color.toRgb().a).toBe(alpha);
+    expect(color.toHsl().a).toBe(alpha);
+    expect(color.toHsv().a).toBe(alpha);
+
+    for (const notation of notations) {
+      expect(colord(notation).alpha()).toBe(alpha);
+      expect(round(colord(notation).alpha() * 255)).toBe(byte);
+    }
+
+    // RGB carries the channels losslessly too, so the whole color survives it
+    expect(colord(color.toRgb()).toHex()).toBe(color.toHex());
+    expect(colord(color.toRgbString()).toHex()).toBe(color.toHex());
+  }
+});
+
+it("Shortens an alpha value only when the short form means the same byte", () => {
+  // https://github.com/omgovich/colord/issues/97
+  expect(colord("#cc88").toHex()).toBe("#cccc8888");
+
+  for (let byte = 0; byte < 256; byte++) {
+    const hex8 = `#000000${byte.toString(16).padStart(2, "0")}`;
+    const short = round(byte / 255, 2);
+    // 101 of the 256 bytes are expressible in two digits and have always been
+    // printed that way; the other 155 need all three to point back at the byte
+    const expected = round(short * 255) === byte ? short : round(byte / 255, 3);
+    expect(colord(hex8).alpha()).toBe(expected);
+  }
+
+  // An alpha that is not an 8-bit ratio is never pulled to a shorter value
+  for (let permille = 0; permille <= 1000; permille++) {
+    const value = round(permille / 1000, 3);
+    expect(colord(`rgba(0, 0, 0, ${value})`).alpha()).toBe(value);
+    expect(colord({ r: 0, g: 0, b: 0, a: value }).toRgb().a).toBe(value);
+  }
+
+  // The rule is about the value, not about the notation it arrived in: an 8-bit
+  // ratio handed over directly is the same alpha as the HEX byte, and prints alike.
+  // This is a change from 2.10.0, where the two disagreed — `#00000080` said 0.5
+  // and `{ a: 128 / 255 }` said 0.502, for one and the same color.
+  for (let byte = 0; byte < 256; byte++) {
+    const exact = byte / 255;
+    const fromHex = colord(`#000000${byte.toString(16).padStart(2, "0")}`).alpha();
+    expect(colord({ r: 0, g: 0, b: 0, a: exact }).alpha()).toBe(fromHex);
+    expect(colord(`rgba(0, 0, 0, ${exact})`).alpha()).toBe(fromHex);
+  }
+});
+
+it("Never emits an alpha value longer than 3 digits after the decimal point", () => {
+  // Every one of these needs rounding on the way out: raw 8-bit ratios, the
+  // classic float noise, and thirds that never terminate
+  const uglyAlphas = [
+    1 / 255,
+    128 / 255,
+    254 / 255,
+    1 / 3,
+    2 / 3,
+    0.1 + 0.2,
+    0.123456789,
+    0.0039000000000000003,
+    Math.PI / 4,
+  ];
+
+  const inputs: AnyColor[] = [];
+  for (const alpha of uglyAlphas) {
+    inputs.push({ r: 51, g: 102, b: 204, a: alpha });
+    inputs.push(`rgba(51, 102, 204, ${alpha})`);
+    inputs.push(`hsla(210, 60%, 50%, ${alpha})`);
+    inputs.push(`hsl(210 60% 50% / ${alpha})`);
+  }
+  for (const input of inputs) {
+    // Manipulations must not reintroduce the precision the parser dropped
+    for (const color of [
+      colord(input),
+      colord(input).lighten(1 / 3),
+      colord(input).alpha(colord(input).alpha() * (2 / 3)),
+      colord(input).invert(),
+    ]) {
+      for (const value of [color.alpha(), color.toRgb().a, color.toHsl().a, color.toHsv().a]) {
+        expect(round(value, 3)).toBe(value);
+      }
+      // Nothing a serializer prints carries a longer fraction, alpha included
+      for (const string of [color.toRgbString(), color.toHslString(), color.toHex()]) {
+        expect(string).not.toMatch(/\.\d{4}/);
+      }
+    }
   }
 });
 

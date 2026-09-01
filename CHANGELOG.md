@@ -1,3 +1,7 @@
+### 2.10.1
+
+- Fix: Read the alpha byte of a HEX color exactly, so `#cc88` no longer comes back as `#cccc8887` ❤️ [@spokodev](https://github.com/spokodev)
+
 ### 2.10.0
 
 - Improve `mix` plugin by adding an optional `"rgb"` interpolation mode to `mix`, `tints`, `tones` and `shades`
