@@ -1,6 +1,6 @@
 import { Colord } from "../colord";
 import { Plugin } from "../extend";
-import { round } from "../helpers";
+import { roundAlpha } from "../helpers";
 
 interface MinificationOptions {
   hex?: boolean;
@@ -28,8 +28,10 @@ const minifyPlugin: Plugin = (ColordClass): void => {
     const alpha = instance.alpha();
     const [, r1, r2, g1, g2, b1, b2, a1, a2] = hex.split("");
 
-    // Make sure conversion is lossless
-    if (alpha > 0 && alpha < 1 && round(parseInt(a1 + a2, 16) / 255, 2) !== alpha) return null;
+    // Make sure conversion is lossless: the alpha byte has to read back as the very
+    // alpha this color has. It is the same rounding rule the whole library prints
+    // through, so 0x88 keeps its own byte instead of drifting into 0x87.
+    if (alpha > 0 && alpha < 1 && roundAlpha(parseInt(a1 + a2, 16) / 255) !== alpha) return null;
 
     // Check if the string can be shorten
     if (r1 === r2 && g1 === g2 && b1 === b2) {
@@ -92,10 +94,10 @@ const minifyPlugin: Plugin = (ColordClass): void => {
       if (hex) variants.push(hex);
     }
 
-    // rgb() functional notation with no spaces
-    if (settings.rgb) {
-      variants.push(a === 1 ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${a})`);
-    }
+    // rgb() functional notation with no spaces. It is the one form that can hold
+    // any color, so it doubles as the answer when every other one is turned down
+    const rgbVariant = a === 1 ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${a})`;
+    if (settings.rgb) variants.push(rgbVariant);
 
     // hsl() functional notation with no spaces
     if (settings.hsl) {
@@ -111,7 +113,7 @@ const minifyPlugin: Plugin = (ColordClass): void => {
       if (name) variants.push(name);
     }
 
-    return findShortestString(variants);
+    return variants.length ? findShortestString(variants) : rgbVariant;
   };
 };
 
