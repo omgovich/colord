@@ -1,6 +1,7 @@
 ### 2.10.1
 
 - Fix: Read the alpha byte of a HEX color exactly, so `#cc88` no longer comes back as `#cccc8887` ❤️ [@spokodev](https://github.com/spokodev)
+- Fix: Stop `minify` from turning down an alpha hex that holds the color exactly, and from returning nothing at all when every notation is switched off
 
 ### 2.10.0
 

@@ -1,4 +1,5 @@
-import { colord, getFormat, extend, Colord } from "../src/";
+import { colord, getFormat, extend, Colord, AnyColor } from "../src/";
+import { round } from "../src/helpers";
 import a11yPlugin from "../src/plugins/a11y";
 import cmykPlugin from "../src/plugins/cmyk";
 import harmoniesPlugin, { HarmonyType } from "../src/plugins/harmonies";
@@ -343,16 +344,46 @@ describe("minify", () => {
     expect(colord("rgba(200,200,200,0.55)").minify({ hsl: false })).toBe("rgba(200,200,200,.55)");
   });
 
+  it("Never returns a color other than the one it was given", () => {
+    // The HSL variant rounds its channels and can name a different color; that is a
+    // separate, older issue, so this locks the notations that are meant to be exact
+    for (let byte = 1; byte < 255; byte += 7) {
+      const digits = byte.toString(16).padStart(2, "0");
+      for (const rgb of ["#123456", "#3366cc", "#7f8081", "#000000"]) {
+        for (const options of [{ alphaHex: true, hsl: false }, { hsl: false }]) {
+          const color = colord(`${rgb}${digits}`);
+          expect(colord(color.minify(options)).toRgbString()).toBe(color.toRgbString());
+        }
+      }
+    }
+  });
+
   it("Supports alpha hexes", () => {
     expect(colord("hsla(0, 100%, 50%, .5)").minify()).toBe("rgba(255,0,0,.5)");
     expect(colord("hsla(0, 100%, 50%, .5)").minify({ alphaHex: true })).toBe("#ff000080");
     expect(colord("rgba(0, 0, 255, 0.4)").minify({ alphaHex: true })).toBe("#00f6");
+    // A color read from a HEX keeps its own byte instead of drifting to a neighbour
+    expect(colord("#cc88").minify({ alphaHex: true })).toBe("#cc88");
   });
 
   it("Performs lossless minification (handles alpha hex issues)", () => {
     expect(colord("rgba(0,0,0,.4)").minify({ alphaHex: true })).toBe("#0006");
-    expect(colord("rgba(0,0,0,.075)").minify({ alphaHex: true })).toBe("rgba(0,0,0,.075)");
+    // 0x13 reads back as exactly `.075`, so the shorter form is the same color...
+    expect(colord("rgba(0,0,0,.075)").minify({ alphaHex: true })).toBe("#00000013");
+    // ...while no byte reads back as `.515`: 0x83 would come back as `.514`
     expect(colord("hsla(0,0%,50%,.515)").minify({ alphaHex: true })).toBe("hsla(0,0%,50%,.515)");
+    expect(colord("#0000000d").minify({ alphaHex: true })).toBe("#0000000d");
+    // With every other notation turned down or switched off, RGB is the answer:
+    // it is the only one that can hold any color at all
+    expect(colord("hsla(0,0%,50%,.515)").minify({ rgb: false, hsl: false })).toBe(
+      "rgba(128,128,128,.515)"
+    );
+    // No alpha is ever traded for a byte that reads back as a different one
+    for (let permille = 1; permille < 1000; permille++) {
+      const alpha = permille / 1000;
+      const minified = colord(`rgba(0,0,0,${alpha})`).minify({ alphaHex: true });
+      expect(colord(minified).alpha()).toBe(alpha);
+    }
   });
 
   it("Supports names", () => {
@@ -521,4 +552,83 @@ describe("xyz", () => {
   it("Supported by `getFormat`", () => {
     expect(getFormat({ x: 50, y: 50, z: 50 })).toBe("xyz");
   });
+});
+
+describe("alpha channel", () => {
+  extend([cmykPlugin, hwbPlugin, labPlugin, lchPlugin, minifyPlugin, xyzPlugin]);
+
+  it("Survives every plugin conversion, for every HEX alpha byte", () => {
+    for (let byte = 0; byte < 256; byte++) {
+      const hex8 = `#3366cc${byte.toString(16).padStart(2, "0")}`;
+      const color = colord(hex8);
+      const alpha = color.alpha();
+
+      // The models below round their channels, so only the alpha is expected to
+      // come back untouched — but it has to, and it has to still mean its byte
+      const notations: AnyColor[] = [
+        color.toHwb(),
+        color.toHwbString(),
+        color.toLab(),
+        color.toLch(),
+        color.toLchString(),
+        color.toXyz(),
+        color.toCmyk(),
+        color.toCmykString(),
+      ];
+
+      expect(color.toHwb().a).toBe(alpha);
+      expect(color.toLab().alpha).toBe(alpha);
+      expect(color.toLch().a).toBe(alpha);
+      expect(color.toXyz().a).toBe(alpha);
+      expect(color.toCmyk().a).toBe(alpha);
+
+      for (const notation of notations) {
+        expect(colord(notation).alpha()).toBe(alpha);
+        expect(Math.round(colord(notation).alpha() * 255)).toBe(byte);
+      }
+    }
+  });
+
+  it("Never emits an alpha value longer than 3 digits, in any plugin", () => {
+    extend([harmoniesPlugin, mixPlugin]);
+
+    const uglyAlphas = [1 / 255, 128 / 255, 254 / 255, 1 / 3, 0.1 + 0.2, 0.123456789];
+    const inputs: AnyColor[] = [];
+    for (const alpha of uglyAlphas) inputs.push({ r: 51, g: 102, b: 204, a: alpha });
+    for (let byte = 0; byte < 256; byte += 7) {
+      inputs.push(`#3366cc${byte.toString(16).padStart(2, "0")}`);
+    }
+
+    for (const input of inputs) {
+      const source = colord(input);
+      // Whatever a plugin hands back is a color too, and has to obey the same rule
+      for (const color of [
+        source,
+        source.mix("#fff", 1 / 3),
+        source.tints(3)[1],
+        ...source.harmonies("triadic"),
+      ]) {
+        for (const value of [
+          color.alpha(),
+          color.toHwb().a,
+          color.toLab().alpha,
+          color.toLch().a,
+          color.toXyz().a,
+          color.toCmyk().a,
+        ]) {
+          expect(round(value, 3)).toBe(value);
+        }
+
+        for (const string of [
+          color.toHwbString(),
+          color.toLchString(),
+          color.toCmykString(),
+          color.minify({ alphaHex: true }),
+        ]) {
+          expect(string).not.toMatch(/\.\d{4}/);
+        }
+      }
+    }
+  });
+
 });
