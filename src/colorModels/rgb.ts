@@ -1,6 +1,5 @@
 import { InputObject, RgbaColor } from "../types";
-import { ALPHA_PRECISION } from "../constants";
-import { round, clamp, isPresent } from "../helpers";
+import { round, roundAlpha, clamp, isPresent } from "../helpers";
 
 export const clampRgba = (rgba: RgbaColor): RgbaColor => ({
   r: clamp(rgba.r, 0, 255),
@@ -13,7 +12,7 @@ export const roundRgba = (rgba: RgbaColor): RgbaColor => ({
   r: round(rgba.r),
   g: round(rgba.g),
   b: round(rgba.b),
-  a: round(rgba.a, ALPHA_PRECISION),
+  a: roundAlpha(rgba.a),
 });
 
 export const parseRgba = ({ r, g, b, a = 1 }: InputObject): RgbaColor | null => {

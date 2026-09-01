@@ -1,6 +1,5 @@
 import { RgbaColor, LabaColor, InputObject } from "../types";
-import { ALPHA_PRECISION } from "../constants";
-import { clamp, isPresent, round } from "../helpers";
+import { clamp, isPresent, round, roundAlpha } from "../helpers";
 import { D50, rgbaToXyza, xyzaToRgba } from "./xyz";
 
 // Conversion factors from https://en.wikipedia.org/wiki/CIELAB_color_space
@@ -26,7 +25,7 @@ export const roundLaba = (laba: LabaColor): LabaColor => ({
   l: round(laba.l, 2),
   a: round(laba.a, 2),
   b: round(laba.b, 2),
-  alpha: round(laba.alpha, ALPHA_PRECISION),
+  alpha: roundAlpha(laba.alpha),
 });
 
 export const parseLaba = ({ l, a, b, alpha = 1 }: InputObject): RgbaColor | null => {

@@ -1,6 +1,5 @@
 import { InputObject, RgbaColor, HslaColor, HsvaColor } from "../types";
-import { ALPHA_PRECISION } from "../constants";
-import { clamp, clampHue, round, roundHue, isPresent } from "../helpers";
+import { clamp, clampHue, round, roundAlpha, roundHue, isPresent } from "../helpers";
 import { hsvaToRgba, rgbaToHsva } from "./hsv";
 
 export const clampHsla = (hsla: HslaColor): HslaColor => ({
@@ -14,7 +13,7 @@ export const roundHsla = (hsla: HslaColor): HslaColor => ({
   h: roundHue(hsla.h),
   s: round(hsla.s),
   l: round(hsla.l),
-  a: round(hsla.a, ALPHA_PRECISION),
+  a: roundAlpha(hsla.a),
 });
 
 export const parseHsla = ({ h, s, l, a = 1 }: InputObject): RgbaColor | null => {

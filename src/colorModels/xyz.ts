@@ -1,6 +1,5 @@
 import { InputObject, RgbaColor, XyzColor, XyzaColor } from "../types";
-import { ALPHA_PRECISION } from "../constants";
-import { clamp, isPresent, round } from "../helpers";
+import { clamp, isPresent, round, roundAlpha } from "../helpers";
 import { clampRgba, linearizeRgbChannel, unlinearizeRgbChannel } from "./rgb";
 
 // Theoretical light source that approximates "warm daylight" and follows the CIE standard.
@@ -25,7 +24,7 @@ export const roundXyza = (xyza: XyzaColor): XyzaColor => ({
   x: round(xyza.x, 2),
   y: round(xyza.y, 2),
   z: round(xyza.z, 2),
-  a: round(xyza.a, ALPHA_PRECISION),
+  a: roundAlpha(xyza.a),
 });
 
 export const parseXyza = ({ x, y, z, a = 1 }: InputObject): RgbaColor | null => {
