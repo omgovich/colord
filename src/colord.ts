@@ -1,6 +1,5 @@
 import { Input, AnyColor, RgbaColor, HslaColor, HsvaColor } from "./types";
-import { round, roundHue } from "./helpers";
-import { ALPHA_PRECISION } from "./constants";
+import { round, roundAlpha, roundHue } from "./helpers";
 import { parse } from "./parse";
 import { rgbaToHex } from "./colorModels/hex";
 import { roundRgba } from "./colorModels/rgb";
@@ -162,7 +161,7 @@ export class Colord {
   public alpha(value: number): Colord;
   public alpha(value?: number): Colord | number {
     if (typeof value === "number") return colord(changeAlpha(this.rgba, value));
-    return round(this.rgba.a, ALPHA_PRECISION);
+    return roundAlpha(this.rgba.a);
   }
 
   /**
