@@ -85,7 +85,7 @@ describe("cmyk", () => {
     // https://en.wikipedia.org/wiki/CMYK_color_model
     expect(colord("#999966").toCmykString()).toBe("device-cmyk(0% 0% 33% 40%)");
     expect(colord("#99ffff").toCmykString()).toBe("device-cmyk(40% 0% 0% 0%)");
-    expect(colord("#00336680").toCmykString()).toBe("device-cmyk(100% 50% 0% 60% / 0.5)");
+    expect(colord("#00336680").toCmykString()).toBe("device-cmyk(100% 50% 0% 60% / 0.502)");
   });
 
   it("Supported by `getFormat`", () => {
@@ -196,7 +196,7 @@ describe("hwb", () => {
     // https://en.wikipedia.org/wiki/HWB_color_model
     expect(colord("#999966").toHwbString()).toBe("hwb(60 40% 40%)");
     expect(colord("#99ffff").toHwbString()).toBe("hwb(180 60% 0%)");
-    expect(colord("#00336680").toHwbString()).toBe("hwb(210 0% 60% / 0.5)");
+    expect(colord("#00336680").toHwbString()).toBe("hwb(210 0% 60% / 0.502)");
   });
 
   it("Supports all valid CSS angle units", () => {
@@ -233,7 +233,12 @@ describe("lab", () => {
     expect(colord("#00ff00").toLab()).toMatchObject({ l: 87.82, a: -79.29, b: 80.99, alpha: 1 });
     expect(colord("#ffff00").toLab()).toMatchObject({ l: 97.61, a: -15.75, b: 93.39, alpha: 1 });
     expect(colord("#aabbcc").toLab()).toMatchObject({ l: 74.97, a: -3.4, b: -10.7, alpha: 1 });
-    expect(colord("#33221180").toLab()).toMatchObject({ l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 });
+    expect(colord("#33221180").toLab()).toMatchObject({
+      l: 15.05,
+      a: 6.68,
+      b: 14.59,
+      alpha: 0.502,
+    });
     expect(colord("#d53987").toLab()).toMatchObject({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 });
   });
 
@@ -298,7 +303,7 @@ describe("lch", () => {
     expect(colord("#c65d06").toLch()).toMatchObject({ l: 52.31, c: 72.21, h: 56.33, a: 1 });
     expect(colord("#9d9318").toLch()).toMatchObject({ l: 60.31, c: 59.2, h: 95.46, a: 1 });
     expect(colord("#68a639").toLch()).toMatchObject({ l: 62.22, c: 59.15, h: 126.15, a: 1 });
-    expect(colord("#62acef80").toLch()).toMatchObject({ l: 67.67, c: 42.18, h: 257.79, a: 0.5 });
+    expect(colord("#62acef80").toLch()).toMatchObject({ l: 67.67, c: 42.18, h: 257.79, a: 0.502 });
   });
 
   it("Keeps the LCH hue within [0, 360)", () => {
@@ -311,9 +316,9 @@ describe("lch", () => {
 
   it("Converts a color to CIE LCH string (CSS functional notation)", () => {
     // https://cielab.xyz/colorconv/
-    expect(colord("#00000080").toLchString()).toBe("lch(0% 0 0 / 0.5)");
+    expect(colord("#00000080").toLchString()).toBe("lch(0% 0 0 / 0.502)");
     expect(colord("#ffffff").toLchString()).toBe("lch(100% 0 0)");
-    expect(colord("#c65d06ed").toLchString()).toBe("lch(52.31% 72.21 56.33 / 0.93)");
+    expect(colord("#c65d06ed").toLchString()).toBe("lch(52.31% 72.21 56.33 / 0.929)");
     expect(colord("#aabbcc").toLchString()).toBe("lch(74.97% 11.22 252.37)");
   });
 

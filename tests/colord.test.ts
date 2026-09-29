@@ -126,7 +126,8 @@ it("Parses modern HSL functional notations", () => {
 
 it("Supports HEX4 and HEX8 color models", () => {
   expect(colord("#ffffffff").toRgb()).toMatchObject({ r: 255, g: 255, b: 255, a: 1 });
-  expect(colord("#80808080").toRgb()).toMatchObject({ r: 128, g: 128, b: 128, a: 0.5 });
+  // 0x80 / 255 = 0.5019..., which needs all 3 digits of ALPHA_PRECISION to round-trip exactly.
+  expect(colord("#80808080").toRgb()).toMatchObject({ r: 128, g: 128, b: 128, a: 0.502 });
   expect(colord("#AAAF").toRgb()).toMatchObject({ r: 170, g: 170, b: 170, a: 1 });
   expect(colord("#5550").toRgb()).toMatchObject({ r: 85, g: 85, b: 85, a: 0 });
   expect(colord({ r: 255, g: 255, b: 255, a: 1 }).toHex()).toBe("#ffffff");
@@ -146,7 +147,7 @@ it("Parses and serializes every HEX digit exactly", () => {
       r: byte,
       g: byte,
       b: byte,
-      a: round(byte / 255, 2),
+      a: round(byte / 255, 3),
     });
   }
 
@@ -164,7 +165,7 @@ it("Parses and serializes every HEX digit exactly", () => {
       r: 0,
       g: 0,
       b: 0,
-      a: round(byte / 255, 2),
+      a: round(byte / 255, 3),
     });
   }
 
@@ -194,6 +195,26 @@ it("Parses shorthand alpha values", () => {
   expect(colord("rgba(0, 0, 0, .5)").alpha()).toBe(0.5);
   expect(colord("rgba(50% 50% 50% / .999%)").alpha()).toBe(0.01);
   expect(colord("hsla(0, 0%, 0%, .25)").alpha()).toBe(0.25);
+});
+
+it("Round-trips every Hex4/Hex8 alpha byte through RGB without drift", () => {
+  // Every nibble/byte must survive a Hex -> RGB(A) string -> Hex round trip,
+  // since a channel value can only take on 256 distinct states.
+  for (let nibble = 0; nibble < 16; nibble++) {
+    const digit = nibble.toString(16);
+    const hex4 = `#000${digit}`;
+    const byte = nibble * 0x11;
+    // toHex() always expands to Hex6/Hex8, and a fully opaque alpha nibble (0xf) drops the alpha byte.
+    const expectedHex = byte === 255 ? "#000000" : `#000000${byte.toString(16).padStart(2, "0")}`;
+    expect(colord(colord(hex4).toRgbString()).toHex()).toBe(expectedHex);
+  }
+  for (let byte = 0; byte <= 255; byte++) {
+    const alphaHex = byte.toString(16).padStart(2, "0");
+    const hex8 = `#000000${alphaHex}`;
+    // A fully opaque color (alpha byte 0xff) always serializes back as Hex6.
+    const expectedHex = byte === 255 ? "#000000" : hex8;
+    expect(colord(colord(hex8).toRgbString()).toHex()).toBe(expectedHex);
+  }
 });
 
 it("Ignores invalid color formats", () => {

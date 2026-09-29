@@ -1,3 +1,7 @@
+### 2.10.1
+
+- Fix: Round Hex4/Hex8 alpha with the same precision used everywhere else, so alpha no longer drifts by a byte on a Hex -> RGB -> Hex round trip ❤️ [@afonsojanu](https://github.com/afonsojanu)
+
 ### 2.10.0
 
 - Improve `mix` plugin by adding an optional `"rgb"` interpolation mode to `mix`, `tints`, `tones` and `shades`
