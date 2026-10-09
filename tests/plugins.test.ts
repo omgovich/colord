@@ -394,6 +394,19 @@ describe("mix", () => {
     expect(colord("#000000").mix("#000000").toHex()).toBe("#000000");
   });
 
+  it("Preserves white when a mixture is subsequently darkened", () => {
+    expect(colord("#ffffff").mix("#0000ff", 0).darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#0000ff").mix("#ffffff", 1).darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#ffffff").mix("#ffffff").darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#ffffff").mix("#ffffff", 0.25).toHsl().s).toBe(0);
+    expect(colord("#ffffff").mix("#ffffff", 0.75).toHsl().s).toBe(0);
+  });
+
+  it("Interpolates alpha without changing identical RGB channels", () => {
+    expect(colord("#ffffff").mix("#ffffff00").rgba).toEqual({ r: 255, g: 255, b: 255, a: 0.5 });
+    expect(colord("#ff0000").mix("#ff000000", 0.25).rgba).toEqual({ r: 255, g: 0, b: 0, a: 0.75 });
+  });
+
   const check = (colors: Colord[], expected: string[]) => {
     const hexes = colors.map((value) => value.toHex());
     return expect(hexes).toEqual(expected);
