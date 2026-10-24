@@ -70,5 +70,5 @@ export const roundHue = (degrees: number, digits = 0): number => {
  * Converts a hue value to degrees from 0 to 360 inclusive.
  */
 export const parseHue = (value: string, unit = "deg"): number => {
-  return Number(value) * (ANGLE_UNITS[unit] || 1);
+  return Number(value) * (ANGLE_UNITS[unit.toLowerCase()] || 1);
 };

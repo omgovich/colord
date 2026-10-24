@@ -210,6 +210,13 @@ describe("hwb", () => {
     expect(colord("hwb(1.5708rad 20% 20%)").toHwb().h).toBe(90);
   });
 
+  it.each(["90DEG", "100GRAD", ".25TURN", "1.5708RAD", "90dEg", "100gRaD", ".25tUrN", "1.5708rAd"])(
+    "Parses case-insensitive HWB angle unit %s",
+    (hue) => {
+      expect(colord(`hwb(${hue} 20% 20%)`).toHwb().h).toBe(90);
+    }
+  );
+
   it("Supported by `getFormat`", () => {
     expect(getFormat("hwb(180deg 50% 50%)")).toBe("hwb");
     expect(getFormat({ h: 0, w: 0, b: 100 })).toBe("hwb");
@@ -327,6 +334,13 @@ describe("lch", () => {
     expect(colord("lch(50% 50 0.25turn)").toLch().h).toBe(90);
     expect(colord("lch(50% 50 1.5708rad)").toLch().h).toBe(90);
   });
+
+  it.each(["90DEG", "100GRAD", ".25TURN", "1.5708RAD", "90dEg", "100gRaD", ".25tUrN", "1.5708rAd"])(
+    "Parses case-insensitive LCH angle unit %s",
+    (hue) => {
+      expect(colord(`lch(50% 50 ${hue})`).toLch().h).toBe(90);
+    }
+  );
 
   it("Supported by `getFormat`", () => {
     expect(getFormat("lch(50% 50 180deg)")).toBe("lch");
