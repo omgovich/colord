@@ -47,7 +47,7 @@ export const clampHue = (degrees: number): number => {
  * Examples: 359.6 => 0, 12.4 => 12
  */
 export const roundHue = (degrees: number, digits = 0): number => {
-  return round(degrees, digits) % 360;
+  return ((round(degrees, digits) % 360) + 360) % 360;
 };
 
 /**
