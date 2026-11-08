@@ -15,6 +15,22 @@ export const floor = (number: number, digits = 0, base = Math.pow(10, digits)): 
 };
 
 /**
+ * Rounds an alpha value for output.
+ *
+ * Two digits are not enough: an alpha read from a HEX is an exact 8-bit ratio, and
+ * rounding 155 of the 256 of them that way sends the color back as a different byte.
+ * Three digits hold every byte, but the short form is kept wherever it names the very
+ * same one, which is how 0x80 stays 0.5 rather than 0.502 — the way browsers print it.
+ *
+ * The factors are spelled out instead of calling `round`, which recomputes
+ * `Math.pow(10, digits)` on every call, and this runs on the way out of every model.
+ */
+export const roundAlpha = (alpha: number): number => {
+  const short = Math.round(alpha * 100) / 100;
+  return Math.round(short * 255) === alpha * 255 ? short : Math.round(alpha * 1000) / 1000;
+};
+
+/**
  * Clamps a value between an upper and lower bound.
  * We use ternary operators because it makes the minified code
  * is 2 times shorter then `Math.min(Math.max(a,b),c)`
