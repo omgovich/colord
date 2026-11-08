@@ -68,13 +68,15 @@ jobs:
           node-version: 24
           package-manager-cache: false
           registry-url: "https://registry.npmjs.org"
-      # Trusted publishing needs npm 11.5.1+
-      - run: npm install -g npm@11
-      - run: npm ci
+      # Trusted publishing needs npm 11.5.1+. Pinned: this job can mint publish credentials.
+      - run: npm install -g npm@11.21.1
+      - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm run check-types
       - run: npm run test
       - run: npm run size
+      # Skips `npm publish` when the version is already on npm, so "Re-run failed jobs"
+      # can finish the tag and GitHub Release after a partial failure.
       - uses: changesets/action/publish@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
           script: npm run changeset:publish

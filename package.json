@@ -120,7 +120,7 @@
     "release": "npm run build && cp *.json dist && cp *.md dist && npm publish ./dist",
     "check-release": "npm run release -- --dry-run",
     "changeset:version": "changeset version && npm install --package-lock-only --ignore-scripts",
-    "changeset:publish": "npm run release && changeset git-tag"
+    "changeset:publish": "(npm view colord@$npm_package_version version >/dev/null 2>&1 || npm run release) && changeset git-tag"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
