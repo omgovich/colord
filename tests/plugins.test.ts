@@ -674,6 +674,10 @@ describe("oklab", () => {
 
   it("Treats objects without the `ok` marker as CIE LAB", () => {
     expect(getFormat({ l: 0.628, a: 0.2249, b: 0.1258 })).toBe("lab");
+    // Only the exact `ok: true` marker means OKLab
+    expect(getFormat({ l: 50, a: 10, b: 10, ok: 1 })).toBe("lab");
+    expect(getFormat({ l: 50, a: 10, b: 10, ok: "true" })).toBe("lab");
+    expect(getFormat({ l: 50, a: 10, b: 10, ok: false })).toBe("lab");
   });
 
   it("Parses marked objects regardless of plugin registration order", () => {
@@ -766,6 +770,10 @@ describe("oklch", () => {
 
   it("Treats objects without the `ok` marker as CIE LCH", () => {
     expect(getFormat({ l: 0.5, c: 0.1, h: 20 })).toBe("lch");
+    // Only the exact `ok: true` marker means OKLCH
+    expect(getFormat({ l: 50, c: 10, h: 20, ok: 1 })).toBe("lch");
+    expect(getFormat({ l: 50, c: 10, h: 20, ok: "true" })).toBe("lch");
+    expect(getFormat({ l: 50, c: 10, h: 20, ok: false })).toBe("lch");
   });
 
   it("Parses marked objects regardless of plugin registration order", () => {
