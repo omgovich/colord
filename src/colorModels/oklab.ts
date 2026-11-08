@@ -18,11 +18,12 @@ export const clampOklaba = (laba: OklabaColor): OklabaColor => ({
 });
 
 export const roundOklaba = (laba: OklabaColor): OklabaColor => ({
-  // OKLab scales are ~100 times smaller than CIE LAB's ([0, 1] vs [0, 100]),
-  // so the 2 decimal places used by the CIE models would be too coarse
+  // OKLab scales are much smaller than CIE LAB's (L in [0, 1], a/b within ±0.4),
+  // so the 2 decimal places used by the CIE models would be too coarse.
+  // These are the shortest precisions that round-trip all 16.7M sRGB colors losslessly.
   l: round(laba.l, 4),
-  a: round(laba.a, 4),
-  b: round(laba.b, 4),
+  a: round(laba.a, 5),
+  b: round(laba.b, 5),
   alpha: roundAlpha(laba.alpha),
   ok: true,
 });

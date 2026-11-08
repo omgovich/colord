@@ -17,9 +17,9 @@ export const clampOklcha = (lcha: OklchaColor): OklchaColor => ({
 });
 
 export const roundOklcha = (lcha: OklchaColor): OklchaColor => ({
-  // See the note in `roundOklaba`: OKLab scales require finer rounding than CIE's
+  // See the note in `roundOklaba`: the shortest precisions that round-trip losslessly
   l: round(lcha.l, 4),
-  c: round(lcha.c, 4),
+  c: round(lcha.c, 5),
   h: roundHue(lcha.h, 2),
   a: roundAlpha(lcha.a),
   ok: true,

@@ -390,7 +390,7 @@ import oklabPlugin from "colord/plugins/oklab";
 extend([oklabPlugin]);
 
 colord("#ffffff").toOklab(); // { l: 1, a: 0, b: 0, alpha: 1, ok: true }
-colord("#ff6347").toOklab(); // { l: 0.6962, a: 0.1652, b: 0.1045, alpha: 1, ok: true }
+colord("#ff6347").toOklab(); // { l: 0.6962, a: 0.16523, b: 0.10454, alpha: 1, ok: true }
 ```
 
 </details>
@@ -407,7 +407,7 @@ import oklabPlugin from "colord/plugins/oklab";
 extend([oklabPlugin]);
 
 colord("#ffffff").toOklabString(); // "oklab(1 0 0)"
-colord("#ff6347").toOklabString(); // "oklab(0.6962 0.1652 0.1045)"
+colord("#ff6347").toOklabString(); // "oklab(0.6962 0.16523 0.10454)"
 ```
 
 </details>
@@ -424,7 +424,7 @@ import oklchPlugin from "colord/plugins/oklch";
 extend([oklchPlugin]);
 
 colord("#ffffff").toOklch(); // { l: 1, c: 0, h: 0, a: 1, ok: true }
-colord("#008080").toOklch(); // { l: 0.5431, c: 0.0927, h: 194.77, a: 1, ok: true }
+colord("#008080").toOklch(); // { l: 0.5431, c: 0.09271, h: 194.77, a: 1, ok: true }
 ```
 
 </details>
@@ -441,7 +441,7 @@ import oklchPlugin from "colord/plugins/oklch";
 extend([oklchPlugin]);
 
 colord("#ffffff").toOklchString(); // "oklch(1 0 0)"
-colord("#008080").alpha(0.5).toOklchString(); // "oklch(0.5431 0.0927 194.77 / 0.5)"
+colord("#008080").alpha(0.5).toOklchString(); // "oklch(0.5431 0.09271 194.77 / 0.5)"
 ```
 
 </details>
@@ -1104,7 +1104,7 @@ colord("oklab(0.628 0.2249 0.1258)").toHex(); // "#ff0000"
 colord({ l: 0.628, a: 0.2249, b: 0.1258, ok: true }).toHex(); // "#ff0000"
 
 colord("#ffffff").toOklab(); // { l: 1, a: 0, b: 0, alpha: 1, ok: true }
-colord("#ff6347").toOklabString(); // "oklab(0.6962 0.1652 0.1045)"
+colord("#ff6347").toOklabString(); // "oklab(0.6962 0.16523 0.10454)"
 ```
 
 </details>
@@ -1123,10 +1123,10 @@ import oklchPlugin from "colord/plugins/oklch";
 extend([oklchPlugin]);
 
 colord("oklch(0.5 0.2 240)").toHex(); // "#0069c7"
-colord({ l: 0.5431, c: 0.0927, h: 194.77, ok: true }).toHex(); // "#008080"
+colord({ l: 0.5431, c: 0.09271, h: 194.77, ok: true }).toHex(); // "#008080"
 
-colord("#008080").toOklch(); // { l: 0.5431, c: 0.0927, h: 194.77, a: 1, ok: true }
-colord("#008080").alpha(0.5).toOklchString(); // "oklch(0.5431 0.0927 194.77 / 0.5)"
+colord("#008080").toOklch(); // { l: 0.5431, c: 0.09271, h: 194.77, a: 1, ok: true }
+colord("#008080").alpha(0.5).toOklchString(); // "oklch(0.5431 0.09271 194.77 / 0.5)"
 ```
 
 </details>
