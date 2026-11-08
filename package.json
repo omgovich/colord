@@ -23,7 +23,10 @@
     "minify",
     "harmonies"
   ],
-  "repository": "omgovich/colord",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omgovich/colord.git"
+  },
   "author": "Vlad Shilov <omgovich@ya.ru>",
   "license": "MIT",
   "sideEffects": false,
@@ -115,9 +118,12 @@
     "benchmark": "tsc --outDir bench --skipLibCheck --esModuleInterop ./tests/benchmark.ts && node ./bench/tests/benchmark.js; code=$?; rm -rf ./bench; exit $code",
     "build": "rm -rf ./dist/* && rollup --config",
     "release": "npm run build && cp *.json dist && cp *.md dist && npm publish ./dist",
-    "check-release": "npm run release -- --dry-run"
+    "check-release": "npm run release -- --dry-run",
+    "changeset:version": "changeset version && npm install --package-lock-only --ignore-scripts",
+    "changeset:publish": "(npm view colord@$npm_package_version version >/dev/null 2>&1 || npm run release) && changeset git-tag"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/jest": "^26.0.22",
     "@typescript-eslint/eslint-plugin": "^4.19.0",

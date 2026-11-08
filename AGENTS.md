@@ -65,12 +65,12 @@ When writing parsing regexes, spell numbers as `(?:\d*\.\d+|\d+)`, never `\d*\.?
 
 `npm run release` builds and publishes **`./dist`** (with package.json and .md files copied in), so the npm package root is `dist/`: users import `colord` and `colord/plugins/lch`, while paths in this repo are `src/...`. The `files`/`exports` fields in package.json describe the dist layout, not the repo layout.
 
-**Never run `npm run release` (or `npm publish`) without explicit approval from the maintainer.** Use `npm run check-release` (a dry run) to verify packaging.
+Releases are automated with [Changesets](https://changesets.dev) and `.github/workflows/release.yml`. **Never run `npm run release` (or `npm publish`) locally**: CI publishes through npm trusted publishing (OIDC), with no npm token. Use `npm run check-release` (a dry run) to verify packaging.
 
 Release conventions:
 
-- Every release, including patches, gets a CHANGELOG.md entry (newest on top), crediting the code contributor (the PR author, not the issue reporter): `- Fix: ... ❤️ [@user](https://github.com/user)`. Keep fix entries compact — one bullet per fix, no explanatory paragraphs; the details live in the PR.
-- Patch releases are **not** tagged in the repo. Minor and major releases get a git tag (`v2.9` — no patch digit) and a GitHub Release.
+- A PR that changes the published package adds a changeset (`npx changeset`, or a `.changeset/<name>.md` file by hand). Its summary is the CHANGELOG.md line, crediting the code contributor (the PR author, not the issue reporter): `Fix: ... ❤️ [@user](https://github.com/user)`. Keep entries compact — one line per fix, no explanatory paragraphs; the details live in the PR. Docs, tests and CI changes need no changeset.
+- On push to `master`, the workflow opens or updates a "chore: release" PR that bumps the version, writes CHANGELOG.md and syncs package-lock.json. Merging it publishes to npm and creates a `v<version>` git tag and a GitHub Release for every release, patches included.
 
 ## Testing
 
