@@ -1088,7 +1088,7 @@ colord("#fe0000").toName({ closest: true }); // "red" (closest color)
 </details>
 
 <details>
-  <summary><b><code>oklab</code> (OKLab color space)</b> <i>1.04 KB</i></summary>
+  <summary><b><code>oklab</code> (OKLab color space)</b> <i>1.06 KB</i></summary>
 
 Adds support of [OKLab](https://bottosson.github.io/posts/oklab/) — a perceptual color space designed for image processing and color manipulation, adopted by [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
 
@@ -1110,7 +1110,7 @@ colord("#ff6347").toOklabString(); // "oklab(0.6962 0.16523 0.10454)"
 </details>
 
 <details>
-  <summary><b><code>oklch</code> (OKLCH color space)</b> <i>1.25 KB</i></summary>
+  <summary><b><code>oklch</code> (OKLCH color space)</b> <i>1.28 KB</i></summary>
 
 Adds support of [OKLCH](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl) — the polar form of OKLab and the format modern design systems (e.g. Tailwind CSS) define their palettes in. Adopted by [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
 
