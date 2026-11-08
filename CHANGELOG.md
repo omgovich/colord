@@ -1,3 +1,9 @@
+## 2.11.0
+
+### Minor Changes
+
+- New `oklab` and `oklch` plugins to parse and convert OKLab and OKLCH colors (CSS Color 4)
+
 ## 2.10.1
 
 ### Patch Changes
