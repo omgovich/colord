@@ -1,9 +1,10 @@
 {
   "name": "colord",
   "version": "2.10.1",
-  "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
+  "description": "👑 A tiny yet powerful JavaScript library for high-performance color manipulations and conversions",
   "keywords": [
     "color",
+    "javascript",
     "parser",
     "convert",
     "tiny",

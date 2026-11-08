@@ -20,7 +20,7 @@
 </div>
 
 <div align="center">
-  <strong>Colord</strong> is a tiny yet powerful tool for high-performance color manipulations and conversions.
+  <strong>Colord</strong> is a tiny yet powerful JavaScript library for high-performance color manipulations and conversions.
 </div>
 
 ## Features
