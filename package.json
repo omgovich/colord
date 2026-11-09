@@ -1,9 +1,10 @@
 {
   "name": "colord",
-  "version": "2.10.0",
-  "description": "👑 A tiny yet powerful tool for high-performance color manipulations and conversions",
+  "version": "2.11.0",
+  "description": "👑 A tiny yet powerful JavaScript library for high-performance color manipulations and conversions",
   "keywords": [
     "color",
+    "javascript",
     "parser",
     "convert",
     "tiny",
@@ -23,7 +24,10 @@
     "minify",
     "harmonies"
   ],
-  "repository": "omgovich/colord",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omgovich/colord.git"
+  },
   "author": "Vlad Shilov <omgovich@ya.ru>",
   "license": "MIT",
   "sideEffects": false,
@@ -90,6 +94,18 @@
       "require": "./plugins/names.js",
       "default": "./plugins/names.mjs"
     },
+    "./plugins/oklab": {
+      "types": "./plugins/oklab.d.ts",
+      "import": "./plugins/oklab.mjs",
+      "require": "./plugins/oklab.js",
+      "default": "./plugins/oklab.mjs"
+    },
+    "./plugins/oklch": {
+      "types": "./plugins/oklch.d.ts",
+      "import": "./plugins/oklch.mjs",
+      "require": "./plugins/oklch.js",
+      "default": "./plugins/oklch.mjs"
+    },
     "./plugins/xyz": {
       "types": "./plugins/xyz.d.ts",
       "import": "./plugins/xyz.mjs",
@@ -115,9 +131,12 @@
     "benchmark": "tsc --outDir bench --skipLibCheck --esModuleInterop ./tests/benchmark.ts && node ./bench/tests/benchmark.js; code=$?; rm -rf ./bench; exit $code",
     "build": "rm -rf ./dist/* && rollup --config",
     "release": "npm run build && cp *.json dist && cp *.md dist && npm publish ./dist",
-    "check-release": "npm run release -- --dry-run"
+    "check-release": "npm run release -- --dry-run",
+    "changeset:version": "changeset version && npm install --package-lock-only --ignore-scripts",
+    "changeset:publish": "(npm view colord@$npm_package_version version >/dev/null 2>&1 || npm run release) && changeset git-tag"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@types/jest": "^26.0.22",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
@@ -203,6 +222,14 @@
     },
     {
       "path": "dist/plugins/names.mjs",
+      "limit": "1.5 KB"
+    },
+    {
+      "path": "dist/plugins/oklab.mjs",
+      "limit": "1.5 KB"
+    },
+    {
+      "path": "dist/plugins/oklch.mjs",
       "limit": "1.5 KB"
     },
     {

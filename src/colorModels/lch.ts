@@ -1,6 +1,5 @@
 import { RgbaColor, InputObject, LchaColor } from "../types";
-import { ALPHA_PRECISION } from "../constants";
-import { clamp, clampHue, isPresent, round, roundHue } from "../helpers";
+import { clamp, clampHue, isPresent, round, roundAlpha, roundHue } from "../helpers";
 import { labaToRgba, rgbaToLaba } from "./lab";
 
 /**
@@ -19,11 +18,13 @@ export const roundLcha = (laba: LchaColor): LchaColor => ({
   l: round(laba.l, 2),
   c: round(laba.c, 2),
   h: roundHue(laba.h, 2),
-  a: round(laba.a, ALPHA_PRECISION),
+  a: roundAlpha(laba.a),
 });
 
-export const parseLcha = ({ l, c, h, a = 1 }: InputObject): RgbaColor | null => {
-  if (!isPresent(l) || !isPresent(c) || !isPresent(h)) return null;
+export const parseLcha = ({ l, c, h, a = 1, ok }: InputObject): RgbaColor | null => {
+  // Objects marked with `ok: true` are OKLCH colors, not CIE LCH (see the oklch plugin).
+  // Strict check, the same as the oklch parser's, so any other `ok` value is left as it was
+  if (ok === true || !isPresent(l) || !isPresent(c) || !isPresent(h)) return null;
 
   const lcha = clampLcha({
     l: Number(l),

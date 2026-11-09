@@ -1,4 +1,5 @@
-import { colord, getFormat, extend, Colord } from "../src/";
+import { colord, getFormat, extend, Colord, AnyColor } from "../src/";
+import { round } from "../src/helpers";
 import a11yPlugin from "../src/plugins/a11y";
 import cmykPlugin from "../src/plugins/cmyk";
 import harmoniesPlugin, { HarmonyType } from "../src/plugins/harmonies";
@@ -6,6 +7,8 @@ import hwbPlugin from "../src/plugins/hwb";
 import labPlugin from "../src/plugins/lab";
 import lchPlugin from "../src/plugins/lch";
 import minifyPlugin from "../src/plugins/minify";
+import oklabPlugin from "../src/plugins/oklab";
+import oklchPlugin from "../src/plugins/oklch";
 import mixPlugin from "../src/plugins/mix";
 import namesPlugin from "../src/plugins/names";
 import xyzPlugin from "../src/plugins/xyz";
@@ -69,6 +72,7 @@ describe("cmyk", () => {
     expect(colord("device-cmyk(0% 0% 0% 100%)").toHex()).toBe("#000000");
     expect(colord("device-cmyk(0% 61% 72% 0% / 50%)").toHex()).toBe("#ff634780");
     expect(colord("device-cmyk(0 0.61 0.72 0 / 0.5)").toHex()).toBe("#ff634780");
+    expect(colord("device-cmyk(0 6.1e-1 7.2E1% 0 / 5e1%)").toHex()).toBe("#ff634780");
   });
 
   it("Converts a color to CMYK object", () => {
@@ -183,6 +187,7 @@ describe("hwb", () => {
     expect(colord("hwb(194 0% 0%)").toHex()).toBe("#00c3ff");
     expect(colord("hwb(194 0% 0% / .5)").toHex()).toBe("#00c3ff80");
     expect(colord("hwb(-90deg 40% 40% / 50%)").toHex()).toBe("#7f669980");
+    expect(colord("hwb(-9e1deg 4e1% 4E1% / 5e-1)").toHex()).toBe("#7f669980");
   });
 
   it("Ignores invalid syntax", () => {
@@ -206,6 +211,13 @@ describe("hwb", () => {
     expect(colord("hwb(1.25turn 20% 20%)").toHwb().h).toBe(90);
     expect(colord("hwb(1.5708rad 20% 20%)").toHwb().h).toBe(90);
   });
+
+  it.each(["90DEG", "100GRAD", ".25TURN", "1.5708RAD", "90dEg", "100gRaD", ".25tUrN", "1.5708rAd"])(
+    "Parses case-insensitive HWB angle unit %s",
+    (hue) => {
+      expect(colord(`hwb(${hue} 20% 20%)`).toHwb().h).toBe(90);
+    }
+  );
 
   it("Supported by `getFormat`", () => {
     expect(getFormat("hwb(180deg 50% 50%)")).toBe("hwb");
@@ -288,6 +300,7 @@ describe("lch", () => {
     expect(colord("lch(52.2345% 72.2 56.2 / 1)").toHex()).toBe("#c65d06");
     expect(colord("lch(37% 105 305)").toHex()).toBe("#6a27e7");
     expect(colord("lch(56.2% 83.6 357.4 / 93%)").toHex()).toBe("#fe1091ed");
+    expect(colord("lch(5.62e1% 8.36e1 3.574E2 / 9.3e1%)").toHex()).toBe("#fe1091ed");
   });
 
   it("Converts a color to CIE LCH object", () => {
@@ -325,6 +338,13 @@ describe("lch", () => {
     expect(colord("lch(50% 50 1.5708rad)").toLch().h).toBe(90);
   });
 
+  it.each(["90DEG", "100GRAD", ".25TURN", "1.5708RAD", "90dEg", "100gRaD", ".25tUrN", "1.5708rAd"])(
+    "Parses case-insensitive LCH angle unit %s",
+    (hue) => {
+      expect(colord(`lch(50% 50 ${hue})`).toLch().h).toBe(90);
+    }
+  );
+
   it("Supported by `getFormat`", () => {
     expect(getFormat("lch(50% 50 180deg)")).toBe("lch");
     expect(getFormat({ l: 50, c: 50, h: 180 })).toBe("lch");
@@ -343,16 +363,46 @@ describe("minify", () => {
     expect(colord("rgba(200,200,200,0.55)").minify({ hsl: false })).toBe("rgba(200,200,200,.55)");
   });
 
+  it("Never returns a color other than the one it was given", () => {
+    // The HSL variant rounds its channels and can name a different color; that is a
+    // separate, older issue, so this locks the notations that are meant to be exact
+    for (let byte = 1; byte < 255; byte += 7) {
+      const digits = byte.toString(16).padStart(2, "0");
+      for (const rgb of ["#123456", "#3366cc", "#7f8081", "#000000"]) {
+        for (const options of [{ alphaHex: true, hsl: false }, { hsl: false }]) {
+          const color = colord(`${rgb}${digits}`);
+          expect(colord(color.minify(options)).toRgbString()).toBe(color.toRgbString());
+        }
+      }
+    }
+  });
+
   it("Supports alpha hexes", () => {
     expect(colord("hsla(0, 100%, 50%, .5)").minify()).toBe("rgba(255,0,0,.5)");
     expect(colord("hsla(0, 100%, 50%, .5)").minify({ alphaHex: true })).toBe("#ff000080");
     expect(colord("rgba(0, 0, 255, 0.4)").minify({ alphaHex: true })).toBe("#00f6");
+    // A color read from a HEX keeps its own byte instead of drifting to a neighbour
+    expect(colord("#cc88").minify({ alphaHex: true })).toBe("#cc88");
   });
 
   it("Performs lossless minification (handles alpha hex issues)", () => {
     expect(colord("rgba(0,0,0,.4)").minify({ alphaHex: true })).toBe("#0006");
-    expect(colord("rgba(0,0,0,.075)").minify({ alphaHex: true })).toBe("rgba(0,0,0,.075)");
+    // 0x13 reads back as exactly `.075`, so the shorter form is the same color...
+    expect(colord("rgba(0,0,0,.075)").minify({ alphaHex: true })).toBe("#00000013");
+    // ...while no byte reads back as `.515`: 0x83 would come back as `.514`
     expect(colord("hsla(0,0%,50%,.515)").minify({ alphaHex: true })).toBe("hsla(0,0%,50%,.515)");
+    expect(colord("#0000000d").minify({ alphaHex: true })).toBe("#0000000d");
+    // With every other notation turned down or switched off, RGB is the answer:
+    // it is the only one that can hold any color at all
+    expect(colord("hsla(0,0%,50%,.515)").minify({ rgb: false, hsl: false })).toBe(
+      "rgba(128,128,128,.515)"
+    );
+    // No alpha is ever traded for a byte that reads back as a different one
+    for (let permille = 1; permille < 1000; permille++) {
+      const alpha = permille / 1000;
+      const minified = colord(`rgba(0,0,0,${alpha})`).minify({ alphaHex: true });
+      expect(colord(minified).alpha()).toBe(alpha);
+    }
   });
 
   it("Supports names", () => {
@@ -538,5 +588,343 @@ describe("xyz", () => {
 
   it("Supported by `getFormat`", () => {
     expect(getFormat({ x: 50, y: 50, z: 50 })).toBe("xyz");
+  });
+});
+
+describe("alpha channel", () => {
+  extend([
+    cmykPlugin,
+    hwbPlugin,
+    labPlugin,
+    lchPlugin,
+    minifyPlugin,
+    oklabPlugin,
+    oklchPlugin,
+    xyzPlugin,
+  ]);
+
+  it("Survives every plugin conversion, for every HEX alpha byte", () => {
+    for (let byte = 0; byte < 256; byte++) {
+      const hex8 = `#3366cc${byte.toString(16).padStart(2, "0")}`;
+      const color = colord(hex8);
+      const alpha = color.alpha();
+
+      // The models below round their channels, so only the alpha is expected to
+      // come back untouched — but it has to, and it has to still mean its byte
+      const notations: AnyColor[] = [
+        color.toHwb(),
+        color.toHwbString(),
+        color.toLab(),
+        color.toLch(),
+        color.toLchString(),
+        color.toXyz(),
+        color.toCmyk(),
+        color.toCmykString(),
+        color.toOklab(),
+        color.toOklabString(),
+        color.toOklch(),
+        color.toOklchString(),
+      ];
+
+      expect(color.toHwb().a).toBe(alpha);
+      expect(color.toLab().alpha).toBe(alpha);
+      expect(color.toLch().a).toBe(alpha);
+      expect(color.toXyz().a).toBe(alpha);
+      expect(color.toCmyk().a).toBe(alpha);
+      expect(color.toOklab().alpha).toBe(alpha);
+      expect(color.toOklch().a).toBe(alpha);
+
+      for (const notation of notations) {
+        expect(colord(notation).alpha()).toBe(alpha);
+        expect(Math.round(colord(notation).alpha() * 255)).toBe(byte);
+      }
+    }
+  });
+
+  it("Never emits an alpha value longer than 3 digits, in any plugin", () => {
+    extend([harmoniesPlugin, mixPlugin]);
+
+    const uglyAlphas = [1 / 255, 128 / 255, 254 / 255, 1 / 3, 0.1 + 0.2, 0.123456789];
+    const inputs: AnyColor[] = [];
+    for (const alpha of uglyAlphas) inputs.push({ r: 51, g: 102, b: 204, a: alpha });
+    for (let byte = 0; byte < 256; byte += 7) {
+      inputs.push(`#3366cc${byte.toString(16).padStart(2, "0")}`);
+    }
+
+    for (const input of inputs) {
+      const source = colord(input);
+      // Whatever a plugin hands back is a color too, and has to obey the same rule
+      for (const color of [
+        source,
+        source.mix("#fff", 1 / 3),
+        source.tints(3)[1],
+        ...source.harmonies("triadic"),
+      ]) {
+        for (const value of [
+          color.alpha(),
+          color.toHwb().a,
+          color.toLab().alpha,
+          color.toLch().a,
+          color.toXyz().a,
+          color.toCmyk().a,
+          color.toOklab().alpha,
+          color.toOklch().a,
+        ]) {
+          expect(round(value, 3)).toBe(value);
+        }
+
+        for (const string of [
+          color.toHwbString(),
+          color.toLchString(),
+          color.toCmykString(),
+          color.minify({ alphaHex: true }),
+        ]) {
+          expect(string).not.toMatch(/\.\d{4}/);
+        }
+
+        // OKLab channels are longer by design, so only the alpha after the slash is checked
+        for (const string of [color.toOklabString(), color.toOklchString()]) {
+          expect(string).not.toMatch(/\/ \d*\.\d{4}/);
+        }
+      }
+    }
+  });
+});
+
+describe("oklab", () => {
+  extend([oklabPlugin]);
+
+  it("Parses OKLab color object", () => {
+    // Reference values are cross-checked against culori
+    // https://culorijs.org/color-spaces/#oklab
+    expect(colord({ l: 1, a: 0, b: 0, ok: true }).toHex()).toBe("#ffffff");
+    expect(colord({ l: 0, a: 0, b: 0, ok: true }).toHex()).toBe("#000000");
+    expect(colord({ l: 0.628, a: 0.2249, b: 0.1258, ok: true }).toHex()).toBe("#ff0000");
+    expect(colord({ l: 0.8664, a: -0.2339, b: 0.1795, ok: true }).toHex()).toBe("#00ff00");
+    expect(colord({ l: 0.7844, a: -0.0114, b: -0.0285, ok: true }).toHex()).toBe("#aabbcc");
+    expect(colord({ l: 0.2684, a: 0.0162, b: 0.0347, alpha: 0.5, ok: true }).toHex()).toBe(
+      "#33221180"
+    );
+  });
+
+  it("Treats objects without the `ok` marker as CIE LAB", () => {
+    expect(getFormat({ l: 0.628, a: 0.2249, b: 0.1258 })).toBe("lab");
+    // Only the exact `ok: true` marker means OKLab
+    expect(getFormat({ l: 50, a: 10, b: 10, ok: 1 })).toBe("lab");
+    expect(getFormat({ l: 50, a: 10, b: 10, ok: "true" })).toBe("lab");
+    expect(getFormat({ l: 50, a: 10, b: 10, ok: false })).toBe("lab");
+  });
+
+  it("Parses marked objects regardless of plugin registration order", () => {
+    // The lab plugin is registered before oklab in this suite;
+    // its parser must not swallow objects carrying the `ok` marker
+    expect(getFormat({ l: 0.628, a: 0.2249, b: 0.1258, ok: true })).toBe("oklab");
+    expect(colord({ l: 0.628, a: 0.2249, b: 0.1258, ok: true }).toHex()).toBe("#ff0000");
+  });
+
+  it("Parses OKLab color string", () => {
+    // https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch
+    expect(colord("oklab(1 0 0)").toHex()).toBe("#ffffff");
+    expect(colord("oklab(0.628 0.2249 0.1258)").toHex()).toBe("#ff0000");
+    expect(colord("oklab(0.8664 -0.2339 0.1795)").toHex()).toBe("#00ff00");
+    // Percentage form: 100% = 1 for lightness, 100% = 0.4 for the axes
+    expect(colord("oklab(62.8% 56.225% 31.45%)").toHex()).toBe("#ff0000");
+    expect(colord("oklab(0.2684 0.0162 0.0347 / 0.5)").toHex()).toBe("#33221180");
+    expect(colord("oklab(0.2684 0.0162 0.0347 / 50%)").toHex()).toBe("#33221180");
+    expect(colord("oklab(2.684e-1 1.62e-2 3.47E-2 / 5e1%)").toHex()).toBe("#33221180");
+  });
+
+  it("Matches the web-platform-tests conformance values", () => {
+    // The reference pairs browsers are tested against
+    // https://github.com/web-platform-tests/wpt/tree/master/css/css-color (oklab-001, 004, 005)
+    expect(colord("oklab(51.975% -0.1403 0.10768)").toHex()).toBe("#008000");
+    expect(colord("oklab(50% 0.05 0)").toHex()).toBe("#7c5762"); // rgb(48.477% 34.29% 38.412%)
+    expect(colord("oklab(70% -0.1 0)").toHex()).toBe("#4bb3a1"); // rgb(29.264% 70.096% 63.017%)
+    expect(colord("#008000").toOklab()).toMatchObject({ l: 0.5198, a: -0.1403, b: 0.10768 });
+  });
+
+  it("Converts a color to OKLab object", () => {
+    expect(colord("#ffffff").toOklab()).toMatchObject({ l: 1, a: 0, b: 0, alpha: 1, ok: true });
+    expect(colord("#000000").toOklab()).toMatchObject({ l: 0, a: 0, b: 0, alpha: 1 });
+    expect(colord("#ff0000").toOklab()).toMatchObject({ l: 0.628, a: 0.22486, b: 0.12585 });
+    expect(colord("#00ff00").toOklab()).toMatchObject({ l: 0.8664, a: -0.23389, b: 0.1795 });
+    expect(colord("#0000ff").toOklab()).toMatchObject({ l: 0.452, a: -0.03246, b: -0.31153 });
+    expect(colord("#aabbcc").toOklab()).toMatchObject({ l: 0.7844, a: -0.01138, b: -0.02848 });
+    expect(colord("#33221180").toOklab()).toMatchObject({
+      l: 0.2684,
+      a: 0.01624,
+      b: 0.03473,
+      alpha: 0.5,
+    });
+  });
+
+  it("Converts a color to OKLab string (CSS functional notation)", () => {
+    expect(colord("#ffffff").toOklabString()).toBe("oklab(1 0 0)");
+    expect(colord("#ff0000").toOklabString()).toBe("oklab(0.628 0.22486 0.12585)");
+    expect(colord("#33221180").toOklabString()).toBe("oklab(0.2684 0.01624 0.03473 / 0.5)");
+  });
+
+  it("Round-trips through the object form with the CIE plugins loaded", () => {
+    expect(colord(colord("#d53987").toOklab()).toHex()).toBe("#d53987");
+    // These colors did not survive a round-trip with 4 decimal places for the a/b axes
+    expect(colord(colord("#00c3be").toOklab()).toHex()).toBe("#00c3be");
+    expect(colord(colord("#00a6d2").toOklab()).toHex()).toBe("#00a6d2");
+    expect(colord(colord("#00c3be").toOklabString()).toHex()).toBe("#00c3be");
+  });
+
+  it("Clamps invalid channel values", () => {
+    expect(colord({ l: 1.5, a: 0, b: 0, ok: true }).toHex()).toBe("#ffffff");
+    expect(colord({ l: -1, a: 0, b: 0, ok: true }).toHex()).toBe("#000000");
+    expect(colord({ l: 1, a: 0, b: 0, alpha: 2, ok: true }).toHex()).toBe("#ffffff");
+  });
+
+  it("Ignores invalid input", () => {
+    expect(colord("oklab(1 0)").isValid()).toBe(false);
+    expect(colord("oklab(1 0 0 0)").isValid()).toBe(false);
+    // @ts-ignore
+    expect(colord({ l: 0.5, a: 0.1, ok: true }).isValid()).toBe(false);
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat("oklab(0.628 0.2249 0.1258)")).toBe("oklab");
+    expect(getFormat({ l: 0.628, a: 0.2249, b: 0.1258, ok: true })).toBe("oklab");
+  });
+});
+
+describe("oklch", () => {
+  extend([oklchPlugin]);
+
+  it("Parses OKLCH color object", () => {
+    // Reference values are cross-checked against culori
+    // https://culorijs.org/color-spaces/#oklch
+    expect(colord({ l: 1, c: 0, h: 0, ok: true }).toHex()).toBe("#ffffff");
+    expect(colord({ l: 0, c: 0, h: 0, ok: true }).toHex()).toBe("#000000");
+    expect(colord({ l: 0.628, c: 0.2577, h: 29.23, ok: true }).toHex()).toBe("#ff0000");
+    expect(colord({ l: 0.5, c: 0.2, h: 240, ok: true }).toHex()).toBe("#0069c7");
+    expect(colord({ l: 0.2684, c: 0.0383, h: 64.93, a: 0.5, ok: true }).toHex()).toBe("#33221180");
+  });
+
+  it("Treats objects without the `ok` marker as CIE LCH", () => {
+    expect(getFormat({ l: 0.5, c: 0.1, h: 20 })).toBe("lch");
+    // Only the exact `ok: true` marker means OKLCH
+    expect(getFormat({ l: 50, c: 10, h: 20, ok: 1 })).toBe("lch");
+    expect(getFormat({ l: 50, c: 10, h: 20, ok: "true" })).toBe("lch");
+    expect(getFormat({ l: 50, c: 10, h: 20, ok: false })).toBe("lch");
+  });
+
+  it("Parses marked objects regardless of plugin registration order", () => {
+    // The lch plugin is registered before oklch in this suite;
+    // its parser must not swallow objects carrying the `ok` marker
+    expect(getFormat({ l: 0.628, c: 0.2577, h: 29.23, ok: true })).toBe("oklch");
+    expect(colord({ l: 0.628, c: 0.2577, h: 29.23, ok: true }).toHex()).toBe("#ff0000");
+  });
+
+  it("Parses OKLCH color string", () => {
+    // https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch
+    expect(colord("oklch(1 0 0)").toHex()).toBe("#ffffff");
+    expect(colord("oklch(0.628 0.2577 29.23)").toHex()).toBe("#ff0000");
+    expect(colord("oklch(0.5 0.2 240)").toHex()).toBe("#0069c7");
+    // Percentage form: 100% = 1 for lightness, 100% = 0.4 for chroma
+    expect(colord("oklch(62.8% 64.425% 29.23)").toHex()).toBe("#ff0000");
+    expect(colord("oklch(0.2684 0.0383 64.93 / 0.5)").toHex()).toBe("#33221180");
+    expect(colord("oklch(0.2684 0.0383 64.93 / 50%)").toHex()).toBe("#33221180");
+    expect(colord("oklch(6.28e-1 2.577e-1 2.923E1deg)").toHex()).toBe("#ff0000");
+  });
+
+  it("Matches the web-platform-tests conformance values", () => {
+    // The reference pairs browsers are tested against
+    // https://github.com/web-platform-tests/wpt/tree/master/css/css-color (oklch-001, 004, 005)
+    expect(colord("oklch(51.975% 0.17686 142.495)").toHex()).toBe("#008000");
+    expect(colord("oklch(50% 0.2 0)").toHex()).toBe("#b4065f"); // rgb(70.492% 2.351% 37.073%)
+    expect(colord("oklch(50% 0.2 270)").toHex()).toBe("#3b51d3"); // rgb(23.056% 31.73% 82.628%)
+  });
+
+  it("Serializes the CSS Color 4 specification examples", () => {
+    // https://www.w3.org/TR/css-color-4/#serializing-oklab-oklch
+    expect(colord("oklch(56.43% 0.0900 123.40)").toOklchString()).toBe("oklch(0.5643 0.09 123.4)");
+    expect(colord("oklch(53.85% 0.1725 320.67 / 70%)").toOklchString()).toBe(
+      "oklch(0.5385 0.1725 320.67 / 0.7)"
+    );
+  });
+
+  it("Supports all valid CSS angle units", () => {
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/angle
+    const reference = colord("oklch(0.8 0.1 90)").toHex();
+    expect(colord("oklch(0.8 0.1 90deg)").toHex()).toBe(reference);
+    expect(colord("oklch(0.8 0.1 100grad)").toHex()).toBe(reference);
+    expect(colord("oklch(0.8 0.1 0.25turn)").toHex()).toBe(reference);
+    expect(colord("oklch(0.8 0.1 1.5708rad)").toHex()).toBe(reference);
+  });
+
+  it.each(["90DEG", "100GRAD", ".25TURN", "1.5708RAD", "90dEg", "100gRaD", ".25tUrN", "1.5708rAd"])(
+    "Parses case-insensitive OKLCH angle unit %s",
+    (hue) => {
+      expect(colord(`oklch(0.8 0.1 ${hue})`).toHex()).toBe(colord("oklch(0.8 0.1 90)").toHex());
+    }
+  );
+
+  it("Converts a color to OKLCH object", () => {
+    expect(colord("#ffffff").toOklch()).toMatchObject({ l: 1, c: 0, h: 0, a: 1, ok: true });
+    expect(colord("#000000").toOklch()).toMatchObject({ l: 0, c: 0, h: 0, a: 1 });
+    // The CSS Color 4 specification says "sRGB blue is oklch(0.452 0.313 264.1)"
+    // (rounded to their precision). https://www.w3.org/TR/css-color-4/#ok-lab
+    expect(colord("#0000ff").toOklch()).toMatchObject({ l: 0.452, c: 0.31321, h: 264.05 });
+    expect(colord("#808080").toOklch()).toMatchObject({ l: 0.5999, c: 0, h: 0 });
+    expect(colord("#ff0000").toOklch()).toMatchObject({ l: 0.628, c: 0.25768, h: 29.23 });
+    expect(colord("#00ffff").toOklch()).toMatchObject({ l: 0.9054, c: 0.15455, h: 194.77 });
+    expect(colord("#d53987").toOklch()).toMatchObject({ l: 0.5999, c: 0.20291, h: 354.63 });
+    expect(colord("#33221180").toOklch()).toMatchObject({
+      l: 0.2684,
+      c: 0.03834,
+      h: 64.93,
+      a: 0.5,
+    });
+  });
+
+  it("Converts a color to OKLCH string (CSS functional notation)", () => {
+    expect(colord("#ffffff").toOklchString()).toBe("oklch(1 0 0)");
+    expect(colord("#808080").toOklchString()).toBe("oklch(0.5999 0 0)");
+    expect(colord("#ff0000").toOklchString()).toBe("oklch(0.628 0.25768 29.23)");
+    expect(colord("#33221180").toOklchString()).toBe("oklch(0.2684 0.03834 64.93 / 0.5)");
+  });
+
+  it("Keeps the hue within [0, 360)", () => {
+    expect(colord({ l: 0.5, c: 0.2, h: 360, ok: true }).toOklch().h).toBe(0);
+    expect(colord({ l: 0.5, c: 0.2, h: -120, ok: true }).toHex()).toBe(
+      colord({ l: 0.5, c: 0.2, h: 240, ok: true }).toHex()
+    );
+  });
+
+  it("Clips out-of-sRGB-gamut colors the way browsers render them", () => {
+    // oklch(0.8 0.29 145) is a Display-P3 green; each sRGB channel is clamped independently
+    expect(colord("oklch(0.8 0.29 145)").toHex()).toBe("#00e900");
+    expect(colord("oklch(0.8 0.29 145)").isValid()).toBe(true);
+  });
+
+  it("Round-trips through the object form with the CIE plugins loaded", () => {
+    expect(colord(colord("#d53987").toOklch()).toHex()).toBe("#d53987");
+    // These colors did not survive a round-trip with 4 decimal places for chroma
+    expect(colord(colord("#00b8c1").toOklch()).toHex()).toBe("#00b8c1");
+    expect(colord(colord("#00c5d5").toOklch()).toHex()).toBe("#00c5d5");
+    expect(colord(colord("#00b8c1").toOklchString()).toHex()).toBe("#00b8c1");
+  });
+
+  it("Clamps invalid channel values", () => {
+    expect(colord({ l: 1.5, c: 0, h: 0, ok: true }).toHex()).toBe("#ffffff");
+    expect(colord({ l: 0.5, c: -0.1, h: 20, ok: true }).toHex()).toBe(
+      colord({ l: 0.5, c: 0, h: 20, ok: true }).toHex()
+    );
+  });
+
+  it("Ignores invalid input", () => {
+    expect(colord("oklch(1 0)").isValid()).toBe(false);
+    expect(colord("oklch(1 0 0 0)").isValid()).toBe(false);
+    // @ts-ignore
+    expect(colord({ l: 0.5, c: 0.1, ok: true }).isValid()).toBe(false);
+  });
+
+  it("Supported by `getFormat`", () => {
+    expect(getFormat("oklch(0.628 0.2577 29.23)")).toBe("oklch");
+    expect(getFormat({ l: 0.628, c: 0.2577, h: 29.23, ok: true })).toBe("oklch");
   });
 });
