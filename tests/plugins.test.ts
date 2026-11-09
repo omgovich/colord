@@ -469,7 +469,7 @@ describe("mix", () => {
     expect(colord("#aabbcc").tints(499)).toHaveLength(499);
   });
 
-  it("preserves the exact palette endpoint without changing interior steps", () => {
+  it("Preserves the exact palette endpoint without changing interior steps", () => {
     expect(colord("#0000ff").tints(50)[49].darken(0.5).toHex()).toBe("#808080");
     expect(colord("#0000ff").tints(7, "rgb")[5].toHex()).toBe("#d4d4ff");
   });

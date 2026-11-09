@@ -11,10 +11,11 @@ export const mix = (
 ): RgbaColor => {
   const interpolate = (start: number, end: number): number => start + (end - start) * ratio;
 
-  // Avoid conversion noise at the endpoints and when only alpha changes.
+  // The LAB round trip adds noise, so the endpoints come back as they are (issue #158)
   if (ratio === 0 || ratio === 1) return ratio ? rgba2 : rgba1;
 
   // RGB interpolation matches the alpha compositing of browsers and design tools.
+  // Identical RGB channels skip the LAB round trip too, so only alpha changes
   // No clamping needed: the plugin passes the result through the RGB parser, which clamps
   if (space === "rgb" || (rgba1.r === rgba2.r && rgba1.g === rgba2.g && rgba1.b === rgba2.b)) {
     return {
