@@ -59,7 +59,7 @@ A plugin is `(ColordClass, parsers) => void`: it mutates `Colord.prototype`, pus
 
 Each format lives in `src/colorModels/<format>.ts` with `parseX`, `rgbaToX`, `xToRgba`, `clampX`, `roundX` functions (hex only needs the first two); CSS-string parsing/serialization is split into sibling `<format>String.ts` files so object-only plugins don't pay for regex code.
 
-When writing parsing regexes, spell numbers as `(?:\d*\.\d+|\d+)`, never `\d*\.?\d+` — the short form backtracks in O(n²) on malformed input (ReDoS), and since both forms accept the same strings, only running time can tell them apart. `tests/parse-complexity.test.ts` enforces linear-time rejection; add new formats to it.
+When writing parsing regexes, spell numbers as `(?:\d*\.\d+|\d+)`, never `\d*\.?\d+`, and follow either with the `(?:e[+-]?\d+)?` exponent that CSS `<number>` allows — the short form backtracks in O(n²) on malformed input (ReDoS), and since both forms accept the same strings, only running time can tell them apart. `tests/parse-complexity.test.ts` enforces linear-time rejection; add new formats to it.
 
 ### Publishing layout
 

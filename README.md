@@ -133,6 +133,7 @@ colord("rgb(100% 100% 100% / 50%)");
 colord("hsl(90 100% 100%)");
 colord("hsl(90deg 100% 100% / 50%)");
 colord("hsl(0.25turn 100% 100% / 50%)");
+colord("rgb(1e2 2.55e2 0 / 5e-1)"); // scientific notation
 
 // Object input examples
 colord({ r: 255, g: 255, b: 255 });
