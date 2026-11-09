@@ -270,6 +270,19 @@ it("Supports all valid CSS angle units", () => {
   expect(colord("hsl(-3.1416rad, 50%, 50%)").toHsl().h).toBe(180);
 });
 
+it.each(["90DEG", "100GRAD", ".25TURN", "1.5708RAD", "90dEg", "100gRaD", ".25tUrN", "1.5708rAd"])(
+  "Parses case-insensitive HSL angle unit %s",
+  (hue) => {
+    expect(colord(`hsl(${hue}, 50%, 50%)`).toHsl().h).toBe(90);
+    expect(colord(`hsl(${hue} 50% 50% / 50%)`).toHsl()).toEqual({
+      h: 90,
+      s: 50,
+      l: 50,
+      a: 0.5,
+    });
+  }
+);
+
 it("Accepts a colord instance as an input", () => {
   const instance = colord(lime.hex as string);
   expect(colord(instance).toRgb()).toMatchObject(lime.rgba);
