@@ -419,6 +419,11 @@ describe("mix", () => {
     expect(colord("#aabbcc").tints(499)).toHaveLength(499);
   });
 
+  it("preserves the exact palette endpoint without changing interior steps", () => {
+    expect(colord("#0000ff").tints(50)[49].darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#0000ff").tints(7, "rgb")[5].toHex()).toBe("#d4d4ff");
+  });
+
   it("Generates a shades palette", () => {
     check(colord("#ff0000").shades(2), ["#ff0000", "#000000"]);
     check(colord("#ff0000").shades(3), ["#ff0000", "#7a1b0b", "#000000"]);
