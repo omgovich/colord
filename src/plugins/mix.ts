@@ -48,7 +48,8 @@ const mixPlugin: Plugin = (ColordClass): void => {
     const palette = [];
     const step = 1 / (count - 1);
     for (let i = 0; i <= count - 1; i++) {
-      palette.push(source.mix(hex, step * i, space));
+      // `step * i` can stop short of 1 (49 * (1 / 49) = 0.9999…), so the last step uses exactly 1
+      palette.push(source.mix(hex, i === count - 1 && count > 1 ? 1 : step * i, space));
     }
     return palette;
   }

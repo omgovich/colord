@@ -444,6 +444,19 @@ describe("mix", () => {
     expect(colord("#000000").mix("#000000").toHex()).toBe("#000000");
   });
 
+  it("Preserves white when a mixture is subsequently darkened", () => {
+    expect(colord("#ffffff").mix("#0000ff", 0).darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#0000ff").mix("#ffffff", 1).darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#ffffff").mix("#ffffff").darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#ffffff").mix("#ffffff", 0.25).toHsl().s).toBe(0);
+    expect(colord("#ffffff").mix("#ffffff", 0.75).toHsl().s).toBe(0);
+  });
+
+  it("Interpolates alpha without changing identical RGB channels", () => {
+    expect(colord("#ffffff").mix("#ffffff00").rgba).toEqual({ r: 255, g: 255, b: 255, a: 0.5 });
+    expect(colord("#ff0000").mix("#ff000000", 0.25).rgba).toEqual({ r: 255, g: 0, b: 0, a: 0.75 });
+  });
+
   const check = (colors: Colord[], expected: string[]) => {
     const hexes = colors.map((value) => value.toHex());
     return expect(hexes).toEqual(expected);
@@ -454,6 +467,11 @@ describe("mix", () => {
     check(colord("#ff0000").tints(3), ["#ff0000", "#ff9f80", "#ffffff"]);
     check(colord("#ff0000").tints(), ["#ff0000", "#ff6945", "#ff9f80", "#ffd0be", "#ffffff"]);
     expect(colord("#aabbcc").tints(499)).toHaveLength(499);
+  });
+
+  it("Preserves the exact palette endpoint without changing interior steps", () => {
+    expect(colord("#0000ff").tints(50)[49].darken(0.5).toHex()).toBe("#808080");
+    expect(colord("#0000ff").tints(7, "rgb")[5].toHex()).toBe("#d4d4ff");
   });
 
   it("Generates a shades palette", () => {
