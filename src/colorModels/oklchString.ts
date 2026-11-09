@@ -5,7 +5,7 @@ import { clampOklcha, oklchaToRgba, rgbaToOklcha, roundOklcha } from "./oklch";
 // The only valid OKLCH syntax (modern space-separated form; no legacy comma form exists)
 // oklch() = oklch( [<percentage> | <number>] [<percentage> | <number>] <hue> [ / <alpha-value> ]? )
 // 100% equals 1 for lightness and 0.4 for chroma
-const oklchaMatcher = /^oklch\(\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s+([+-]?(?:\d*\.\d+|\d+))(%)?\s+([+-]?(?:\d*\.\d+|\d+))(deg|rad|grad|turn)?\s*(?:\/\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*)?\)$/i;
+const oklchaMatcher = /^oklch\(\s*([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s+([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s+([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(deg|rad|grad|turn)?\s*(?:\/\s*([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
 
 /**
  * Parses a valid OKLCH CSS color function/string

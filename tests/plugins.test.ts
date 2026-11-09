@@ -72,6 +72,7 @@ describe("cmyk", () => {
     expect(colord("device-cmyk(0% 0% 0% 100%)").toHex()).toBe("#000000");
     expect(colord("device-cmyk(0% 61% 72% 0% / 50%)").toHex()).toBe("#ff634780");
     expect(colord("device-cmyk(0 0.61 0.72 0 / 0.5)").toHex()).toBe("#ff634780");
+    expect(colord("device-cmyk(0 6.1e-1 7.2E1% 0 / 5e1%)").toHex()).toBe("#ff634780");
   });
 
   it("Converts a color to CMYK object", () => {
@@ -186,6 +187,7 @@ describe("hwb", () => {
     expect(colord("hwb(194 0% 0%)").toHex()).toBe("#00c3ff");
     expect(colord("hwb(194 0% 0% / .5)").toHex()).toBe("#00c3ff80");
     expect(colord("hwb(-90deg 40% 40% / 50%)").toHex()).toBe("#7f669980");
+    expect(colord("hwb(-9e1deg 4e1% 4E1% / 5e-1)").toHex()).toBe("#7f669980");
   });
 
   it("Ignores invalid syntax", () => {
@@ -298,6 +300,7 @@ describe("lch", () => {
     expect(colord("lch(52.2345% 72.2 56.2 / 1)").toHex()).toBe("#c65d06");
     expect(colord("lch(37% 105 305)").toHex()).toBe("#6a27e7");
     expect(colord("lch(56.2% 83.6 357.4 / 93%)").toHex()).toBe("#fe1091ed");
+    expect(colord("lch(5.62e1% 8.36e1 3.574E2 / 9.3e1%)").toHex()).toBe("#fe1091ed");
   });
 
   it("Converts a color to CIE LCH object", () => {
@@ -710,6 +713,7 @@ describe("oklab", () => {
     expect(colord("oklab(62.8% 56.225% 31.45%)").toHex()).toBe("#ff0000");
     expect(colord("oklab(0.2684 0.0162 0.0347 / 0.5)").toHex()).toBe("#33221180");
     expect(colord("oklab(0.2684 0.0162 0.0347 / 50%)").toHex()).toBe("#33221180");
+    expect(colord("oklab(2.684e-1 1.62e-2 3.47E-2 / 5e1%)").toHex()).toBe("#33221180");
   });
 
   it("Matches the web-platform-tests conformance values", () => {
@@ -806,6 +810,7 @@ describe("oklch", () => {
     expect(colord("oklch(62.8% 64.425% 29.23)").toHex()).toBe("#ff0000");
     expect(colord("oklch(0.2684 0.0383 64.93 / 0.5)").toHex()).toBe("#33221180");
     expect(colord("oklch(0.2684 0.0383 64.93 / 50%)").toHex()).toBe("#33221180");
+    expect(colord("oklch(6.28e-1 2.577e-1 2.923E1deg)").toHex()).toBe("#ff0000");
   });
 
   it("Matches the web-platform-tests conformance values", () => {

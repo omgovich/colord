@@ -229,6 +229,39 @@ it("Parses numbers with an omitted integer part", () => {
   expect(colord("hsl(.5deg .5% .5% / .5)").isValid()).toBe(true);
 });
 
+it("Parses numbers in scientific notation", () => {
+  // https://www.w3.org/TR/css-syntax-3/#consume-number
+  expect(colord("rgba(1e2, .5e1, .5e0, +.25e2%)").toRgb()).toMatchObject({
+    r: 100,
+    g: 5,
+    b: 1,
+    a: 0.25,
+  });
+  expect(colord("rgb(1E2 2e+1 3e-0)").toRgb()).toMatchObject({ r: 100, g: 20, b: 3, a: 1 });
+  expect(colord("rgb(1e2% 50% 5e1% / 5e-1)").toRgb()).toMatchObject({
+    r: 255,
+    g: 128,
+    b: 128,
+    a: 0.5,
+  });
+  expect(colord("rgb(-1e1 1e3 2.55e2)").toRgb()).toMatchObject({ r: 0, g: 255, b: 255, a: 1 });
+  expect(colord("hsl(1.2e2deg 5e1% 5E1%)").toHex()).toBe("#40bf40");
+  expect(colord("hsla(1.2E2, 50%, 50%, 5e-1)").toHex()).toBe("#40bf4080");
+  expect(colord("hsl(2.5e-1turn 50% 50%)").toHex()).toBe("#80bf40");
+});
+
+it("Ignores malformed scientific notation", () => {
+  expect(colord("rgb(1e 2 3)").isValid()).toBe(false);
+  expect(colord("rgb(1e+ 2 3)").isValid()).toBe(false);
+  expect(colord("rgb(1.e2 2 3)").isValid()).toBe(false);
+  expect(colord("rgb(1e2.5 2 3)").isValid()).toBe(false);
+  expect(colord("rgb(1ee2 2 3)").isValid()).toBe(false);
+  expect(colord("rgb(1e2e2 2 3)").isValid()).toBe(false);
+  expect(colord("rgb(e2 2 3)").isValid()).toBe(false);
+  expect(colord("rgb(1 e2 3)").isValid()).toBe(false);
+  expect(colord("hsl(1edeg 50% 50%)").isValid()).toBe(false);
+});
+
 it("Clamps input numbers", () => {
   expect(colord("rgba(256, 999, -200, 2)").toRgb()).toMatchObject({ r: 255, g: 255, b: 0, a: 1 });
   expect(

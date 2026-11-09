@@ -9,10 +9,11 @@ extend([cmykPlugin, hwbPlugin, lchPlugin, oklabPlugin, oklchPlugin]);
 
 /**
  * Every CSS function matcher spells a number as `(?:\d*\.\d+|\d+)` instead of the
- * shorter `\d*\.?\d+`. The shorter form lets two quantifiers match the same digits,
- * so a long malformed color can be divided between them in O(n²) ways, and a
- * rejection retries every division. Parsing is synchronous and uninterruptible,
- * so that time is taken from everything else sharing the thread.
+ * shorter `\d*\.?\d+` (both followed by an optional `(?:e[+-]?\d+)?` exponent). The
+ * shorter form lets two quantifiers match the same digits, so a long malformed color
+ * can be divided between them in O(n²) ways, and a rejection retries every division.
+ * Parsing is synchronous and uninterruptible, so that time is taken from everything
+ * else sharing the thread.
  *
  * The two forms accept exactly the same strings, which means no assertion about
  * parsing results can tell them apart — only running time can. The budget below is
@@ -44,6 +45,9 @@ describe("Rejects oversized malformed colors in linear time", () => {
     ["oklab", `oklab(${digits}!`],
     ["oklch", `oklch(${digits}!`],
     ["device-cmyk", `device-cmyk(${digits}!`],
+    ["exponent", `rgb(1e${digits}!`],
+    ["mantissa before an exponent", `rgb(${digits}e1!`],
+    ["fraction before an exponent", `hsl(.${digits}e-1!`],
   ])(
     "%s",
     (_name, input) => {

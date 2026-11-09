@@ -4,7 +4,7 @@ import { clampOklaba, oklabaToRgba, rgbaToOklaba, roundOklaba } from "./oklab";
 // The only valid OKLab syntax (modern space-separated form; no legacy comma form exists)
 // oklab() = oklab( [<percentage> | <number>]{3} [ / <alpha-value> ]? )
 // 100% equals 1 for lightness and 0.4 for both axes
-const oklabaMatcher = /^oklab\(\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s+([+-]?(?:\d*\.\d+|\d+))(%)?\s+([+-]?(?:\d*\.\d+|\d+))(%)?\s*(?:\/\s*([+-]?(?:\d*\.\d+|\d+))(%)?\s*)?\)$/i;
+const oklabaMatcher = /^oklab\(\s*([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s+([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s+([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s*(?:\/\s*([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
 
 /**
  * Parses a valid OKLab CSS color function/string
