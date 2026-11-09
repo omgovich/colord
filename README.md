@@ -143,8 +143,6 @@ colord({ h: 360, s: 100, v: 100 });
 colord({ h: 360, s: 100, v: 100, a: 1 });
 ```
 
-Angle units are case-insensitive: `0.25TURN` and `0.25turn` both mean 90 degrees.
-
 Check out the ["Plugins"](#plugins) section for more input format examples.
 
 </details>

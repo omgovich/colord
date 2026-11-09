@@ -833,6 +833,13 @@ describe("oklch", () => {
     expect(colord("oklch(0.8 0.1 1.5708rad)").toHex()).toBe(reference);
   });
 
+  it.each(["90DEG", "100GRAD", ".25TURN", "1.5708RAD", "90dEg", "100gRaD", ".25tUrN", "1.5708rAd"])(
+    "Parses case-insensitive OKLCH angle unit %s",
+    (hue) => {
+      expect(colord(`oklch(0.8 0.1 ${hue})`).toHex()).toBe(colord("oklch(0.8 0.1 90)").toHex());
+    }
+  );
+
   it("Converts a color to OKLCH object", () => {
     expect(colord("#ffffff").toOklch()).toMatchObject({ l: 1, c: 0, h: 0, a: 1, ok: true });
     expect(colord("#000000").toOklch()).toMatchObject({ l: 0, c: 0, h: 0, a: 1 });
