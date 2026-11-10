@@ -25,7 +25,7 @@ CI runs all four on every pull request, so please run them before pushing.
 - **Keep coverage at 100%.** Every new branch needs a test.
 - **Don't break existing behavior.** Changes to output rounding, parsing or defaults can break someone's build. If a behavior change is the point of your PR, say so in the description.
 - **Watch the bundle size.** Every entry point has a budget in `package.json`, and colord has no runtime dependencies. Please don't add any.
-- **Add a changeset** if your PR changes the published package: run `npx changeset` and write a one-line summary. Docs, tests and CI changes don't need one.
+- **Add a changeset** if your PR changes the published package: run `npx changeset` and write a one-line summary that credits you, e.g. `Fix: ... ❤️ [@user](https://github.com/user)` (see [.changeset/README.md](.changeset/README.md)). Docs, tests and CI changes don't need one.
 - **Update README.md** when the public API changes. It's the only API documentation.
 
 ## Code of Conduct
