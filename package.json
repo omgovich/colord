@@ -164,7 +164,7 @@
     "lint": "eslint src/**/*.ts",
     "size": "npm run build && size-limit",
     "check-types": "tsc --noEmit true",
-    "check-dist-types": "npm run build && node scripts/check-dist-types.mjs",
+    "check-dist-types": "npm run build && node tests/dist-types/check.mjs",
     "test": "jest tests --coverage",
     "benchmark": "tsc --outDir bench --skipLibCheck --esModuleInterop ./tests/benchmark.ts && node ./bench/tests/benchmark.js; code=$?; rm -rf ./bench; exit $code",
     "build": "rm -rf ./dist/* && rollup --config",

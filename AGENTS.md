@@ -52,7 +52,7 @@ The core (`src/index.ts`: `colord`, `Colord`, `extend`, `getFormat`, `random`) s
 A plugin is `(ColordClass, parsers) => void`: it mutates `Colord.prototype`, pushes new parsers, and augments types via `declare module "../colord"`. See `src/plugins/hwb.ts` for the canonical shape. To add a plugin:
 
 1. Create `src/plugins/<name>.ts` with a default export — rollup auto-discovers `src/plugins/*.ts` and builds each as its own entry point.
-2. Add an `exports` entry for `./plugins/<name>` in package.json, shaped like the others: `import` first, pointing its `types` at `./plugins/<name>.d.mts`. The build generates that ESM type entry (`emitEsmTypes` in `rollup.config.js`) so default imports type-check under TypeScript's `node16`/`nodenext`; add the plugin's method to the list in `scripts/check-dist-types.mjs`, which fails until you do.
+2. Add an `exports` entry for `./plugins/<name>` in package.json, shaped like the others: `import` first, pointing its `types` at `./plugins/<name>.d.mts`. The build generates that ESM type entry (`emitEsmTypes` in `rollup.config.js`) so default imports type-check under TypeScript's `node16`/`nodenext`; add the plugin to `tests/dist-types/consumer.ts`; `npm run check-dist-types` fails until you do.
 3. Add a size budget for `dist/plugins/<name>.mjs` in the `size-limit` array.
 4. Document it in README.md (the README is the only API documentation).
 
