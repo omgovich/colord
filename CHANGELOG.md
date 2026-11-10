@@ -1,3 +1,15 @@
+## 2.12.0
+
+### Minor Changes
+
+- Parse numbers in scientific notation (`rgb(1e2 .5e1 0 / 25e-2)`), as the CSS spec allows
+
+### Patch Changes
+
+- Fix: Parse CSS angle units case-insensitively, so `hsl(0.25TURN 50% 50%)` means 90 degrees instead of 0.25 ❤️ [@blueDaydreaming725](https://github.com/blueDaydreaming725)
+- Fix: Keep exact colors at the `mix()` endpoints and when only alpha differs, so a mixture into white no longer turns green after `.darken()` ❤️ [@feritcemkahraman](https://github.com/feritcemkahraman)
+- Fix: Type plugin default imports correctly in ES modules under TypeScript's `node16` and `nodenext` resolution
+
 ## 2.11.0
 
 ### Minor Changes
