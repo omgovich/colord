@@ -23,7 +23,7 @@ jobs:
       - run: npm run check-types
       - run: npm run test
       - run: npm run size
-      - run: npm run check-dist-types
+      - run: node tests/dist-types/check.mjs # uses the dist/ that `npm run size` just built
 
       - name: Code coverage report
         if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository

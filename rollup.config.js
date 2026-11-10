@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import glob from "glob";
 import typescript from "rollup-plugin-typescript2";
@@ -23,20 +24,32 @@ const getRollupPluginsConfig = (compilerOptions) => {
 // namespace instead of the plugin (#101). This emits `plugins/<name>.d.mts` with a real default
 // export for the `import` condition. It re-exports `<name>.d.ts`, which keeps the `Colord`
 // augmentation and named types like `HarmonyType` in one place.
-const emitEsmTypes = (name) => ({
-  name: "emit-esm-types",
-  generateBundle() {
-    this.emitFile({
-      type: "asset",
-      fileName: `${name}.d.mts`,
-      source: `export * from "./${name}.js";
-import type { Plugin } from "../extend.js";
-declare const plugin: Plugin;
-export default plugin;
-`,
-    });
-  },
-});
+const emitEsmTypes = (input) => {
+  const name = path.parse(input).name;
+  // Keep the plugin's doc comment (the one right before `const xPlugin: Plugin`) for editor hovers
+  const docComment = fs
+    .readFileSync(input, "utf8")
+    .match(/\/\*\*(?:(?!\*\/)[^])*\*\/(?=\s*const \w+: Plugin)/);
+
+  const source = [
+    `export * from "./${name}.js";`,
+    `import type { Plugin } from "../extend.js";`,
+    docComment && docComment[0],
+    `declare const plugin: Plugin;`,
+    `export default plugin;`,
+  ];
+
+  return {
+    name: "emit-esm-types",
+    generateBundle() {
+      this.emitFile({
+        type: "asset",
+        fileName: `${name}.d.mts`,
+        source: source.filter(Boolean).join("\n") + "\n",
+      });
+    },
+  };
+};
 
 // Find available plugins
 const colordPluginPaths = glob.sync("./src/plugins/*.ts");
@@ -69,10 +82,7 @@ export default [
       file: `dist/plugins/${path.parse(input).name}.mjs`,
       format: "es",
     },
-    plugins: [
-      ...getRollupPluginsConfig({ declaration: false }),
-      emitEsmTypes(path.parse(input).name),
-    ],
+    plugins: [...getRollupPluginsConfig({ declaration: false }), emitEsmTypes(input)],
   })),
 
   // Bundle all library plugins as CommonJS modules
