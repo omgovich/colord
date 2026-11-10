@@ -26,17 +26,17 @@ const getRollupPluginsConfig = (compilerOptions) => {
 // augmentation and named types like `HarmonyType` in one place.
 const emitEsmTypes = (input) => {
   const name = path.parse(input).name;
-  // Keep the plugin's doc comment (the one right before `const xPlugin: Plugin`) for editor hovers
-  const docComment = fs
+  // Keep the plugin's name and doc comment (`/** ... */ const xPlugin: Plugin`) for editor hovers
+  const [, docComment, pluginName] = fs
     .readFileSync(input, "utf8")
-    .match(/\/\*\*(?:(?!\*\/)[^])*\*\/(?=\s*const \w+: Plugin)/);
+    .match(/(\/\*\*(?:(?!\*\/)[^])*\*\/)?\s*const (\w+): Plugin/);
 
   const source = [
     `export * from "./${name}.js";`,
     `import type { Plugin } from "../extend.js";`,
-    docComment && docComment[0],
-    `declare const plugin: Plugin;`,
-    `export default plugin;`,
+    docComment,
+    `declare const ${pluginName}: Plugin;`,
+    `export default ${pluginName};`,
   ];
 
   return {
