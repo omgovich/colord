@@ -8,7 +8,7 @@ import oklchPlugin from "../src/plugins/oklch";
 extend([cmykPlugin, hwbPlugin, lchPlugin, oklabPlugin, oklchPlugin]);
 
 /**
- * Every CSS function matcher spells a number as `(?:\d*\.\d+|\d+)` instead of the
+ * Every CSS function matcher spells a number as `(?:\d+(?:\.\d+)?|\.\d+)` instead of the
  * shorter `\d*\.?\d+` (both followed by an optional `(?:e[+-]?\d+)?` exponent). The
  * shorter form lets two quantifiers match the same digits, so a long malformed color
  * can be divided between them in O(n²) ways, and a rejection retries every division.
@@ -48,6 +48,8 @@ describe("Rejects oversized malformed colors in linear time", () => {
     ["exponent", `rgb(1e${digits}!`],
     ["mantissa before an exponent", `rgb(${digits}e1!`],
     ["fraction before an exponent", `hsl(.${digits}e-1!`],
+    ["integer and fraction", `rgb(${digits}.${digits}!`],
+    ["fraction after a dot", `rgb(.${digits}.!`],
   ])(
     "%s",
     (_name, input) => {

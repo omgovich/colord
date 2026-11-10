@@ -4,7 +4,7 @@ import { clampHwba, rgbaToHwba, hwbaToRgba, roundHwba } from "./hwb";
 
 // The only valid HWB syntax
 // hwb( <hue> <percentage> <percentage> [ / <alpha-value> ]? )
-const hwbaMatcher = /^hwb\(\s*([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(deg|rad|grad|turn)?\s+([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)%\s+([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)%\s*(?:\/\s*([+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
+const hwbaMatcher = /^hwb\(\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(deg|rad|grad|turn)?\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)%\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)%\s*(?:\/\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
 
 /**
  * Parses a valid HWB[A] CSS color function/string
