@@ -18,6 +18,26 @@ const getRollupPluginsConfig = (compilerOptions) => {
   ];
 };
 
+// The package has no `"type": "module"`, so TypeScript reads `plugins/<name>.d.ts` as CommonJS,
+// and under `node16`/`nodenext` an ES module's default import of a plugin gets the module
+// namespace instead of the plugin (#101). This emits `plugins/<name>.d.mts` with a real default
+// export for the `import` condition. It re-exports `<name>.d.ts`, which keeps the `Colord`
+// augmentation and named types like `HarmonyType` in one place.
+const emitEsmTypes = (name) => ({
+  name: "emit-esm-types",
+  generateBundle() {
+    this.emitFile({
+      type: "asset",
+      fileName: `${name}.d.mts`,
+      source: `export * from "./${name}.js";
+import type { Plugin } from "../extend.js";
+declare const plugin: Plugin;
+export default plugin;
+`,
+    });
+  },
+});
+
 // Find available plugins
 const colordPluginPaths = glob.sync("./src/plugins/*.ts");
 
@@ -49,7 +69,10 @@ export default [
       file: `dist/plugins/${path.parse(input).name}.mjs`,
       format: "es",
     },
-    plugins: getRollupPluginsConfig({ declaration: false }),
+    plugins: [
+      ...getRollupPluginsConfig({ declaration: false }),
+      emitEsmTypes(path.parse(input).name),
+    ],
   })),
 
   // Bundle all library plugins as CommonJS modules

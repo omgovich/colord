@@ -167,7 +167,7 @@
     "check-dist-types": "npm run build && node scripts/check-dist-types.mjs",
     "test": "jest tests --coverage",
     "benchmark": "tsc --outDir bench --skipLibCheck --esModuleInterop ./tests/benchmark.ts && node ./bench/tests/benchmark.js; code=$?; rm -rf ./bench; exit $code",
-    "build": "rm -rf ./dist/* && rollup --config && node scripts/plugin-esm-types.mjs",
+    "build": "rm -rf ./dist/* && rollup --config",
     "release": "npm run build && cp *.json dist && cp *.md dist && npm publish ./dist",
     "check-release": "npm run release -- --dry-run",
     "changeset:version": "changeset version && npm install --package-lock-only --ignore-scripts",
