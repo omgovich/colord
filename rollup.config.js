@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import glob from "glob";
 import typescript from "rollup-plugin-typescript2";
@@ -16,6 +17,38 @@ const getRollupPluginsConfig = (compilerOptions) => {
       format: { wrap_func_args: false },
     }),
   ];
+};
+
+// The package has no `"type": "module"`, so TypeScript reads `plugins/<name>.d.ts` as CommonJS,
+// and under `node16`/`nodenext` an ES module's default import of a plugin gets the module
+// namespace instead of the plugin (#101). This emits `plugins/<name>.d.mts` with a real default
+// export for the `import` condition. It re-exports `<name>.d.ts`, which keeps the `Colord`
+// augmentation and named types like `HarmonyType` in one place.
+const emitEsmTypes = (input) => {
+  const name = path.parse(input).name;
+  // Keep the plugin's name and doc comment (`/** ... */ const xPlugin: Plugin`) for editor hovers
+  const [, docComment, pluginName] = fs
+    .readFileSync(input, "utf8")
+    .match(/(\/\*\*(?:(?!\*\/)[^])*\*\/)?\s*const (\w+): Plugin/);
+
+  const source = [
+    `export * from "./${name}.js";`,
+    `import type { Plugin } from "../extend.js";`,
+    docComment,
+    `declare const ${pluginName}: Plugin;`,
+    `export default ${pluginName};`,
+  ];
+
+  return {
+    name: "emit-esm-types",
+    generateBundle() {
+      this.emitFile({
+        type: "asset",
+        fileName: `${name}.d.mts`,
+        source: source.filter(Boolean).join("\n") + "\n",
+      });
+    },
+  };
 };
 
 // Find available plugins
@@ -49,7 +82,7 @@ export default [
       file: `dist/plugins/${path.parse(input).name}.mjs`,
       format: "es",
     },
-    plugins: getRollupPluginsConfig({ declaration: false }),
+    plugins: [...getRollupPluginsConfig({ declaration: false }), emitEsmTypes(input)],
   })),
 
   // Bundle all library plugins as CommonJS modules

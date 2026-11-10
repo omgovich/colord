@@ -16,6 +16,7 @@ That reach sets the priorities for every change:
 
 - **Lint:** `npm run lint`
 - **Type check:** `npm run check-types`
+- **Type check the built package as a consumer:** `npm run check-dist-types` (packs `dist/`, compiles a project importing every plugin under TypeScript `node16`, `nodenext`, `bundler` and `node`, then runs it)
 - **Test (with coverage):** `npm run test`
 - **Test single file:** `npx jest tests/colord.test.ts`
 - **Test single case:** `npx jest tests/plugins.test.ts -t "lab"`
@@ -24,7 +25,7 @@ That reach sets the priorities for every change:
 - **Benchmark:** `npm run benchmark` (compares against tinycolor2, chroma-js, etc.; exits non-zero on a perf regression)
 - **Release dry run:** `npm run check-release`
 
-CI (`.github/workflows/node.yml`) runs `lint`, `check-types`, `test`, and `size` on Node 18/20/22. Run all four before declaring work done.
+CI (`.github/workflows/node.yml`) runs `lint`, `check-types`, `test`, `size` and `check-dist-types` on Node 18/20/22. Run all five before declaring work done.
 
 A separate workflow (`.github/workflows/benchmark.yml`) runs `benchmark` on a pinned runner. It is both the regression check and the source of the numbers in README's benchmark table — copy them from the job summary rather than from a local run, since ops/sec are machine-specific. See the `MIN_SPEEDUP` comment in `tests/benchmark.ts` for why the check watches ratios instead of absolute numbers, and when to move the floors.
 
@@ -51,7 +52,7 @@ The core (`src/index.ts`: `colord`, `Colord`, `extend`, `getFormat`, `random`) s
 A plugin is `(ColordClass, parsers) => void`: it mutates `Colord.prototype`, pushes new parsers, and augments types via `declare module "../colord"`. See `src/plugins/hwb.ts` for the canonical shape. To add a plugin:
 
 1. Create `src/plugins/<name>.ts` with a default export — rollup auto-discovers `src/plugins/*.ts` and builds each as its own entry point.
-2. Add an `exports` entry for `./plugins/<name>` in package.json.
+2. Add an `exports` entry for `./plugins/<name>` in package.json, shaped like the others: `import` first, pointing its `types` at `./plugins/<name>.d.mts`. The build generates that ESM type entry (`emitEsmTypes` in `rollup.config.js`) so default imports type-check under TypeScript's `node16`/`nodenext`; add the plugin to `tests/dist-types/consumer.ts`; `npm run check-dist-types` fails until you do.
 3. Add a size budget for `dist/plugins/<name>.mjs` in the `size-limit` array.
 4. Document it in README.md (the README is the only API documentation).
 
