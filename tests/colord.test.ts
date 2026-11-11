@@ -369,6 +369,22 @@ it("Saturates and desaturates a color", () => {
   expect(instance.grayscale().toHex()).toBe(saturationLevels[0]);
 });
 
+it("Saturates and desaturates a color relative to its saturation", () => {
+  const relative = { relative: true };
+  expect(colord("hsl(0, 40%, 50%)").saturate(0.1, relative).toHsl().s).toBe(44);
+  expect(colord("hsl(0, 40%, 50%)").saturate(undefined, relative).toHsl().s).toBe(44);
+  expect(colord("hsl(0, 40%, 50%)").desaturate(0.5, relative).toHsl().s).toBe(20);
+  expect(colord("hsl(0, 40%, 50%)").desaturate(undefined, relative).toHsl().s).toBe(36);
+  expect(colord("hsl(0, 40%, 50%)").saturate(0.1, { relative: false }).toHsl().s).toBe(50);
+
+  // Clamps to the 0-100% range
+  expect(colord("hsl(0, 80%, 50%)").saturate(0.5, relative).toHsl().s).toBe(100);
+  expect(colord("hsl(0, 80%, 50%)").desaturate(2, relative).toHsl().s).toBe(0);
+
+  // A gray color has no saturation to scale
+  expect(colord("#808080").saturate(0.5, relative).toHex()).toBe("#808080");
+});
+
 it("Makes a color lighter and darker", () => {
   expect(colord("hsl(100, 50%, 50%)").lighten().toHslString()).toBe("hsl(100, 50%, 60%)");
   expect(colord("hsl(100, 50%, 50%)").lighten(0.25).toHsl().l).toBe(75);
@@ -379,6 +395,24 @@ it("Makes a color lighter and darker", () => {
   expect(colord("#000").lighten(0.5).toHex()).toBe("#808080");
   expect(colord("#FFF").darken(1).toHex()).toBe("#000000");
   expect(colord("#FFF").darken(0.5).toHex()).toBe("#808080");
+});
+
+it("Makes a color lighter and darker relative to its lightness", () => {
+  const relative = { relative: true };
+  expect(colord("hsl(100, 50%, 50%)").lighten(0.2, relative).toHsl().l).toBe(60);
+  expect(colord("hsl(100, 50%, 50%)").lighten(undefined, relative).toHsl().l).toBe(55);
+  expect(colord("hsl(100, 50%, 50%)").darken(0.1, relative).toHslString()).toBe(
+    "hsl(100, 50%, 45%)"
+  );
+  expect(colord("hsl(100, 50%, 50%)").darken(0.2, relative).toHsl().l).toBe(40);
+  expect(colord("hsl(100, 50%, 50%)").lighten(0.2, { relative: false }).toHsl().l).toBe(70);
+
+  // Clamps to the 0-100% range
+  expect(colord("hsl(100, 50%, 80%)").lighten(0.5, relative).toHex()).toBe("#ffffff");
+  expect(colord("hsl(100, 50%, 50%)").darken(2, relative).toHex()).toBe("#000000");
+
+  // Black has no lightness to scale
+  expect(colord("#000").lighten(0.5, relative).toHex()).toBe("#000000");
 });
 
 it("Inverts a color", () => {

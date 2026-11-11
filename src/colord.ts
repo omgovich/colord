@@ -13,6 +13,11 @@ import { getBrightness } from "./get/getBrightness";
 import { lighten } from "./manipulate/lighten";
 import { invert } from "./manipulate/invert";
 
+interface ManipulationOptions {
+  /** Shift by a fraction of the current value instead of the whole 0–100% range */
+  relative?: boolean;
+}
+
 export class Colord {
   private readonly parsed: RgbaColor | null;
   readonly rgba: RgbaColor;
@@ -114,15 +119,15 @@ export class Colord {
   /**
    * Increases the HSL saturation of a color by the given amount.
    */
-  public saturate(amount = 0.1): Colord {
-    return colord(saturate(this.rgba, amount));
+  public saturate(amount = 0.1, options?: ManipulationOptions): Colord {
+    return colord(saturate(this.rgba, amount, options?.relative));
   }
 
   /**
    * Decreases the HSL saturation of a color by the given amount.
    */
-  public desaturate(amount = 0.1): Colord {
-    return colord(saturate(this.rgba, -amount));
+  public desaturate(amount = 0.1, options?: ManipulationOptions): Colord {
+    return colord(saturate(this.rgba, -amount, options?.relative));
   }
 
   /**
@@ -135,15 +140,15 @@ export class Colord {
   /**
    * Increases the HSL lightness of a color by the given amount.
    */
-  public lighten(amount = 0.1): Colord {
-    return colord(lighten(this.rgba, amount));
+  public lighten(amount = 0.1, options?: ManipulationOptions): Colord {
+    return colord(lighten(this.rgba, amount, options?.relative));
   }
 
   /**
-   * Increases the HSL lightness of a color by the given amount.
+   * Decreases the HSL lightness of a color by the given amount.
    */
-  public darken(amount = 0.1): Colord {
-    return colord(lighten(this.rgba, -amount));
+  public darken(amount = 0.1, options?: ManipulationOptions): Colord {
+    return colord(lighten(this.rgba, -amount, options?.relative));
   }
 
   /**
