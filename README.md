@@ -857,8 +857,8 @@ extend([minifyPlugin]);
 colord("black").minify(); // "#000"
 colord("#112233").minify(); // "#123"
 colord("darkgray").minify(); // "#a9a9a9"
-colord("rgba(170,170,170,0.4)").minify(); // "hsla(0,0%,67%,.4)"
-colord("rgba(170,170,170,0.4)").minify({ alphaHex: true }); // "#aaa6"
+colord("rgba(204,204,204,0.4)").minify(); // "hsla(0,0%,80%,.4)"
+colord("rgba(204,204,204,0.4)").minify({ alphaHex: true }); // "#ccc6"
 ```
 
 | Option        | Default | Description                                                  |
@@ -1025,8 +1025,8 @@ extend([minifyPlugin]);
 colord("black").minify(); // "#000"
 colord("#112233").minify(); // "#123"
 colord("darkgray").minify(); // "#a9a9a9"
-colord("rgba(170,170,170,0.4)").minify(); // "hsla(0,0%,67%,.4)"
-colord("rgba(170,170,170,0.4)").minify({ alphaHex: true }); // "#aaa6"
+colord("rgba(204,204,204,0.4)").minify(); // "hsla(0,0%,80%,.4)"
+colord("rgba(204,204,204,0.4)").minify({ alphaHex: true }); // "#ccc6"
 ```
 
 </details>

@@ -359,17 +359,29 @@ describe("minify", () => {
     expect(colord("black").minify()).toBe("#000");
     expect(colord("#112233").minify()).toBe("#123");
     expect(colord("darkgray").minify()).toBe("#a9a9a9");
-    expect(colord("rgba(200,200,200,0.55)").minify()).toBe("hsla(0,0%,78%,.55)");
-    expect(colord("rgba(200,200,200,0.55)").minify({ hsl: false })).toBe("rgba(200,200,200,.55)");
+    expect(colord("rgba(204,204,204,0.55)").minify()).toBe("hsla(0,0%,80%,.55)");
+    expect(colord("rgba(204,204,204,0.55)").minify({ hsl: false })).toBe("rgba(204,204,204,.55)");
+  });
+
+  it("Skips HSL when it would round to a different color", () => {
+    // https://github.com/cssnano/cssnano/issues/1515
+    expect(colord("rgb(143 101 98 / 43%)").minify()).toBe("rgba(143,101,98,.43)");
+    // https://github.com/omgovich/colord/issues/130
+    expect(colord("rgb(14 14 14 / 50%)").minify()).toBe("rgba(14,14,14,.5)");
+    expect(colord("rgba(221,221,221,0.5)").minify()).toBe("rgba(221,221,221,.5)");
+    expect(colord("rgba(200,200,200,0.55)").minify()).toBe("rgba(200,200,200,.55)");
+    // With HSL as the only notation left, a lossy color still falls back to rgb()
+    expect(colord("rgb(143 101 98 / 43%)").minify({ hex: false, rgb: false })).toBe(
+      "rgba(143,101,98,.43)"
+    );
+    expect(colord("rgb(204 204 204)").minify({ hex: false, rgb: false })).toBe("hsl(0,0%,80%)");
   });
 
   it("Never returns a color other than the one it was given", () => {
-    // The HSL variant rounds its channels and can name a different color; that is a
-    // separate, older issue, so this locks the notations that are meant to be exact
     for (let byte = 1; byte < 255; byte += 7) {
       const digits = byte.toString(16).padStart(2, "0");
-      for (const rgb of ["#123456", "#3366cc", "#7f8081", "#000000"]) {
-        for (const options of [{ alphaHex: true, hsl: false }, { hsl: false }]) {
+      for (const rgb of ["#123456", "#3366cc", "#7f8081", "#000000", "#dddddd", "#8f6562"]) {
+        for (const options of [{ alphaHex: true }, {}, { alphaHex: true, hsl: false }]) {
           const color = colord(`${rgb}${digits}`);
           expect(colord(color.minify(options)).toRgbString()).toBe(color.toRgbString());
         }

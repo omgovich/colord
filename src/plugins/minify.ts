@@ -99,9 +99,15 @@ const minifyPlugin: Plugin = (ColordClass): void => {
     const rgbVariant = a === 1 ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${a})`;
     if (settings.rgb) variants.push(rgbVariant);
 
-    // hsl() functional notation with no spaces
+    // hsl() functional notation with no spaces. Its channels are rounded to integers,
+    // which is coarser than 8-bit RGB, so it's only used when it reads back as the same color.
+    // That check is the slow part, so it runs only when HSL is the shortest so far and can win
     if (settings.hsl) {
-      variants.push(a === 1 ? `hsl(${h},${s}%,${l}%)` : `hsla(${h},${s}%,${l}%,${a})`);
+      const hslVariant = a === 1 ? `hsl(${h},${s}%,${l}%)` : `hsla(${h},${s}%,${l}%,${a})`;
+      if (variants.every((variant) => hslVariant.length < variant.length)) {
+        const back = new ColordClass(hsl).toRgb();
+        if (back.r === rgb.r && back.g === rgb.g && back.b === rgb.b) variants.push(hslVariant);
+      }
     }
 
     if (settings.transparent && r === 0 && g === 0 && b === 0 && a === 0) {
