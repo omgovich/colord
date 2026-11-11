@@ -230,7 +230,8 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
     const name = input.toLowerCase();
     // "transparent" is a shorthand for transparent black
     const hex = name === "transparent" ? "#0000" : NAME_HEX_STORE[name];
-    if (hex) return new ColordClass(hex).toRgb();
+    // "constructor" and "__proto__" find the members every object inherits, not a color
+    if (typeof hex === "string") return new ColordClass(hex).toRgb();
     return null;
   };
 
