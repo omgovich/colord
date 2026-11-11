@@ -2,14 +2,14 @@ import { rgbaToHsla } from "../colorModels/hsl";
 import { HslaColor, RgbaColor } from "../types";
 import { clamp } from "../helpers";
 
-export const lighten = (rgba: RgbaColor, amount: number, relative = false): HslaColor => {
+export const lighten = (rgba: RgbaColor, amount: number, relative?: boolean): HslaColor => {
   const hsla = rgbaToHsla(rgba);
-  const l = relative ? hsla.l * (1 + amount) : hsla.l + amount * 100;
 
   return {
     h: hsla.h,
     s: hsla.s,
-    l: clamp(l, 0, 100),
+    // Relative mode shifts by a fraction of the current lightness, like Qix's `color` library
+    l: clamp(hsla.l + amount * (relative ? hsla.l : 100), 0, 100),
     a: hsla.a,
   };
 };

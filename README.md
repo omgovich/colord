@@ -489,7 +489,7 @@ colord("#aabbcc").invert().toHex(); // "#554433"
 </details>
 
 <details>
-  <summary><b><code>.saturate(amount = 0.1)</code></b></summary>
+  <summary><b><code>.saturate(amount = 0.1, options?)</code></b></summary>
 
 Increases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
@@ -498,16 +498,28 @@ colord("#bf4040").saturate(0.25).toHex(); // "#df2020"
 colord("hsl(0, 50%, 50%)").saturate(0.5).toHslString(); // "hsl(0, 100%, 50%)"
 ```
 
+Pass `{ relative: true }` to scale the current saturation instead (`s * (1 + amount)`), as the [color](https://github.com/Qix-/color) library does. A gray color stays gray, since it has no saturation to scale.
+
+```js
+colord("hsl(0, 40%, 50%)").saturate(0.1, { relative: true }).toHslString(); // "hsl(0, 44%, 50%)"
+```
+
 </details>
 
 <details>
-  <summary><b><code>.desaturate(amount = 0.1)</code></b></summary>
+  <summary><b><code>.desaturate(amount = 0.1, options?)</code></b></summary>
 
 Decreases the [HSL saturation](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
 ```js
 colord("#df2020").desaturate(0.25).toHex(); // "#bf4040"
 colord("hsl(0, 100%, 50%)").desaturate(0.5).toHslString(); // "hsl(0, 50%, 50%)"
+```
+
+Pass `{ relative: true }` to scale the current saturation instead (`s * (1 - amount)`).
+
+```js
+colord("hsl(0, 40%, 50%)").desaturate(0.5, { relative: true }).toHslString(); // "hsl(0, 20%, 50%)"
 ```
 
 </details>
@@ -525,7 +537,7 @@ colord("hsl(0, 100%, 50%)").grayscale().toHslString(); // "hsl(0, 0%, 50%)"
 </details>
 
 <details>
-  <summary><b><code>.lighten(amount = 0.1, relative = false)</code></b></summary>
+  <summary><b><code>.lighten(amount = 0.1, options?)</code></b></summary>
 
 Increases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
@@ -535,29 +547,29 @@ colord("#223344").lighten(0.3).toHex(); // "#5580aa"
 colord("hsl(0, 50%, 50%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 100%)"
 ```
 
-The manipulation can be relative to the color itself:
+Pass `{ relative: true }` to scale the current lightness instead (`l * (1 + amount)`), as the [color](https://github.com/Qix-/color) library does. Black stays black, since it has no lightness to scale.
 
 ```js
-colord("hsl(0, 50%, 50%)").lighten(0.5, true).toHslString(); // "hsl(0, 50%, 75%)"
+colord("hsl(0, 50%, 50%)").lighten(0.5, { relative: true }).toHslString(); // "hsl(0, 50%, 75%)"
 ```
 
 </details>
 
 <details>
-  <summary><b><code>.darken(amount = 0.1, relative = false)</code></b></summary>
+  <summary><b><code>.darken(amount = 0.1, options?)</code></b></summary>
 
 Decreases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a color by the given amount.
 
 ```js
 colord("#ffffff").darken(0.5).toHex(); // "#808080"
 colord("#5580aa").darken(0.3).toHex(); // "#223344"
-colord("hsl(0, 50%, 100%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 50%)"
+colord("hsl(0, 50%, 75%)").darken(0.25).toHslString(); // "hsl(0, 50%, 50%)"
 ```
 
-The manipulation can be relative to the color itself:
+Pass `{ relative: true }` to scale the current lightness instead (`l * (1 - amount)`).
 
 ```js
-colord("hsl(0, 50%, 50%)").darken(0.5, true).toHslString(); // "hsl(0, 50%, 25%)"
+colord("hsl(0, 50%, 50%)").darken(0.5, { relative: true }).toHslString(); // "hsl(0, 50%, 25%)"
 ```
 
 </details>
