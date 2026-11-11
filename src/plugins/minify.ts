@@ -104,11 +104,9 @@ const minifyPlugin: Plugin = (ColordClass): void => {
     // That check is the slow part, so it runs only when HSL is the shortest so far and can win
     if (settings.hsl) {
       const hslVariant = a === 1 ? `hsl(${h},${s}%,${l}%)` : `hsla(${h},${s}%,${l}%,${a})`;
-      if (
-        variants.every((variant) => hslVariant.length < variant.length) &&
-        new ColordClass(hsl).toRgbString() === this.toRgbString()
-      ) {
-        variants.push(hslVariant);
+      if (variants.every((variant) => hslVariant.length < variant.length)) {
+        const back = new ColordClass(hsl).toRgb();
+        if (back.r === rgb.r && back.g === rgb.g && back.b === rgb.b) variants.push(hslVariant);
       }
     }
 
