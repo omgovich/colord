@@ -498,7 +498,7 @@ colord("#bf4040").saturate(0.25).toHex(); // "#df2020"
 colord("hsl(0, 50%, 50%)").saturate(0.5).toHslString(); // "hsl(0, 100%, 50%)"
 ```
 
-Pass `{ relative: true }` to scale the current saturation instead (`s * (1 + amount)`), as the [color](https://github.com/Qix-/color) library does. A gray color stays gray, since it has no saturation to scale.
+Pass `{ relative: true }` to scale the current saturation instead (`s * (1 + amount)`). A gray color stays gray, since it has no saturation to scale.
 
 ```js
 colord("hsl(0, 40%, 50%)").saturate(0.1, { relative: true }).toHslString(); // "hsl(0, 44%, 50%)"
@@ -547,7 +547,7 @@ colord("#223344").lighten(0.3).toHex(); // "#5580aa"
 colord("hsl(0, 50%, 50%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 100%)"
 ```
 
-Pass `{ relative: true }` to scale the current lightness instead (`l * (1 + amount)`), as the [color](https://github.com/Qix-/color) library does. Black stays black, since it has no lightness to scale.
+Pass `{ relative: true }` to scale the current lightness instead (`l * (1 + amount)`). Black stays black, since it has no lightness to scale.
 
 ```js
 colord("hsl(0, 50%, 50%)").lighten(0.5, { relative: true }).toHslString(); // "hsl(0, 50%, 75%)"
