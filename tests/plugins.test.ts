@@ -370,6 +370,11 @@ describe("minify", () => {
     expect(colord("rgb(14 14 14 / 50%)").minify()).toBe("rgba(14,14,14,.5)");
     expect(colord("rgba(221,221,221,0.5)").minify()).toBe("rgba(221,221,221,.5)");
     expect(colord("rgba(200,200,200,0.55)").minify()).toBe("rgba(200,200,200,.55)");
+    // With HSL as the only notation left, a lossy color still falls back to rgb()
+    expect(colord("rgb(143 101 98 / 43%)").minify({ hex: false, rgb: false })).toBe(
+      "rgba(143,101,98,.43)"
+    );
+    expect(colord("rgb(204 204 204)").minify({ hex: false, rgb: false })).toBe("hsl(0,0%,80%)");
   });
 
   it("Never returns a color other than the one it was given", () => {
