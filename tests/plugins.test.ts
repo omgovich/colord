@@ -560,6 +560,13 @@ describe("names", () => {
     expect(colord("myownpurple").toHex()).toBe("#000000");
   });
 
+  it("Does not take the names of inherited object members for colors", () => {
+    expect(colord("constructor").isValid()).toBe(false);
+    expect(colord("__proto__").isValid()).toBe(false);
+    expect(colord("Constructor").isValid()).toBe(false);
+    expect(getFormat("constructor")).toBeUndefined();
+  });
+
   it("Processes 'transparent' color properly", () => {
     expect(colord("transparent").alpha()).toBe(0);
     expect(colord("transparent").toHex()).toBe("#00000000");
