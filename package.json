@@ -22,7 +22,14 @@
     "cmyk",
     "mix",
     "minify",
-    "harmonies"
+    "harmonies",
+    "oklch",
+    "oklab",
+    "color-manipulation",
+    "color-conversion",
+    "wcag",
+    "contrast",
+    "typescript"
   ],
   "repository": {
     "type": "git",
