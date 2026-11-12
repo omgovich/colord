@@ -3,8 +3,9 @@ import { parseHue } from "../helpers";
 import { clampLcha, rgbaToLcha, lchaToRgba, roundLcha } from "./lch";
 
 // The only valid LCH syntax
-// lch() = lch( <percentage> <number> <hue> [ / <alpha-value> ]? )
-const lchaMatcher = /^lch\(\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)%\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(deg|rad|grad|turn)?\s*(?:\/\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
+// lch() = lch( [<percentage> | <number>] [<percentage> | <number>] <hue> [ / <alpha-value> ]? )
+// 100% equals 100 for lightness and 150 for chroma
+const lchaMatcher = /^lch\(\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)%?\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(deg|rad|grad|turn)?\s*(?:\/\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
 
 /**
  * Parses a valid LCH CSS color function/string
@@ -17,9 +18,9 @@ export const parseLchaString = (input: string): RgbaColor | null => {
 
   const lcha = clampLcha({
     l: Number(match[1]),
-    c: Number(match[2]),
-    h: parseHue(match[3], match[4]),
-    a: match[5] === undefined ? 1 : Number(match[5]) / (match[6] ? 100 : 1),
+    c: Number(match[2]) * (match[3] ? 1.5 : 1),
+    h: parseHue(match[4], match[5]),
+    a: match[6] === undefined ? 1 : Number(match[6]) / (match[7] ? 100 : 1),
   });
 
   return lchaToRgba(lcha);
