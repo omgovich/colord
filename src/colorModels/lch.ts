@@ -9,7 +9,8 @@ import { labaToRgba, rgbaToLaba } from "./lab";
  */
 export const clampLcha = (laba: LchaColor): LchaColor => ({
   l: clamp(laba.l, 0, 100),
-  c: laba.c, // chroma is theoretically unbounded in LCH
+  // Negative chroma is clamped to 0; it is theoretically unbounded above
+  c: laba.c < 0 ? 0 : laba.c,
   h: clampHue(laba.h),
   a: laba.a,
 });
