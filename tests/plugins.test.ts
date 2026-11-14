@@ -301,6 +301,10 @@ describe("lch", () => {
     expect(colord("lch(37% 105 305)").toHex()).toBe("#6a27e7");
     expect(colord("lch(56.2% 83.6 357.4 / 93%)").toHex()).toBe("#fe1091ed");
     expect(colord("lch(5.62e1% 8.36e1 3.574E2 / 9.3e1%)").toHex()).toBe("#fe1091ed");
+    // Lightness may be a plain number and chroma a percentage (100% = 150)
+    expect(colord("lch(52.2345 72.2 56.2)").toHex()).toBe("#c65d06");
+    expect(colord("lch(37% 70% 305)").toHex()).toBe("#6a27e7");
+    expect(colord("lch(56.2 55.7333% 357.4 / 0.93)").toHex()).toBe("#fe1091ed");
   });
 
   it("Converts a color to CIE LCH object", () => {
@@ -347,6 +351,7 @@ describe("lch", () => {
 
   it("Supported by `getFormat`", () => {
     expect(getFormat("lch(50% 50 180deg)")).toBe("lch");
+    expect(getFormat("lch(50 50 180)")).toBe("lch");
     expect(getFormat({ l: 50, c: 50, h: 180 })).toBe("lch");
   });
 });
