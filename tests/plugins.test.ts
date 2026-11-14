@@ -326,6 +326,15 @@ describe("lch", () => {
     expect(colord("lch(50% 50 360)").toLchString()).toBe("lch(50% 50 0)");
   });
 
+  it("Clamps a negative chroma to 0", () => {
+    // https://www.w3.org/TR/css-color-4/#specifying-lab-lch
+    // A negative chroma must not flip the hue by 180deg
+    expect(colord("lch(50% -20 30)").toHex()).toBe("#777777");
+    expect(colord("lch(50% -10% 30)").toHex()).toBe("#777777");
+    expect(colord({ l: 50, c: -20, h: 30 }).toHex()).toBe("#777777");
+    expect(colord({ l: 50, c: -20, h: 30 }).toHex()).toBe(colord("lch(50% 0 30)").toHex());
+  });
+
   it("Converts a color to CIE LCH string (CSS functional notation)", () => {
     // https://cielab.xyz/colorconv/
     expect(colord("#00000080").toLchString()).toBe("lch(0% 0 0 / 0.5)");
