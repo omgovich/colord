@@ -1,3 +1,17 @@
+## 2.13.0
+
+### Minor Changes
+
+- New `relative` option of `lighten`, `darken`, `saturate` and `desaturate` that scales the current value ❤️ [@EricRovell](https://github.com/EricRovell)
+
+### Patch Changes
+
+- Parse CSS color function strings faster: the number pattern now matches an integer without backtracking ❤️ [@g4lb](https://github.com/g4lb)
+- Fix: `lch` plugin clamps a negative chroma to 0 instead of flipping the hue, such as `lch(50% -20 30)` ❤️ [@bardrop](https://github.com/bardrop)
+- Fix: `lch` plugin parses a plain number lightness and a percentage chroma, such as `lch(52.2 72.2 56.2)` ❤️ [@Kernel-Hunter](https://github.com/Kernel-Hunter)
+- Fix: `minify()` no longer picks an `hsl()` string that rounds to a different color
+- Fix: `names` plugin no longer treats `"constructor"` and `"__proto__"` as valid colors ❤️ [@Kernel-Hunter](https://github.com/Kernel-Hunter)
+
 ## 2.12.0
 
 ### Minor Changes
