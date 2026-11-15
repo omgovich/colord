@@ -237,6 +237,27 @@ describe("lab", () => {
     expect(colord({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 }).toHex()).toBe("#d53987");
   });
 
+  it("Parses CIE LAB color string", () => {
+    // https://www.w3.org/TR/css-color-4/#specifying-lab-lch
+    expect(colord("lab(100% 0 0)").toHex()).toBe("#ffffff");
+    expect(colord("lab(0% 0 0 / 0)").toHex()).toBe("#00000000");
+    expect(colord("lab(54.29% 80.81 69.89)").toHex()).toBe("#ff0000");
+    expect(colord("lab(15.05% 6.68 14.59 / 0.5)").toHex()).toBe("#33221180");
+    expect(colord("lab(74.97% -3.4 -10.7 / 100%)").toHex()).toBe("#aabbcc");
+    expect(colord("LAB( 54.29%   80.81 69.89 /50% )").toHex()).toBe("#ff000080");
+    expect(colord("lab(5.429e1% 8.081e1 6.989E1 / 5e1%)").toHex()).toBe("#ff000080");
+    // Lightness may be a plain number and the axes percentages (100% = 125)
+    expect(colord("lab(50.93 64.96 -6.38)").toHex()).toBe("#d53987");
+    expect(colord("lab(50.93% 51.968% -5.104%)").toHex()).toBe("#d53987");
+  });
+
+  it("Does not parse invalid CIE LAB color strings", () => {
+    expect(colord("lab(50% 40)").isValid()).toBe(false);
+    expect(colord("lab(50%, 40, 60)").isValid()).toBe(false);
+    expect(colord("lab(50% 40 60 0.5)").isValid()).toBe(false);
+    expect(colord("lab(50% 40deg 60)").isValid()).toBe(false);
+  });
+
   it("Converts a color to CIE LAB object", () => {
     // https://cielab.xyz/colorconv/
     expect(colord("#ffffff").toLab()).toMatchObject({ l: 100, a: 0, b: 0, alpha: 1 });
@@ -247,6 +268,14 @@ describe("lab", () => {
     expect(colord("#aabbcc").toLab()).toMatchObject({ l: 74.97, a: -3.4, b: -10.7, alpha: 1 });
     expect(colord("#33221180").toLab()).toMatchObject({ l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 });
     expect(colord("#d53987").toLab()).toMatchObject({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 });
+  });
+
+  it("Converts a color to CIE LAB string (CSS functional notation)", () => {
+    expect(colord("#ffffff").toLabString()).toBe("lab(100% 0 0)");
+    expect(colord("#00000080").toLabString()).toBe("lab(0% 0 0 / 0.5)");
+    expect(colord("#c65d06ed").toLabString()).toBe("lab(52.31% 40.04 60.1 / 0.93)");
+    expect(colord("#aabbcc").toLabString()).toBe("lab(74.97% -3.4 -10.7)");
+    expect(colord(colord("#d53987").toLabString()).toHex()).toBe("#d53987");
   });
 
   it("Calculates the the perceived color difference", () => {
@@ -275,6 +304,7 @@ describe("lab", () => {
 
   it("Supported by `getFormat`", () => {
     expect(getFormat({ l: 50, a: 0, b: 0, alpha: 1 })).toBe("lab");
+    expect(getFormat("lab(50% 0 0)")).toBe("lab");
   });
 });
 

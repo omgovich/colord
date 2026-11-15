@@ -97,7 +97,7 @@ colord("hsl(0, 50%, 50%)").darken(0.25).toHex(); // "#602020"
 - HWB objects and strings ([via plugin](#plugins))
 - CMYK objects and strings ([via plugin](#plugins))
 - LCH objects and strings ([via plugin](#plugins))
-- LAB objects ([via plugin](#plugins))
+- LAB objects and strings ([via plugin](#plugins))
 - OKLCH objects and strings ([via plugin](#plugins))
 - OKLab objects and strings ([via plugin](#plugins))
 - XYZ objects ([via plugin](#plugins))
@@ -341,6 +341,24 @@ extend([labPlugin]);
 
 colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 colord("#33221180").toLab(); // { l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 }
+```
+
+</details>
+
+<details>
+  <summary><b><code>.toLabString()</code></b> (<b>lab</b> plugin)</summary>
+
+Converts a color to [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color space and expresses it through the [functional notation](https://www.w3.org/TR/css-color-4/#specifying-lab-lch).
+
+```js
+import { colord, extend } from "colord";
+import labPlugin from "colord/plugins/lab";
+
+extend([labPlugin]);
+
+colord("#ffffff").toLabString(); // "lab(100% 0 0)"
+colord("#33221180").toLabString(); // "lab(15.05% 6.68 14.59 / 0.5)"
+colord("lab(54.29% 80.81 69.89)").toHex(); // "#ff0000"
 ```
 
 </details>

@@ -1,11 +1,12 @@
 import { colord, extend } from "../src/";
 import cmykPlugin from "../src/plugins/cmyk";
 import hwbPlugin from "../src/plugins/hwb";
+import labPlugin from "../src/plugins/lab";
 import lchPlugin from "../src/plugins/lch";
 import oklabPlugin from "../src/plugins/oklab";
 import oklchPlugin from "../src/plugins/oklch";
 
-extend([cmykPlugin, hwbPlugin, lchPlugin, oklabPlugin, oklchPlugin]);
+extend([cmykPlugin, hwbPlugin, labPlugin, lchPlugin, oklabPlugin, oklchPlugin]);
 
 /**
  * Every CSS function matcher spells a number as `(?:\d+(?:\.\d+)?|\.\d+)` instead of the
@@ -41,6 +42,7 @@ describe("Rejects oversized malformed colors in linear time", () => {
     ["hsl", `hsl(${digits}!`],
     ["hsl, alpha position", `hsl(1deg 2% 3% / ${digits}!`],
     ["hwb", `hwb(${digits}!`],
+    ["lab", `lab(${digits}!`],
     ["lch", `lch(${digits}!`],
     ["oklab", `oklab(${digits}!`],
     ["oklch", `oklch(${digits}!`],
