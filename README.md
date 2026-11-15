@@ -133,6 +133,7 @@ colord("rgb(100% 100% 100% / 50%)");
 colord("hsl(90 100% 100%)");
 colord("hsl(90deg 100% 100% / 50%)");
 colord("hsl(0.25turn 100% 100% / 50%)");
+colord("hsl(90 100 100)"); // plain numbers work as percentages
 colord("rgb(1e2 2.55e2 0 / 5e-1)"); // scientific notation
 
 // Object input examples
@@ -989,6 +990,7 @@ colord("#003366").toHwbString(); // "hwb(210 0% 60%)"
 
 colord({ h: 60, w: 40, b: 40 }).toHex(); // "#999966"
 colord("hwb(210 0% 60% / 50%)").toHex(); // "#00336680"
+colord("hwb(210 0 60)").toHex(); // "#003366"
 ```
 
 </details>
