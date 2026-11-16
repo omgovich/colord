@@ -225,6 +225,28 @@ describe("hwb", () => {
     expect(wrong.slice(0, 10)).toEqual([]);
   });
 
+  it("Rounds the gray of a whiteness and blackness of 100% or more that is exactly half up", () => {
+    // 255 * 10.1 / 101 is exactly 25.5, in floats it was 25.499999999999996
+    expect(colord("hwb(0 10.1% 90.9%)").toHex()).toBe("#1a1a1a");
+    expect(colord("hwb(0 10% 90%)").toHex()).toBe("#1a1a1a");
+
+    // The gray is 255 * w / (w + b). Every w and b in steps of 0.1% (w10 and b10 are tenths of a percent)
+    // above 100% whose gray is a whole number or a half, in integer arithmetic with halves rounded up
+    const wrong: string[] = [];
+    for (let w10 = 1; w10 <= 1000; w10++) {
+      for (let b10 = Math.max(1001 - w10, 1); b10 <= 1000; b10++) {
+        if ((510 * w10) % (w10 + b10) !== 0) continue;
+        const exact = Math.floor((510 * w10 + (w10 + b10)) / (2 * (w10 + b10)));
+        const got = colord({ h: 0, w: w10 / 10, b: b10 / 10 }).toRgb();
+        if (got.r !== exact || got.g !== exact || got.b !== exact) {
+          wrong.push(`hwb(0 ${w10 / 10}% ${b10 / 10}%) gave ${got.r}, not ${exact}`);
+        }
+      }
+    }
+
+    expect(wrong.slice(0, 10)).toEqual([]);
+  });
+
   it("Ignores invalid syntax", () => {
     // comma syntax is not documented
     expect(colord("hwb(194, 0%, 0%, .5)").isValid()).toBe(false);
