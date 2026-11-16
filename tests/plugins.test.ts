@@ -249,6 +249,9 @@ describe("lab", () => {
     // Lightness may be a plain number and the axes percentages (100% = 125)
     expect(colord("lab(50.93 64.96 -6.38)").toHex()).toBe("#d53987");
     expect(colord("lab(50.93% 51.968% -5.104%)").toHex()).toBe("#d53987");
+    // L above 100 is clamped to 100 at parse time
+    expect(colord("lab(130% -60 60)").toHex()).toBe("#96ff80");
+    expect(colord("lab(130 -60 60)").toHex()).toBe("#96ff80");
   });
 
   it("Does not parse invalid CIE LAB color strings", () => {
@@ -271,10 +274,10 @@ describe("lab", () => {
   });
 
   it("Converts a color to CIE LAB string (CSS functional notation)", () => {
-    expect(colord("#ffffff").toLabString()).toBe("lab(100% 0 0)");
-    expect(colord("#00000080").toLabString()).toBe("lab(0% 0 0 / 0.5)");
-    expect(colord("#c65d06ed").toLabString()).toBe("lab(52.31% 40.04 60.1 / 0.93)");
-    expect(colord("#aabbcc").toLabString()).toBe("lab(74.97% -3.4 -10.7)");
+    expect(colord("#ffffff").toLabString()).toBe("lab(100 0 0)");
+    expect(colord("#00000080").toLabString()).toBe("lab(0 0 0 / 0.5)");
+    expect(colord("#c65d06ed").toLabString()).toBe("lab(52.31 40.04 60.1 / 0.93)");
+    expect(colord("#aabbcc").toLabString()).toBe("lab(74.97 -3.4 -10.7)");
     expect(colord(colord("#d53987").toLabString()).toHex()).toBe("#d53987");
   });
 

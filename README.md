@@ -340,7 +340,7 @@ import labPlugin from "colord/plugins/lab";
 extend([labPlugin]);
 
 colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
-colord("#33221180").toLab(); // { l: 14.89, a: 5.77, b: 14.41, alpha: 0.5 }
+colord("#33221180").toLab(); // { l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 }
 ```
 
 </details>
@@ -356,8 +356,8 @@ import labPlugin from "colord/plugins/lab";
 
 extend([labPlugin]);
 
-colord("#ffffff").toLabString(); // "lab(100% 0 0)"
-colord("#33221180").toLabString(); // "lab(15.05% 6.68 14.59 / 0.5)"
+colord("#ffffff").toLabString(); // "lab(100 0 0)"
+colord("#33221180").toLabString(); // "lab(15.05 6.68 14.59 / 0.5)"
 colord("lab(54.29% 80.81 69.89)").toHex(); // "#ff0000"
 ```
 
@@ -1012,7 +1012,7 @@ colord("hwb(210 0% 60% / 50%)").toHex(); // "#00336680"
 </details>
 
 <details>
-  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>1.4 KB</i></summary>
+  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>1.66 KB</i></summary>
 
 Adds support of [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -1025,7 +1025,9 @@ import labPlugin from "colord/plugins/lab";
 extend([labPlugin]);
 
 colord({ l: 53.24, a: 80.09, b: 67.2 }).toHex(); // "#ff0000"
+colord("lab(54.29 80.81 69.89)").toHex(); // "#ff0000"
 colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
+colord("#33221180").toLabString(); // "lab(15.05 6.68 14.59 / 0.5)"
 
 colord("#afafaf").delta("#b4b4b4"); // 0.014
 colord("#000000").delta("#ffffff"); // 1

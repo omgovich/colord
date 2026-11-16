@@ -11,9 +11,9 @@ const k = 24389 / 27;
  * https://www.w3.org/TR/css-color-4/#specifying-lab-lch
  */
 export const clampLaba = (laba: LabaColor): LabaColor => ({
-  // CIE Lightness values less than 0% must be clamped to 0%.
-  // Values greater than 100% are permitted for forwards compatibility with HDR.
-  l: clamp(laba.l, 0, 400),
+  // CIE Lightness is clamped to [0%, 100%] at parse time
+  // https://www.w3.org/TR/css-color-4/#specifying-lab-lch
+  l: clamp(laba.l, 0, 100),
   // A and B axis values are signed (allow both positive and negative values)
   // and theoretically unbounded (but in practice do not exceed ±160).
   a: laba.a,

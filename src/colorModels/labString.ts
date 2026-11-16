@@ -27,5 +27,5 @@ export const parseLabaString = (input: string): RgbaColor | null => {
 
 export const rgbaToLabaString = (rgba: RgbaColor): string => {
   const { l, a, b, alpha } = roundLaba(rgbaToLaba(rgba));
-  return alpha < 1 ? `lab(${l}% ${a} ${b} / ${alpha})` : `lab(${l}% ${a} ${b})`;
+  return alpha < 1 ? `lab(${l} ${a} ${b} / ${alpha})` : `lab(${l} ${a} ${b})`;
 };
