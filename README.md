@@ -232,7 +232,7 @@ Converts a color to [HSV color space](https://en.wikipedia.org/wiki/HSL_and_HSV)
 
 ```js
 colord("#ffff00").toHsv(); // { h: 60, s: 100, v: 100, a: 1 }
-colord("rgba(0, 255, 255, 0.5) ").toHsv(); // { h: 180, s: 100, v: 100, a: 1 }
+colord("rgba(0, 255, 255, 0.5) ").toHsv(); // { h: 180, s: 100, v: 100, a: 0.5 }
 ```
 
 </details>
@@ -376,7 +376,7 @@ import lchPlugin from "colord/plugins/lch";
 extend([lchPlugin]);
 
 colord("#ffffff").toLch(); // { l: 100, c: 0, h: 0, a: 1 }
-colord("#213b0b").toLch(); // { l: 21.85, c: 31.95, h: 127.77, a: 1 }
+colord("#213b0b").toLch(); // { l: 21.92, c: 30.45, h: 125.24, a: 1 }
 ```
 
 </details>
@@ -393,7 +393,7 @@ import lchPlugin from "colord/plugins/lch";
 extend([lchPlugin]);
 
 colord("#ffffff").toLchString(); // "lch(100% 0 0)"
-colord("#213b0b").alpha(0.5).toLchString(); // "lch(21.85% 31.95 127.77 / 0.5)"
+colord("#213b0b").alpha(0.5).toLchString(); // "lch(21.92% 30.45 125.24 / 0.5)"
 ```
 
 </details>
@@ -477,7 +477,7 @@ import xyzPlugin from "colord/plugins/xyz";
 
 extend([xyzPlugin]);
 
-colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
+colord("#ffffff").toXyz(); // { x: 96.42, y: 100, z: 82.52, a: 1 }
 ```
 
 </details>
@@ -563,7 +563,7 @@ Increases the [HSL lightness](https://en.wikipedia.org/wiki/HSL_and_HSV) of a co
 ```js
 colord("#000000").lighten(0.5).toHex(); // "#808080"
 colord("#223344").lighten(0.3).toHex(); // "#5580aa"
-colord("hsl(0, 50%, 50%)").lighten(0.5).toHslString(); // "hsl(0, 50%, 100%)"
+colord("hsl(0, 50%, 50%)").lighten(0.5).toHslString(); // "hsl(0, 0%, 100%)"
 ```
 
 Pass `{ relative: true }` to scale the current lightness instead (`l * (1 + amount)`). Black stays black, since it has no lightness to scale.
@@ -833,7 +833,7 @@ colord("#000000").contrast(); // 21 (black on white)
 colord("#ffffff").contrast("#000000"); // 21 (white on black)
 colord("#777777").contrast(); // 4.47 (gray on white)
 colord("#ff0000").contrast(); // 3.99 (red on white)
-colord("#0000ff").contrast("#ff000"); // 2.14 (blue on red)
+colord("#0000ff").contrast("#ff0000"); // 2.14 (blue on red)
 ```
 
 </details>
@@ -863,7 +863,7 @@ The return value is `0` if the colors are equal, `1` if they are entirely differ
 
 ```js
 colord("#3296fa").delta("#197dc8"); // 0.099
-colord("#faf0c8").delta("#ffffff"); // 0.148
+colord("#faf0c8").delta("#ffffff"); // 0.145
 colord("#afafaf").delta("#b4b4b4"); // 0.014
 colord("#000000").delta("#ffffff"); // 1
 ```
@@ -938,7 +938,7 @@ colord("#ffffff").luminance(); // 1
 
 colord("#000000").contrast(); // 21 (black on white)
 colord("#ffffff").contrast("#000000"); // 21 (white on black)
-colord("#0000ff").contrast("#ff000"); // 2.14 (blue on red)
+colord("#0000ff").contrast("#ff0000"); // 2.14 (blue on red)
 
 colord("#000000").isReadable(); // true (black on white)
 colord("#ffffff").isReadable("#000000"); // true (white on black)
@@ -1026,7 +1026,7 @@ import labPlugin from "colord/plugins/lab";
 
 extend([labPlugin]);
 
-colord({ l: 53.24, a: 80.09, b: 67.2 }).toHex(); // "#ff0000"
+colord({ l: 54.29, a: 80.81, b: 69.89 }).toHex(); // "#ff0000"
 colord("lab(54.29 80.81 69.89)").toHex(); // "#ff0000"
 colord("#ffffff").toLab(); // { l: 100, a: 0, b: 0, alpha: 1 }
 colord("#33221180").toLabString(); // "lab(15.05 6.68 14.59 / 0.5)"
@@ -1049,7 +1049,7 @@ import lchPlugin from "colord/plugins/lch";
 extend([lchPlugin]);
 
 colord({ l: 100, c: 0, h: 0 }).toHex(); // "#ffffff"
-colord("lch(48.25% 30.07 196.38)").toHex(); // "#008080"
+colord("lch(47.99% 31.69 196.45)").toHex(); // "#008080"
 
 colord("#646464").toLch(); // { l: 42.37, c: 0, h: 0, a: 1 }
 colord("#646464").alpha(0.5).toLchString(); // "lch(42.37% 0 0 / 0.5)"
@@ -1189,7 +1189,7 @@ import xyzPlugin from "colord/plugins/xyz";
 
 extend([xyzPlugin]);
 
-colord("#ffffff").toXyz(); // { x: 95.047, y: 100, z: 108.883, a: 1 }
+colord("#ffffff").toXyz(); // { x: 96.42, y: 100, z: 82.52, a: 1 }
 colord({ x: 0, y: 0, z: 0 }).toHex(); // "#000000"
 ```
 
