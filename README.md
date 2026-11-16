@@ -1,6 +1,9 @@
 <div align="center">
-  <a href="https://colord.omgovich.ru/">
-    <img src="assets/logo.png" width="280" height="210" alt="colord" />
+  <a href="https://colord.dev/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg" />
+      <img src="assets/logo-light.svg" width="280" height="210" alt="colord" />
+    </picture>
   </a>
 </div>
 
