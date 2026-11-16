@@ -122,6 +122,10 @@ it("Parses modern HSL functional notations", () => {
   expect(colord("hsl(10deg 20% 30% / 0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
   expect(colord("hsl(10deg 20% 30% / 90%)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.9 });
   expect(colord("hsl(90deg 50% 50%/50%)").toHsl()).toMatchObject({ h: 90, s: 50, l: 50, a: 0.5 });
+  // Saturation and lightness may be plain numbers (50 = 50%)
+  expect(colord("hsl(120 100 50)").toHsl()).toMatchObject({ h: 120, s: 100, l: 50, a: 1 });
+  expect(colord("hsl(10deg 20 30% / 0.1)").toHsl()).toMatchObject({ h: 10, s: 20, l: 30, a: 0.1 });
+  expect(colord("hsl(1.2e2 5e1 5E1 / 50%)").toHex()).toBe("#40bf4080");
 });
 
 it("Supports HEX4 and HEX8 color models", () => {
@@ -212,6 +216,7 @@ it("Ignores invalid color formats", () => {
   expect(colord("hsla(10, 20, 30/50%)").isValid()).toBe(false);
   // missing percent
   expect(colord("hsl(10deg, 50, 50)").isValid()).toBe(false);
+  expect(colord("hsla(10, 50, 50, 0.5)").isValid()).toBe(false);
   // wrong content
   expect(colord("rgb(10, 10, 10, var(--alpha))").isValid()).toBe(false);
   expect(colord("hsl(var(--h) 10% 10%)").isValid()).toBe(false);
@@ -618,6 +623,7 @@ it("Gets an input color format", () => {
   expect(getFormat("rgb(128, 128, 128)")).toBe("rgb");
   expect(getFormat("rgba(50% 50% 50% / 50%)")).toBe("rgb");
   expect(getFormat("hsl(180, 50%, 50%)")).toBe("hsl");
+  expect(getFormat("hsl(180 50 50)")).toBe("hsl");
   expect(getFormat({ r: 128, g: 128, b: 128, a: 0.5 })).toBe("rgb");
   expect(getFormat({ h: 180, s: 50, l: 50, a: 0.5 })).toBe("hsl");
   expect(getFormat({ h: 180, s: 50, v: 50, a: 0.5 })).toBe("hsv");

@@ -188,13 +188,14 @@ describe("hwb", () => {
     expect(colord("hwb(194 0% 0% / .5)").toHex()).toBe("#00c3ff80");
     expect(colord("hwb(-90deg 40% 40% / 50%)").toHex()).toBe("#7f669980");
     expect(colord("hwb(-9e1deg 4e1% 4E1% / 5e-1)").toHex()).toBe("#7f669980");
+    // Whiteness and blackness may be plain numbers (40 = 40%)
+    expect(colord("hwb(-90deg 40 40)").toHex()).toBe("#7f6699");
+    expect(colord("hwb(194 0 0% / .5)").toHex()).toBe("#00c3ff80");
   });
 
   it("Ignores invalid syntax", () => {
     // comma syntax is not documented
     expect(colord("hwb(194, 0%, 0%, .5)").isValid()).toBe(false);
-    // missing percents
-    expect(colord("hwb(-90deg 40 40)").isValid()).toBe(false);
   });
 
   it("Converts a color to HWB string", () => {
@@ -221,6 +222,7 @@ describe("hwb", () => {
 
   it("Supported by `getFormat`", () => {
     expect(getFormat("hwb(180deg 50% 50%)")).toBe("hwb");
+    expect(getFormat("hwb(180 50 50)")).toBe("hwb");
     expect(getFormat({ h: 0, w: 0, b: 100 })).toBe("hwb");
   });
 });
