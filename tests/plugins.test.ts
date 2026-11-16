@@ -235,6 +235,8 @@ describe("lab", () => {
     expect(colord({ l: 54.29, a: 80.81, b: 69.89 }).toHex()).toBe("#ff0000");
     expect(colord({ l: 15.05, a: 6.68, b: 14.59, alpha: 0.5 }).toHex()).toBe("#33221180");
     expect(colord({ l: 50.93, a: 64.96, b: -6.38, alpha: 1 }).toHex()).toBe("#d53987");
+    // L above 100 is clamped to 100, the same as in `lab()` strings
+    expect(colord({ l: 130, a: -60, b: 60 }).toHex()).toBe("#96ff80");
   });
 
   it("Parses CIE LAB color string", () => {
