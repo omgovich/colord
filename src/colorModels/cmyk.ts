@@ -29,9 +29,9 @@ export const roundCmyka = (cmyka: CmykaColor): CmykaColor => ({
  */
 export function cmykaToRgba(cmyka: CmykaColor): RgbaColor {
   return {
-    r: round(255 * (1 - cmyka.c / 100) * (1 - cmyka.k / 100)),
-    g: round(255 * (1 - cmyka.m / 100) * (1 - cmyka.k / 100)),
-    b: round(255 * (1 - cmyka.y / 100) * (1 - cmyka.k / 100)),
+    r: round((255 * (100 - cmyka.c) * (100 - cmyka.k)) / 10000),
+    g: round((255 * (100 - cmyka.m) * (100 - cmyka.k)) / 10000),
+    b: round((255 * (100 - cmyka.y) * (100 - cmyka.k)) / 10000),
     a: cmyka.a,
   };
 }
