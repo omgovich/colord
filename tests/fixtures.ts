@@ -52,6 +52,19 @@ export const fixtures: Fixture[] = [
     hsl: { h: 210, s: 50, l: 60 },
     hsv: { h: 210, s: 50, v: 80 },
   },
+  // 25.5 is exactly half and rounds up to 26, as it does in browsers
+  {
+    hex: "#ff1a1a",
+    rgb: { r: 255, g: 26, b: 26 },
+    hsl: { h: 0, s: 100, l: 55 },
+    hsv: { h: 0, s: 90, v: 100 },
+  },
+  {
+    hex: "#1aff1a",
+    rgb: { r: 26, g: 255, b: 26 },
+    hsl: { h: 120, s: 100, l: 55 },
+    hsv: { h: 120, s: 90, v: 100 },
+  },
 ];
 
 interface TestColor {

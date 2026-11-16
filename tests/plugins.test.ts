@@ -184,13 +184,45 @@ describe("hwb", () => {
   it("Parses HWB color string", () => {
     // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb()
     // https://en.wikipedia.org/wiki/HWB_color_model
-    expect(colord("hwb(194 0% 0%)").toHex()).toBe("#00c3ff");
-    expect(colord("hwb(194 0% 0% / .5)").toHex()).toBe("#00c3ff80");
-    expect(colord("hwb(-90deg 40% 40% / 50%)").toHex()).toBe("#7f669980");
-    expect(colord("hwb(-9e1deg 4e1% 4E1% / 5e-1)").toHex()).toBe("#7f669980");
+    // The green channel of hwb(194 0% 0%) is exactly 195.5, which rounds up
+    expect(colord("hwb(194 0% 0%)").toHex()).toBe("#00c4ff");
+    expect(colord("hwb(194 0% 0% / .5)").toHex()).toBe("#00c4ff80");
+    expect(colord("hwb(-90deg 40% 40% / 50%)").toHex()).toBe("#80669980");
+    expect(colord("hwb(-9e1deg 4e1% 4E1% / 5e-1)").toHex()).toBe("#80669980");
     // Whiteness and blackness may be plain numbers (40 = 40%)
-    expect(colord("hwb(-90deg 40 40)").toHex()).toBe("#7f6699");
-    expect(colord("hwb(194 0 0% / .5)").toHex()).toBe("#00c3ff80");
+    expect(colord("hwb(-90deg 40 40)").toHex()).toBe("#806699");
+    expect(colord("hwb(194 0 0% / .5)").toHex()).toBe("#00c4ff80");
+  });
+
+  it("Rounds a channel that is exactly half up", () => {
+    // 25.5 used to come out of the conversion as 25.499999999999996 and was rounded down
+    expect(colord("hwb(0 10% 0%)").toHex()).toBe("#ff1a1a");
+    expect(colord({ h: 120, w: 10, b: 0 }).toRgb()).toMatchObject({ r: 26, g: 255, b: 26 });
+
+    // hwb() to sRGB in integer arithmetic, the channels in 1 / 6000 and halves rounded up
+    const hwbToRgbExact = (h: number, w: number, b: number): number[] =>
+      [0, 8, 4].map((n) => {
+        const k = (30 * n + h) % 360;
+        const m = Math.max(-30, Math.min(k - 90, 270 - k, 30));
+        // the pure hue channel is (30 - m) / 60, and w and b are percents
+        return Math.floor((255 * ((30 - m) * (100 - w - b) + 60 * w) + 3000) / 6000);
+      });
+
+    // Every hwb() of whole percents at the hues 0, 30, ... 330, where w + b is below 100%
+    const wrong: string[] = [];
+    for (let h = 0; h < 360; h += 30) {
+      for (let w = 0; w < 100; w++) {
+        for (let b = 0; w + b < 100; b++) {
+          const got = colord({ h, w, b }).toRgb();
+          const exact = hwbToRgbExact(h, w, b);
+          if (got.r !== exact[0] || got.g !== exact[1] || got.b !== exact[2]) {
+            wrong.push(`hwb(${h} ${w}% ${b}%) gave ${[got.r, got.g, got.b]}, not ${exact}`);
+          }
+        }
+      }
+    }
+
+    expect(wrong.slice(0, 10)).toEqual([]);
   });
 
   it("Ignores invalid syntax", () => {
