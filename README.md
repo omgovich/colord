@@ -1,7 +1,9 @@
 <div align="center">
-  <a href="https://colord.dev/">
-    <img src="assets/logo-dark.svg#gh-dark-mode-only" width="280" height="210" alt="colord" />
-    <img src="assets/logo-light.svg#gh-light-mode-only" width="280" height="210" alt="colord" />
+  <a href="https://colord.dev/#gh-dark-mode-only">
+    <img src="assets/logo-dark.svg" width="280" height="210" alt="colord" />
+  </a>
+  <a href="https://colord.dev/#gh-light-mode-only">
+    <img src="assets/logo-light.svg" width="280" height="210" alt="colord" />
   </a>
 </div>
 
