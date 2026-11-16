@@ -1,9 +1,7 @@
 <div align="center">
   <a href="https://colord.dev/">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg" />
-      <img src="assets/logo-light.svg" width="280" height="210" alt="colord" />
-    </picture>
+    <img src="assets/logo-dark.svg#gh-dark-mode-only" width="280" height="210" alt="colord" />
+    <img src="assets/logo-light.svg#gh-light-mode-only" width="280" height="210" alt="colord" />
   </a>
 </div>
 
