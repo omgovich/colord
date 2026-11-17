@@ -1308,6 +1308,26 @@ Colord stores colors in sRGB. An LCH value outside sRGB gets clamped per RGB cha
 
 </details>
 
+<details>
+  <summary><b>Convert a color to a 0xRRGGBB number and back</b></summary>
+
+Some APIs take a color as a number, such as `0x3b82f6` instead of `"#3b82f6"`.
+
+```js
+import { colord } from "colord";
+
+const toNumber = (color) => parseInt(colord(color).toHex().slice(1, 7), 16);
+const fromNumber = (number) => colord("#" + number.toString(16).padStart(6, "0"));
+
+toNumber("#3b82f6"); // 3900150 (0x3b82f6)
+toNumber("rgb(255 0 0 / 50%)"); // 16711680 (0xff0000)
+fromNumber(0x3b82f6).toHex(); // "#3b82f6"
+```
+
+The number has no room for alpha, so `toNumber` drops it. PixiJS takes color strings directly, so it needs no conversion.
+
+</details>
+
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
 ## Types
