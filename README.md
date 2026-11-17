@@ -1226,7 +1226,7 @@ nearest("#ffe", ["#f00", "#ff0", "#00f"]); // "#ff0"
 <details>
   <summary><b>Pick a readable text color for a background</b></summary>
 
-`textColor` uses black when it's readable on the background, and white otherwise. `readableOn` keeps your color instead: it darkens or lightens it until it becomes readable.
+`textColor` uses black when it's readable on the background, and white otherwise. `readableOn` adjusts your color instead: it darkens or lightens it until it becomes readable.
 
 ```js
 import { colord, extend } from "colord";
@@ -1240,7 +1240,8 @@ const textColor = (background) =>
 const readableOn = (color, background) => {
   const darken = textColor(background) === "#000";
   let result = colord(color);
-  while (!result.isReadable(background)) {
+  // Check the rounded hex, since that's the color you'll actually use
+  while (!colord(result.toHex()).isReadable(background)) {
     result = darken ? result.darken(0.05) : result.lighten(0.05);
   }
   return result.toHex();
@@ -1252,6 +1253,8 @@ readableOn("#3b82f6", "#ffffff"); // "#0b63f3"
 ```
 
 The loop always ends, because black or white meets AA on any background. It may never end for AAA.
+
+Contrast ignores alpha, so these recipes expect opaque colors. For a translucent color, mix it with the background first.
 
 </details>
 
