@@ -1197,6 +1197,132 @@ colord({ x: 0, y: 0, z: 0 }).toHex(); // "#000000"
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
+## Recipes
+
+Colord keeps its API small, so some common tasks don't have a dedicated method. Most of them take just a few lines on top of the existing API.
+
+<details>
+  <summary><b>Find the nearest color in a palette</b></summary>
+
+Compares colors by how different they look to the human eye ([Delta E2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000)), not by raw RGB values.
+
+```js
+import { colord, extend } from "colord";
+import labPlugin from "colord/plugins/lab";
+
+extend([labPlugin]);
+
+const nearest = (color, palette) => {
+  const base = colord(color);
+  let result;
+  let minDelta = Infinity;
+  for (const name in palette) {
+    const delta = base.delta(palette[name]);
+    if (delta < minDelta) {
+      minDelta = delta;
+      result = name;
+    }
+  }
+  return result;
+};
+
+const palette = { red: "#f00", yellow: "#ff0", blue: "#00f" };
+
+nearest("#800", palette); // "red"
+nearest("#ffe", palette); // "yellow"
+```
+
+</details>
+
+<details>
+  <summary><b>Pick a readable text color for a background</b></summary>
+
+Picks black or white, whichever has the higher [WCAG contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) with the background.
+
+```js
+import { colord, extend } from "colord";
+import a11yPlugin from "colord/plugins/a11y";
+
+extend([a11yPlugin]);
+
+const textColor = (background) => {
+  const bg = colord(background);
+  return bg.contrast("#000") > bg.contrast("#fff") ? "#000" : "#fff";
+};
+
+textColor("#fde047"); // "#000"
+textColor("#1e293b"); // "#fff"
+```
+
+To keep your brand color instead of switching to black or white, darken or lighten it until it becomes readable. The loop always ends because black or white meets the AA level on any background. That isn't true for AAA, so don't pass `{ level: "AAA" }` here.
+
+```js
+const readableOn = (color, background) => {
+  const bg = colord(background);
+  const darken = bg.contrast("#000") > bg.contrast("#fff");
+  let result = colord(color);
+  while (!result.isReadable(bg)) {
+    result = darken ? result.darken(0.05) : result.lighten(0.05);
+  }
+  return result.toHex();
+};
+
+readableOn("#3b82f6", "#ffffff"); // "#0b63f3"
+```
+
+</details>
+
+<details>
+  <summary><b>Get the WCAG level of a color pair</b></summary>
+
+A contrast ratio between 4.5 and 7 meets both AA and AAA for large text, so there's no single right label for it. This function names levels by normal text and returns "AA large" for ratios between 3 and 4.5. Adjust the labels to your UI.
+
+```js
+import { colord, extend } from "colord";
+import a11yPlugin from "colord/plugins/a11y";
+
+extend([a11yPlugin]);
+
+const wcagLevel = (text, background) => {
+  const color = colord(text);
+  if (color.isReadable(background, { level: "AAA" })) return "AAA";
+  if (color.isReadable(background)) return "AA";
+  if (color.isReadable(background, { size: "large" })) return "AA large";
+  return "fail";
+};
+
+wcagLevel("#000000", "#ffffff"); // "AAA"
+wcagLevel("#e60000", "#ffff47"); // "AA"
+wcagLevel("#888888", "#ffffff"); // "AA large"
+wcagLevel("#999999", "#ffffff"); // "fail"
+```
+
+</details>
+
+<details>
+  <summary><b>Set a channel to an exact value</b></summary>
+
+Methods like `.lighten()` and `.saturate()` change a color relative to its current value. To set an exact value, convert the color to an object, replace the channel and parse it back.
+
+```js
+import { colord, extend } from "colord";
+import lchPlugin from "colord/plugins/lch";
+
+extend([lchPlugin]);
+
+const color = colord("#3b82f6");
+
+colord({ ...color.toLch(), l: 50 }).toHex(); // "#2576e9"
+colord({ ...color.toLch(), c: 20 }).toHex(); // "#7982a5"
+colord({ ...color.toHsl(), l: 80 }).toHex(); // "#9ec1fa"
+```
+
+Colord stores colors in sRGB. If the new LCH value falls outside sRGB, each RGB channel gets clamped separately, so the result can end up with a different lightness and hue than you asked for.
+
+</details>
+
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
 ## Types
 
 **Colord** is written in strict TypeScript and ships with types in the library itself — no need for any other install. We provide everything you need in one tiny package.
