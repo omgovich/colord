@@ -7,8 +7,7 @@ import { roundRgba, clampRgba } from "./rgb";
 const commaRgbaMatcher = /^rgba?\(\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*,\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*,\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*(?:,\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
 
 // Whitespace syntax
-// rgb( <percentage>{3} [ / <alpha-value> ]? )
-// rgb( <number>{3} [ / <alpha-value> ]? )
+// rgb( [ <number> | <percentage> ]{3} [ / <alpha-value> ]? )
 const spaceRgbaMatcher = /^rgba?\(\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s+([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*(?:\/\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(%)?\s*)?\)$/i;
 
 /**
@@ -16,13 +15,16 @@ const spaceRgbaMatcher = /^rgba?\(\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?
  * https://www.w3.org/TR/css-color-4/#rgb-functions
  */
 export const parseRgbaString = (input: string): RgbaColor | null => {
-  const match = commaRgbaMatcher.exec(input) || spaceRgbaMatcher.exec(input);
+  const commaMatch = commaRgbaMatcher.exec(input);
+
+  // Only the legacy comma syntax forbids mixing numbers and percentages
+  // https://www.w3.org/TR/css-color-4/#rgb-functions
+  if (commaMatch && (commaMatch[2] !== commaMatch[4] || commaMatch[4] !== commaMatch[6]))
+    return null;
+
+  const match = commaMatch || spaceRgbaMatcher.exec(input);
 
   if (!match) return null;
-
-  // Mixing numbers and percentages is not allowed
-  // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb_syntax_variations
-  if (match[2] !== match[4] || match[4] !== match[6]) return null;
 
   return clampRgba({
     r: Number(match[1]) / (match[2] ? 100 / 255 : 1),
