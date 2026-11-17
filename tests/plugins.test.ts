@@ -107,7 +107,9 @@ describe("cmyk", () => {
         const exact = Math.floor((255 * (100 - c) * (100 - k) + 5000) / 10000);
         const got = colord({ c, m: c, y: c, k }).toRgb();
         if (got.r !== exact || got.g !== exact || got.b !== exact) {
-          wrong.push(`device-cmyk(${c}% ${c}% ${c}% ${k}%) gave ${got.r}, not ${exact}`);
+          wrong.push(
+            `{ c: ${c}, m: ${c}, y: ${c}, k: ${k} } gave ${got.r} ${got.g} ${got.b}, not ${exact}`
+          );
         }
       }
     }

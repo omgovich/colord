@@ -29,7 +29,7 @@ export const roundCmyka = (cmyka: CmykaColor): CmykaColor => ({
  */
 export function cmykaToRgba(cmyka: CmykaColor): RgbaColor {
   // Nine decimals clear the float noise that makes an exact half such as 25.5 come out as
-  // 25.499999999999993, which would round down. They keep every 8-bit value and its halves intact.
+  // 25.499999999999993, which would round down.
   const channel = (percent: number) =>
     round(round(255 * (1 - percent / 100) * (1 - cmyka.k / 100), 9));
 
