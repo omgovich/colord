@@ -121,6 +121,9 @@ describe("cmyk", () => {
     // c of #050808 is 3 / 8 = 37.5%, which used to come out as 37.499999999999865
     expect(colord("#050808").toCmyk()).toMatchObject({ c: 38, m: 0, y: 0, k: 97 });
     expect(colord("#080508").toCmykString()).toBe("device-cmyk(0% 38% 0% 97%)");
+    // fractional channels: c of rgb(3.4 8 8) is 4.6 / 8 = 57.5%
+    expect(colord({ r: 3.4, g: 8, b: 8 }).toCmyk()).toMatchObject({ c: 58 });
+    expect(colord("rgb(3.4 8 8)").toCmykString()).toBe("device-cmyk(58% 0% 0% 97%)");
 
     // c, m and y in integer arithmetic: 100 * (max - channel) / max, halves rounded up
     const wrong: string[] = [];

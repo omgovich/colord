@@ -47,9 +47,9 @@ export function cmykaToRgba(cmyka: CmykaColor): RgbaColor {
  */
 export function rgbaToCmyka(rgba: RgbaColor): CmykaColor {
   const max = Math.max(rgba.r, rgba.g, rgba.b);
-  // (max - r) / max equals (1 - r / 255 - k) / (1 - k), but with one division, so an exact
-  // half such as 37.5 doesn't come out as 37.499999999999865 and round down
-  const channel = (value: number) => (max ? round((100 * (max - value)) / max) : 0);
+  // (max - r) / max equals (1 - r / 255 - k) / (1 - k) with less float noise, and nine decimals
+  // clear what is left: without them r 3.4 and max 8 give 57.49999999999999 instead of 57.5.
+  const channel = (value: number) => (max ? round(round((100 * (max - value)) / max, 9)) : 0);
 
   return {
     c: channel(rgba.r),
