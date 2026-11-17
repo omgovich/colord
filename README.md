@@ -1197,6 +1197,118 @@ colord({ x: 0, y: 0, z: 0 }).toHex(); // "#000000"
 
 <div><img src="assets/divider.png" width="838" alt="---" /></div>
 
+## Recipes
+
+Some common tasks have no dedicated method in Colord, but take just a few lines on top of the existing API.
+
+<details>
+  <summary><b>Find the nearest color in a palette</b></summary>
+
+Sorts the palette by how different each color looks from the given one ([Delta E2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000)) and takes the first.
+
+```js
+import { colord, extend } from "colord";
+import labPlugin from "colord/plugins/lab";
+
+extend([labPlugin]);
+
+const nearest = (color, palette) => {
+  const base = colord(color);
+  return palette.toSorted((a, b) => base.delta(a) - base.delta(b))[0];
+};
+
+nearest("#800", ["#f00", "#ff0", "#00f"]); // "#f00"
+nearest("#ffe", ["#f00", "#ff0", "#00f"]); // "#ff0"
+```
+
+</details>
+
+<details>
+  <summary><b>Pick a readable text color for a background</b></summary>
+
+`textColor` uses black when it's readable on the background, and white otherwise. `findReadableOn` adjusts your color instead: it takes the first readable color from its shades or tints.
+
+```js
+import { colord, extend } from "colord";
+import a11yPlugin from "colord/plugins/a11y";
+import mixPlugin from "colord/plugins/mix";
+
+extend([a11yPlugin, mixPlugin]);
+
+const textColor = (background) =>
+  colord("#000").isReadable(background) ? "#000" : "#fff";
+
+const findReadableOn = (color, background) => {
+  const base = colord(color);
+  const palette =
+    textColor(background) === "#000" ? base.shades(20) : base.tints(20);
+  return palette
+    .map((c) => c.toHex())
+    .find((hex) => colord(hex).isReadable(background));
+};
+
+textColor("#fde047"); // "#000"
+textColor("#1e293b"); // "#fff"
+findReadableOn("#3b82f6", "#ffffff"); // "#3873d9"
+```
+
+Shades end with black and tints end with white, and one of them always meets AA, so `findReadableOn` always finds a color. For AAA it can return `undefined`.
+
+Contrast ignores alpha, so these recipes expect opaque colors. For a translucent color, mix it with the background first.
+
+</details>
+
+<details>
+  <summary><b>Get the WCAG level of a color pair</b></summary>
+
+```js
+import { colord, extend } from "colord";
+import a11yPlugin from "colord/plugins/a11y";
+
+extend([a11yPlugin]);
+
+const wcagLevel = (text, background) => {
+  const ratio = colord(text).contrast(background);
+  if (ratio >= 7) return "AAA";
+  if (ratio >= 4.5) return "AA";
+  if (ratio >= 3) return "AA large";
+  return "fail";
+};
+
+wcagLevel("#000000", "#ffffff"); // "AAA"
+wcagLevel("#e60000", "#ffff47"); // "AA"
+wcagLevel("#888888", "#ffffff"); // "AA large"
+wcagLevel("#999999", "#ffffff"); // "fail"
+```
+
+A ratio from 4.5 to 7 also meets AAA for large text, so rename the levels if your UI needs that.
+
+</details>
+
+<details>
+  <summary><b>Set a channel to an exact value</b></summary>
+
+Methods like `.lighten()` and `.saturate()` change a color relative to its current value. To set an exact value, replace the channel in the color object.
+
+```js
+import { colord, extend } from "colord";
+import lchPlugin from "colord/plugins/lch";
+
+extend([lchPlugin]);
+
+const color = colord("#3b82f6");
+
+colord({ ...color.toLch(), l: 50 }).toHex(); // "#2576e9"
+colord({ ...color.toLch(), c: 20 }).toHex(); // "#7982a5"
+colord({ ...color.toHsl(), l: 80 }).toHex(); // "#9ec1fa"
+```
+
+Colord stores colors in sRGB. An LCH value outside sRGB gets clamped per RGB channel, so lightness and hue can shift.
+
+</details>
+
+<div><img src="assets/divider.png" width="838" alt="---" /></div>
+
 ## Types
 
 **Colord** is written in strict TypeScript and ships with types in the library itself — no need for any other install. We provide everything you need in one tiny package.
