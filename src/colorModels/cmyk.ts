@@ -28,10 +28,15 @@ export const roundCmyka = (cmyka: CmykaColor): CmykaColor => ({
  * https://www.rapidtables.com/convert/color/cmyk-to-rgb.html
  */
 export function cmykaToRgba(cmyka: CmykaColor): RgbaColor {
+  // Nine decimals clear the float noise that makes an exact half such as 25.5 come out as
+  // 25.499999999999993, which would round down.
+  const channel = (percent: number) =>
+    round(round(255 * (1 - percent / 100) * (1 - cmyka.k / 100), 9));
+
   return {
-    r: round(255 * (1 - cmyka.c / 100) * (1 - cmyka.k / 100)),
-    g: round(255 * (1 - cmyka.m / 100) * (1 - cmyka.k / 100)),
-    b: round(255 * (1 - cmyka.y / 100) * (1 - cmyka.k / 100)),
+    r: channel(cmyka.c),
+    g: channel(cmyka.m),
+    b: channel(cmyka.y),
     a: cmyka.a,
   };
 }

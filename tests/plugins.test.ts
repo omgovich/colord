@@ -92,6 +92,31 @@ describe("cmyk", () => {
     expect(colord("#00336680").toCmykString()).toBe("device-cmyk(100% 50% 0% 60% / 0.5)");
   });
 
+  it("Rounds a channel that is exactly half up", () => {
+    // 255 * (1 - 90 / 100) used to come out as 25.499999999999993 and was rounded down
+    expect(colord("device-cmyk(0% 0% 0% 90%)").toHex()).toBe("#1a1a1a");
+    expect(colord({ c: 90, m: 0, y: 0, k: 0 }).toHex()).toBe("#1affff");
+    // fractional percents: 255 * 12.8% * 78.125% is exactly 25.5 too
+    expect(colord("device-cmyk(87.2% 87.2% 87.2% 21.875%)").toHex()).toBe("#1a1a1a");
+    expect(colord({ c: 87.2, m: 87.2, y: 87.2, k: 21.875 }).toHex()).toBe("#1a1a1a");
+
+    // CMYK to sRGB in integer arithmetic, the percents of c and k and halves rounded up
+    const wrong: string[] = [];
+    for (let c = 0; c <= 100; c++) {
+      for (let k = 0; k <= 100; k++) {
+        const exact = Math.floor((255 * (100 - c) * (100 - k) + 5000) / 10000);
+        const got = colord({ c, m: c, y: c, k }).toRgb();
+        if (got.r !== exact || got.g !== exact || got.b !== exact) {
+          wrong.push(
+            `{ c: ${c}, m: ${c}, y: ${c}, k: ${k} } gave ${got.r} ${got.g} ${got.b}, not ${exact}`
+          );
+        }
+      }
+    }
+
+    expect(wrong.slice(0, 10)).toEqual([]);
+  });
+
   it("Supported by `getFormat`", () => {
     expect(getFormat({ c: 0, m: 0, y: 0, k: 100 })).toBe("cmyk");
   });
