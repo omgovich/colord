@@ -174,6 +174,10 @@ it("Parses modern RGB functional notations", () => {
   expect(colord("rgb(0% 50% 100%)").toRgb()).toMatchObject({ r: 0, g: 128, b: 255, a: 1 });
   expect(colord("rgb(10% 20% 30% / 33%)").toRgb()).toMatchObject({ r: 26, g: 51, b: 77, a: 0.33 });
   expect(colord("rgba(10% 20% 30% / 0.5)").toRgb()).toMatchObject({ r: 26, g: 51, b: 77, a: 0.5 });
+  // Numbers and percentages may be mixed in the space-separated syntax
+  expect(colord("rgb(10% 20 30)").toRgb()).toMatchObject({ r: 26, g: 20, b: 30, a: 1 });
+  expect(colord("rgb(255 50% 0 / 50%)").toRgb()).toMatchObject({ r: 255, g: 128, b: 0, a: 0.5 });
+  expect(colord("rgba(0 0% 1e2%)").toHex()).toBe("#0000ff");
 });
 
 it("Parses modern HSL functional notations", () => {
@@ -270,6 +274,7 @@ it("Ignores invalid color formats", () => {
   expect(colord("hsl(10, 20 30)").isValid()).toBe(false);
   // mixing numbers and percentage
   expect(colord("rgb(100, 100%, 20)").isValid()).toBe(false);
+  expect(colord("rgba(10%, 20, 30, 0.5)").isValid()).toBe(false);
   // mixing commas and slash
   expect(colord("rgba(10, 50, 30 / .5").isValid()).toBe(false);
   expect(colord("hsla(10, 20, 30/50%)").isValid()).toBe(false);
@@ -681,6 +686,7 @@ it("Gets an input color format", () => {
   expect(getFormat("#000")).toBe("hex");
   expect(getFormat("rgb(128, 128, 128)")).toBe("rgb");
   expect(getFormat("rgba(50% 50% 50% / 50%)")).toBe("rgb");
+  expect(getFormat("rgb(50% 128 50%)")).toBe("rgb");
   expect(getFormat("hsl(180, 50%, 50%)")).toBe("hsl");
   expect(getFormat("hsl(180 50 50)")).toBe("hsl");
   expect(getFormat({ r: 128, g: 128, b: 128, a: 0.5 })).toBe("rgb");

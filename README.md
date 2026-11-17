@@ -130,6 +130,7 @@ colord("tomato"); // requires "names" plugin
 colord("rgb(255 255 255)");
 colord("rgb(255 255 255 / 0.5)");
 colord("rgb(100% 100% 100% / 50%)");
+colord("rgb(100% 128 0 / 50%)"); // numbers and percentages can be mixed
 colord("hsl(90 100% 100%)");
 colord("hsl(90deg 100% 100% / 50%)");
 colord("hsl(0.25turn 100% 100% / 50%)");
