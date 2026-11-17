@@ -231,10 +231,10 @@ describe("hwb", () => {
     expect(colord("hwb(0 10% 90%)").toHex()).toBe("#1a1a1a");
 
     // The gray is 255 * w / (w + b). Every w and b in steps of 0.1% (w10 and b10 are tenths of a percent)
-    // above 100% whose gray is a whole number or a half, in integer arithmetic with halves rounded up
+    // at or above 100% whose gray is a whole number or a half, in integer arithmetic with halves rounded up
     const wrong: string[] = [];
     for (let w10 = 1; w10 <= 1000; w10++) {
-      for (let b10 = Math.max(1001 - w10, 1); b10 <= 1000; b10++) {
+      for (let b10 = Math.max(1000 - w10, 1); b10 <= 1000; b10++) {
         if ((510 * w10) % (w10 + b10) !== 0) continue;
         const exact = Math.floor((510 * w10 + (w10 + b10)) / (2 * (w10 + b10)));
         const got = colord({ h: 0, w: w10 / 10, b: b10 / 10 }).toRgb();
