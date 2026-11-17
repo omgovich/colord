@@ -1,3 +1,18 @@
+## 2.14.0
+
+### Minor Changes
+
+- New: `lab` plugin parses `lab()` strings and adds `toLabString()` ❤️ [@bardrop](https://github.com/bardrop)
+
+### Patch Changes
+
+- Fix: parsing CMYK colors rounds a channel that is exactly half up, so `device-cmyk(0% 0% 0% 90%)` is `#1a1a1a` and not `#191919` ❤️ [@simonkundrik](https://github.com/simonkundrik)
+- Fix: parse plain numbers for saturation/lightness in space-separated `hsl()` and for whiteness/blackness in `hwb()`, such as `hsl(120 50 50)` and `hwb(120 20 30)` ❤️ [@bardrop](https://github.com/bardrop)
+- Fix: `lab` plugin clamps a lightness above 100 to 100, as CSS Color 4 requires, such as `{ l: 130, a: -60, b: 60 }` ❤️ [@bardrop](https://github.com/bardrop)
+- Fix: parse space-separated `rgb()` that mixes numbers and percentages, such as `rgb(10% 20 30)` ❤️ [@bardrop](https://github.com/bardrop)
+- Fix: HSL, HSV and HWB conversions round a channel that is exactly half up, so `hwb(0 10% 0%)` is `#ff1a1a` as in browsers, not `#ff1919`; `grayscale()`, `rotate()`, `saturate()`, `lighten()` and `harmonies()` may shift such channels one step too ❤️ [@simonkundrik](https://github.com/simonkundrik)
+- Fix: `toCmyk()` and `toCmykString()` round a percent that is exactly half up, so `#050808` is `c: 38`, not `c: 37`
+
 ## 2.13.0
 
 ### Minor Changes
