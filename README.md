@@ -1214,7 +1214,7 @@ extend([labPlugin]);
 
 const nearest = (color, palette) => {
   const base = colord(color);
-  return [...palette].sort((a, b) => base.delta(a) - base.delta(b))[0];
+  return palette.toSorted((a, b) => base.delta(a) - base.delta(b))[0];
 };
 
 nearest("#800", ["#f00", "#ff0", "#00f"]); // "#f00"
