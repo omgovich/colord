@@ -46,16 +46,16 @@ export function cmykaToRgba(cmyka: CmykaColor): RgbaColor {
  * https://www.rapidtables.com/convert/color/rgb-to-cmyk.html
  */
 export function rgbaToCmyka(rgba: RgbaColor): CmykaColor {
-  const k = 1 - Math.max(rgba.r / 255, rgba.g / 255, rgba.b / 255);
-  const c = (1 - rgba.r / 255 - k) / (1 - k);
-  const m = (1 - rgba.g / 255 - k) / (1 - k);
-  const y = (1 - rgba.b / 255 - k) / (1 - k);
+  const max = Math.max(rgba.r, rgba.g, rgba.b);
+  // (max - r) / max equals (1 - r / 255 - k) / (1 - k) with less float noise, and nine decimals
+  // clear what is left: without them r 3.4 and max 8 give 57.49999999999999 instead of 57.5.
+  const channel = (value: number) => (max ? round(round((100 * (max - value)) / max, 9)) : 0);
 
   return {
-    c: isNaN(c) ? 0 : round(c * 100),
-    m: isNaN(m) ? 0 : round(m * 100),
-    y: isNaN(y) ? 0 : round(y * 100),
-    k: round(k * 100),
+    c: channel(rgba.r),
+    m: channel(rgba.g),
+    y: channel(rgba.b),
+    k: round((1 - max / 255) * 100),
     a: rgba.a,
   };
 }

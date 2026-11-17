@@ -117,6 +117,27 @@ describe("cmyk", () => {
     expect(wrong.slice(0, 10)).toEqual([]);
   });
 
+  it("Rounds a CMYK percent that is exactly half up", () => {
+    // c of #050808 is 3 / 8 = 37.5%, which used to come out as 37.499999999999865
+    expect(colord("#050808").toCmyk()).toMatchObject({ c: 38, m: 0, y: 0, k: 97 });
+    expect(colord("#080508").toCmykString()).toBe("device-cmyk(0% 38% 0% 97%)");
+    // fractional channels: c of rgb(3.4 8 8) is 4.6 / 8 = 57.5%
+    expect(colord({ r: 3.4, g: 8, b: 8 }).toCmyk()).toMatchObject({ c: 58 });
+    expect(colord("rgb(3.4 8 8)").toCmykString()).toBe("device-cmyk(58% 0% 0% 97%)");
+
+    // c, m and y in integer arithmetic: 100 * (max - channel) / max, halves rounded up
+    const wrong: string[] = [];
+    for (let max = 1; max <= 255; max++) {
+      for (let r = 0; r <= max; r++) {
+        const exact = Math.floor((200 * (max - r) + max) / (2 * max));
+        const { c } = colord({ r, g: max, b: max }).toCmyk();
+        if (c !== exact) wrong.push(`rgb(${r} ${max} ${max}) gave c: ${c}, not ${exact}`);
+      }
+    }
+
+    expect(wrong.slice(0, 10)).toEqual([]);
+  });
+
   it("Supported by `getFormat`", () => {
     expect(getFormat({ c: 0, m: 0, y: 0, k: 100 })).toBe("cmyk");
   });
