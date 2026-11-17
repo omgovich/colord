@@ -28,6 +28,8 @@ export const roundCmyka = (cmyka: CmykaColor): CmykaColor => ({
  * https://www.rapidtables.com/convert/color/cmyk-to-rgb.html
  */
 export function cmykaToRgba(cmyka: CmykaColor): RgbaColor {
+  // Multiply before the one division: 1 - 90 / 100 is 0.09999999999999998, so 255 times it
+  // rounds down to 25, while 255 * 100 * 10 / 10000 is exactly 25.5 and rounds up
   return {
     r: round((255 * (100 - cmyka.c) * (100 - cmyka.k)) / 10000),
     g: round((255 * (100 - cmyka.m) * (100 - cmyka.k)) / 10000),
