@@ -1238,18 +1238,17 @@ const textColor = (background) =>
   colord("#000").isReadable(background) ? "#000" : "#fff";
 
 const readableOn = (color, background) => {
-  const darken = textColor(background) === "#000";
-  let result = colord(color);
-  // Check the rounded hex, since that's the color you'll actually use
-  while (!colord(result.toHex()).isReadable(background)) {
-    result = darken ? result.darken(0.05) : result.lighten(0.05);
+  const step = colord("#000").isReadable(background) ? -0.05 : 0.05;
+  let hex = colord(color).toHex();
+  while (!colord(hex).isReadable(background)) {
+    hex = colord(hex).lighten(step).toHex();
   }
-  return result.toHex();
+  return hex;
 };
 
 textColor("#fde047"); // "#000"
 textColor("#1e293b"); // "#fff"
-readableOn("#3b82f6", "#ffffff"); // "#0b63f3"
+readableOn("#3b82f6", "#ffffff"); // "#0b62f3"
 ```
 
 The loop always ends, because black or white meets AA on any background. It may never end for AAA.
