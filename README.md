@@ -1226,7 +1226,7 @@ nearest("#ffe", ["#f00", "#ff0", "#00f"]); // "#ff0"
 <details>
   <summary><b>Pick a readable text color for a background</b></summary>
 
-`textColor` uses black when it's readable on the background, and white otherwise. `readableOn` adjusts your color instead: it takes the first readable color from its shades or tints.
+`textColor` uses black when it's readable on the background, and white otherwise. `findReadableOn` adjusts your color instead: it takes the first readable color from its shades or tints.
 
 ```js
 import { colord, extend } from "colord";
@@ -1238,7 +1238,7 @@ extend([a11yPlugin, mixPlugin]);
 const textColor = (background) =>
   colord("#000").isReadable(background) ? "#000" : "#fff";
 
-const readableOn = (color, background) => {
+const findReadableOn = (color, background) => {
   const base = colord(color);
   const palette =
     textColor(background) === "#000" ? base.shades(20) : base.tints(20);
@@ -1249,10 +1249,10 @@ const readableOn = (color, background) => {
 
 textColor("#fde047"); // "#000"
 textColor("#1e293b"); // "#fff"
-readableOn("#3b82f6", "#ffffff"); // "#3873d9"
+findReadableOn("#3b82f6", "#ffffff"); // "#3873d9"
 ```
 
-Shades end with black and tints end with white, and one of them always meets AA, so `readableOn` always finds a color. For AAA it can return `undefined`.
+Shades end with black and tints end with white, and one of them always meets AA, so `findReadableOn` always finds a color. For AAA it can return `undefined`.
 
 Contrast ignores alpha, so these recipes expect opaque colors. For a translucent color, mix it with the background first.
 
