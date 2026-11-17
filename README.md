@@ -1226,32 +1226,33 @@ nearest("#ffe", ["#f00", "#ff0", "#00f"]); // "#ff0"
 <details>
   <summary><b>Pick a readable text color for a background</b></summary>
 
-`textColor` uses black when it's readable on the background, and white otherwise. `readableOn` adjusts your color instead: it darkens or lightens it until it becomes readable.
+`textColor` uses black when it's readable on the background, and white otherwise. `readableOn` adjusts your color instead: it takes the first readable color from its shades or tints.
 
 ```js
 import { colord, extend } from "colord";
 import a11yPlugin from "colord/plugins/a11y";
+import mixPlugin from "colord/plugins/mix";
 
-extend([a11yPlugin]);
+extend([a11yPlugin, mixPlugin]);
 
 const textColor = (background) =>
   colord("#000").isReadable(background) ? "#000" : "#fff";
 
 const readableOn = (color, background) => {
-  const step = colord("#000").isReadable(background) ? -0.05 : 0.05;
-  let hex = colord(color).toHex();
-  while (!colord(hex).isReadable(background)) {
-    hex = colord(hex).lighten(step).toHex();
-  }
-  return hex;
+  const base = colord(color);
+  const palette =
+    textColor(background) === "#000" ? base.shades(20) : base.tints(20);
+  return palette
+    .map((c) => c.toHex())
+    .find((hex) => colord(hex).isReadable(background));
 };
 
 textColor("#fde047"); // "#000"
 textColor("#1e293b"); // "#fff"
-readableOn("#3b82f6", "#ffffff"); // "#0b62f3"
+readableOn("#3b82f6", "#ffffff"); // "#3873d9"
 ```
 
-The loop always ends, because black or white meets AA on any background. It may never end for AAA.
+Shades end with black and tints end with white, and one of them always meets AA, so `readableOn` always finds a color. For AAA it can return `undefined`.
 
 Contrast ignores alpha, so these recipes expect opaque colors. For a translucent color, mix it with the background first.
 
