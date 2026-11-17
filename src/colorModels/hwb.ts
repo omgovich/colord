@@ -28,8 +28,7 @@ export const hwbaToRgba = (hwba: HwbaColor): RgbaColor => {
   // achromatic gray with value white / (white + black).
   // https://www.w3.org/TR/css-color-4/#hwb-to-rgb
   if (hwba.w + hwba.b >= 100) {
-    const gray = (hwba.w / (hwba.w + hwba.b)) * 255;
-    return { r: gray, g: gray, b: gray, a: hwba.a };
+    return hsvaToRgba({ h: 0, s: 0, v: (hwba.w / (hwba.w + hwba.b)) * 100, a: hwba.a });
   }
 
   return hsvaToRgba({

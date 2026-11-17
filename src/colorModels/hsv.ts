@@ -59,10 +59,14 @@ export const hsvaToRgba = ({ h, s, v, a }: HsvaColor): RgbaColor => {
     d = v * (1 - (1 - h + hh) * s),
     module = hh % 6;
 
+  // Nine decimals clear the float noise that makes an exact half such as 127.5 come out as
+  // 127.49999999999999, which would round down. They keep every 8-bit value and its halves intact.
+  const channel = (ratio: number) => Math.round(ratio * 255e9) / 1e9 + 0;
+
   return {
-    r: [v, c, b, b, d, v][module] * 255,
-    g: [d, v, v, c, b, b][module] * 255,
-    b: [b, b, d, v, v, c][module] * 255,
+    r: channel([v, c, b, b, d, v][module]),
+    g: channel([d, v, v, c, b, b][module]),
+    b: channel([b, b, d, v, v, c][module]),
     a: a,
   };
 };

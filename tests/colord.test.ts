@@ -23,6 +23,65 @@ it("Converts between HEX, RGB, HSL and HSV color models properly", () => {
   }
 });
 
+/**
+ * hsl() to sRGB as CSS Color 4 describes it, in integer arithmetic so nothing is lost to floating
+ * point: `h` is in whole degrees, `s` and `l` are whole percents. Each channel is rounded half up,
+ * which is what browsers do.
+ */
+const hslToRgbExact = (h: number, s: number, l: number): number[] =>
+  [0, 8, 4].map((n) => {
+    // k and m of the CSS formula, both multiplied by 30
+    const k = (30 * n + h) % 360;
+    const m = Math.max(-30, Math.min(k - 90, 270 - k, 30));
+    // the channel in 1 / 300000
+    const channel = 3000 * l - s * Math.min(l, 100 - l) * m;
+    return Math.floor((255 * channel + 150000) / 300000);
+  });
+
+/** The same for hsv, with the channels in 1 / 600000 */
+const hsvToRgbExact = (h: number, s: number, v: number): number[] => {
+  const rest = h % 60;
+  const max = v * 6000;
+  const min = v * (100 - s) * 60;
+  const falling = v * (6000 - rest * s);
+  const rising = v * (6000 - (60 - rest) * s);
+  const sector = Math.floor(h / 60) % 6;
+  return [
+    [max, falling, min, min, rising, max][sector],
+    [rising, max, max, falling, min, min][sector],
+    [min, min, rising, max, max, falling][sector],
+  ].map((channel) => Math.floor((255 * channel + 300000) / 600000));
+};
+
+it("Rounds a channel that is exactly half up in HSL and HSV", () => {
+  // 127.5 and 25.5 used to come out of the conversion as 127.49999999999999 and 25.499999999999996
+  expect(colord("hsl(0, 100%, 55%)").toHex()).toBe("#ff1a1a");
+  expect(colord({ h: 0, s: 90, v: 100 }).toHex()).toBe("#ff1a1a");
+  expect(colord({ h: 120, s: 50, l: 20 }).toRgb()).toMatchObject({ r: 26, g: 77, b: 26 });
+
+  // Every hsl() and hsv() of whole percents at the hues 0, 30, ... 330
+  const wrong: string[] = [];
+  for (let h = 0; h < 360; h += 30) {
+    for (let s = 0; s <= 100; s++) {
+      for (let x = 0; x <= 100; x++) {
+        const hsl = colord({ h, s, l: x }).toRgb();
+        const hslExact = hslToRgbExact(h, s, x);
+        if (hsl.r !== hslExact[0] || hsl.g !== hslExact[1] || hsl.b !== hslExact[2]) {
+          wrong.push(`hsl(${h}, ${s}%, ${x}%) gave ${[hsl.r, hsl.g, hsl.b]}, not ${hslExact}`);
+        }
+
+        const hsv = colord({ h, s, v: x }).toRgb();
+        const hsvExact = hsvToRgbExact(h, s, x);
+        if (hsv.r !== hsvExact[0] || hsv.g !== hsvExact[1] || hsv.b !== hsvExact[2]) {
+          wrong.push(`hsv(${h}, ${s}%, ${x}%) gave ${[hsv.r, hsv.g, hsv.b]}, not ${hsvExact}`);
+        }
+      }
+    }
+  }
+
+  expect(wrong.slice(0, 10)).toEqual([]);
+});
+
 it("Parses and converts a color", () => {
   for (const format in lime) {
     const instance = colord(lime[format] as AnyColor);
