@@ -63,11 +63,12 @@ export const clampHue = (degrees: number): number => {
  *
  * The 1e-9 clears the float noise a few divisions leave behind, which makes an exact half such
  * as 122.5 come out as 122.49999999999999 and round down. It is far above that noise and far
- * below the distance of any other value from a half.
+ * below the distance of any other value from a half. lch and oklch round an atan2 result to
+ * hundredths, which is never an exact half, so they skip it.
  * Examples: 359.6 => 0, 12.4 => 12
  */
 export const roundHue = (degrees: number, digits = 0): number => {
-  return round(degrees + 1e-9, digits) % 360;
+  return round(digits ? degrees : degrees + 1e-9, digits) % 360;
 };
 
 /**

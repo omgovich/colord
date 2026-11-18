@@ -425,6 +425,13 @@ describe("lab", () => {
 describe("lch", () => {
   extend([lchPlugin]);
 
+  it("Rounds a hue just below a half down", () => {
+    // The hue of #13174f is 293.374999999996 and of #c8888c 18.0649999992, which the 1e-9 that
+    // makes an exact half of hsl() round up would have rounded up too
+    expect(colord("#13174f").toLch().h).toBe(293.37);
+    expect(colord("#c8888c").toLch().h).toBe(18.06);
+  });
+
   it("Parses CIE LCH color object", () => {
     // https://www.w3.org/TR/css-color-4/#specifying-lab-lch
     expect(colord({ l: 0, c: 0, h: 0, a: 0 }).toHex()).toBe("#00000000");
@@ -970,6 +977,11 @@ describe("oklab", () => {
 
 describe("oklch", () => {
   extend([oklchPlugin]);
+
+  it("Rounds a hue just below a half down", () => {
+    // The hue of #f569a0 is 358.1449999998, see the same test of lch
+    expect(colord("#f569a0").toOklch().h).toBe(358.14);
+  });
 
   it("Parses OKLCH color object", () => {
     // Reference values are cross-checked against culori
