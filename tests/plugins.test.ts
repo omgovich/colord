@@ -240,6 +240,13 @@ describe("hwb", () => {
     expect(colord("hwb(194 0 0% / .5)").toHex()).toBe("#00c4ff80");
   });
 
+  it("Rounds a hue that is exactly half up", () => {
+    // The hue of rgb(0 120 5) is 122.5, which came out as 122.49999999999999 and was rounded down
+    expect(colord({ r: 0, g: 120, b: 5 }).toHwb()).toEqual({ h: 123, w: 0, b: 53, a: 1 });
+    expect(colord({ r: 0, g: 120, b: 5 }).toHwbString()).toBe("hwb(123 0% 53%)");
+    expect(colord({ r: 0, g: 120, b: 7 }).toHwb().h).toBe(124);
+  });
+
   it("Rounds a channel that is exactly half up", () => {
     // 25.5 used to come out of the conversion as 25.499999999999996 and was rounded down
     expect(colord("hwb(0 10% 0%)").toHex()).toBe("#ff1a1a");

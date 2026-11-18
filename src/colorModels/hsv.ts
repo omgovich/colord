@@ -10,7 +10,8 @@ export const clampHsva = (hsva: HsvaColor): HsvaColor => ({
 
 export const roundHsva = (hsva: HsvaColor): HsvaColor => ({
   h: roundHue(hsva.h),
-  s: round(hsva.s),
+  // The 1e-9: an exact half such as 57.5 comes out as 57.49999999999999 and would round down
+  s: round(hsva.s + 1e-9),
   v: round(hsva.v),
   a: roundAlpha(hsva.a),
 });
