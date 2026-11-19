@@ -577,6 +577,11 @@ it("Gets color brightness", () => {
   expect(colord("#777").isLight()).toBe(false);
   expect(colord("#aabbcc").isLight()).toBe(true);
   expect(colord("#FFF").isLight()).toBe(true);
+
+  // isDark() and isLight() compare the exact brightness, 0.498 here, not the rounded one
+  expect(colord("#7f7f7f").brightness()).toBe(0.5);
+  expect(colord("#7f7f7f").isDark()).toBe(true);
+  expect(colord("#7f7f7f").isLight()).toBe(false);
 });
 
 it("Rounds a brightness that is exactly half up", () => {
