@@ -43,7 +43,8 @@ export class Colord {
    * https://www.w3.org/TR/AERT/#color-contrast
    */
   public brightness(): number {
-    return round(getBrightness(this.rgba), 2);
+    // The 1e-9 clears the float noise that leaves an exact half such as 0.445 just below it
+    return round(getBrightness(this.rgba) + 1e-9, 2);
   }
 
   /**

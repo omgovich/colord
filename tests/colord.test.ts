@@ -502,6 +502,33 @@ it("Gets color brightness", () => {
   expect(colord("#FFF").isLight()).toBe(true);
 });
 
+it("Rounds a brightness that is exactly half up", () => {
+  // The brightness of rgb(0 177 84) is exactly 0.445, which came out as 0.44
+  expect(colord({ r: 0, g: 177, b: 84 }).brightness()).toBe(0.45);
+
+  // Every color whose brightness, (299 r + 587 g + 114 b) / 255000, is exactly half way between
+  // two hundredths: for each red and green, the blue that gives k / 100 + 0.005, if there is one
+  const wrong: string[] = [];
+  let halves = 0;
+  for (let r = 0; r <= 255; r++) {
+    for (let g = 0; g <= 255; g++) {
+      for (let k = 0; k < 100; k++) {
+        const b = (2550 * k + 1275 - 299 * r - 587 * g) / 114;
+        if (Number.isInteger(b) && b >= 0 && b <= 255) {
+          halves++;
+          const got = colord({ r, g, b }).brightness();
+          if (got !== (k + 1) / 100) {
+            wrong.push(`rgb(${r} ${g} ${b}) gave ${got}, not ${(k + 1) / 100}`);
+          }
+        }
+      }
+    }
+  }
+
+  expect(halves).toBe(6578);
+  expect(wrong.slice(0, 10)).toEqual([]);
+});
+
 it("Gets an alpha channel value", () => {
   expect(colord("#000").alpha()).toBe(1);
   expect(colord("rgba(50, 100, 150, 0.5)").alpha()).toBe(0.5);
