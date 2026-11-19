@@ -46,7 +46,8 @@ const mixPlugin: Plugin = (ColordClass): void => {
    */
   function mixPalette(source: Colord, hex: string, count = 5, space?: MixingColorSpace): Colord[] {
     const palette = [];
-    const step = 1 / (count - 1);
+    // A palette of one color has no step: 1 / 0 times the first index would be NaN
+    const step = count > 1 ? 1 / (count - 1) : 0;
     for (let i = 0; i <= count - 1; i++) {
       // `step * i` can stop short of 1 (49 * (1 / 49) = 0.9999…), so the last step uses exactly 1
       palette.push(source.mix(hex, i === count - 1 && count > 1 ? 1 : step * i, space));

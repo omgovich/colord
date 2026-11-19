@@ -652,6 +652,25 @@ describe("mix", () => {
     expect(colord("#0000ff").tints(7, "rgb")[5].toHex()).toBe("#d5d5ff");
   });
 
+  it("Starts every palette with the original color, also a palette of one", () => {
+    // The step of a palette of one color is 1 / 0, and 0 * Infinity made its mixture NaN
+    check(colord("#ff0000").tints(1), ["#ff0000"]);
+    check(colord("#ff0000").shades(1), ["#ff0000"]);
+    check(colord("#ff0000").tones(1), ["#ff0000"]);
+    check(colord("#3366cc80").tints(1, "rgb"), ["#3366cc80"]);
+    expect(colord("#ff0000").tints(0)).toEqual([]);
+
+    const ends = { tints: "#ffffff", shades: "#000000", tones: "#808080" } as const;
+    for (const name of ["tints", "shades", "tones"] as const) {
+      for (let count = 1; count <= 60; count++) {
+        const palette = colord("#3366cc")[name](count);
+        expect(palette).toHaveLength(count);
+        expect(palette[0].toHex()).toBe("#3366cc");
+        if (count > 1) expect(palette[count - 1].toHex()).toBe(ends[name]);
+      }
+    }
+  });
+
   it("Generates a shades palette", () => {
     check(colord("#ff0000").shades(2), ["#ff0000", "#000000"]);
     check(colord("#ff0000").shades(3), ["#ff0000", "#7a1b0b", "#000000"]);
