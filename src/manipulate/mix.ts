@@ -18,10 +18,14 @@ export const mix = (
   // Identical RGB channels skip the LAB round trip too, so only alpha changes
   // No clamping needed: the plugin passes the result through the RGB parser, which clamps
   if (space === "rgb" || (rgba1.r === rgba2.r && rgba1.g === rgba2.g && rgba1.b === rgba2.b)) {
+    // Nine decimals clear the float noise that leaves an exact half such as 14.5 just below it
+    const channel = (start: number, end: number): number =>
+      Math.round(interpolate(start, end) * 1e9) / 1e9;
+
     return {
-      r: interpolate(rgba1.r, rgba2.r),
-      g: interpolate(rgba1.g, rgba2.g),
-      b: interpolate(rgba1.b, rgba2.b),
+      r: channel(rgba1.r, rgba2.r),
+      g: channel(rgba1.g, rgba2.g),
+      b: channel(rgba1.b, rgba2.b),
       a: interpolate(rgba1.a, rgba2.a),
     };
   }

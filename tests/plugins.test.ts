@@ -648,7 +648,8 @@ describe("mix", () => {
 
   it("Preserves the exact palette endpoint without changing interior steps", () => {
     expect(colord("#0000ff").tints(50)[49].darken(0.5).toHex()).toBe("#808080");
-    expect(colord("#0000ff").tints(7, "rgb")[5].toHex()).toBe("#d4d4ff");
+    // 5 / 6 of 255 is exactly 212.5, which rounds up
+    expect(colord("#0000ff").tints(7, "rgb")[5].toHex()).toBe("#d5d5ff");
   });
 
   it("Generates a shades palette", () => {
@@ -673,6 +674,36 @@ describe("mix", () => {
     // https://github.com/omgovich/colord/issues/126
     // matches the alpha compositing of a `rgba(0, 125, 64, 0.14)` layer over `#f0f3f1`
     expect(colord("#f0f3f1").mix("#007d40", 0.14, "rgb").toHex()).toBe("#cee2d8");
+  });
+
+  it("Rounds a channel that is exactly half up when mixing through RGB color space", () => {
+    // 25 * 0.58 is exactly 14.5, which came out as 14.499999999999998 and rounded down
+    const black = colord("#000000");
+    expect(black.mix("#191919", 0.58, "rgb").toHex()).toBe("#0f0f0f");
+    expect(black.mix("#191919", 0.58, "rgb").toRgb()).toEqual({ r: 15, g: 15, b: 15, a: 1 });
+
+    // Every pair of channels and every ratio of whole percents that gives an exact half,
+    // against integer arithmetic (a mixture of from and to at percent / 100 is a hundredths count)
+    const wrong: string[] = [];
+    let halves = 0;
+    for (let from = 0; from <= 255; from++) {
+      for (let to = 0; to <= 255; to++) {
+        for (let percent = 1; percent <= 99; percent++) {
+          const hundredths = from * (100 - percent) + to * percent;
+          if (hundredths % 100 !== 50) continue;
+          halves++;
+          const got = colord({ r: from, g: 0, b: 0 })
+            .mix({ r: to, g: 0, b: 0 }, percent / 100, "rgb")
+            .toRgb().r;
+          const exact = (hundredths + 50) / 100;
+          if (got !== exact)
+            wrong.push(`${from} to ${to} at ${percent}% gave ${got}, not ${exact}`);
+        }
+      }
+    }
+
+    expect(halves).toBe(169592);
+    expect(wrong.slice(0, 10)).toEqual([]);
   });
 
   it("Interpolates alpha channel in RGB color space", () => {
