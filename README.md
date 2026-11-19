@@ -787,12 +787,12 @@ colord("#ffffff").brightness(); // 1
 <details>
   <summary><b><code>.isLight()</code></b></summary>
 
-Same as calling `brightness() >= 0.5`.
+Tells whether the brightness of a color is 0.5 or higher. It compares the exact brightness, not the one `brightness()` rounds to two decimals.
 
 ```js
 colord("#111111").isLight(); // false
-colord("#aabbcc").isLight(); // true
-colord("#ffffff").isLight(); // true
+colord("#7f7f7f").isLight(); // false: its brightness is 0.498, which `brightness()` rounds to 0.5
+colord("#808080").isLight(); // true
 ```
 
 </details>
@@ -800,12 +800,12 @@ colord("#ffffff").isLight(); // true
 <details>
   <summary><b><code>.isDark()</code></b></summary>
 
-Same as calling `brightness() < 0.5`.
+Tells whether the brightness of a color is below 0.5. It compares the exact brightness, not the one `brightness()` rounds to two decimals.
 
 ```js
 colord("#111111").isDark(); // true
-colord("#aabbcc").isDark(); // false
-colord("#ffffff").isDark(); // false
+colord("#7f7f7f").isDark(); // true: its brightness is 0.498, which `brightness()` rounds to 0.5
+colord("#808080").isDark(); // false
 ```
 
 </details>

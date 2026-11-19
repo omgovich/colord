@@ -48,15 +48,17 @@ export class Colord {
   }
 
   /**
-   * Same as calling `brightness() < 0.5`.
+   * Tells whether the brightness is below 0.5.
+   * Compares the exact brightness, so #7f7f7f (0.498) is dark though `brightness()` rounds it to 0.5.
    */
   public isDark(): boolean {
     return getBrightness(this.rgba) < 0.5;
   }
 
   /**
-   * Same as calling `brightness() >= 0.5`.
-   * */
+   * Tells whether the brightness is 0.5 or higher.
+   * Compares the exact brightness, so #7f7f7f (0.498) is not light though `brightness()` gives 0.5.
+   */
   public isLight(): boolean {
     return getBrightness(this.rgba) >= 0.5;
   }
