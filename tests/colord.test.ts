@@ -82,6 +82,83 @@ it("Rounds a channel that is exactly half up in HSL and HSV", () => {
   expect(wrong.slice(0, 10)).toEqual([]);
 });
 
+/** `numerator / denominator` rounded half up, in integer arithmetic */
+const roundHalfUp = (numerator: number, denominator: number): number =>
+  Math.floor((2 * numerator + denominator) / (2 * denominator));
+
+/** The hue of rgb() in whole degrees as CSS Color 4 describes it, in integer arithmetic */
+const hueExact = (r: number, g: number, b: number): number => {
+  const max = Math.max(r, g, b);
+  const delta = max - Math.min(r, g, b);
+  if (!delta) return 0;
+  // Where the hue sits on the color wheel in sixths of delta, from 0 to 6 * delta
+  const sixths =
+    max === r
+      ? (g - b + 6 * delta) % (6 * delta)
+      : max === g
+      ? 2 * delta + b - r
+      : 4 * delta + r - g;
+  return roundHalfUp(60 * sixths, delta) % 360;
+};
+
+it("Rounds a hue and a saturation that are exactly half up in HSL and HSV", () => {
+  // The hue of rgb(0 120 5) is 122.5, which came out as 122.49999999999999. The HSL saturation of
+  // rgb(3 3 45) is 87.5%, which came out as 87.49999999999999, and the HSV one of rgb(17 17 40) is
+  // 57.5%, which came out as 57.49999999999999.
+  expect(colord({ r: 0, g: 120, b: 5 }).toHsl()).toEqual({ h: 123, s: 100, l: 24, a: 1 });
+  expect(colord({ r: 0, g: 120, b: 5 }).toHsv()).toEqual({ h: 123, s: 100, v: 47, a: 1 });
+  expect(colord({ r: 0, g: 120, b: 5 }).hue()).toBe(123);
+  expect(colord({ r: 3, g: 3, b: 45 }).toHslString()).toBe("hsl(240, 88%, 9%)");
+  expect(colord({ r: 17, g: 17, b: 40 }).toHsv()).toEqual({ h: 240, s: 58, v: 16, a: 1 });
+
+  const wrong: string[] = [];
+
+  // The hue for every distance between the largest and the smallest channel, in each of the six
+  // sectors of the color wheel. It does not depend on the smallest channel, which stays 0 here.
+  for (let delta = 1; delta <= 255; delta++) {
+    for (let t = 0; t <= delta; t++) {
+      for (const [r, g, b] of [
+        [delta, t, 0],
+        [delta, 0, t],
+        [t, delta, 0],
+        [0, delta, t],
+        [0, t, delta],
+        [t, 0, delta],
+      ]) {
+        const color = colord({ r, g, b });
+        const exact = hueExact(r, g, b);
+        if (color.toHsl().h !== exact || color.toHsv().h !== exact) {
+          wrong.push(
+            `rgb(${r} ${g} ${b}) gave ${color.toHsl().h} and ${color.toHsv().h}, not ${exact}`
+          );
+        }
+      }
+    }
+  }
+
+  // The saturation and lightness for every largest and smallest channel (the middle one does not
+  // matter), as hsl s, hsl l, hsv s and hsv v
+  for (let max = 0; max <= 255; max++) {
+    for (let min = 0; min <= max; min++) {
+      const hsl = colord({ r: max, g: min, b: min }).toHsl();
+      const hsv = colord({ r: max, g: min, b: min }).toHsv();
+      const sum = max + min;
+      const exact = [
+        sum && sum < 510 ? roundHalfUp(100 * (max - min), sum <= 255 ? sum : 510 - sum) : 0,
+        roundHalfUp(100 * sum, 510),
+        max ? roundHalfUp(100 * (max - min), max) : 0,
+        roundHalfUp(100 * max, 255),
+      ];
+      const got = [hsl.s, hsl.l, hsv.s, hsv.v];
+      if (got.some((value, i) => value !== exact[i])) {
+        wrong.push(`rgb(${max} ${min} ${min}) gave ${got}, not ${exact}`);
+      }
+    }
+  }
+
+  expect(wrong.slice(0, 10)).toEqual([]);
+});
+
 it("Parses and converts a color", () => {
   for (const format in lime) {
     const instance = colord(lime[format] as AnyColor);

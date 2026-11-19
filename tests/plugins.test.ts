@@ -240,6 +240,13 @@ describe("hwb", () => {
     expect(colord("hwb(194 0 0% / .5)").toHex()).toBe("#00c4ff80");
   });
 
+  it("Rounds a hue that is exactly half up", () => {
+    // The hue of rgb(0 120 5) is 122.5, which came out as 122.49999999999999 and was rounded down
+    expect(colord({ r: 0, g: 120, b: 5 }).toHwb()).toEqual({ h: 123, w: 0, b: 53, a: 1 });
+    expect(colord({ r: 0, g: 120, b: 5 }).toHwbString()).toBe("hwb(123 0% 53%)");
+    expect(colord({ r: 0, g: 120, b: 7 }).toHwb().h).toBe(124);
+  });
+
   it("Rounds a channel that is exactly half up", () => {
     // 25.5 used to come out of the conversion as 25.499999999999996 and was rounded down
     expect(colord("hwb(0 10% 0%)").toHex()).toBe("#ff1a1a");
@@ -417,6 +424,13 @@ describe("lab", () => {
 
 describe("lch", () => {
   extend([lchPlugin]);
+
+  it("Rounds a hue just below a half down", () => {
+    // The hue of #13174f is 293.374999999996 and of #c8888c 18.0649999992, which the 1e-9 that
+    // makes an exact half of hsl() round up would have rounded up too
+    expect(colord("#13174f").toLch().h).toBe(293.37);
+    expect(colord("#c8888c").toLch().h).toBe(18.06);
+  });
 
   it("Parses CIE LCH color object", () => {
     // https://www.w3.org/TR/css-color-4/#specifying-lab-lch
@@ -963,6 +977,11 @@ describe("oklab", () => {
 
 describe("oklch", () => {
   extend([oklchPlugin]);
+
+  it("Rounds a hue just below a half down", () => {
+    // The hue of #f569a0 is 358.1449999998, see the same test of lch
+    expect(colord("#f569a0").toOklch().h).toBe(358.14);
+  });
 
   it("Parses OKLCH color object", () => {
     // Reference values are cross-checked against culori

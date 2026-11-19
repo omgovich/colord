@@ -11,7 +11,8 @@ export const clampHsla = (hsla: HslaColor): HslaColor => ({
 
 export const roundHsla = (hsla: HslaColor): HslaColor => ({
   h: roundHue(hsla.h),
-  s: round(hsla.s),
+  // The 1e-9: an exact half such as 87.5 comes out as 87.49999999999999 and would round down
+  s: round(hsla.s + 1e-9),
   l: round(hsla.l),
   a: roundAlpha(hsla.a),
 });
