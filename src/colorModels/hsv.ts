@@ -31,7 +31,8 @@ export const parseHsva = ({ h, s, v, a = 1 }: InputObject): RgbaColor | null => 
 
 export const rgbaToHsva = ({ r, g, b, a }: RgbaColor): HsvaColor => {
   const max = Math.max(r, g, b);
-  const delta = max - Math.min(r, g, b);
+  const spread = max - Math.min(r, g, b);
+  const delta = spread > 1e-3 ? spread : 0;
 
   const hh = delta
     ? max === r

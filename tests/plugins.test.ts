@@ -486,6 +486,14 @@ describe("lch", () => {
     expect(colord({ l: 50, c: -20, h: 30 }).toHex()).toBe(colord("lch(50% 0 30)").toHex());
   });
 
+  it("Gives a gray with no chroma no HSL, HSV or HWB hue", () => {
+    expect(colord("lch(50% 0 0)").hue()).toBe(0);
+    expect(colord("lch(50% 0 0)").toHslString()).toBe("hsl(0, 0%, 47%)");
+    expect(colord("lch(30% 0 120)").toHsv()).toEqual({ h: 0, s: 0, v: 28, a: 1 });
+    expect(colord("lab(50 0 0)").hue()).toBe(0);
+    expect(colord("lch(50% 0 0)").saturate(0.5).toHex()).toBe("#b23b3b");
+  });
+
   it("Converts a color to CIE LCH string (CSS functional notation)", () => {
     // https://cielab.xyz/colorconv/
     expect(colord("#00000080").toLchString()).toBe("lch(0% 0 0 / 0.5)");
@@ -627,6 +635,12 @@ describe("mix", () => {
     expect(colord("#ffffff").mix("#ffffff").darken(0.5).toHex()).toBe("#808080");
     expect(colord("#ffffff").mix("#ffffff", 0.25).toHsl().s).toBe(0);
     expect(colord("#ffffff").mix("#ffffff", 0.75).toHsl().s).toBe(0);
+  });
+
+  it("Mixes two grays into a gray with no hue", () => {
+    expect(colord("#000000").mix("#ffffff").hue()).toBe(0);
+    expect(colord("#000000").mix("#ffffff").toHslString()).toBe("hsl(0, 0%, 47%)");
+    expect(colord("#333333").mix("#cccccc", 0.3).toHsl()).toEqual({ h: 0, s: 0, l: 36, a: 1 });
   });
 
   it("Interpolates alpha without changing identical RGB channels", () => {
@@ -1132,6 +1146,12 @@ describe("oklch", () => {
     expect(colord({ l: 0.5, c: 0.2, h: -120, ok: true }).toHex()).toBe(
       colord({ l: 0.5, c: 0.2, h: 240, ok: true }).toHex()
     );
+  });
+
+  it("Gives a gray with no chroma no HSL hue", () => {
+    expect(colord("oklch(0.5 0 0)").hue()).toBe(0);
+    expect(colord("oklch(0.7 0 200)").toHslString()).toBe("hsl(0, 0%, 62%)");
+    expect(colord("oklab(0.5 0 0)").hue()).toBe(0);
   });
 
   it("Clips out-of-sRGB-gamut colors the way browsers render them", () => {
