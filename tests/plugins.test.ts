@@ -486,11 +486,12 @@ describe("lch", () => {
     expect(colord({ l: 50, c: -20, h: 30 }).toHex()).toBe(colord("lch(50% 0 30)").toHex());
   });
 
-  it("Gives a gray with no chroma no HSL, HSV or HWB hue", () => {
+  it("Gives a gray with no chroma the hue 0 in HSL, HSV and HWB", () => {
     expect(colord("lch(50% 0 0)").hue()).toBe(0);
     expect(colord("lch(50% 0 0)").toHslString()).toBe("hsl(0, 0%, 47%)");
     expect(colord("lch(30% 0 120)").toHsv()).toEqual({ h: 0, s: 0, v: 28, a: 1 });
-    expect(colord("lab(50 0 0)").hue()).toBe(0);
+    expect(colord("lch(50% 0 0)").toHwb()).toEqual({ h: 0, w: 47, b: 53, a: 1 });
+    expect(colord("lab(50 0 0)").toHslString()).toBe("hsl(0, 0%, 47%)");
     expect(colord("lch(50% 0 0)").saturate(0.5).toHex()).toBe("#b23b3b");
   });
 
@@ -1151,7 +1152,7 @@ describe("oklch", () => {
   it("Gives a gray with no chroma no HSL hue", () => {
     expect(colord("oklch(0.5 0 0)").hue()).toBe(0);
     expect(colord("oklch(0.7 0 200)").toHslString()).toBe("hsl(0, 0%, 62%)");
-    expect(colord("oklab(0.5 0 0)").hue()).toBe(0);
+    expect(colord("oklab(0.5 0 0)").toHslString()).toBe("hsl(0, 0%, 39%)");
   });
 
   it("Clips out-of-sRGB-gamut colors the way browsers render them", () => {

@@ -257,7 +257,7 @@
     },
     {
       "path": "dist/plugins/mix.mjs",
-      "limit": "1.1 KB"
+      "limit": "1.2 KB"
     },
     {
       "path": "dist/plugins/names.mjs",

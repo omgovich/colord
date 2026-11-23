@@ -93,7 +93,7 @@ export const oklabaToRgba = (laba: OklabaColor): RgbaColor => {
   const m3 = m * m * m;
   const s3 = s * s * s;
 
-  return clampRgba({
+  const rgba = clampRgba({
     r: unlinearizeRgbChannel(
       4.0767416360759583 * l3 - 3.3077115392580616 * m3 + 0.2309699031821043 * s3
     ),
@@ -105,4 +105,7 @@ export const oklabaToRgba = (laba: OklabaColor): RgbaColor => {
     ),
     a: laba.alpha,
   });
+
+  if (!laba.a && !laba.b) rgba.r = rgba.b = rgba.g;
+  return rgba;
 };
