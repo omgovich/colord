@@ -809,7 +809,8 @@ it("Gets an input color format", () => {
 it("Accepts a plugin passed as an ES module namespace, and registers it once", () => {
   const plugin: Plugin = jest.fn();
   // `require()` returns `{ default: plugin }` in resolvers that map it to the ES module build
-  extend([{ default: plugin }]);
-  extend([plugin, { default: plugin }]);
+  const namespace = { default: plugin } as unknown as Plugin;
+  extend([namespace]);
+  extend([plugin, namespace]);
   expect(plugin).toHaveBeenCalledTimes(1);
 });
