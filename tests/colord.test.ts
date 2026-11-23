@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { colord, random, getFormat, Colord, AnyColor } from "../src/";
+import { colord, random, getFormat, extend, Colord, AnyColor, Plugin } from "../src/";
 import { fixtures, lime, saturationLevels } from "./fixtures";
 import { clampHue, round, roundHue } from "../src/helpers";
 
@@ -804,4 +804,12 @@ it("Gets an input color format", () => {
   expect(getFormat("disco-dancing")).toBeUndefined();
   // @ts-ignore
   expect(getFormat({ w: 1, u: 2, t: 3 })).toBeUndefined();
+});
+
+it("Accepts a plugin passed as an ES module namespace, and registers it once", () => {
+  const plugin: Plugin = jest.fn();
+  // `require()` returns `{ default: plugin }` in resolvers that map it to the ES module build
+  extend([{ default: plugin }]);
+  extend([plugin, { default: plugin }]);
+  expect(plugin).toHaveBeenCalledTimes(1);
 });

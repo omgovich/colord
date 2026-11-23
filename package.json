@@ -47,7 +47,7 @@
       },
       "types": "./plugins/a11y.d.ts",
       "require": "./plugins/a11y.js",
-      "default": "./plugins/a11y.js"
+      "default": "./plugins/a11y.mjs"
     },
     "./plugins/cmyk": {
       "import": {
@@ -56,7 +56,7 @@
       },
       "types": "./plugins/cmyk.d.ts",
       "require": "./plugins/cmyk.js",
-      "default": "./plugins/cmyk.js"
+      "default": "./plugins/cmyk.mjs"
     },
     "./plugins/harmonies": {
       "import": {
@@ -65,7 +65,7 @@
       },
       "types": "./plugins/harmonies.d.ts",
       "require": "./plugins/harmonies.js",
-      "default": "./plugins/harmonies.js"
+      "default": "./plugins/harmonies.mjs"
     },
     "./plugins/hwb": {
       "import": {
@@ -74,7 +74,7 @@
       },
       "types": "./plugins/hwb.d.ts",
       "require": "./plugins/hwb.js",
-      "default": "./plugins/hwb.js"
+      "default": "./plugins/hwb.mjs"
     },
     "./plugins/lab": {
       "import": {
@@ -83,7 +83,7 @@
       },
       "types": "./plugins/lab.d.ts",
       "require": "./plugins/lab.js",
-      "default": "./plugins/lab.js"
+      "default": "./plugins/lab.mjs"
     },
     "./plugins/lch": {
       "import": {
@@ -92,7 +92,7 @@
       },
       "types": "./plugins/lch.d.ts",
       "require": "./plugins/lch.js",
-      "default": "./plugins/lch.js"
+      "default": "./plugins/lch.mjs"
     },
     "./plugins/minify": {
       "import": {
@@ -101,7 +101,7 @@
       },
       "types": "./plugins/minify.d.ts",
       "require": "./plugins/minify.js",
-      "default": "./plugins/minify.js"
+      "default": "./plugins/minify.mjs"
     },
     "./plugins/mix": {
       "import": {
@@ -110,7 +110,7 @@
       },
       "types": "./plugins/mix.d.ts",
       "require": "./plugins/mix.js",
-      "default": "./plugins/mix.js"
+      "default": "./plugins/mix.mjs"
     },
     "./plugins/names": {
       "import": {
@@ -119,7 +119,7 @@
       },
       "types": "./plugins/names.d.ts",
       "require": "./plugins/names.js",
-      "default": "./plugins/names.js"
+      "default": "./plugins/names.mjs"
     },
     "./plugins/oklab": {
       "import": {
@@ -128,7 +128,7 @@
       },
       "types": "./plugins/oklab.d.ts",
       "require": "./plugins/oklab.js",
-      "default": "./plugins/oklab.js"
+      "default": "./plugins/oklab.mjs"
     },
     "./plugins/oklch": {
       "import": {
@@ -137,7 +137,7 @@
       },
       "types": "./plugins/oklch.d.ts",
       "require": "./plugins/oklch.js",
-      "default": "./plugins/oklch.js"
+      "default": "./plugins/oklch.mjs"
     },
     "./plugins/xyz": {
       "import": {
@@ -146,7 +146,7 @@
       },
       "types": "./plugins/xyz.d.ts",
       "require": "./plugins/xyz.js",
-      "default": "./plugins/xyz.js"
+      "default": "./plugins/xyz.mjs"
     },
     "./package.json": "./package.json"
   },
