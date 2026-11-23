@@ -652,6 +652,15 @@ describe("mix", () => {
     expect(colord("#0000ff").tints(7, "rgb")[5].toHex()).toBe("#d5d5ff");
   });
 
+  it("Preserves unrounded channels and alpha at mixing and palette endpoints", () => {
+    const source = colord({ r: 20.25, g: 40.5, b: 60.75, a: 0.123456 });
+    const target = colord({ r: 80.75, g: 100.5, b: 120.25, a: 0.654321 });
+
+    expect(source.mix(target, 0).rgba).toEqual(source.rgba);
+    expect(source.mix(target, 1, "rgb").rgba).toEqual(target.rgba);
+    expect(source.tints(1)[0].rgba).toEqual(source.rgba);
+  });
+
   it("Starts every palette with the original color, also a palette of one", () => {
     // The step of a palette of one color is 1 / 0, and 0 * Infinity made its mixture NaN
     check(colord("#ff0000").tints(1), ["#ff0000"]);

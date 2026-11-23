@@ -621,7 +621,7 @@ colord("hsl(90, 50%, 50%)").rotate(-180).toHslString(); // "hsl(270, 50%, 50%)"
 <details>
   <summary><b><code>.mix(color2, ratio = 0.5, space = "lab")</code></b> (<b>mix</b> plugin)</summary>
 
-Produces a mixture of two colors and returns the result of mixing them (new Colord instance).
+Produces a mixture of two colors and returns the result of mixing them (new Colord instance). A ratio of `0` preserves the first color, and a ratio of `1` preserves the second color, including fractional channel and alpha values.
 
 In contrast to other libraries that perform RGB values mixing, Colord mixes colors through [LAB color space](https://en.wikipedia.org/wiki/CIELAB_color_space) by default. This approach produces better results and doesn't have the drawbacks the legacy way has.
 
