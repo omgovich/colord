@@ -642,6 +642,12 @@ describe("mix", () => {
     expect(colord("#000000").mix("#ffffff").hue()).toBe(0);
     expect(colord("#000000").mix("#ffffff").toHslString()).toBe("hsl(0, 0%, 47%)");
     expect(colord("#333333").mix("#cccccc", 0.3).toHsl()).toEqual({ h: 0, s: 0, l: 36, a: 1 });
+    expect(colord("#000000").mix("#070707").toHex()).toBe("#040404");
+    expect(
+      colord("#010101")
+        .shades()
+        .map((c) => c.toHex())
+    ).toEqual(["#010101", "#010101", "#010101", "#000000", "#000000"]);
   });
 
   it("Interpolates alpha without changing identical RGB channels", () => {

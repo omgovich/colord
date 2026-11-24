@@ -106,6 +106,7 @@ export const oklabaToRgba = (laba: OklabaColor): RgbaColor => {
     a: laba.alpha,
   });
 
+  // The XYZ matrices send a gray back to channels a few 1e-5 apart, which would give it a hue
   if (!laba.a && !laba.b) rgba.r = rgba.b = rgba.g;
   return rgba;
 };
