@@ -247,6 +247,11 @@ it("Reports the same hue through every accessor", () => {
   }
 });
 
+it("Keeps the hue of a nearly gray color", () => {
+  expect(colord("hsl(240 0.1% 99.9%)").hue()).toBe(240);
+  expect(colord("hsl(240 0.1% 99.9%)").saturate(0.5).darken(0.5).toHex()).toBe("#3f3fbf");
+});
+
 it("Parses modern RGB functional notations", () => {
   expect(colord("rgb(0% 50% 100%)").toRgb()).toMatchObject({ r: 0, g: 128, b: 255, a: 1 });
   expect(colord("rgb(10% 20% 30% / 33%)").toRgb()).toMatchObject({ r: 26, g: 51, b: 77, a: 0.33 });

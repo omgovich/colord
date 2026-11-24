@@ -58,10 +58,13 @@ export const rgbaToLaba = (rgba: RgbaColor): LabaColor => {
   y = y > e ? Math.cbrt(y) : (k * y + 16) / 116;
   z = z > e ? Math.cbrt(z) : (k * z + 16) / 116;
 
+  // A gray RGB has no a and b, but the XYZ matrices leave a few 1e-6 of noise in them
+  const gray = rgba.r === rgba.g && rgba.g === rgba.b;
+
   return {
     l: 116 * y - 16,
-    a: 500 * (x - y),
-    b: 200 * (y - z),
+    a: gray ? 0 : 500 * (x - y),
+    b: gray ? 0 : 200 * (y - z),
     alpha: xyza.a,
   };
 };
@@ -75,10 +78,14 @@ export const labaToRgba = (laba: LabaColor): RgbaColor => {
   const x = laba.a / 500 + y;
   const z = y - laba.b / 200;
 
-  return xyzaToRgba({
+  const rgba = xyzaToRgba({
     x: (Math.pow(x, 3) > e ? Math.pow(x, 3) : (116 * x - 16) / k) * D50.x,
     y: (laba.l > k * e ? Math.pow((laba.l + 16) / 116, 3) : laba.l / k) * D50.y,
     z: (Math.pow(z, 3) > e ? Math.pow(z, 3) : (116 * z - 16) / k) * D50.z,
     a: laba.alpha,
   });
+
+  // The XYZ matrices send a gray back to channels a few 1e-5 apart, which would give it a hue
+  if (!laba.a && !laba.b) rgba.r = rgba.b = rgba.g;
+  return rgba;
 };
