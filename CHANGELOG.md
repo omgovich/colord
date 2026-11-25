@@ -1,3 +1,14 @@
+## 2.14.1
+
+### Patch Changes
+
+- Fix: `brightness()` rounds a brightness that is exactly half up, so `rgb(0 177 84)` is 0.45, not 0.44 ❤️ [@simonkundrik](https://github.com/simonkundrik)
+- Fix: `extend()` accepts a plugin that `require()` returns as `{ default }`, as in CodeSandbox. ❤️ [@astralarya](https://github.com/astralarya)
+- Fix: a gray from LAB, LCH, OKLab, OKLCH or `mix()` comes out exactly gray, so `lch(50% 0 0)` is `hsl(0, 0%, 47%)`, not `hsl(152, 0%, 47%)`, and `colord("#000").mix("#070707")` is `#040404`, not `#030403` ❤️ [@anubhavlal07](https://github.com/anubhavlal07)
+- Fix: `toHsl()`, `toHsv()`, `toHwb()` and `hue()` round a hue or saturation that is exactly half up, so `#007805` has the hue 123, not 122 ❤️ [@simonkundrik](https://github.com/simonkundrik)
+- Fix: `mix()` and the palettes in RGB space round a channel that is exactly half up, so black mixed 58% of the way to `#191919` is `#0f0f0f`, not `#0e0e0e` ❤️ [@simonkundrik](https://github.com/simonkundrik)
+- Fix: `tints(1)`, `shades(1)` and `tones(1)` return the original color, not a transparent black ❤️ [@simonkundrik](https://github.com/simonkundrik)
+
 ## 2.14.0
 
 ### Minor Changes
