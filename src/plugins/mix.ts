@@ -37,6 +37,9 @@ const mixPlugin: Plugin = (ColordClass): void => {
   ColordClass.prototype.mix = function (color2, ratio = 0.5, space) {
     const instance2 = color2 instanceof ColordClass ? color2 : new ColordClass(color2);
 
+    // Preserve the original channels before rounding or converting to LAB.
+    if (ratio === 0 || ratio === 1) return new ColordClass((ratio ? instance2 : this).rgba);
+
     const mixture = mix(this.toRgb(), instance2.toRgb(), ratio, space);
     return new ColordClass(mixture);
   };
