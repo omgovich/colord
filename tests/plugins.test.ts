@@ -791,6 +791,16 @@ describe("names", () => {
     expect(colord("#FFF").toName({ closest: true })).toBe("white");
   });
 
+  it("Parses the CSS color keywords only once for closest lookups", () => {
+    colord("#fd0202").toName({ closest: true });
+
+    const toRgb = jest.spyOn(Colord.prototype, "toRgb");
+    expect(colord("#00008d").toName({ closest: true })).toBe("darkblue");
+    // The one call reads the color being looked up, not the keywords
+    expect(toRgb).toHaveBeenCalledTimes(1);
+    toRgb.mockRestore();
+  });
+
   it("Does not crash when name is not found", () => {
     expect(colord("#123456").toName()).toBe(undefined);
     expect(colord("myownpurple").toHex()).toBe("#000000");

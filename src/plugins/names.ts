@@ -202,8 +202,9 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
       let minDistance = Infinity;
       let closestMatch = "black";
 
-      // Fill the dictionary if empty
-      if (!NAME_RGBA_STORE.length) {
+      // Fill the dictionary if empty. It is a plain object with no `length`,
+      // so look for a keyword the loop below fills
+      if (!NAME_RGBA_STORE.white) {
         for (const name in NAME_HEX_STORE) {
           NAME_RGBA_STORE[name] = new ColordClass(NAME_HEX_STORE[name]).toRgb();
         }
