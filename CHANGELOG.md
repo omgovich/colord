@@ -1,3 +1,9 @@
+## 2.14.2
+
+### Patch Changes
+
+- Fix: `toName({ closest: true })` parses the CSS color keywords once instead of on every call, which makes it about 7 times faster ❤️ [@bardrop](https://github.com/bardrop)
+
 ## 2.14.1
 
 ### Patch Changes
