@@ -202,16 +202,11 @@ const namesPlugin: Plugin = (ColordClass, parsers): void => {
       let minDistance = Infinity;
       let closestMatch = "black";
 
-      // Fill the dictionary if empty. It is a plain object with no `length`,
-      // so look for a keyword the loop below fills
-      if (!NAME_RGBA_STORE.white) {
-        for (const name in NAME_HEX_STORE) {
+      // Find the closest color, parsing each keyword on the first lookup only
+      for (const name in NAME_HEX_STORE) {
+        if (!NAME_RGBA_STORE[name]) {
           NAME_RGBA_STORE[name] = new ColordClass(NAME_HEX_STORE[name]).toRgb();
         }
-      }
-
-      // Find the closest color
-      for (const name in NAME_HEX_STORE) {
         const distance = getDistanceBetween(rgba, NAME_RGBA_STORE[name]);
         if (distance < minDistance) {
           minDistance = distance;
