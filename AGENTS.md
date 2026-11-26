@@ -4,7 +4,7 @@ Guidance for AI agents working in this repository.
 
 ## What this is and what's at stake
 
-Colord is a tiny (1.7 KB brotlied), dependency-free, immutable color manipulation and conversion library that strictly follows the CSS Color specifications. It sits at the bottom of the ecosystem: GitLab, WordPress (Gutenberg), Stylelint, cssnano, PixiJS and ~9.5 million other repositories depend on it (see "Who Uses Colord" in README.md).
+Colord is a tiny (1.9 KB brotlied), dependency-free, immutable color manipulation and conversion library that strictly follows the CSS Color specifications. It sits at the bottom of the ecosystem: GitLab, WordPress (Gutenberg), Stylelint, cssnano, PixiJS and ~9.5 million other repositories depend on it (see "Who Uses Colord" in README.md).
 
 That reach sets the priorities for every change:
 

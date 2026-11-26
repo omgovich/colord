@@ -25,7 +25,7 @@
 
 ## Features
 
-- 📦 **Small**: Just **1.8 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
+- 📦 **Small**: Just **1.9 KB** brotlied ([4x+ lighter](#benchmarks) than **color**)
 - 🚀 **Fast**: [11x+ faster](#benchmarks) than **color**
 - 😍 **Simple**: Chainable API and familiar patterns
 - 💪 **Immutable**: No need to worry about data mutations
@@ -923,7 +923,7 @@ colord("rgba(204,204,204,0.4)").minify({ alphaHex: true }); // "#ccc6"
 **Colord** has a built-in plugin system that allows new features and functionality to be easily added.
 
 <details>
-  <summary><b><code>a11y</code> (Accessibility)</b> <i>0.38 KB</i></summary>
+  <summary><b><code>a11y</code> (Accessibility)</b> <i>0.4 KB</i></summary>
 
 Adds accessibility and color contrast utilities working according to [Web Content Accessibility Guidelines 2.0](https://www.w3.org/TR/WCAG20/).
 
@@ -952,7 +952,7 @@ colord("#e60000").isReadable("#ffff47", { level: "AAA", size: "large" }); // tru
 </details>
 
 <details>
-  <summary><b><code>cmyk</code> (CMYK color space)</b> <i>0.6 KB</i></summary>
+  <summary><b><code>cmyk</code> (CMYK color space)</b> <i>0.65 KB</i></summary>
 
 Adds support of [CMYK](https://www.sttmedia.com/colormodel-cmyk) color model.
 
@@ -971,7 +971,7 @@ colord("device-cmyk(0% 61% 72% 0% / 50%)").toHex(); // "#ff634780"
 </details>
 
 <details>
-  <summary><b><code>harmonies</code> (Color harmonies)</b> <i>0.15 KB</i></summary>
+  <summary><b><code>harmonies</code> (Color harmonies)</b> <i>0.2 KB</i></summary>
 
 Provides functionality to generate [harmony colors](<https://en.wikipedia.org/wiki/Harmony_(color)>).
 
@@ -994,7 +994,7 @@ color.harmonies("triadic").map((c) => c.toHex()); // ["#ff0000", "#00ff00", "#00
 </details>
 
 <details>
-  <summary><b><code>hwb</code> (HWB color model)</b> <i>0.8 KB</i></summary>
+  <summary><b><code>hwb</code> (HWB color model)</b> <i>0.92 KB</i></summary>
 
 Adds support of [Hue-Whiteness-Blackness](https://en.wikipedia.org/wiki/HWB_color_model) color model.
 
@@ -1015,7 +1015,7 @@ colord("hwb(210 0 60)").toHex(); // "#003366"
 </details>
 
 <details>
-  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>1.66 KB</i></summary>
+  <summary><b><code>lab</code> (CIE LAB color space)</b> <i>1.67 KB</i></summary>
 
 Adds support of [CIE LAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -1039,7 +1039,7 @@ colord("#000000").delta("#ffffff"); // 1
 </details>
 
 <details>
-  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1.3 KB</i></summary>
+  <summary><b><code>lch</code> (CIE LCH color space)</b> <i>1.4 KB</i></summary>
 
 Adds support of [CIE LCH](https://lea.verou.me/2020/04/lch-colors-in-css-what-why-and-how/) color space. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
@@ -1059,7 +1059,7 @@ colord("#646464").alpha(0.5).toLchString(); // "lch(42.37% 0 0 / 0.5)"
 </details>
 
 <details>
-  <summary><b><code>minify</code> (Color string minification)</b> <i>0.5 KB</i></summary>
+  <summary><b><code>minify</code> (Color string minification)</b> <i>0.59 KB</i></summary>
 
 A plugin adding color string minification utilities.
 
@@ -1079,7 +1079,7 @@ colord("rgba(204,204,204,0.4)").minify({ alphaHex: true }); // "#ccc6"
 </details>
 
 <details>
-  <summary><b><code>mix</code> (Color mixing)</b> <i>1.01 KB</i></summary>
+  <summary><b><code>mix</code> (Color mixing)</b> <i>1.1 KB</i></summary>
 
 A plugin adding color mixing utilities.
 
@@ -1136,7 +1136,7 @@ colord("#fe0000").toName({ closest: true }); // "red" (closest color)
 </details>
 
 <details>
-  <summary><b><code>oklab</code> (OKLab color space)</b> <i>1.06 KB</i></summary>
+  <summary><b><code>oklab</code> (OKLab color space)</b> <i>1.1 KB</i></summary>
 
 Adds support of [OKLab](https://bottosson.github.io/posts/oklab/) — a perceptual color space designed for image processing and color manipulation, adopted by [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
 
@@ -1158,7 +1158,7 @@ colord("#ff6347").toOklabString(); // "oklab(0.6962 0.16523 0.10454)"
 </details>
 
 <details>
-  <summary><b><code>oklch</code> (OKLCH color space)</b> <i>1.28 KB</i></summary>
+  <summary><b><code>oklch</code> (OKLCH color space)</b> <i>1.33 KB</i></summary>
 
 Adds support of [OKLCH](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl) — the polar form of OKLab and the format modern design systems (e.g. Tailwind CSS) define their palettes in. Adopted by [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/#specifying-oklab-oklch).
 
@@ -1180,7 +1180,7 @@ colord("#008080").alpha(0.5).toOklchString(); // "oklch(0.5431 0.09271 194.77 / 
 </details>
 
 <details>
-  <summary><b><code>xyz</code> (CIE XYZ color space)</b> <i>0.7 KB</i></summary>
+  <summary><b><code>xyz</code> (CIE XYZ color space)</b> <i>0.75 KB</i></summary>
 
 Adds support of [CIE XYZ](https://www.sttmedia.com/colormodel-xyz) color model. The conversion logic is ported from [CSS Color Module Level 4 Specification](https://www.w3.org/TR/css-color-4/#color-conversion-code).
 
